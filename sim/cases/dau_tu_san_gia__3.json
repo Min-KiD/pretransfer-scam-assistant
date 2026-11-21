@@ -1,0 +1,41 @@
+{
+ "id": "dau_tu_san_gia__3",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "dich_vu_thu_hoi_tien",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "dau_tu",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À thì tui chuyển tiền cho cái anh kết bạn qua Zalo dạo nọ để đầu tư chút đỉnh thôi mà, nay trời mưa dầm thấm lâu nên mệt mỏi ghê, mà ông ấy hứa hẹn ngon ngọt lắm nên tui tính chuyển luôn cho lẹ rồi còn đi phơi quần áo nữa không kẻo mốc hết bây giờ.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 500,
+  "tokens_out": 76,
+  "usd": 0.00034
+ }
+}

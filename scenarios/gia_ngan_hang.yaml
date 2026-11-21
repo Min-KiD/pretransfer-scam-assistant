@@ -1,0 +1,37 @@
+id: gia_ngan_hang
+ten: "Giả nhân viên ngân hàng, ví điện tử: nâng hạn mức, khóa tài khoản, xác thực"
+nhom: lua_dao
+nguon:
+  - {noi: "Công an tỉnh Tây Ninh 03/11/2026: mạo danh nhân viên ngân hàng nâng hạn mức thẻ tín dụng", url: "https://congan.tayninh.gov.vn/vi/chi-tiet-tin-tuc?Id=267994", do_tin_cay: tim_kiem}
+  - {noi: "Công an tỉnh Khánh Hòa: lừa đảo mạo danh hoạt động của ngân hàng", url: "https://congan.khanhhoa.gov.vn/vi/canh-giac-thu-doan-lua-dao-mao-danh-hoat-dong-cua-ngan-hang", do_tin_cay: tim_kiem}
+mo_ta: >
+  Người lạ gọi hoặc nhắn tự xưng nhân viên ngân hàng, ví điện tử. Báo tài khoản sắp bị khóa, có giao dịch lạ,
+  hoặc mời nâng hạn mức, hoàn phí thường niên. Yêu cầu bấm link, đọc mã OTP, quét khuôn mặt,
+  hoặc chuyển một khoản để "xác minh tài khoản", "chứng minh thu nhập".
+cac_buoc:
+  - Gọi điện đọc đúng tên, vài số thẻ để tạo lòng tin
+  - Báo sự cố hoặc ưu đãi có hạn trong ngày
+  - Gửi link giả website ngân hàng hoặc yêu cầu đọc OTP
+  - Yêu cầu chuyển tiền sang tài khoản khác để xác minh hoặc "bảo vệ số dư"
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.98}
+  kenh: {cuoc_goi: 0.6, sms: 0.2, zalo: 0.15}
+  tu_xung: {ngan_hang: 0.95}
+  ai_bat_dau: {ho_truoc: 0.95}
+  ap_luc: {hoi_thuc: 0.7, doa: 0.4, hua_loi: 0.4}
+  yeu_cau: {doc_otp: 0.6, bam_link: 0.6, chuyen_tien: 0.5, cai_app: 0.3}
+  ly_do_tien: {khac_phuc_loi: 0.5, phi: 0.25, tai_khoan_an_toan: 0.2}
+  loai_tai_khoan: {ca_nhan: 0.85}
+  ten_khop_tu_xung: {khong: 0.9}
+  da_gap_truc_tiep: {khong: 0.98}
+  da_chuyen_truoc_do: {khong: 0.8}
+dau_hieu:
+  - Nhân viên ngân hàng hỏi mã OTP hoặc mật khẩu
+  - Link không phải tên miền chính thức của ngân hàng
+  - Chuyển tiền để "xác minh" vào tài khoản cá nhân
+viec_can_kiem_tra:
+  - Cúp máy, gọi số tổng đài in trên thẻ hoặc trong app chính thức
+  - Không đọc OTP cho bất kỳ ai
+cau_noi_mau:
+  - "Em bên trung tâm thẻ, thẻ của chị được nâng hạn mức lên 80 triệu, chị đọc giúp em mã vừa gửi về máy."
+  - "Tài khoản anh phát sinh giao dịch 12.500.000đ ở nước ngoài, anh vào link này hủy ngay kẻo bị trừ."

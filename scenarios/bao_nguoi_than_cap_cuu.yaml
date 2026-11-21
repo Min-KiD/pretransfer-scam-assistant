@@ -1,0 +1,34 @@
+id: bao_nguoi_than_cap_cuu
+ten: Giả giáo viên, nhân viên y tế báo người thân cấp cứu, đòi chuyển viện phí
+nhom: lua_dao
+nguon:
+  - {noi: "Báo Công an TP.HCM: giả danh giáo viên, nhân viên y tế báo người thân đang cấp cứu", url: "https://congan.com.vn/vu-an/canh-giac/bai-5-gia-danh-giao-vien-nhan-vien-y-te-bao-nguoi-than-dang-cap-cuu-de-lua-dao_150808.html", do_tin_cay: tim_kiem}
+  - {noi: "Báo Lào Cai 31/07/2026: giả danh bệnh viện yêu cầu chuyển 100 triệu đồng", url: "https://baolaocai.vn/gia-danh-benh-vien-yeu-cau-chuyen-100-trieu-dong-de-cap-cuu-cho-nguoi-than-post905090.html", do_tin_cay: tim_kiem}
+mo_ta: >
+  Người lạ gọi điện tự xưng giáo viên, bác sĩ, báo con hoặc người thân bị tai nạn đang cấp cứu,
+  cần chuyển tiền ngay để mổ. Đọc đúng tên con, tên trường. Hối thúc từng phút, không cho thời gian gọi kiểm tra.
+cac_buoc:
+  - Gọi báo tin tai nạn, giọng hoảng hốt, có tiếng ồn bệnh viện
+  - Chuyển máy cho "bác sĩ" yêu cầu đóng tạm ứng viện phí
+  - Đọc số tài khoản cá nhân, giục chuyển ngay
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.98}
+  kenh: {cuoc_goi: 0.9, zalo: 0.08}
+  tu_xung: {giao_vien_y_te: 0.95}
+  ai_bat_dau: {ho_truoc: 0.99}
+  ap_luc: {hoi_thuc: 0.98, doa: 0.2}
+  yeu_cau: {chuyen_tien: 0.98}
+  ly_do_tien: {vien_phi: 0.95}
+  loai_tai_khoan: {ca_nhan: 0.95}
+  ten_khop_tu_xung: {khong: 0.8}
+  da_gap_truc_tiep: {khong: 0.98}
+  da_chuyen_truoc_do: {khong: 0.85}
+dau_hieu:
+  - Bệnh viện đòi chuyển viện phí vào tài khoản cá nhân trước khi cấp cứu
+  - Không cho thời gian gọi lại cho con hoặc nhà trường
+viec_can_kiem_tra:
+  - Gọi ngay cho người thân đó, hoặc cho giáo viên chủ nhiệm theo số đã lưu
+  - Bệnh viện cấp cứu trước, thu viện phí tại quầy sau
+cau_noi_mau:
+  - "Tôi là cô giáo chủ nhiệm của cháu Minh, cháu ngã cầu thang đang cấp cứu ở Việt Đức, cần 40 triệu mổ gấp."
+  - "Anh chuyển ngay vào stk bác sĩ trực, chậm 15 phút là tụ máu não không cứu được."

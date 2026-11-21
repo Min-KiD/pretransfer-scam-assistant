@@ -1,0 +1,32 @@
+id: bt_tra_tien_nguoi_ban_quen
+ten: Trả tiền hàng cho người bán quen hoặc cửa hàng đã mua trực tiếp
+nhom: binh_thuong
+nguon:
+  - {noi: "Tự viết", url: "", do_tin_cay: tu_viet}
+mo_ta: >
+  Người dùng mua hàng ở quán, tiệm, hoặc người bán đã mua nhiều lần. Người dùng chủ động trả tiền,
+  số tài khoản do người bán đưa trực tiếp hoặc dán tại quầy. Lần đầu chuyển vào tài khoản này nên bị coi là người nhận mới.
+cac_buoc:
+  - Người dùng đã nhận hàng hoặc đang đứng tại quầy
+  - Người bán đọc số tài khoản hoặc đưa mã QR
+truong:
+  nguoi_lien_lac: {nguoi_quen: 0.7, tu_tim_den: 0.3}
+  kenh: {truc_tiep: 0.7, zalo: 0.2, messenger: 0.1}
+  tu_xung: {nguoi_ban: 0.95}
+  ai_bat_dau: {minh_truoc: 0.9}
+  ap_luc: {khong_co: 0.95}
+  yeu_cau: {chuyen_tien: 0.98}
+  ly_do_tien: {tra_hang: 0.95}
+  loai_tai_khoan: {ca_nhan: 0.7, to_chuc: 0.3}
+  ten_khop_tu_xung: {co: 0.85}
+  da_gap_truc_tiep: {co: 0.9}
+  duoc_dan_cach_tra_loi: {khong: 0.99}
+  mau_thuan_loi_ke_va_anh: {khong: 0.97}
+  da_chuyen_truoc_do: {khong: 0.6, co: 0.4}
+dau_hieu:
+  - Đã nhận hàng hoặc gặp trực tiếp người bán
+  - Tên tài khoản trùng tên người bán
+viec_can_kiem_tra:
+  - Đọc lại tên chủ tài khoản trước khi bấm chuyển
+cau_noi_mau:
+  - "Của em hết 135k, anh quét mã trên bàn giúp em."

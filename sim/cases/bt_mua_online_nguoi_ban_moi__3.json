@@ -1,0 +1,38 @@
+{
+ "id": "bt_mua_online_nguoi_ban_moi__3",
+ "kich_ban": "bt_mua_online_nguoi_ban_moi",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, tớ đang định chuyển tiền cho cái shop trên Zalo vừa nãy nhắn, mà công nhận là đói bụng ghê, sáng nay ăn mỗi gói mì tôm mà giờ đã thấy cồn cào rồi. Chắc lát phải đặt thêm ly trà sữa trân châu đường đen uống cho lại sức, mà tiện thể thanh toán luôn tiền cái áo phông oversize màu xám vừa chốt đơn để họ ship sớm cho kịp cuối tuần mặc đi chơi với hội bạn thân.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 502,
+  "tokens_out": 101,
+  "usd": 0.00040310000000000004
+ }
+}

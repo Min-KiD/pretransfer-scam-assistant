@@ -1,0 +1,37 @@
+id: gia_cong_an
+ten: Giả công an, viện kiểm sát yêu cầu chuyển tiền để "xác minh vụ án"
+nhom: lua_dao
+nguon:
+  - {noi: "Bộ Công an: Công an xã ở Hà Tĩnh ngăn vụ 921 triệu đồng", url: "https://www.mps.gov.vn/bai-viet/ha-tinh-cong-an-xa-kip-thoi-ngan-chan-vu-lua-dao-bao-toan-921-trieu-dong-cho-nguoi-dan-1793759617", do_tin_cay: tim_kiem}
+  - {noi: "Công an tỉnh Đắk Lắk: cuộc gọi giả danh công an yêu cầu chuyển tiền để xác minh vụ án", url: "https://congan.daklak.gov.vn/hoat-dong-cua-dia-phuong/canh-giac-cuoc-goi-gia-danh-cong-an-yeu-cau-chuyen-tien-de-xac-minh-vu-an-15052.html", do_tin_cay: tim_kiem}
+mo_ta: >
+  Người lạ gọi điện tự xưng cán bộ công an, viện kiểm sát, báo nạn nhân liên quan đến vụ án rửa tiền hoặc khoản nợ lớn.
+  Yêu cầu giữ bí mật tuyệt đối, khai tài sản, rồi chuyển toàn bộ tiền vào tài khoản do họ chỉ định để "xác minh".
+cac_buoc:
+  - Gọi điện báo liên quan vụ án, đọc đúng tên và số căn cước
+  - Chuyển máy cho "cán bộ điều tra", gọi video mặc sắc phục, gửi "lệnh bắt"
+  - Yêu cầu không nói với ai, kể cả người nhà và nhân viên ngân hàng
+  - Yêu cầu chuyển tiền vào "tài khoản an toàn" hoặc tài khoản "tạm giữ"
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.98}
+  kenh: {cuoc_goi: 0.75, zalo: 0.2}
+  tu_xung: {cong_an: 0.95}
+  ai_bat_dau: {ho_truoc: 0.98}
+  ap_luc: {doa: 0.9, giu_bi_mat: 0.85, hoi_thuc: 0.6}
+  yeu_cau: {chuyen_tien: 0.95, cai_app: 0.3}
+  ly_do_tien: {tai_khoan_an_toan: 0.9}
+  loai_tai_khoan: {ca_nhan: 0.9}
+  ten_khop_tu_xung: {khong: 0.9}
+  da_gap_truc_tiep: {khong: 0.98}
+  duoc_dan_cach_tra_loi: {co: 0.7}
+  da_chuyen_truoc_do: {co: 0.2}
+dau_hieu:
+  - Làm việc qua điện thoại, không có giấy mời đến trụ sở
+  - Yêu cầu giữ bí mật với người nhà
+  - Yêu cầu chuyển tiền vào tài khoản cá nhân
+viec_can_kiem_tra:
+  - Cúp máy, tự đến hoặc tự gọi công an xã, phường nơi mình ở
+  - Hỏi một người thân trước khi chuyển
+cau_noi_mau:
+  - "Tôi là thượng úy Nam, anh đang liên quan đường dây rửa tiền. Việc này anh tuyệt đối không được nói với ai."
+  - "Anh chuyển toàn bộ số dư vào tài khoản tạm giữ của cơ quan điều tra, 24 giờ sau xác minh xong sẽ hoàn lại."

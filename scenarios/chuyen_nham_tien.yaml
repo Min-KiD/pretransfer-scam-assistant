@@ -1,0 +1,37 @@
+id: chuyen_nham_tien
+ten: Cố ý "chuyển nhầm" tiền rồi đòi hoàn vào tài khoản khác hoặc đòi lãi
+nhom: lua_dao
+nguon:
+  - {noi: "Công an tỉnh Phú Thọ: thủ đoạn chuyển tiền nhầm", url: "https://congan.phutho.gov.vn/article/Canh-giac-thu-doan-chuyen-tien-nham-de-lua-dao-27635-34", do_tin_cay: tim_kiem}
+  - {noi: "Znews 19/11/2026: chiêu lừa mới từ chuyển khoản qua mã QR", url: "https://znews.vn/canh-bao-chieu-lua-moi-tu-chuyen-khoan-qua-ma-qr-post1697650.html", do_tin_cay: tim_kiem}
+mo_ta: >
+  Nạn nhân nhận một khoản tiền từ người lạ, nội dung ghi "cho vay" hoặc để trống. Người lạ liên lạc xin hoàn lại,
+  nhưng yêu cầu chuyển vào một tài khoản khác với tài khoản đã gửi, hoặc gửi mã QR, link để "nhận lại".
+  Biến thể: sau đó coi khoản tiền là khoản vay, đòi lãi và dọa.
+cac_buoc:
+  - Tiền lạ vào tài khoản nạn nhân
+  - Người lạ gọi hoặc nhắn xin lại, tỏ ra gấp
+  - Đưa số tài khoản khác, mã QR hoặc link để hoàn tiền
+  - Nếu không trả ngay thì dọa báo công an hoặc đòi lãi
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.98}
+  kenh: {cuoc_goi: 0.5, zalo: 0.25, sms: 0.2}
+  tu_xung: {nguoi_chuyen_nham: 0.85, ngan_hang: 0.1}
+  ai_bat_dau: {ho_truoc: 0.98}
+  ap_luc: {hoi_thuc: 0.8, doa: 0.5}
+  yeu_cau: {chuyen_tien: 0.9, bam_link: 0.35}
+  ly_do_tien: {hoan_tien: 0.9}
+  loai_tai_khoan: {ca_nhan: 0.95}
+  ten_khop_tu_xung: {khong: 0.7}
+  da_gap_truc_tiep: {khong: 0.98}
+  da_chuyen_truoc_do: {khong: 0.9}
+dau_hieu:
+  - Yêu cầu hoàn vào tài khoản khác với tài khoản đã chuyển tới
+  - Gửi link hoặc mã QR để "nhận lại tiền"
+  - Đòi thêm tiền lãi
+viec_can_kiem_tra:
+  - Không tự chuyển lại. Báo ngân hàng hoặc ví để họ hoàn về đúng tài khoản gốc
+  - So số tài khoản được yêu cầu hoàn với số tài khoản đã gửi tiền tới
+cau_noi_mau:
+  - "Em chuyển nhầm cho chị 5 triệu, chị chuyển lại giúp em vào stk này nhé, stk kia em bị khóa rồi."
+  - "Chị quét mã QR này để hoàn tiền cho nhanh ạ, em đang cần gấp đóng viện phí."

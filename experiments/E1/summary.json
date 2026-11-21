@@ -1,0 +1,191 @@
+{
+ "decision": [
+  [
+   "gemini-3.5-flash-lite",
+   false,
+   false,
+   [
+    [
+     19,
+     30
+    ],
+    "link",
+    "jpeg40"
+   ],
+   [
+    9.999999999999998,
+    "account",
+    "blur"
+   ]
+  ],
+  [
+   "gemini-3.8-flash",
+   false,
+   false,
+   [
+    [
+     18,
+     29
+    ],
+    "link",
+    "crop"
+   ],
+   [
+    3.4482758620689613,
+    "link",
+    "crop"
+   ]
+  ],
+  [
+   "gemini-4-carbon",
+   false,
+   false,
+   [
+    [
+     26,
+     30
+    ],
+    "link",
+    "jpeg40"
+   ],
+   [
+    3.4482758620689724,
+    "link",
+    "crop"
+   ]
+  ]
+ ],
+ "rescue": [
+  [
+   "gemini-3.5-flash-lite",
+   "account",
+   8,
+   8,
+   8,
+   0,
+   {
+    "mờ nhẹ": 3,
+    "tối": 2,
+    "thu nhỏ 50%": 2,
+    "gốc": 1
+   }
+  ],
+  [
+   "gemini-3.5-flash-lite",
+   "phone",
+   0,
+   0,
+   0,
+   0,
+   {}
+  ],
+  [
+   "gemini-3.5-flash-lite",
+   "link",
+   57,
+   18,
+   9,
+   13,
+   {
+    "thu nhỏ 50%": 1,
+    "tối": 1,
+    "JPEG q40": 2,
+    "cắt mép trên": 2,
+    "gốc": 2,
+    "mờ nhẹ": 1
+   }
+  ],
+  [
+   "gemini-3.5-flash-lite",
+   "amount",
+   0,
+   0,
+   0,
+   0,
+   {}
+  ],
+  [
+   "gemini-3.8-flash",
+   "account",
+   0,
+   0,
+   0,
+   0,
+   {}
+  ],
+  [
+   "gemini-3.8-flash",
+   "phone",
+   0,
+   0,
+   0,
+   0,
+   {}
+  ],
+  [
+   "gemini-3.8-flash",
+   "link",
+   55,
+   15,
+   11,
+   15,
+   {
+    "mờ nhẹ": 2,
+    "cắt mép trên": 2,
+    "tối": 2,
+    "JPEG q40": 3,
+    "gốc": 2
+   }
+  ],
+  [
+   "gemini-3.8-flash",
+   "amount",
+   0,
+   0,
+   0,
+   0,
+   {}
+  ],
+  [
+   "gemini-4-carbon",
+   "account",
+   0,
+   0,
+   0,
+   0,
+   {}
+  ],
+  [
+   "gemini-4-carbon",
+   "phone",
+   0,
+   0,
+   0,
+   0,
+   {}
+  ],
+  [
+   "gemini-4-carbon",
+   "link",
+   13,
+   4,
+   5,
+   4,
+   {
+    "cắt mép trên": 2,
+    "JPEG q40": 1,
+    "gốc": 1,
+    "mờ nhẹ": 1
+   }
+  ],
+  [
+   "gemini-4-carbon",
+   "amount",
+   0,
+   0,
+   0,
+   0,
+   {}
+  ]
+ ]
+}

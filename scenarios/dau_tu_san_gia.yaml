@@ -1,0 +1,37 @@
+id: dau_tu_san_gia
+ten: Dụ đầu tư chứng khoán, tiền ảo, ngoại hối trên sàn giả
+nhom: lua_dao
+nguon:
+  - {noi: "Công an tỉnh Ninh Bình 20/05/2026: dụ dỗ đầu tư tài chính, sàn chứng khoán, tiền ảo", url: "https://congan.ninhbinh.gov.vn/canh-bao-thu-doan-du-do-tham-gia-dau-tu-tai-chinh-san-chung-khoan-tien-ao-tren-khong-gian-mang", do_tin_cay: tim_kiem}
+  - {noi: "Bộ Công an: lừa đảo qua hội nhóm, nhóm chat đầu tư chứng khoán", url: "https://bocongan.gov.vn/bai-viet/canh-bao-thu-doan-lua-dao-thong-qua-cac-hoi-nhom-nhom-chat-dau-tu-chung-khoan-d2-t38878", do_tin_cay: tim_kiem}
+mo_ta: >
+  Nạn nhân được mời vào nhóm đầu tư có "chuyên gia" đọc lệnh, hoặc quen một người qua mạng rồi được rủ đầu tư.
+  Nạp tiền vào app hoặc website lạ, thấy lãi trên màn hình, có thể rút được khoản nhỏ lúc đầu.
+  Khi nạp lớn và muốn rút thì bị đòi đóng thuế, phí, tiền ký quỹ.
+cac_buoc:
+  - Làm quen qua mạng xã hội hoặc kéo vào nhóm "khuyến nghị"
+  - Hướng dẫn mở tài khoản trên sàn lạ, nạp khoản nhỏ có lãi
+  - Thúc nạp khoản lớn để "kịp sóng"
+  - Không cho rút, đòi nộp thuế thu nhập, phí xác minh
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.9, nguoi_quen: 0.1}
+  kenh: {zalo: 0.4, telegram: 0.35, messenger: 0.2}
+  tu_xung: {san_dau_tu: 0.9}
+  ai_bat_dau: {ho_truoc: 0.7, minh_truoc: 0.3}
+  ap_luc: {hua_loi: 0.95, hoi_thuc: 0.5, giu_bi_mat: 0.2}
+  yeu_cau: {chuyen_tien: 0.95, cai_app: 0.5, bam_link: 0.5, nap_them_de_rut: 0.5}
+  ly_do_tien: {dau_tu: 0.7, phi: 0.25}
+  loai_tai_khoan: {ca_nhan: 0.7, to_chuc: 0.3}
+  ten_khop_tu_xung: {khong: 0.85}
+  da_gap_truc_tiep: {khong: 0.95}
+  da_chuyen_truoc_do: {co: 0.7}
+dau_hieu:
+  - Cam kết lãi cao, không rủi ro
+  - Nạp tiền bằng chuyển khoản vào tài khoản cá nhân hoặc công ty không liên quan
+  - Muốn rút phải nộp thêm tiền
+viec_can_kiem_tra:
+  - Tra tên công ty trong danh sách được Ủy ban Chứng khoán Nhà nước cấp phép
+  - Công ty chứng khoán thật chỉ nhận tiền vào tài khoản đứng tên chính công ty đó
+cau_noi_mau:
+  - "Mã này thầy báo chốt lãi 18% trong tuần, ai chưa vào thì nạp trước 15h hôm nay."
+  - "Tài khoản của chị lãi 240 triệu, cần nộp 10% thuế TNCN trước khi hệ thống cho rút."

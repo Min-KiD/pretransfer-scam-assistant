@@ -1,0 +1,38 @@
+{
+ "id": "mao_danh_nguoi_quen__1",
+ "kich_ban": "mao_danh_nguoi_quen",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Đứa cháu họ nhắn qua Zalo gấp quá, bảo đang kẹt tiền mua ít đồ mà tài khoản ngân hàng trục trặc chưa nạp kịp nên nhờ mình chuyển giúp một chút. Nó giục ghê lắm mà tội nghiệp nó, với lại nó dặn kỹ là cứ chuyển trước rồi có gì tối nay nó sang nhà trả và giải thích sau nên mình làm luôn thôi.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 485,
+  "tokens_out": 79,
+  "usd": 0.000343
+ }
+}

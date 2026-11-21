@@ -1,0 +1,33 @@
+id: bt_dat_coc_da_xem
+ten: Đặt cọc sau khi đã xem trực tiếp (phòng trọ, thợ sửa, đồ cũ)
+nhom: binh_thuong
+nguon:
+  - {noi: "Tự viết", url: "", do_tin_cay: tu_viet}
+mo_ta: >
+  Người dùng đã đến xem phòng trọ, gặp thợ, xem món đồ cũ, rồi chuyển tiền cọc cho chính người đã gặp.
+  Người nhận là người lạ và có thể giục cọc, nên bề ngoài giống "đặt cọc giá rẻ"; khác ở chỗ đã gặp mặt và thấy tài sản thật.
+cac_buoc:
+  - Người dùng tự tìm tin đăng, hẹn đến xem
+  - Xem xong, thỏa thuận giá, chuyển cọc cho người đã gặp
+truong:
+  nguoi_lien_lac: {tu_tim_den: 0.9}
+  kenh: {truc_tiep: 0.6, zalo: 0.3, cuoc_goi: 0.1}
+  tu_xung: {nguoi_ban: 0.9}
+  ai_bat_dau: {minh_truoc: 0.95}
+  ap_luc: {khong_co: 0.6, hoi_thuc: 0.35}
+  yeu_cau: {chuyen_tien: 0.98}
+  ly_do_tien: {dat_coc: 0.9}
+  loai_tai_khoan: {ca_nhan: 0.9}
+  ten_khop_tu_xung: {co: 0.85}
+  da_gap_truc_tiep: {co: 0.98}
+  duoc_dan_cach_tra_loi: {khong: 0.99}
+  mau_thuan_loi_ke_va_anh: {khong: 0.95}
+  da_chuyen_truoc_do: {khong: 0.9}
+dau_hieu:
+  - Đã đến tận nơi và gặp người nhận tiền
+  - Tên tài khoản trùng người đã gặp
+viec_can_kiem_tra:
+  - Xin giấy biên nhận cọc có chữ ký
+  - Với phòng trọ, xem giấy tờ chứng minh người đó là chủ nhà
+cau_noi_mau:
+  - "Em cọc trước 1 tháng là 3tr5, chị viết giấy nhận cọc cho em, cuối tuần em chuyển vào."

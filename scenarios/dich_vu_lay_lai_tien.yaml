@@ -1,0 +1,35 @@
+id: dich_vu_lay_lai_tien
+ten: Dịch vụ "lấy lại tiền bị lừa" thu phí trước
+nhom: lua_dao
+nguon:
+  - {noi: "An ninh Thủ đô 19/10/2026: thủ đoạn lừa đảo lấy lại tiền đã mất", url: "https://anninhthudo.vn/canh-giac-thu-doan-lua-dao-lay-lai-tien-da-mat-post672448.antd", do_tin_cay: tim_kiem}
+  - {noi: "Công an tỉnh Khánh Hòa: giả mạo trang Công an, Luật sư thu hồi tiền lừa đảo", url: "https://congan.khanhhoa.gov.vn/vi/thu-doan-gia-mao-trang-cong-an-luat-su-thu-hoi-tien-lua-dao-de-chiem-doat-tai-san", do_tin_cay: tim_kiem}
+mo_ta: >
+  Người vừa bị lừa lên mạng tìm cách lấy lại tiền, gặp trang tự xưng luật sư, công an, "chuyên gia an ninh mạng"
+  cam kết thu hồi. Họ đòi phí hồ sơ, tiền cọc, phí "phá băng tài khoản" trước khi làm.
+cac_buoc:
+  - Nạn nhân tìm thấy quảng cáo hoặc trang "hỗ trợ thu hồi tiền treo"
+  - Được hỏi chi tiết vụ bị lừa, cam kết lấy lại 100%
+  - Đòi phí trước, sau đó phát sinh thêm phí
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.6, tu_tim_den: 0.4}
+  kenh: {messenger: 0.5, zalo: 0.3, telegram: 0.15}
+  tu_xung: {dich_vu_thu_hoi_tien: 0.8, cong_an: 0.15}
+  ai_bat_dau: {minh_truoc: 0.7, ho_truoc: 0.3}
+  ap_luc: {hua_loi: 0.9, hoi_thuc: 0.4}
+  yeu_cau: {chuyen_tien: 0.98}
+  ly_do_tien: {phi: 0.6, dat_coc: 0.3}
+  loai_tai_khoan: {ca_nhan: 0.9}
+  ten_khop_tu_xung: {khong: 0.8}
+  da_gap_truc_tiep: {khong: 0.98}
+  da_chuyen_truoc_do: {khong: 0.5, co: 0.5}
+dau_hieu:
+  - Cam kết lấy lại 100% tiền đã mất
+  - Thu phí trước qua chuyển khoản cá nhân
+  - Chỉ làm việc qua mạng, không có văn phòng để đến
+viec_can_kiem_tra:
+  - Trình báo trực tiếp tại công an nơi ở; cơ quan công an không thu phí thu hồi tiền
+  - Tra tên luật sư trên danh sách của Liên đoàn Luật sư Việt Nam
+cau_noi_mau:
+  - "Bên em cam kết thu hồi 100% trong 24h, không được hoàn phí. Chị đóng trước 10% phí hồ sơ."
+  - "Tiền của anh đang bị treo trên hệ thống, cần 8tr phí phá băng để giải ngân về."

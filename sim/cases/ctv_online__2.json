@@ -1,0 +1,39 @@
+{
+ "id": "ctv_online__2",
+ "kich_ban": "ctv_online",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "telegram",
+  "tu_xung": "cong_an",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "nhiem_vu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tui đang định chuyển để làm nhiệm vụ trên Telegram theo lời mấy anh công an hướng dẫn, nhưng sao cứ thấy cấn cấn kiểu gì ấy nhỉ? Mà chuyển xong đợt này là được hứa hẹn trả gốc lẫn lãi luôn, hay là ứng dụng thấy có dấu hiệu lừa đảo đấy hả bạn?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 484,
+  "tokens_out": 66,
+  "usd": 0.0003102
+ }
+}

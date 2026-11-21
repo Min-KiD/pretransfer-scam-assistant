@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trang nhân viên</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><b>Trang nhân viên</b> <a href="index.html">Chuyển tiền mẫu</a> <button id="reload">Tải lại</button></header>
+<main>
+  <section class="card">
+    <h2>Cụm báo cáo</h2>
+    <p class="muted">Báo cáo nối thành cụm khi trùng tài khoản nhận, số điện thoại hoặc link.</p>
+    <div id="clusters"></div>
+    <h3>Có thể là chiêu mới (kết thúc ở "chưa đủ căn cứ")</h3>
+    <div id="new"></div>
+  </section>
+  <section class="card hidden" id="detail">
+    <h2 id="d_title"></h2>
+    <div id="d_body"></div>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+async function load() {
+  const r = await (await fetch("/staff/clusters")).json();
+  $("clusters").innerHTML = r.cum.length ? r.cum.map(c => `
+    <div class="cluster">
+      <p>${c.tai_khoan.map(a => `<b>${a.so_tk}</b> ${esc(a.chu_tk || "")} <span class="tag ${a.nhan}">${a.nhan}</span>
+        <button onclick="label('${a.so_tk}','duyet')">Duyệt nhãn lừa đảo</button>
+        <button onclick="label('${a.so_tk}','go')">Không phải lừa đảo</button>`).join("<br>")}</p>
+      ${c.sdt.length ? `<p>SĐT: ${c.sdt.map(esc).join(", ")}</p>` : ""}${c.link.length ? `<p>Link: ${c.link.map(esc).join(", ")}</p>` : ""}
+      <p>${c.so_bao_cao} báo cáo, ${c.giong_chieu_lua} kết luận "giống chiêu lừa":
+        ${c.bao_cao.map(b => `<a href="#" onclick="openReport(${b.id});return false">#${b.id}</a> (${b.muc}, ${esc(b.kich_ban)}, ${b.nut})`).join("; ")}</p>
+    </div>`).join("") : "<p class='muted'>Chưa có báo cáo.</p>";
+  $("new").innerHTML = r.co_the_la_chieu_moi.length ? r.co_the_la_chieu_moi.map(b =>
+    `<a href="#" onclick="openReport(${b.id});return false">#${b.id}</a> (tài khoản ${b.so_tk})`).join(", ") : "<p class='muted'>Không có.</p>";
+}
+async function label(so_tk, act) {
+  await fetch(`/staff/accounts/${so_tk}/label`, {method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({hanh_dong: act})});
+  load();
+}
+async function openReport(id) {
+  const r = await (await fetch(`/staff/reports/${id}`)).json();
+  const n = r.noi_dung, k = n.ket_luan, names = r.ten_kich_ban;
+  const t = n.bang_cau_chuyen;
+  const rows = Object.entries(t).filter(([f, v]) => !["bang_chung", "khong_chac", "chuoi_trich"].includes(f) && v !== null && !(Array.isArray(v) && !v.length))
+    .map(([f, v]) => `<tr><td>${f}</td><td>${esc(Array.isArray(v) ? v.join(", ") : v)}</td></tr>`).join("");
+  const ev = t.bang_chung.map(e => `<li><code>${e.truong}</code> = ${esc(e.gia_tri)} (${e.nguon}): "${esc(e.trich)}"</li>`).join("");
+  $("detail").classList.remove("hidden");
+  $("d_title").textContent = `Báo cáo #${r.id} - tài khoản ${r.so_tk}`;
+  $("d_body").innerHTML = `
+    <p>Kết luận: <b>${k.muc}</b>; đứng đầu ${esc(names[k.top] || k.top)} (${(100 * k.top_p).toFixed(1)}%). Người dùng bấm: <b>${r.nut}</b>. Số tiền: ${n.so_tien ?? "-"}đ.</p>
+    <h3>Bảng câu chuyện</h3><table>${rows}</table>
+    ${t.khong_chac.length ? `<p>Không chắc: ${t.khong_chac.join(", ")}</p>` : ""}
+    <p>Chuỗi trích: ${esc(JSON.stringify(t.chuoi_trich))}</p>
+    <h3>Bằng chứng</h3><ul>${ev}</ul>
+    <h3>Phân phối kịch bản</h3><table>${Object.entries(n.phan_phoi).slice(0, 6).map(([s, p]) =>
+      `<tr><td>${esc(names[s] || s)}</td><td>${(100 * p).toFixed(1)}%</td></tr>`).join("")}</table>
+    <h3>Hội thoại</h3>${n.hoi_thoai.map(m => `<div class="bubble ${m.role}">${esc(m.text)}${m.co_anh ? " [ảnh]" : ""}</div>`).join("")}`;
+}
+$("reload").onclick = load;
+load();
+</script>
+</body>
+</html>

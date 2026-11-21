@@ -1,0 +1,39 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__3",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "cuoc_goi",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Thì chuyển khoản cho thằng em họ hàng xa vừa gọi điện mượn gấp ít tiền đổ xăng để nó giao nốt mớ hàng khách đặt từ sáng, mà nay trời thì nắng chang chang mệt ghê cơ, thế nên tôi mới phải rút ví chuyển luôn cho nó đỡ lèo nhèo.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 486,
+  "tokens_out": 64,
+  "usd": 0.00030579999999999995
+ }
+}

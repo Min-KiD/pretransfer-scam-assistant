@@ -1,0 +1,39 @@
+# Secrets and machine-specific settings (API keys, SERVER=user@host)
+.env
+.env.*
+
+# Data and model weights: shared through Google Drive, see README "Data and weights"
+data/
+weights/
+checkpoints/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.gguf
+*.onnx
+*.tar.gz
+*.zip
+
+# Environments and caches
+.conda/
+.venv/
+.cache/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.install_start
+*.log
+*.db
+*.sqlite3
+
+# Editors, OS, agent tooling
+.DS_Store
+.idea/
+.vscode/
+.superpowers/
+
+# Private working log between Minh and the planning agent
+findings.md

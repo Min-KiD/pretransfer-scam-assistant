@@ -1,0 +1,39 @@
+id: gia_shipper
+ten: Giả shipper đòi tiền hàng, rồi báo "chuyển nhầm" để đòi chuyển thêm
+nhom: lua_dao
+nguon:
+  - {noi: "Công an tỉnh Ninh Bình, 10/06/2026", url: "https://congan.ninhbinh.gov.vn/luc-luong-cong-an-canh-bao-thu-doan-gia-danh-shipper-de-lua-dao-chiem-doat-tai-san", do_tin_cay: da_doc}
+  - {noi: "Công an tỉnh Vĩnh Long 06/11/2026, qua CafeF 10/11/2026", url: "https://cafef.vn/vua-chuyen-khoan-tra-tien-hang-shipper-bao-chuyen-nham-cong-an-canh-bao-cuoc-goi-tiep-theo-188261110065234119.chn", do_tin_cay: da_doc}
+mo_ta: >
+  Người lạ tự xưng nhân viên giao hàng, gọi lúc nạn nhân vắng nhà, đề nghị chuyển khoản trước để gửi hàng lại.
+  Sau khi nhận tiền, báo nạn nhân đã chuyển nhầm vào "tài khoản đăng ký shipper", đưa số "tổng đài" để hủy,
+  rồi đòi chuyển thêm nhiều lần với lý do giao dịch lỗi, sai cú pháp.
+cac_buoc:
+  - Gọi hoặc nhắn báo có đơn hàng, hỏi có ở nhà không
+  - Đề nghị chuyển khoản tiền hàng hoặc phí vào tài khoản cá nhân
+  - Báo chuyển nhầm vào tài khoản đăng ký dịch vụ, dọa bị trừ tiền hằng tháng
+  - Đưa số điện thoại hoặc link "tổng đài hỗ trợ hủy"
+  - Đòi chuyển thêm để hủy, sửa lỗi, nhận hoàn tiền
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.95}
+  kenh: {cuoc_goi: 0.5, zalo: 0.3, sms: 0.15}
+  tu_xung: {shipper: 0.95}
+  ai_bat_dau: {ho_truoc: 0.95}
+  ap_luc: {hoi_thuc: 0.6, doa: 0.4, khong_co: 0.2}
+  yeu_cau: {chuyen_tien: 0.95, bam_link: 0.4, lien_he_so_ho_dua: 0.5}
+  ly_do_tien: {phi: 0.3, tra_hang: 0.35, khac_phuc_loi: 0.3}
+  loai_tai_khoan: {ca_nhan: 0.95}
+  ten_khop_tu_xung: {khong: 0.8}
+  da_gap_truc_tiep: {khong: 0.95}
+  da_chuyen_truoc_do: {co: 0.5}
+dau_hieu:
+  - Shipper không gặp mặt mà đòi chuyển khoản trước
+  - Tài khoản nhận là cá nhân, không phải hãng vận chuyển
+  - Sau khi chuyển lại bị báo lỗi và đòi chuyển thêm
+viec_can_kiem_tra:
+  - Mở app mua hàng xem có đơn nào đang giao, mã đơn và số tiền có trùng không
+  - Chỉ trả tiền khi đã cầm hàng
+  - Tự tra số tổng đài trên website hãng vận chuyển, không gọi số người kia đưa
+cau_noi_mau:
+  - "Em shipper đây chị, chị có đơn 185k mà không có nhà, chị ck em gửi hàng ở cổng nhé."
+  - "Chị ơi chị chuyển nhầm vào stk đăng ký hội viên giao hàng rồi, không hủy là mỗi tháng trừ 3 triệu đó."

@@ -1,0 +1,37 @@
+id: dat_coc_gia_re
+ten: Đặt cọc combo du lịch, vé máy bay, hàng giá rẻ trên trang giả
+nhom: lua_dao
+nguon:
+  - {noi: "Bộ Công an: cảnh báo thủ đoạn lừa đảo mùa du lịch", url: "https://bocongan.gov.vn/bai-viet/canh-bao-thu-doan-lua-dao-mua-du-lich-1775739673", do_tin_cay: tim_kiem}
+  - {noi: "Công an TP. Cần Thơ: lừa đảo đặt tour, phòng khách sạn giá rẻ trên mạng xã hội", url: "https://congan.cantho.gov.vn/thong-bao/canh-giac-voi-thu-doan-lua-dao-dat-tour-du-lich-phong-khach-san-gia-re-tren-mang-xa-hoi-7789.html", do_tin_cay: tim_kiem}
+mo_ta: >
+  Nạn nhân tự tìm đến một fanpage hoặc website bán combo du lịch, vé máy bay, điện thoại giá rẻ bất thường.
+  Trang giả mạo thương hiệu thật, có tích xanh mua lại. Yêu cầu cọc 30-50% hoặc trả đủ để "giữ chỗ" vì sắp hết suất.
+  Sau khi chuyển thì bị chặn, hoặc bị báo lỗi và đòi chuyển lại.
+cac_buoc:
+  - Nạn nhân thấy quảng cáo, nhắn hỏi
+  - Được tư vấn nhanh, gửi "mã giữ chỗ", "hợp đồng"
+  - Giục cọc ngay vì chỉ còn vài suất
+  - Chặn liên lạc, hoặc báo sai cú pháp để đòi chuyển thêm
+truong:
+  nguoi_lien_lac: {tu_tim_den: 0.85, nguoi_la: 0.15}
+  kenh: {messenger: 0.6, zalo: 0.3}
+  tu_xung: {nguoi_ban: 0.95}
+  ai_bat_dau: {minh_truoc: 0.9}
+  ap_luc: {hoi_thuc: 0.75, hua_loi: 0.6, khong_co: 0.15}
+  yeu_cau: {chuyen_tien: 0.98, bam_link: 0.2}
+  ly_do_tien: {dat_coc: 0.75, tra_hang: 0.15, khac_phuc_loi: 0.1}
+  loai_tai_khoan: {ca_nhan: 0.85, to_chuc: 0.15}
+  ten_khop_tu_xung: {khong: 0.8}
+  da_gap_truc_tiep: {khong: 0.98}
+  da_chuyen_truoc_do: {khong: 0.75}
+dau_hieu:
+  - Giá thấp hơn hẳn thị trường
+  - Thương hiệu lớn nhưng nhận tiền vào tài khoản cá nhân
+  - Giục cọc trong vài phút
+viec_can_kiem_tra:
+  - Vào website chính thức của hãng, khách sạn để lấy số liên hệ và hỏi lại
+  - Xem lịch sử đổi tên của fanpage
+cau_noi_mau:
+  - "Combo Phú Quốc 3N2Đ 2.990k/khách chỉ còn 2 suất, chị cọc 50% em giữ chỗ ngay ạ."
+  - "Stk: 19036xxxxxxx TRAN THI HOA, nội dung ghi mã booking giúp em."

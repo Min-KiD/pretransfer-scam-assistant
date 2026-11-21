@@ -1,0 +1,41 @@
+{
+ "id": "chuyen_nham_tien__3",
+ "kich_ban": "chuyen_nham_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_chuyen_nham",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "vien_phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À thì tôi đang định chuyển khoản để đóng tiền viện phí gấp cho thằng cháu ở quê nó vừa ngã xe gãy chân xong, mà khổ cái từ sáng đến giờ cứ có cái anh gì nhắn Zalo giục đòi tiền hoài nghe phát bực cả mình, tối qua tôi vừa mua được mấy cân cam lòng vàng ngon lắm mà quên chưa bỏ tủ lạnh không biết có bị hỏng không nữa.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 498,
+  "tokens_out": 84,
+  "usd": 0.00035939999999999995
+ }
+}

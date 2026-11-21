@@ -1,0 +1,37 @@
+id: ctv_online
+ten: Tuyển cộng tác viên online, nạp tiền làm nhiệm vụ nhận hoa hồng
+nhom: lua_dao
+nguon:
+  - {noi: "Công an tỉnh Đắk Lắk: bẫy nạp tiền làm nhiệm vụ nhận hoa hồng", url: "https://congan.daklak.gov.vn/hoat-dong-cua-dia-phuong/cong-an-xa-cu-m-ta-canh-bao-bay-nap-tien-lam-nhiem-vu-de-nhan-hoa-hong-tren-mang-14601.html", do_tin_cay: tim_kiem}
+  - {noi: "Công an tỉnh Vĩnh Long: lừa đảo tuyển cộng tác viên online", url: "https://congan.vinhlong.gov.vn/canh-bao-phuong-thuc-thu-doan-cua-toi-pham/canh-giac-voi-thu-doan-lua-dao-tuyen-cong-tac-vien-online-7497.html", do_tin_cay: tim_kiem}
+mo_ta: >
+  Quảng cáo "việc nhẹ lương cao, làm tại nhà". Nạn nhân được kéo vào nhóm Telegram hoặc Zalo, làm vài nhiệm vụ nhỏ
+  (thả tim, đặt đơn ảo, xem phim ngắn) và được trả tiền thật. Các nhiệm vụ sau đòi nạp số tiền lớn dần;
+  khi muốn rút thì bị báo sai cú pháp, phải nạp thêm để mở khóa.
+cac_buoc:
+  - Nạn nhân thấy quảng cáo hoặc được nhắn mời làm cộng tác viên
+  - Nhiệm vụ đầu nhỏ, được trả tiền thật để tạo lòng tin
+  - Nhiệm vụ sau phải ứng tiền trước, số tiền tăng dần
+  - Không rút được, bị đòi nạp thêm để "hoàn thành chuỗi" hoặc "sửa lỗi"
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.95}
+  kenh: {telegram: 0.5, zalo: 0.3, messenger: 0.15}
+  tu_xung: {nha_tuyen_dung: 0.85}
+  ai_bat_dau: {ho_truoc: 0.5, minh_truoc: 0.5}
+  ap_luc: {hua_loi: 0.9, hoi_thuc: 0.6}
+  yeu_cau: {chuyen_tien: 0.9, nap_them_de_rut: 0.7, bam_link: 0.4}
+  ly_do_tien: {nhiem_vu: 0.65, khac_phuc_loi: 0.3}
+  loai_tai_khoan: {ca_nhan: 0.8, to_chuc: 0.2}
+  ten_khop_tu_xung: {khong: 0.9}
+  da_gap_truc_tiep: {khong: 0.98}
+  da_chuyen_truoc_do: {co: 0.75}
+dau_hieu:
+  - Đi làm mà phải nộp tiền trước
+  - Đã được trả vài khoản nhỏ, giờ bị đòi nạp khoản lớn hơn
+  - Tài khoản nhận tiền đổi liên tục, là tài khoản cá nhân
+viec_can_kiem_tra:
+  - Dừng nạp thêm; tiền đã nạp không lấy lại được bằng cách nạp tiếp
+  - Tìm tên công ty tuyển dụng trên website chính thức của sàn họ mạo danh
+cau_noi_mau:
+  - "Đơn 3 trong chuỗi là 5.800.000đ, bạn ck xong hệ thống hoàn gốc + 30% hoa hồng trong 5 phút."
+  - "Bạn nhập sai nội dung nên lệnh rút bị treo, cần nạp bù 12tr để mở khóa nhé."

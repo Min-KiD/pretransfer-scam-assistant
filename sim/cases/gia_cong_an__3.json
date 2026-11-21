@@ -1,0 +1,42 @@
+{
+ "id": "gia_cong_an__3",
+ "kich_ban": "gia_cong_an",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "cong_an",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "tai_khoan_an_toan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khac",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Hồi sáng đang bận phơi đống quần áo ngoài hiên thì tự nhiên có anh bên công an gọi tới bảo tài khoản của tôi dính vào cái vụ gì căng lắm, mà họ dặn kỹ là không được kể cho ai nghe đâu đấy nhé, xong giờ bắt tôi phải chuyển gấp tiền vào cái tài khoản an toàn gì đó để người ta check lại, mà công nhận hôm nay trời nắng gắt thật đấy.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 496,
+  "tokens_out": 89,
+  "usd": 0.00037129999999999997
+ }
+}

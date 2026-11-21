@@ -1,0 +1,36 @@
+id: gia_co_quan_nha_nuoc
+ten: Giả cán bộ thuế, điện lực, định danh VNeID yêu cầu cài app, nộp lệ phí
+nhom: lua_dao
+nguon:
+  - {noi: "Tạp chí An ninh mạng 07/11/2026: giả danh cán bộ thuế, dụ cài ứng dụng (Công an Đồng Nai cảnh báo)", url: "https://tapchianninhmang.vn/gia-danh-can-bo-thue-du-cai-ung-dung-vet-sach-tai-khoan", do_tin_cay: tim_kiem}
+  - {noi: "Công an TP. Hà Nội qua LSVN 12/11/2026: lợi dụng quy định xác thực định danh điện tử", url: "http://lsvn.vn/canh-bao-thu-doan-loi-dung-quy-dinh-xac-thuc-dinh-danh-dien-tu-de-lua-dao-a182493.html", do_tin_cay: tim_kiem}
+mo_ta: >
+  Người lạ gọi tự xưng cán bộ thuế, điện lực, công an phường, văn phòng đất đai. Báo cần cập nhật thông tin,
+  hoàn thuế, tích hợp giấy tờ trên VNeID, hoặc sắp bị cắt điện. Hướng dẫn cài ứng dụng ngoài kho chính thức,
+  rồi yêu cầu chuyển một khoản lệ phí nhỏ để "kích hoạt". App giả chiếm quyền điện thoại.
+cac_buoc:
+  - Gọi điện, kết bạn Zalo bằng tài khoản có logo cơ quan
+  - Gửi link tải ứng dụng giả dịch vụ công
+  - Yêu cầu nộp lệ phí nhỏ hoặc nhập thông tin ngân hàng trong app
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.98}
+  kenh: {cuoc_goi: 0.55, zalo: 0.4}
+  tu_xung: {co_quan_nha_nuoc: 0.85, cong_an: 0.1}
+  ai_bat_dau: {ho_truoc: 0.98}
+  ap_luc: {hoi_thuc: 0.7, doa: 0.5, hua_loi: 0.2}
+  yeu_cau: {cai_app: 0.85, bam_link: 0.8, chuyen_tien: 0.5, doc_otp: 0.3}
+  ly_do_tien: {phi: 0.75, hoan_tien: 0.15}
+  loai_tai_khoan: {ca_nhan: 0.8}
+  ten_khop_tu_xung: {khong: 0.9}
+  da_gap_truc_tiep: {khong: 0.95}
+  da_chuyen_truoc_do: {khong: 0.85}
+dau_hieu:
+  - Cơ quan nhà nước hướng dẫn cài app qua link gửi trong Zalo
+  - Lệ phí chuyển vào tài khoản cá nhân
+  - Dọa cắt điện, phạt, khóa mã số thuế trong ngày
+viec_can_kiem_tra:
+  - Chỉ cài VNeID, eTax Mobile từ App Store hoặc Google Play
+  - Tự đến trụ sở hoặc gọi số trên website chính thức của cơ quan đó
+cau_noi_mau:
+  - "Anh chưa đồng bộ mã số thuế với căn cước, hôm nay không làm sẽ bị phạt. Anh kết bạn Zalo em gửi link cài app."
+  - "Chị chuyển 12.000đ lệ phí kích hoạt qua app để hồ sơ được duyệt."

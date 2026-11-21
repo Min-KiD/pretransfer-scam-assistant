@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chuyển tiền mẫu</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><b>Chuyển tiền (mẫu)</b> <a href="staff.html">Trang nhân viên</a></header>
+<main>
+  <section id="transfer" class="card">
+    <h2>Chuyển tiền</h2>
+    <label>Số tài khoản nhận <input id="so_tk" list="mau" autocomplete="off" placeholder="vd. 000123450007"></label>
+    <datalist id="mau"></datalist>
+    <label>Số tiền (đ) <input id="so_tien" type="number" min="1000" step="1000" value="30000"></label>
+    <button id="btn_check">Tiếp tục</button>
+    <p class="muted">Tài khoản mẫu (dữ liệu tự dựng): <span id="mau_list"></span></p>
+    <div id="check_result"></div>
+  </section>
+
+  <section id="chat" class="card hidden">
+    <h2>Kiểm tra nhanh</h2>
+    <div id="warn"></div>
+    <div id="log"></div>
+    <details id="why"><summary>Vì sao hỏi câu này</summary><div id="why_body"></div></details>
+    <form id="send">
+      <input id="msg" autocomplete="off" placeholder="Nhập câu trả lời...">
+      <label class="file">Gửi ảnh <input id="img" type="file" accept="image/*"></label>
+      <button>Gửi</button>
+    </form>
+    <div id="end" class="hidden">
+      <button data-nut="dung_lai">Dừng lại</button>
+      <button data-nut="kiem_tra_them">Tôi sẽ kiểm tra thêm</button>
+      <button data-nut="van_chuyen">Vẫn chuyển</button>
+    </div>
+    <p id="done_note" class="muted"></p>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+let sid = null, names = {};
+const SAMPLE = [
+  ["000123450001", "quen"], ["000123450004", "moi"], ["000123450007", "dang_bi_bao_cao"], ["000123450010", "da_xac_nhan"]];
+$("mau_list").textContent = SAMPLE.map(([n, l]) => `${n} (${l})`).join(", ");
+$("mau").innerHTML = SAMPLE.map(([n]) => `<option value="${n}">`).join("");
+
+async function api(path, body, form) {
+  const r = await fetch(path, form ? {method: "POST", body: form}
+    : {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+  const j = await r.json();
+  if (!r.ok) throw new Error(j.detail || r.statusText);
+  return j;
+}
+function say(role, text) {
+  const d = document.createElement("div");
+  d.className = "bubble " + role;
+  d.textContent = text;
+  $("log").appendChild(d);
+  $("log").scrollTop = 1e9;
+}
+function showTurn(t) {
+  names = t.ten_kich_ban || names;
+  say("assistant", t.text);
+  const dist = Object.entries(t.phan_phoi).map(([k, p]) =>
+    `<tr><td>${names[k] || k}</td><td>${(100 * p).toFixed(1)}%</td></tr>`).join("");
+  let extra = "";
+  if (t.kind === "xac_nhan") {
+    extra = `<p>Câu xác nhận số tài khoản: ${t.vi_sao.y_nghia}.</p>`;
+  } else if (t.vi_sao) {
+    extra = `<p>Câu ${t.so_cau_da_hoi}/3 hỏi về <code>${t.vi_sao.truong}</code> (${t.vi_sao.y_nghia}): trường giảm entropy kỳ vọng nhiều nhất.</p>
+      <table><tr><th>Trường</th><th>Giảm entropy (bit)</th></tr>${Object.entries(t.vi_sao.loi_ich).map(([k, v]) =>
+        `<tr><td>${k}</td><td>${v}</td></tr>`).join("")}</table>`;
+  } else {
+    const k = t.ket_luan;
+    extra = `<p>Kết luận <b>${k.muc}</b>, đứng đầu ${names[k.top]} (${(100 * k.top_p).toFixed(1)}%). Căn cứ: ${
+      k.can_cu.map(c => `${c.truong}=${c.gia_tri} (log-likelihood ratio ${c.llr})`).join("; ") || "chưa có"}</p>`;
+  }
+  if (t.doc_anh) {
+    const a = t.doc_anh;
+    extra = `<p>Đọc từ ảnh: trường ${a.truong.join(", ") || "không có"}; chuỗi ${Object.entries(a.chuoi)
+      .filter(([, v]) => v.length).map(([k, v]) => `${k}: ${v.join(", ")}`).join("; ") || "không có"}${
+      a.khong_chac.length ? `; chưa chắc: ${a.khong_chac.join(", ")}` : ""}${
+      a.mau_thuan.length ? `; mâu thuẫn: ${a.mau_thuan.join("; ")}` : ""}.</p>` + extra;
+  }
+  $("why_body").innerHTML = extra + `<p>Phân phối kịch bản (5 cao nhất):</p><table>${dist}</table>`;
+  if (t.done) {
+    $("send").classList.add("hidden");
+    $("end").classList.remove("hidden");
+  }
+}
+$("btn_check").onclick = async () => {
+  $("chat").classList.add("hidden");
+  $("end").classList.add("hidden");
+  $("send").classList.remove("hidden");
+  $("done_note").textContent = "";
+  const c = await api("/transfer/check", {so_tk: $("so_tk").value, so_tien: +$("so_tien").value});
+  const who = c.chu_tk ? `${c.chu_tk} - ${c.ngan_hang}` : "chưa có thông tin chủ tài khoản";
+  const box = $("check_result");
+  if (c.tro_chuyen === "khong") {
+    box.innerHTML = `<p>${who}. Người nhận quen. <button>Chuyển</button></p>`;
+    return;
+  }
+  if (c.tro_chuyen === "moi_kiem_tra") {
+    box.innerHTML = `<p>${who}.</p><p class="invite">${c.loi_moi} <button id="yes">Kiểm tra</button> <button id="skip">Bỏ qua, chuyển</button></p>`;
+    $("yes").onclick = () => begin(c);
+    $("skip").onclick = () => box.innerHTML = "<p>Đã chuyển (mẫu).</p>";
+    return;
+  }
+  box.innerHTML = `<p>${who}.</p>`;
+  begin(c);
+};
+async function begin(c) {
+  $("warn").className = c.canh_bao ? "warn " + c.canh_bao : "";
+  $("warn").textContent = c.canh_bao === "do" ? "Tài khoản này đã được xác nhận lừa đảo."
+    : c.canh_bao === "vang" ? "Tài khoản này đang bị người dùng khác báo cáo." : "";
+  $("chat").classList.remove("hidden");
+  $("log").innerHTML = "";
+  try {
+    const t = await api("/sessions", {so_tk: c.so_tk, so_tien: +$("so_tien").value});
+    sid = t.session_id;
+    showTurn(t);
+  } catch (e) { say("assistant", "Lỗi: " + e.message); }
+}
+$("send").onsubmit = async (ev) => {
+  ev.preventDefault();
+  const text = $("msg").value.trim(), file = $("img").files[0];
+  if (!text && !file) return;
+  const f = new FormData();
+  f.append("text", text);
+  if (file) f.append("image", file);
+  say("user", text + (file ? ` [ảnh: ${file.name}]` : ""));
+  $("msg").value = ""; $("img").value = "";
+  try { showTurn(await api(`/sessions/${sid}/messages`, null, f)); }
+  catch (e) { say("assistant", "Lỗi: " + e.message); }
+};
+document.querySelectorAll("#end button").forEach(b => b.onclick = async () => {
+  const r = await api(`/sessions/${sid}/decision`, {nut: b.dataset.nut});
+  $("end").classList.add("hidden");
+  $("done_note").textContent = `Đã ghi báo cáo #${r.report_id}. Nhãn tài khoản nhận hiện là: ${r.nhan_tai_khoan}.`;
+});
+</script>
+</body>
+</html>

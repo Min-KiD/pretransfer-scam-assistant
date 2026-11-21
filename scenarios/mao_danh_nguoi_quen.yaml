@@ -1,0 +1,37 @@
+id: mao_danh_nguoi_quen
+ten: Chiếm hoặc giả tài khoản Zalo, Facebook của người quen để mượn tiền
+nhom: lua_dao
+nguon:
+  - {noi: "Bộ Công an: Phú Thọ cảnh giác thủ đoạn dựng kịch bản, mạo danh Zalo người quen", url: "https://bocongan.gov.vn/bai-viet/phu-tho-canh-giac-thu-doan-dung-kich-ban-mao-danh-zalo-nguoi-quen-de-lua-dao-1788481818", do_tin_cay: da_doc}
+  - {noi: "Công an tỉnh Khánh Hòa: chiếm quyền Zalo, giả danh cấp trên, người thân vay tiền gấp", url: "https://congan.khanhhoa.gov.vn/vi/canh-bao-thu-doan-chiem-quyen-dieu-khien-zalo-gia-danh-cap-tren-nguoi-than-de-vay-tien-gap", do_tin_cay: tim_kiem}
+mo_ta: >
+  Tin nhắn đến từ tài khoản có tên và ảnh đại diện của người thân, bạn bè hoặc cấp trên. Người đó mượn tiền gấp
+  hoặc nhờ chuyển khoản hộ, kèm lý do không gọi điện được. Tài khoản nhận tiền đứng tên người khác.
+  Có thể kèm cuộc gọi video ngắn, mờ, mất tiếng (deepfake), hoặc ảnh chụp "đã chuyển khoản" giả.
+cac_buoc:
+  - Nhắn từ tài khoản quen, hỏi thăm ngắn rồi nhờ việc gấp
+  - Viện lý do không nghe máy được: đang họp, máy hỏng, sóng yếu
+  - Đưa số tài khoản đứng tên người khác, giải thích "tài khoản của bạn anh"
+  - Hứa trả ngay trong ngày
+truong:
+  nguoi_lien_lac: {nguoi_quen: 0.95}
+  kenh: {zalo: 0.6, messenger: 0.35}
+  tu_xung: {nguoi_than: 0.95}
+  ai_bat_dau: {ho_truoc: 0.95}
+  ap_luc: {hoi_thuc: 0.85, giu_bi_mat: 0.2}
+  yeu_cau: {chuyen_tien: 0.98}
+  ly_do_tien: {muon_tien: 0.85, vien_phi: 0.1}
+  loai_tai_khoan: {ca_nhan: 0.98}
+  ten_khop_tu_xung: {khong: 0.9}
+  da_gap_truc_tiep: {khong: 0.9}
+  da_chuyen_truoc_do: {khong: 0.8}
+dau_hieu:
+  - Tên chủ tài khoản nhận không phải tên người quen
+  - Chỉ nhắn tin, từ chối gọi điện thường
+  - Mượn gấp, hứa trả ngay
+viec_can_kiem_tra:
+  - Gọi điện thường theo số đã lưu trong danh bạ, không gọi qua chính ứng dụng đó
+  - Hỏi một câu chỉ hai người biết
+cau_noi_mau:
+  - "Em ơi anh đang họp không nghe máy được, em ck giúp anh 20tr vào stk bạn anh, chiều anh gửi lại."
+  - "Stk: 0481000xxxxxx NGUYEN VAN TUAN nhé, gấp lắm em."

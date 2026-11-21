@@ -1,0 +1,11 @@
+# App, core and simulator (T1). Install: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+fastapi==0.123.10
+starlette==0.50.0
+uvicorn==0.38.0
+python-multipart==0.0.34
+pydantic==2.14.4
+PyYAML==6.0.4
+google-genai==3.6.1
+# tests
+pytest==9.2.0
+httpx==0.28.1
