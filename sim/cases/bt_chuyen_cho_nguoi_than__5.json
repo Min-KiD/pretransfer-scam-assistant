@@ -1,0 +1,36 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__5",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "khac",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Tôi chuyển tiền mượn thêm cho bạn quen trên mạng thôi, mấy lần trước chuyển rồi nên quen lắm, chẳng có gì đâu mà lo.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 485,
+  "tokens_out": 30,
+  "usd": 0.0002205
+ }
+}

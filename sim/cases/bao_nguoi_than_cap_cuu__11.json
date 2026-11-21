@@ -1,0 +1,38 @@
+{
+ "id": "bao_nguoi_than_cap_cuu__11",
+ "kich_ban": "bao_nguoi_than_cap_cuu",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "khac",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Thì là vừa có anh áo đen gọi vào máy tôi giục sủi bọt mép, bảo là có bưu kiện từ tận đẩu tận đâu gửi về mà kẹt ở bưu cục nên phải bắn ngay năm chục cành qua cái số tài khoản lạ hoắc này để họ xử lý hồ sơ hộ cái, mà trưa nay nhà tôi vừa ăn canh bí đỏ với thịt luộc xong tự dưng nhớ ra chưa phơi quần áo.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 461,
+  "tokens_out": 96,
+  "usd": 0.0003783
+ }
+}

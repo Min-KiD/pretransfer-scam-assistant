@@ -1,0 +1,38 @@
+{
+ "id": "gia_shipper__18",
+ "kich_ban": "gia_shipper",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tôi đang chuyển phí giao hàng cho shipper vừa gọi giục nãy giờ, mà không biết có phải lừa đảo không sao cứ giục chuyển thêm lần nữa thế này?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 472,
+  "tokens_out": 36,
+  "usd": 0.0002316
+ }
+}

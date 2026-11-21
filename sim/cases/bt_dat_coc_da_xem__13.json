@@ -1,0 +1,38 @@
+{
+ "id": "bt_dat_coc_da_xem__13",
+ "kich_ban": "bt_dat_coc_da_xem",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "khac",
+  "ten_khop_tu_xung": "khac",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "khac",
+  "ten_khop_tu_xung": "khac"
+ },
+ "tin_mo_dau": "Tớ chuyển tiền cọc giữ phòng trọ mới xem hồi chiều cho bạn chủ nhà quen qua Zalo. Bạn ấy dễ thương lắm, nhiệt tình dẫn tớ xem tận nơi nên tớ chuyển trước một ít cho yên tâm thôi mà.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 472,
+  "tokens_out": 50,
+  "usd": 0.00026660000000000003
+ }
+}

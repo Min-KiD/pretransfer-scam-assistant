@@ -1,0 +1,39 @@
+{
+ "id": "bt_mua_online_nguoi_ban_moi__7",
+ "kich_ban": "bt_mua_online_nguoi_ban_moi",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, tớ đang định chuyển tiền để trả cái áo phông mua trên Zalo của cái shop hồi nãy nhắn hỏi ấy mà, tự dưng họ cứ giục bảo chuyển nhanh kẻo hết size, mà công nhận cái áo đấy mặc đi cà phê với đám bạn chắc hợp phết, thế nên tớ bấm luôn chứ chưa kịp nhìn kỹ số tài khoản nữa.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 508,
+  "tokens_out": 78,
+  "usd": 0.0003474
+ }
+}

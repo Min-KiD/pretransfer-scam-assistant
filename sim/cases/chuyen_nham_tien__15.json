@@ -1,0 +1,39 @@
+{
+ "id": "chuyen_nham_tien__15",
+ "kich_ban": "chuyen_nham_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_chuyen_nham",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "hoan_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac"
+ },
+ "tin_mo_dau": "À thì, tự dưng có đứa nhắn tin trên Messenger giục trả lại tiền do nó chuyển nhầm vào tài khoản tôi hồi sáng, mà mặt mũi nó trông cứ dữ dằn thế nào ấy làm tôi sợ chết khiếp. Nó cứ hối với dọa béc kèn kẹt từ nãy tới giờ, bảo tôi phải chuyển ngay đi không thì nó báo công an bắt tù tội, mà lúc nãy tôi đang định đi mua mớ rau muống với lố hành tỏi ở chợ cơ đấy.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 487,
+  "tokens_out": 109,
+  "usd": 0.00041860000000000004
+ }
+}

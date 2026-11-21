@@ -1,0 +1,41 @@
+{
+ "id": "gia_cong_an__15",
+ "kich_ban": "gia_cong_an",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "nhiem_vu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Ờ thì chuyển tiền cho cô giáo chủ nhiệm để đóng quỹ lớp quý này ấy mà, mà nhà tôi hôm nay vừa mất con gà trống thiến xong, lúc nãy cô ấy gọi giục dữ lắm bảo phải chuyển gấp ngay không thì khóa học của con tôi bị ảnh hưởng, với lại cô dặn là ai hỏi gì cũng tuyệt đối không được nói cho ai biết đâu đấy nhé.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 490,
+  "tokens_out": 80,
+  "usd": 0.000347
+ }
+}

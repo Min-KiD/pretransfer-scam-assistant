@@ -1,0 +1,42 @@
+{
+ "id": "gia_cong_an__13",
+ "kich_ban": "gia_cong_an",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "cong_an",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa",
+   "hua_loi",
+   "giu_bi_mat",
+   "khac"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tai_khoan_an_toan",
+  "loai_tai_khoan": "khac",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "khac",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tôi chuyển để các anh công an xác minh lại cái tài khoản an toàn thôi, chứ họ dặn kỹ là phải giữ bí mật để làm việc cho nhanh.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 493,
+  "tokens_out": 33,
+  "usd": 0.00023040000000000002
+ }
+}

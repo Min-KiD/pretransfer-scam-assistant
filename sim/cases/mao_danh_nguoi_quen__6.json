@@ -1,0 +1,38 @@
+{
+ "id": "mao_danh_nguoi_quen__6",
+ "kich_ban": "mao_danh_nguoi_quen",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Ơ, ông anh họ vừa nhắn tin giục chuyển gấp ít tiền để có việc gấp mà không gọi điện được, cứ giục liên hồi bảo giữ bí mật. Mà sao số tài khoản nhận lại đứng tên người lạ thế này, không khéo lại bị lừa đảo à?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 479,
+  "tokens_out": 58,
+  "usd": 0.00028869999999999997
+ }
+}

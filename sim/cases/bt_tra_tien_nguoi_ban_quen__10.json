@@ -1,0 +1,36 @@
+{
+ "id": "bt_tra_tien_nguoi_ban_quen__10",
+ "kich_ban": "bt_tra_tien_nguoi_ban_quen",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "khac",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Tôi chuyển tiền để trả tiền mấy món đồ vừa lấy ở cửa hàng của nhỏ em quen thôi, mà sao hỏi kỹ thế, bộ ví này sợ tôi bị lừa đảo à?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 455,
+  "tokens_out": 37,
+  "usd": 0.000229
+ }
+}

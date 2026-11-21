@@ -1,0 +1,39 @@
+{
+ "id": "gia_shipper__9",
+ "kich_ban": "gia_shipper",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "doa",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, em shipper gọi giục chuyển tiền để sửa lại lỗi giao dịch nhầm lúc nãy ấy mà, anh ấy nhiệt tình ghê lắm.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 490,
+  "tokens_out": 31,
+  "usd": 0.0002245
+ }
+}

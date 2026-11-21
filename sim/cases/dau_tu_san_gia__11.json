@@ -1,0 +1,41 @@
+{
+ "id": "dau_tu_san_gia__11",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "truc_tiep",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, tôi đang chuyển thêm mấy cái phí nhỏ để lát nữa còn rút được cả gốc lẫn lãi về chứ, bên cái sàn đầu tư kia họ hối giục ghê lắm, mà đợt trước tôi cũng chuyển mấy lần rồi, à nhân tiện nay trời nắng to phết nhỉ, tôi vừa phơi xong mẻ quần áo thì phải vội chạy ra đây đấy.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 496,
+  "tokens_out": 79,
+  "usd": 0.00034629999999999996
+ }
+}

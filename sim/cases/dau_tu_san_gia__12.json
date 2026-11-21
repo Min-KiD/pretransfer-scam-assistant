@@ -1,0 +1,42 @@
+{
+ "id": "dau_tu_san_gia__12",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app",
+   "bam_link",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khac",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Chuyển tiền mua gói đầu tư trên sàn qua Messenger, bên đó hứa sắp được nhận lãi lớn nên tôi phải nạp thêm chút phí để rút tiền gốc ra thôi.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 496,
+  "tokens_out": 37,
+  "usd": 0.00024129999999999998
+ }
+}

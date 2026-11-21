@@ -1,0 +1,38 @@
+{
+ "id": "bt_tra_tien_nguoi_ban_quen__5",
+ "kich_ban": "bt_tra_tien_nguoi_ban_quen",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "khac",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khac",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khac"
+ },
+ "tin_mo_dau": "À, tôi chuyển tiền để trả tiền bữa cơm trưa nay ăn ở quán quen thôi mà, chị chủ quán dễ thương lắm.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 463,
+  "tokens_out": 27,
+  "usd": 0.0002064
+ }
+}

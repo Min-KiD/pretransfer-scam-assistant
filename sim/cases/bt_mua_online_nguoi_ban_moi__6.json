@@ -1,0 +1,38 @@
+{
+ "id": "bt_mua_online_nguoi_ban_moi__6",
+ "kich_ban": "bt_mua_online_nguoi_ban_moi",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "messenger",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tôi đang chuyển tiền cọc mua ít đồ order trên Messenger của một shop mới tìm thấy, mà thấy họ cứ hứa hẹn lợi nhuận gì đó nghe lạ lắm. Không biết đây có phải lừa đảo không mà sao tôi cứ thấy hơi gờ cợn nhỉ?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 497,
+  "tokens_out": 57,
+  "usd": 0.00029160000000000004
+ }
+}

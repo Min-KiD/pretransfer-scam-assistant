@@ -1,0 +1,42 @@
+{
+ "id": "dau_tu_san_gia__9",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app",
+   "bam_link",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "dau_tu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac"
+ },
+ "tin_mo_dau": "À, em chuyển tiền để nạp thêm vốn vào cái sàn đầu tư trên Zalo thôi anh chị ạ, mấy anh chị chuyên gia ở đấy hứa hẹn sắp tới có quả lợi nhuận lớn lắm nên em tranh thủ nạp thêm để kịp gỡ mấy lần trước.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 501,
+  "tokens_out": 57,
+  "usd": 0.00029279999999999996
+ }
+}

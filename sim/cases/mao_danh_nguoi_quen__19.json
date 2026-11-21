@@ -1,0 +1,39 @@
+{
+ "id": "mao_danh_nguoi_quen__19",
+ "kich_ban": "mao_danh_nguoi_quen",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Ờ thì là cái ông sếp cũ bên phòng marketing nhắn qua Zalo bảo đang kẹt gấp chút đỉnh, mà ảnh dặn giữ kín đừng nói ai không khéo mất uy tín chết, với lại ông ấy đang họp bên Nhật nên không nghe máy được đâu, tui tính chuyển luôn cho lẹ kẻo trễ việc của ổng.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 491,
+  "tokens_out": 72,
+  "usd": 0.00032729999999999993
+ }
+}

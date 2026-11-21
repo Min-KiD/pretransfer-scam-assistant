@@ -1,0 +1,39 @@
+{
+ "id": "chuyen_nham_tien__6",
+ "kich_ban": "chuyen_nham_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_chuyen_nham",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "hoan_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Tôi đang chuyển khoản để hoàn lại tiền cho cái người lạ vừa nhắn Zalo giục giã nãy giờ đây, nhưng họ dọa dẫm ghê quá làm tôi cứ thấy nghi nghi, không biết mấy người đang ép tôi thế này có phải lừa đảo không nữa?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 479,
+  "tokens_out": 59,
+  "usd": 0.0002912
+ }
+}

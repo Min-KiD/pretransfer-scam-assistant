@@ -1,0 +1,39 @@
+{
+ "id": "chuyen_nham_tien__16",
+ "kich_ban": "chuyen_nham_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "dau_tu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Chuyển nhanh hộ cái tiền đầu tư nhóm lớp cho cô giáo, đang vội lắm.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 489,
+  "tokens_out": 20,
+  "usd": 0.00019669999999999998
+ }
+}

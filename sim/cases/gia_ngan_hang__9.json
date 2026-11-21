@@ -1,0 +1,39 @@
+{
+ "id": "gia_ngan_hang__9",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "tai_khoan_an_toan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tui đang chuyển chút tiền để bên ngân hàng họ hỗ trợ đưa tài khoản về chế độ an toàn ấy mà. Thấy bạn nhân viên trên Zalo nhiệt tình giục làm nhanh kẻo lỗi, nên tui chuyển luôn cho lẹ.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 488,
+  "tokens_out": 51,
+  "usd": 0.0002739
+ }
+}

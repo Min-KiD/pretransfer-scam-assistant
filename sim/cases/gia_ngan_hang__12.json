@@ -1,0 +1,40 @@
+{
+ "id": "gia_ngan_hang__12",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "doc_otp",
+   "bam_link"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khac",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Chuyển tiền để đóng phí mở lại tài khoản, nhanh lên giùm cái bên ngân hàng đang giục suốt.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 481,
+  "tokens_out": 25,
+  "usd": 0.00020679999999999999
+ }
+}

@@ -1,0 +1,40 @@
+{
+ "id": "gia_cong_an__9",
+ "kich_ban": "gia_cong_an",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "cong_an",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "doa",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app"
+  ],
+  "ly_do_tien": "tai_khoan_an_toan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khac",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tôi đang chuyển tiền gấp để cho bên công an người ta xác minh lại cái tài khoản an toàn theo hướng dẫn thôi, anh chị cứ chuyển giùm tôi cái nhé.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 485,
+  "tokens_out": 35,
+  "usd": 0.000233
+ }
+}

@@ -1,0 +1,40 @@
+{
+ "id": "gia_ngan_hang__10",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Bên ngân hàng vừa nhắn giục tôi chuyển khoản gấp qua Zalo để khắc phục lỗi hệ thống, nếu không tài khoản sẽ bị khóa vĩnh viễn và dọa mời cơ quan chức năng đấy. Mà không biết thế này có phải lừa đảo không mà sao cứ hối thúc căng thế nhỉ?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 481,
+  "tokens_out": 64,
+  "usd": 0.00030429999999999997
+ }
+}

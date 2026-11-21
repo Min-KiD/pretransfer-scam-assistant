@@ -1,0 +1,39 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__18",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "cuoc_goi",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Ủa, tui đang chuyển tiền để khắc phục cái lỗi giao dịch mấy món đồ đặt từ tuần trước với ông shipper quen đây mà. Bộ app nghi ngờ gì hả, hay đây là chiêu trò lừa đảo mới đấy?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 485,
+  "tokens_out": 48,
+  "usd": 0.0002655
+ }
+}

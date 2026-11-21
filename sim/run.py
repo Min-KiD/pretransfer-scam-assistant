@@ -20,7 +20,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from core import llm, session
 from core.scenarios import ROOT, load
-from sim.cases import CASE_DIR, PERSONAS, story_text
+from sim.cases import CASE_DIR, PER_SCENARIO, PERSONAS, story_text
 
 OUT = ROOT / "experiments/E2"
 CHUA_DU = "chua_du_can_cu"
@@ -48,12 +48,16 @@ def history_text(h):
     return "\n".join(f"{'Trợ lý' if m['role'] == 'assistant' else 'Bạn'}: {m['text']}" for m in h)
 
 
+VICTIM_MODEL = "gemini-3.5-flash-lite"  # fixed for every assistant model (E5), so only the assistant changes
+
+
 def victim_reply(case, scen, history) -> llm.Result:
     s = scen[case["kich_ban"]]
     rule = ('Được nói ra nghi ngờ, kể cả từ "lừa đảo".' if case["tinh_cach"] == "nghi_ngo" else
             'Không nói tên gọi của tình huống, không dùng từ "lừa đảo".')
     r = llm.generate(VICTIM_PROMPT.format(no_scam=rule, mo_ta=s.mo_ta, story=story_text(case["bang_that"]),
-                                          persona=PERSONAS[case["tinh_cach"]], history=history_text(OPENING_Q + history)))
+                                          persona=PERSONAS[case["tinh_cach"]], history=history_text(OPENING_Q + history)),
+                     model=VICTIM_MODEL)
     r.text = " ".join(r.text.strip().strip('"').split())
     return r
 
@@ -118,11 +122,11 @@ def free_schema(ids):
                                              "cau_hoi": {"type": "string"}}, "required": ["du_doan", "cau_hoi"]}
 
 
-def run_tu_do(case, scen, budget):
+def run_tu_do(case, scen, budget, model=None):
     catalog = "\n".join(f"- {s.id}: {s.ten} - {s.mo_ta}" for s in scen.values())
     schema = free_schema(list(scen))
     history = [{"role": "user", "text": case["tin_mo_dau"]}]
-    preds, calls, victim, asked = [], [], [], 0
+    preds, calls, victim, asked, turns = [], [], [], 0, []
     t0 = time.perf_counter()
     while True:
         budget.check()
@@ -130,12 +134,17 @@ def run_tu_do(case, scen, budget):
         instr = ("Đã hết lượt hỏi: chỉ đưa ra du_doan, cau_hoi để rỗng." if last else
                  "Nếu đã đủ chắc thì dừng (cau_hoi rỗng), nếu chưa thì hỏi một câu giúp phân biệt các kịch bản.")
         r = llm.generate(FREE_PROMPT.format(catalog=catalog, chua_du=CHUA_DU, account=account_line(case), asked=asked,
-                                            instruction=instr, history=history_text(history)), schema=schema)
+                                            instruction=instr, history=history_text(history)), schema=schema,
+                         model=model)
         calls.append(r)
         o = r.output or {}
-        pred = o.get("du_doan") if o.get("du_doan") in scen or o.get("du_doan") == CHUA_DU else CHUA_DU
+        valid = o.get("du_doan") in scen or o.get("du_doan") == CHUA_DU
+        pred = o.get("du_doan") if valid else CHUA_DU
         preds.append(pred)
         q = (o.get("cau_hoi") or "").strip()
+        turns.append({"du_doan": pred, "raw_du_doan": None if valid else o.get("du_doan"), "cau_hoi": q,
+                      "seconds": r.seconds, "tokens_in": r.tokens_in, "tokens_out": r.tokens_out, "usd": r.usd,
+                      "retries": r.retries})
         if last or not q:
             break
         history.append({"role": "assistant", "text": q})
@@ -144,11 +153,11 @@ def run_tu_do(case, scen, budget):
         victim.append(v)
         history.append({"role": "user", "text": v.text})
     preds += [preds[-1]] * (K + 1 - len(preds))
-    return {"preds": preds, "n_asked": asked, "history": history,
+    return {"preds": preds, "n_asked": asked, "history": history, "turns": turns,
             "seconds": round(time.perf_counter() - t0 - sum(v.seconds for v in victim), 2),
             "tokens": sum(c.tokens_in + c.tokens_out for c in calls), "usd": sum(c.usd for c in calls),
             "conclusion": "chua_du_can_cu" if preds[-1] == CHUA_DU else scen[preds[-1]].nhom,
-            "victim_usd": sum(v.usd for v in victim)}
+            "victim_usd": sum(v.usd for v in victim), "model": calls[0].model}
 
 
 RUNNERS = {"tinh_toan": run_tinh_toan, "tinh_toan_min1": lambda c, s, b: run_tinh_toan(c, s, b, min_questions=1),
@@ -395,7 +404,8 @@ def main():
     if a.fresh and path.exists():
         path.unlink()
     rows = [json.loads(l) for l in open(path, encoding="utf-8")] if path.exists() else []
-    cases = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(CASE_DIR.glob("*.json"))]
+    cases = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(CASE_DIR.glob("*.json"))
+             if int(p.stem.rsplit("__", 1)[1]) < PER_SCENARIO]  # E2 is the v1 set; E5 has its own runner
     cases = [c for c in cases if c["kich_ban"] in scen]
     done = {(r["case"], r["assistant"]) for r in rows if "preds" in r}
     rows = [r for r in rows if "preds" in r]

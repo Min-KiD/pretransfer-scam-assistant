@@ -1,0 +1,40 @@
+{
+ "id": "bt_mua_online_nguoi_ban_moi__13",
+ "kich_ban": "bt_mua_online_nguoi_ban_moi",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "dich_vu_thu_hoi_tien",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang chuyển tiền trả trước cho shop trên Zalo để họ gửi cái áo mình vừa chốt đơn. Chị chủ shop nhiệt tình lắm, giục chuyển nhanh để kịp đợt hàng giảm giá trong ngày thôi mà.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 523,
+  "tokens_out": 47,
+  "usd": 0.0002744
+ }
+}

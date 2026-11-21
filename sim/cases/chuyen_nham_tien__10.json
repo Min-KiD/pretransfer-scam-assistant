@@ -1,0 +1,36 @@
+{
+ "id": "chuyen_nham_tien__10",
+ "kich_ban": "chuyen_nham_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_chuyen_nham",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tôi đang chuyển tiền đặt cọc mua hàng trên Zalo với một người lạ vừa nhắn tin bảo gửi nhầm tiền, mà sao cái app này cứ hỏi hoài làm tôi nghi quá, hay là bạn thấy vụ này có mùi lừa đảo không vậy?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 478,
+  "tokens_out": 53,
+  "usd": 0.0002759
+ }
+}

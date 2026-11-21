@@ -1,0 +1,39 @@
+{
+ "id": "chuyen_nham_tien__7",
+ "kich_ban": "chuyen_nham_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "sms",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "hoan_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À đấy, để tôi chuyển tiền cho bên ngân hàng để hoàn lại cái khoản tiền vừa nhảy vào tài khoản hồi sáng, mà tự nhiên nhắn tin giục ghê lắm bắt phải làm liền, trong lúc tôi đang luống cuống tìm chìa khóa xe để đi chợ mua ít thịt bò nấu phở cho bữa trưa nữa chứ.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 490,
+  "tokens_out": 70,
+  "usd": 0.000322
+ }
+}

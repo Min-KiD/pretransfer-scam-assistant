@@ -1,8 +1,11 @@
-"""E2 test cases (T1 part 5): 5 per scenario, text only, saved under sim/cases/ so reruns are identical.
+"""Test cases (T1 part 5, E5): text only, saved under sim/cases/ so reruns are identical.
 
 Each case: scenario id (answer key), the true story table (sampled from the scenario's own table as in part 1, fixed
 seed), a persona (rushed / trusting / suspicious / rambling; "coached" is kept for E4), the user's opening message
 (written once by the model, then frozen in the file) and the account facts the lookup would give.
+
+Cases 0-4 of each scenario are the E2 set (`v1`, seed 20261121). E5 adds cases 5-19 with a new seed (20261122), drawn
+the same way. These 300 cases are an evaluation set only: never train on them (E6 makes its own training cases).
 
   python -m sim.cases            # writes missing files only
 """
@@ -19,7 +22,9 @@ from sim.perfect import sample_table
 
 CASE_DIR = ROOT / "sim/cases"
 SEED = 20261121
-PER_SCENARIO = 5
+PER_SCENARIO = 5  # the v1 set
+SEED_E5 = 20261122
+PER_SCENARIO_E5 = 20
 PERSONAS = {
     "voi": "Đang vội, muốn chuyển cho xong; trả lời cụt, ít chữ.",
     "ca_tin": "Cả tin, tin người kia là thật, kể với thiện cảm, đôi khi bênh người kia.",
@@ -76,8 +81,9 @@ def main():
     todo = []
     for sid in sorted(scen):
         rng = random.Random(f"{SEED}:{sid}:cases")
-        for i in range(PER_SCENARIO):
-            c = make_case(sid, i, scen, rng)
+        rng5 = random.Random(f"{SEED_E5}:{sid}:cases")
+        for i in range(PER_SCENARIO_E5):
+            c = make_case(sid, i, scen, rng if i < PER_SCENARIO else rng5)
             if not (CASE_DIR / f"{c['id']}.json").exists():
                 todo.append(c)
     with ThreadPoolExecutor(6) as ex:

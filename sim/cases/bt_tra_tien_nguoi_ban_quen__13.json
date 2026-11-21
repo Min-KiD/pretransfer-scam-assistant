@@ -1,0 +1,36 @@
+{
+ "id": "bt_tra_tien_nguoi_ban_quen__13",
+ "kich_ban": "bt_tra_tien_nguoi_ban_quen",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dau_tu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Tôi chuyển tiền mua ít đồ đầu tư với ông bạn thân quen lâu năm thôi, có gì đâu mà hỏi kỹ thế.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 466,
+  "tokens_out": 25,
+  "usd": 0.00020229999999999998
+ }
+}

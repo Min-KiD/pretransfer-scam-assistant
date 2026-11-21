@@ -1,0 +1,40 @@
+{
+ "id": "gia_ngan_hang__13",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "doa",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "doc_otp",
+   "bam_link"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em chuyển tiền để đóng phí nâng hạng thẻ tín dụng anh ạ, bên ngân hàng vừa gọi hướng dẫn nhiệt tình lắm, bảo hoàn tất nhanh để còn nhận ưu đãi lớn.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 486,
+  "tokens_out": 36,
+  "usd": 0.00023579999999999999
+ }
+}

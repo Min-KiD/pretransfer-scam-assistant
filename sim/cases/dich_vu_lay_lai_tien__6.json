@@ -1,0 +1,39 @@
+{
+ "id": "dich_vu_lay_lai_tien__6",
+ "kich_ban": "dich_vu_lay_lai_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "telegram",
+  "tu_xung": "dich_vu_thu_hoi_tien",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac",
+  "da_gap_truc_tiep": "khac",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac"
+ },
+ "tin_mo_dau": "Tôi chuyển tiền đặt cọc cho bên dịch vụ thu hồi tiền trên Telegram để họ xử lý hồ sơ giúp tôi, nhưng họ hứa hẹn xong lại cứ giục chuyển thêm thế này có khi nào là lừa đảo không bạn?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 464,
+  "tokens_out": 48,
+  "usd": 0.0002592
+ }
+}

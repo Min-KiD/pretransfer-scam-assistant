@@ -1,0 +1,39 @@
+{
+ "id": "mao_danh_nguoi_quen__15",
+ "kich_ban": "mao_danh_nguoi_quen",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Ờ thì tui đang tính gửi chút tiền qua Zalo cho nhỏ em họ hàng xa bên nội đang kẹt gấp ngoài quê, mà khổ cái điện thoại nó cứ chập chờn hay sao ấy nên nó dặn đi dặn lại là đừng có gọi hay nói cho ai biết không lại lỡ việc.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 491,
+  "tokens_out": 64,
+  "usd": 0.00030729999999999993
+ }
+}

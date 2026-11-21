@@ -1,0 +1,39 @@
+{
+ "id": "mao_danh_nguoi_quen__17",
+ "kich_ban": "mao_danh_nguoi_quen",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Đứa cháu họ nhắn tin qua Messenger mượn gấp ít tiền để đóng học phí, bảo đang vội lắm nên cứ chuyển trước rồi lát xong việc nó trả lại ngay.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 493,
+  "tokens_out": 37,
+  "usd": 0.00024040000000000002
+ }
+}

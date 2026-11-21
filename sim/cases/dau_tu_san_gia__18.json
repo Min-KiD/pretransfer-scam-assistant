@@ -1,0 +1,39 @@
+{
+ "id": "dau_tu_san_gia__18",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dau_tu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tôi đang chuyển tiền đầu tư theo lời nhắc của bạn trên Messenger, nhưng tự dưng bên đó cứ hối thúc với hứa hẹn lợi nhuận cao làm tôi thấy cứ lạ lạ, không biết có phải bị lừa không hả bạn?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 474,
+  "tokens_out": 50,
+  "usd": 0.0002672
+ }
+}

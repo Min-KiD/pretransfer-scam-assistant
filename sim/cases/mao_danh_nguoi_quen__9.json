@@ -1,0 +1,39 @@
+{
+ "id": "mao_danh_nguoi_quen__9",
+ "kich_ban": "mao_danh_nguoi_quen",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "messenger",
+  "tu_xung": "khac",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "vien_phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac"
+ },
+ "tin_mo_dau": "Mình chuyển tiền viện phí hộ anh đồng nghiệp thân thiết trên Messenger thôi, anh ấy đang bận chăm người nhà trong viện nên dặn giữ bí mật giúp, với lại trước đó mình cũng từng chuyển hộ mấy lần rồi nên cứ yên tâm làm theo thôi mà.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 489,
+  "tokens_out": 54,
+  "usd": 0.00028169999999999996
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__9",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "cuoc_goi",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Tui chuyển tiền ăn với tiền nhà tháng này cho đứa em họ thôi mà, nó vừa gọi nhắc khéo hồi chiều. Hai anh em mới gặp hồi cuối tuần trước xong nên cứ yên tâm, chuyển nhanh còn kịp.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 486,
+  "tokens_out": 46,
+  "usd": 0.00026079999999999994
+ }
+}

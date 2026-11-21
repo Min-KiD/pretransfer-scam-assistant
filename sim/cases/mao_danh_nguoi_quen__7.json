@@ -1,0 +1,38 @@
+{
+ "id": "mao_danh_nguoi_quen__7",
+ "kich_ban": "mao_danh_nguoi_quen",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À tôi đang chuyển tiền cho nhỏ bạn thân hồi cấp ba trên Zalo, nó nhắn tin giục ghê lắm bảo đang kẹt tiền gấp giữa đường mà tự dưng điện thoại nó hỏng loa ngoài hay sao ấy nên không gọi nói chuyện được, với lại nay trời thì mưa to gió lớn phết, tự nhiên tôi nhớ ra hình như tủ lạnh nhà còn quả dưa hấu chưa ăn.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 484,
+  "tokens_out": 84,
+  "usd": 0.0003552
+ }
+}

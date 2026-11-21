@@ -1,0 +1,38 @@
+{
+ "id": "bt_tra_tien_nguoi_ban_quen__15",
+ "kich_ban": "bt_tra_tien_nguoi_ban_quen",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khac",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À thì chuyển tiền cho đứa em quen ngoài tiệm tạp hóa sát nhà để trả tiền mấy món đồ hôm qua lấy thiếu, mà, tự nhiên sáng nay cái app ngân hàng của tôi nó cứ đơ đơ thế nào ấy, bực mình ghê cơ.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 463,
+  "tokens_out": 55,
+  "usd": 0.0002764
+ }
+}

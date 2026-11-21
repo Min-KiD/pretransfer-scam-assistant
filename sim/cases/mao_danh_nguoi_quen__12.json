@@ -1,0 +1,39 @@
+{
+ "id": "mao_danh_nguoi_quen__12",
+ "kich_ban": "mao_danh_nguoi_quen",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Chuyển khoản cho đứa em mượn gấp nốt lần này, nó đang cần xử lý việc riêng trên Messenger.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 491,
+  "tokens_out": 26,
+  "usd": 0.00021229999999999998
+ }
+}

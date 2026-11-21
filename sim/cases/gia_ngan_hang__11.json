@@ -1,0 +1,40 @@
+{
+ "id": "gia_ngan_hang__11",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "doc_otp",
+   "bam_link"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Ờ thì là cái ông bên hội đầu tư trên Zalo vừa nhắn giục tôi chuyển gấp tiền để khắc phục lỗi hệ thống chứ không là tài khoản bị khóa mất, mà sáng nay tôi vừa phơi vội mớ quần áo xong thì trời lạiổn nhạt mưa nên bực hết cả mình, với lại họ dặn là phải làm nhanh và giữ kín không được nói ai biết đâu đấy nhé.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 488,
+  "tokens_out": 85,
+  "usd": 0.0003589
+ }
+}

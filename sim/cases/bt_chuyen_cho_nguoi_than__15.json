@@ -1,0 +1,38 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__15",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "cuoc_goi",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À thì chuyển khoản cho đứa em họ ở quê nó vừa gọi điện nhờ đấy mà, hôm nay trời nắng chang chang mệt ghê, mà tiện thể trả nó ít tiền mua hộ thùng sữa với nhờ lấy hộ cái bưu phẩm chỗ bưu cục luôn.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 485,
+  "tokens_out": 54,
+  "usd": 0.0002805
+ }
+}

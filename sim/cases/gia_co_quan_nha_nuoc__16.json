@@ -1,0 +1,41 @@
+{
+ "id": "gia_co_quan_nha_nuoc__16",
+ "kich_ban": "gia_co_quan_nha_nuoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app",
+   "bam_link"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Chuyển tiền thuế đất thôi, bên thuế giục suốt với dọa phạt kia kìa.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 497,
+  "tokens_out": 21,
+  "usd": 0.0002016
+ }
+}

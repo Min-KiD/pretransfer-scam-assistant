@@ -1,0 +1,40 @@
+{
+ "id": "ctv_online__10",
+ "kich_ban": "ctv_online",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "telegram",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "nhiem_vu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tui đang định chuyển tiền để làm nhiệm vụ trên Telegram do nhà tuyển dụng mới giao, nghe bảo hoàn thành sẽ được nhận hoa hồng lớn. Mà sao cứ thấy cấn cấn kiểu gì ấy, hay là bạn xem giùm tui xem có phải lừa đảo không vậy?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 491,
+  "tokens_out": 59,
+  "usd": 0.00029479999999999996
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "id": "bt_tra_tien_nguoi_ban_quen__11",
+ "kich_ban": "bt_tra_tien_nguoi_ban_quen",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "zalo",
+  "tu_xung": "cong_an",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Hôm nay tui nhắn qua Zalo với ông thợ quen hay sửa ống nước ấy mà, trả tiền đợt trước lấy hàng mấy cái ống nhựa với keo dán dạo nọ dùng dở xong giờ lấy thêm mấy món nữa, mà dạo này trời cứ mưa suốt mệt thế không biết.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 458,
+  "tokens_out": 67,
+  "usd": 0.0003049
+ }
+}

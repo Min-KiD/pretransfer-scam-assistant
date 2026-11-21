@@ -1,0 +1,39 @@
+{
+ "id": "bt_dat_coc_da_xem__11",
+ "kich_ban": "bt_dat_coc_da_xem",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "khac",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Ơ thì chuyển cọc tiền phòng trọ ấy mà, lúc sáng tui vừa chạy qua chỗ cái hẻm nhỏ xem trực tiếp rồi, gặp cái chú chủ nhà mập mạp đang đứng quét sân mệt ghê cơ, mà lát nữa nhớ phải ghé mua thêm cân cam với cái áo mưa nữa không thì chiều lại mưa dầm.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 473,
+  "tokens_out": 73,
+  "usd": 0.00032439999999999997
+ }
+}

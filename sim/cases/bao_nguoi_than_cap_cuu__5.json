@@ -1,0 +1,38 @@
+{
+ "id": "bao_nguoi_than_cap_cuu__5",
+ "kich_ban": "bao_nguoi_than_cap_cuu",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "khac",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tôi đang chuyển tiền giúp cô giáo của con để kịp mua ít dụng cụ học tập gấp cho lớp. Cô ấy gọi điện nhờ vả nhiệt tình lắm, tôi thương hoàn cảnh cô nên tranh thủ gửi luôn.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 467,
+  "tokens_out": 43,
+  "usd": 0.0002476
+ }
+}

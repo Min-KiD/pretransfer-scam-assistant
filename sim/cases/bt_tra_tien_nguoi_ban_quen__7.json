@@ -1,0 +1,38 @@
+{
+ "id": "bt_tra_tien_nguoi_ban_quen__7",
+ "kich_ban": "bt_tra_tien_nguoi_ban_quen",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À thì tôi đang định chuyển khoản cho cái đứa bán chiếc áo phông mới mua chiều qua ở góc phố, mà cái áo mặc mát lắm với lại hôm nay trời cũng hửng nắng nữa chứ, mà tài khoản này mới kết bạn Zalo nên ứng dụng cứ hỏi hoài.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 461,
+  "tokens_out": 59,
+  "usd": 0.00028579999999999995
+ }
+}

@@ -12,8 +12,11 @@ Mọi số đo ở đây là trên dữ liệu tự dựng. Chúng dùng để c
 | E1b | Model mở trên GPU 16GB có thay được Gemini không; OCR nào hơn PP-OCRv6; ảnh khó hơn thì cách nào gãy | Xong (4 bộ ảnh: E1, khó, gen, web) | Đọc chữ: GLM-OCR và PP-OCRv6 GPU đủ dùng (PP-OCRv6 0,3 giây/ảnh). Không model mở nào trả JSON dùng được. Trên 20 ảnh chat thật: Gemini flash-lite 83,7%, model mở 51-61%, phần lớn do regex trích chuỗi bỏ sót chứ không phải OCR đọc sai |
 | E2 | Chọn câu hỏi bằng tính toán có hơn để model tự hỏi không | Lần 2 xong (75 tình huống chữ, sau khi sửa điền bảng); lần 1 giữ ở `experiments/E2/run1/` | Sau 3 câu: tính toán 69,3% đúng kịch bản (lần 1: 71,4%), model tự hỏi 78,7% (lần 1: 75,7%). Kém 9,3 điểm, không đạt ngưỡng hơn 5 điểm: đề xuất bỏ phần chọn câu hỏi, giữ bảng câu chuyện. Biến thể hỏi ít nhất 1 câu cũng 69,3% |
 | E3 | Tỉ lệ báo nhầm giao dịch bình thường | Lần 2 xong (20 tình huống bình thường) | Tính toán 25% (5/20; lần 1: 10%), hỏi ít nhất 1 câu 10%, model tự hỏi 5% (1/20); trần với người trả lời hoàn hảo 6,2% |
-| E4 | Người dùng bị kẻ gian dặn trước câu trả lời | Chưa làm | |
-| E5 | Thời gian và chi phí mỗi phiên | Chưa làm | |
+| E4 | Model mở (VLM + LoRA) đọc ảnh chat ra JSON có thay được Gemini không | Đang chạy (giai đoạn A) | |
+| E5 | Model mở cho hội thoại so với các model đóng | Đang chạy | |
+| E6 | Bộ phân loại kịch bản nhỏ làm ý kiến thứ hai | Chưa làm | |
+| E8 | Người dùng bị kẻ gian dặn trước câu trả lời (trước đây mang mã E4) | Chưa làm | |
+| E9 | Thời gian và chi phí mỗi phiên (trước đây mang mã E5) | Chưa làm | |
 
 ## E1 - Đọc chuỗi chính xác từ ảnh chụp chat
 
@@ -140,7 +143,7 @@ Quy tắc đặt trước: `tinh_toan` hơn `tu_do` từ 5 điểm về đúng k
 - 5 tình huống mỗi kịch bản; một tình huống là 20 điểm % của kịch bản đó.
 - Lần 1 và lần 2 khác nhau cả lời nạn nhân giả lập, không chỉ ở prompt điền bảng.
 - Bộ phát triển của prompt chỉ có 12 tin do tab code tự viết; số "trước, sau" của điền bảng đo bằng một lần gọi mỗi tin.
-- Chưa có ảnh, chưa có tính cách "bị dặn trước" (để cho E4).
+- Chưa có ảnh, chưa có tính cách "bị dặn trước" (để cho E8).
 
 ## E3 - Báo nhầm giao dịch bình thường
 

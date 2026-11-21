@@ -1,0 +1,38 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__19",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, thì chuyển khoản cho đứa em họ ở quê nó mượn bù vào tiền mua xe máy dạo nọ gặp nhau ở quán nước ngã tư ấy mà, với cả tiện thể trời nay tự nhiên hắt xì hơi mấy cái liền không biết có phải sắp cảm không nữa.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 482,
+  "tokens_out": 61,
+  "usd": 0.0002971
+ }
+}

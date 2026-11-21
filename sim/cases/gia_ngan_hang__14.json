@@ -1,0 +1,39 @@
+{
+ "id": "gia_ngan_hang__14",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "doc_otp"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tụi nhân viên ngân hàng vừa gọi hứa hẹn tôi được hoàn phí thường niên và bảo đọc mã OTP để nhận tiền, nhưng mà họ dặn kỹ là phải giữ bí mật không được nói ai biết. Mà sao nghe cứ cấn cấn thế nào ấy, hay là mấy người đang định lừa đảo tôi đấy hả?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 477,
+  "tokens_out": 69,
+  "usd": 0.00031560000000000003
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "id": "dau_tu_san_gia__17",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app",
+   "bam_link",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "dau_tu",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Em chuyển tiền để đầu tư theo hướng dẫn của bên sàn giao dịch trên Messenger thôi ạ, họ hứa hẹn mức lợi nhuận tốt lắm và dặn em cứ giữ bí mật để được hưởng ưu đãi riêng.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 503,
+  "tokens_out": 44,
+  "usd": 0.0002609
+ }
+}

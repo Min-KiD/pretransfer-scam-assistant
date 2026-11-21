@@ -1,0 +1,39 @@
+{
+ "id": "dat_coc_gia_re__13",
+ "kich_ban": "dat_coc_gia_re",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình chuyển tiền để hỗ trợ bạn trên Zalo khắc phục lỗi giao dịch hệ thống thôi, thấy bạn ấy nhiệt tình hứa hoàn tiền sớm nên mình chuyển luôn cho nhanh gọn.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 500,
+  "tokens_out": 37,
+  "usd": 0.0002425
+ }
+}

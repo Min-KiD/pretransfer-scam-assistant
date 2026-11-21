@@ -1,0 +1,38 @@
+{
+ "id": "dat_coc_gia_re__16",
+ "kich_ban": "dat_coc_gia_re",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khac",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Chuyển cọc mua combo du lịch trên Zalo cho nhanh để còn kịp giữ suất giá rẻ.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 486,
+  "tokens_out": 22,
+  "usd": 0.00020079999999999997
+ }
+}

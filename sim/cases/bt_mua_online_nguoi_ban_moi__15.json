@@ -1,0 +1,39 @@
+{
+ "id": "bt_mua_online_nguoi_ban_moi__15",
+ "kich_ban": "bt_mua_online_nguoi_ban_moi",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À thì tôi đang nhắn tin trên Messenger với cái shop bán áo phông tự tìm thấy trên mạng để trả tiền cái áo đợt trước lấy về bị rách chỉ, mà đợt này trời đang nắng gắt nên công nhận là lười ra đường thật đấy.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 507,
+  "tokens_out": 57,
+  "usd": 0.0002946
+ }
+}

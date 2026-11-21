@@ -1,0 +1,36 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__11",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À chuyển khoản cho cái ông anh họ hàng xa mới gặp tuần trước ở đám cưới con chú ruột để mượn tạm ít tiền đóng học phí cho đứa nhỏ, mà sáng nay trời oi bức ghê ta, tôi vừa phải chạy ra chợ mua mớ rau muống với ít thịt lợn về chuẩn bị nấu cơm trưa đấy chứ.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 487,
+  "tokens_out": 73,
+  "usd": 0.0003286
+ }
+}

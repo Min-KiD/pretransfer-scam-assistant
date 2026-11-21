@@ -1,0 +1,39 @@
+{
+ "id": "gia_ngan_hang__5",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "khac",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app",
+   "doc_otp",
+   "bam_link"
+  ],
+  "ly_do_tien": "tai_khoan_an_toan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Tôi chuyển tiền để gom vào tài khoản an toàn theo hướng dẫn của bạn nhân viên ngân hàng kết bạn qua Zalo ấy mà, họ nhiệt tình hỗ trợ tôi kiểm tra lại hệ thống suốt từ chiều qua đấy.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 496,
+  "tokens_out": 44,
+  "usd": 0.00025879999999999995
+ }
+}

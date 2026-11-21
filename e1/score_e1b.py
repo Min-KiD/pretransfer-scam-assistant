@@ -58,10 +58,13 @@ def normalize_gt(g: dict, set_name: str) -> dict:
     return g
 
 
-def build(root: Path):
+def build(root: Path, b_models=("gemini-3.5-flash-lite",), skip_prefixes=()):
+    """b_models: which E1 method-B Gemini runs to include (None = all). E4 run dirs J/Ju/O count as JSON configs."""
     sets = {}
     for s, d in SET_DIRS.items():
-        gts = load_json_dir(root / d / "gt")
+        # an answer file whose `skipped` holds {"raw": "*"} is a placeholder (strings not transcribed yet): not scored
+        gts = {k: v for k, v in load_json_dir(root / d / "gt").items()
+               if not any(e.get("raw") == "*" for e in v.get("skipped") or [])}
         if gts:
             sets[s] = {k: normalize_gt(v, s) for k, v in gts.items()}
     data_dir = {s: root / d for s, d in SET_DIRS.items()}
@@ -95,7 +98,7 @@ def build(root: Path):
                 preds = vlm_strings(out)
             c, n = side_score(gt["messages"], [] if broken else out.get("messages", []))
             row.update(side_correct=c, side_total=n)
-            for k in ("tokens_in", "tokens_out", "tokens_thought"):
+            for k in ("tokens_in", "tokens_out", "tokens_thought", "usd", "workers", "retries"):
                 if k in rec:
                     row[k] = rec[k]
         row["pred"] = preds
@@ -112,12 +115,12 @@ def build(root: Path):
         runs_root = root / RUN_DIRS[s]
         for rd in sorted(runs_root.glob("*__*")) if runs_root.exists() else []:
             prefix, model = rd.name.split("__", 1)
-            if prefix == "B" and model != "gemini-3.5-flash-lite":
+            if prefix == "B" and b_models is not None and model not in b_models:
                 continue
-            if prefix not in ("B", "T", "J"):
+            if prefix not in ("B", "T", "J", "Ju", "O") or prefix in skip_prefixes:
                 continue
             recs = load_json_dir(rd)
-            group = {"B": "J", "T": "T", "J": "J"}[prefix]
+            group = {"B": "J", "T": "T", "J": "J", "Ju": "J", "O": "J"}[prefix]
             cfg = rd.name if prefix != "B" else f"J__{model}"
             for iid, gt in gts.items():
                 add(s, gt, cfg, group, model, recs.get(iid))
@@ -128,6 +131,28 @@ def build(root: Path):
             present[r["set"]].add(r["config"])
     results = [r for r in results if r["config"] in present[r["set"]]]
     return results, sets
+
+
+def fabricated(row, gt) -> tuple[dict, dict]:
+    """E4 "chuỗi bịa": per type, (strings the model returned that are not in the answer, strings returned).
+    A returned string that matches an answer's `skipped` entry of the same type (unreadable or masked in the image,
+    so left out of the answer) or an `ignore` string is neither counted as made up nor as returned."""
+    from e1.score import ratio
+    skipped = [(s["type"], NORMALIZERS[s["type"]](s.get("seen", ""))) for s in gt.get("skipped") or []
+               if s.get("type") in NORMALIZERS]
+    ignore = {(s["type"], s["norm"]) for s in gt["ignore"]["strings"]}
+    fab, ret = {}, {}
+    for t in TYPES:
+        gts = {e["norm"] for e in gt["strings"][t]}
+        f = n = 0
+        for p in row["pred"].get(t, []):
+            pn = NORMALIZERS[t](p)
+            if (t, pn) in ignore or any(st == t and sn and ratio(pn, sn) >= 0.5 for st, sn in skipped):
+                continue
+            n += 1
+            f += pn not in gts
+        fab[t], ret[t] = f, n
+    return fab, ret
 
 
 def agg(rows, key="correct", t=None, variant=None):

@@ -1,0 +1,39 @@
+{
+ "id": "dat_coc_gia_re__15",
+ "kich_ban": "dat_coc_gia_re",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "cai_app"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, tớ đang chuyển để trả tiền hàng vụ cái món đồ hôm nọ mua trên mạng ấy mà, tự dưng họ bảo lỗi gì đấy xong bắt tải cái app gì về để làm lại từ đầu mệt thế không biết, với lại hôm qua trời mưa phết đấy bạn ạ.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 491,
+  "tokens_out": 61,
+  "usd": 0.00029979999999999997
+ }
+}

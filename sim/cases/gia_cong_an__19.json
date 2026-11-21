@@ -1,0 +1,40 @@
+{
+ "id": "gia_cong_an__19",
+ "kich_ban": "gia_cong_an",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "cong_an",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tai_khoan_an_toan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À tớ đang định gửi cho cái anh công an vừa gọi lúc nãy để làm cái tài khoản an toàn gì đấy, mà sáng nay con mèo nhà tớ cứ cào rách hết cả thảm mệt thế không biết, xong rồi anh ấy cứ giục chuyển gấp không thì rắc rối to, dặn kỹ là không được nói cho ai biết đâu đấy nhé.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 485,
+  "tokens_out": 79,
+  "usd": 0.000343
+ }
+}

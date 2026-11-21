@@ -1,0 +1,40 @@
+{
+ "id": "gia_ngan_hang__18",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "doc_otp",
+   "bam_link"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tui đang tính chuyển chút phí để nhận cái quà trúng thưởng bên Zalo mà người ta hứa hẹn, nhưng nghĩ lại không biết có bị lừa đảo gì không mà sao cứ hối thúc bấm link với đọc mã OTP liên tục thế này?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 477,
+  "tokens_out": 53,
+  "usd": 0.00027560000000000003
+ }
+}

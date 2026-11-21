@@ -1,0 +1,39 @@
+{
+ "id": "gia_co_quan_nha_nuoc__10",
+ "kich_ban": "gia_co_quan_nha_nuoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "telegram",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "cai_app",
+   "bam_link"
+  ],
+  "ly_do_tien": "hoan_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac"
+ },
+ "tin_mo_dau": "Tôi chuyển để nhận lại số tiền hoàn thuế mà bên cán bộ thuế trên Telegram vừa hướng dẫn thủ tục. Chứ không biết mấy app họ gửi có vấn đề gì không mà thấy cứ giục chuyển nhanh thế, hay là tôi đang bị lừa đảo đấy?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 488,
+  "tokens_out": 54,
+  "usd": 0.00028139999999999996
+ }
+}

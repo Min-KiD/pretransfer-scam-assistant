@@ -1,0 +1,40 @@
+{
+ "id": "mao_danh_nguoi_quen__10",
+ "kich_ban": "mao_danh_nguoi_quen",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "hoan_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Chuyển tiền cho đứa bạn thân nhắn qua Messenger, nó giục giữ bí mật để lo hoàn tiền gấp và dặn kỹ nếu ngân hàng hỏi thì cứ bảo chuyển cho người nhà. Mà sao tự nhiên phải chuyển qua tài khoản tên lạ hoắc thế này, hay là cậu đang lừa tôi đấy?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 494,
+  "tokens_out": 64,
+  "usd": 0.0003082
+ }
+}

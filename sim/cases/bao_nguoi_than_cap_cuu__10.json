@@ -1,0 +1,39 @@
+{
+ "id": "bao_nguoi_than_cap_cuu__10",
+ "kich_ban": "bao_nguoi_than_cap_cuu",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "vien_phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Thấy cô giáo nhắn trên Zalo dọa con bé đang nguy kịch ở viện rồi hối chuyển gấp tiền viện phí, mà sao nghe cứ thấy vô lý thế nhỉ, hay đây là lừa đảo hả bạn?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 458,
+  "tokens_out": 46,
+  "usd": 0.0002524
+ }
+}

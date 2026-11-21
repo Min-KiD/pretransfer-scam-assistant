@@ -1,0 +1,39 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__17",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "khac"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Tôi chuyển chút tiền đóng góp quỹ lớp học pha chế với nhỏ bạn thân, gặp nhau suốt nên yên tâm lắm, bạn ấy nhiệt tình dễ thương mà.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 487,
+  "tokens_out": 32,
+  "usd": 0.0002261
+ }
+}

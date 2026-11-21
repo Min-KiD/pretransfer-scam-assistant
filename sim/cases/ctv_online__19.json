@@ -1,0 +1,40 @@
+{
+ "id": "ctv_online__19",
+ "kich_ban": "ctv_online",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "bam_link",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "nhiem_vu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, chuyển để làm nhiệm vụ chốt đơn trên Zalo ấy mà, thấy bên nhà tuyển dụng hứa hẹn chiều nay xong việc là có hoa hồng rủng rỉnh gửi về tài khoản luôn, mà lúc nãy vừa pha ly trà đào uống dở thì mèo nhà tôi cứ cào cửa đòi ra ngoài.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 498,
+  "tokens_out": 66,
+  "usd": 0.0003144
+ }
+}

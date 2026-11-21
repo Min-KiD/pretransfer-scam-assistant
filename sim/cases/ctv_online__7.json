@@ -1,0 +1,39 @@
+{
+ "id": "ctv_online__7",
+ "kich_ban": "ctv_online",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, tôi đang chuyển để mở khóa lại cái hạn mức rút tiền đợt trước, mà bên nhà tuyển dụng trên Messenger vừa giục dữ lắm, hứa là xong việc này tôi sẽ nhận lại được cả gốc lẫn lãi khủng luôn nên tôi phải làm gấp cho kịp giờ.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 494,
+  "tokens_out": 58,
+  "usd": 0.00029319999999999997
+ }
+}

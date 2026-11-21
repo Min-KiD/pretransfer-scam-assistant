@@ -1,0 +1,42 @@
+{
+ "id": "gia_cong_an__10",
+ "kich_ban": "gia_cong_an",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "cong_an",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "tai_khoan_an_toan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khac",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Cái anh bên công an bảo chuyển vào tài khoản an toàn để xác minh vụ điều tra trên Zalo, mà họ dặn kỹ không được nói cho ai biết. Không biết đây có phải lừa đảo không mà nghe dọa sợ quá?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 487,
+  "tokens_out": 51,
+  "usd": 0.00027360000000000004
+ }
+}

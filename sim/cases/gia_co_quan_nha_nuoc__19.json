@@ -1,0 +1,38 @@
+{
+ "id": "gia_co_quan_nha_nuoc__19",
+ "kich_ban": "gia_co_quan_nha_nuoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "cai_app"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "khac",
+  "ten_khop_tu_xung": "khac",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "khac",
+  "ten_khop_tu_xung": "khac"
+ },
+ "tin_mo_dau": "À thì là chuyển cái tiền phí gì mà bên điện lực vừa nhắn Zalo giục quá trời, sáng nay đang phơi cái áo hoa mà điện thoại cứ reo liên hồi bực ghê á.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 488,
+  "tokens_out": 43,
+  "usd": 0.0002539
+ }
+}

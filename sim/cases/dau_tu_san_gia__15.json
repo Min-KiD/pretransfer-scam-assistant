@@ -1,0 +1,39 @@
+{
+ "id": "dau_tu_san_gia__15",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "bam_link",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "dau_tu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Ờ thì chuyển cho cái anh trên Zalo hôm nọ rủ đầu tư sàn quốc tế ấy mà, vừa nãy thấy báo lãi mấy nghìn đô to tướng trên app rồi nên giờ phải nạp thêm chút tiền phí theo lời anh ấy bảo thì mới rút được cục to về, mà công nhận dạo này thời tiết oi bức thật đấy làm tôi cứ khát nước suốt.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 485,
+  "tokens_out": 79,
+  "usd": 0.000343
+ }
+}

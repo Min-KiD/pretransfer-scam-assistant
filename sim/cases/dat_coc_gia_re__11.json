@@ -1,0 +1,37 @@
+{
+ "id": "dat_coc_gia_re__11",
+ "kich_ban": "dat_coc_gia_re",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "khac",
+  "tu_xung": "cong_an",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À thì tớ đang nhắn tin qua ứng dụng hẹn hò với anh công an mạng nào đấy, xong bảo chuyển tiền để mua ít hải sản gửi ra mà tự dưng app cứ báo lỗi thanh toán đơn hàng này thế là phải bấm vào đường link lạ để làm theo hướng dẫn.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 492,
+  "tokens_out": 59,
+  "usd": 0.0002951
+ }
+}

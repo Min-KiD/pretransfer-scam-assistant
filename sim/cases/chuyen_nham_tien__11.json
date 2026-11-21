@@ -1,0 +1,37 @@
+{
+ "id": "chuyen_nham_tien__11",
+ "kich_ban": "chuyen_nham_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "nguoi_chuyen_nham",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "hoan_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À thì tui chuyển để trả lại tiền thôi, bữa có người lạ gọi tới bảo chuyển nhầm tài khoản rồi gửi cho cái link bấm vào, mà công nhận nay trời nắng nóng dễ chịu ghê ta, tui đang tính đi mua ly trà sữa trân châu đường đen uống nè.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 494,
+  "tokens_out": 61,
+  "usd": 0.0003007
+ }
+}

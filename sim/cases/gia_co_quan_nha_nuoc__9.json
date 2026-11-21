@@ -1,0 +1,40 @@
+{
+ "id": "gia_co_quan_nha_nuoc__9",
+ "kich_ban": "gia_co_quan_nha_nuoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app",
+   "bam_link"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khac",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tui chuyển tiền để nộp ít phí cập nhật lại cái giấy tờ trên VNeID theo hướng dẫn của bạn cán bộ bên cơ quan nhà nước trên Zalo. Bạn ấy nhiệt tình hướng dẫn từ nãy giờ, giục chuyển nhanh để hoàn thiện hồ sơ chứ không thì lỡ việc.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 499,
+  "tokens_out": 62,
+  "usd": 0.0003047
+ }
+}

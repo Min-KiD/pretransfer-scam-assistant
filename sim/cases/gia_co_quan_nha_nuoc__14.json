@@ -1,0 +1,39 @@
+{
+ "id": "gia_co_quan_nha_nuoc__14",
+ "kich_ban": "gia_co_quan_nha_nuoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "cai_app",
+   "bam_link"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tui đang chuyển khoản để đóng phí hồ sơ, mà tự nhiên thấy hơi gờ cấn, hay là anh/chị xem giùm em cái này có phải lừa đảo không vậy? Cô giáo bên y tế trường hứa cho suất hỗ trợ gì đó rồi giục tui bấm link làm theo, mà giờ kêu nộp tiền kích hoạt làm tui lo quá.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 486,
+  "tokens_out": 79,
+  "usd": 0.00034329999999999994
+ }
+}

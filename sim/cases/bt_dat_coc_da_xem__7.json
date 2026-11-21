@@ -1,0 +1,38 @@
+{
+ "id": "bt_dat_coc_da_xem__7",
+ "kich_ban": "bt_dat_coc_da_xem",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "cuoc_goi",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À cái này là mình chuyển tiền đặt cọc thuê cái phòng trọ ấy mà, vừa nãy đi xem trực tiếp rồi, với lại lúc nãy gọi điện qua số của ông chủ nhà để chốt luôn chứ không lỡ mất thì tiếc, mà công nhận cái phòng hôm nay quạt trần chạy kêu to phết bạn ạ.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 474,
+  "tokens_out": 72,
+  "usd": 0.00032219999999999997
+ }
+}

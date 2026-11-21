@@ -1,0 +1,38 @@
+{
+ "id": "dat_coc_gia_re__7",
+ "kich_ban": "dat_coc_gia_re",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, tôi đang chuyển cọc tiền mua cái iPhone 15 Pro Max màu titan tự nhiên giá rẻ giật mình cho ông anh họ hàng xa trên Zalo, mà hôm nay trời nắng nóng quá khiến cái quạt nhà tôi nó cứ kêu rè rè bực mình ghê, ông ấy cứ giục chuyển nhanh kẻo hết suất ưu đãi nên tôi phải vội vàng bấm làm theo ngay đây này.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 487,
+  "tokens_out": 85,
+  "usd": 0.00035860000000000004
+ }
+}

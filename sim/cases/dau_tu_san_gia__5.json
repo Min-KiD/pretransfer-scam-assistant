@@ -1,0 +1,39 @@
+{
+ "id": "dau_tu_san_gia__5",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app"
+  ],
+  "ly_do_tien": "dau_tu",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tui chuyển tiền để nạp thêm vốn đầu tư trên sàn thui, mấy nay thấy lợi nhuận về đều lắm nên tranh thủ vào thêm cơ hội.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 484,
+  "tokens_out": 33,
+  "usd": 0.00022769999999999998
+ }
+}

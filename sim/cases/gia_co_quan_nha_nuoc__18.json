@@ -1,0 +1,41 @@
+{
+ "id": "gia_co_quan_nha_nuoc__18",
+ "kich_ban": "gia_co_quan_nha_nuoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app",
+   "doc_otp"
+  ],
+  "ly_do_tien": "vien_phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Tôi đang chuyển tiền viện phí theo hướng dẫn của bên bảo hiểm xã hội qua điện thoại, họ cứ giục và dọa tôi suốt nãy giờ. Mà sao tự nhiên ứng dụng lại hỏi thế này, không lẽ đây là lừa đảo à?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 498,
+  "tokens_out": 52,
+  "usd": 0.00027939999999999996
+ }
+}

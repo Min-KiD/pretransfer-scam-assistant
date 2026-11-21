@@ -1,0 +1,39 @@
+{
+ "id": "bt_dat_coc_da_xem__14",
+ "kich_ban": "bt_dat_coc_da_xem",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "cuoc_goi",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, tôi chuyển khoản để đặt cọc tiền thuê cái phòng trọ mà tôi vừa mới đi xem trực tiếp chiều nay. Mà sao hỏi kỹ thế, ứng dụng này giờ cũng phải xét duyệt như công an à, hay là đang định lừa tiền tôi đấy?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 472,
+  "tokens_out": 55,
+  "usd": 0.0002791
+ }
+}

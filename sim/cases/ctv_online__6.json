@@ -1,0 +1,41 @@
+{
+ "id": "ctv_online__6",
+ "kich_ban": "ctv_online",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "cuoc_goi",
+  "tu_xung": "khac",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "nhiem_vu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tui đang làm nhiệm vụ nạp thêm tiền để mở khóa rút gốc theo hướng dẫn của bên Chăm sóc khách hàng trong nhóm, mà sao thấy cứ lấn cấn thế nào ấy nhỉ? Hay đây là lừa đảo hả bạn?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 496,
+  "tokens_out": 50,
+  "usd": 0.00027379999999999993
+ }
+}

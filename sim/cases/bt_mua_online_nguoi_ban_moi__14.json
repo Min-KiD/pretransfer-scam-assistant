@@ -1,0 +1,38 @@
+{
+ "id": "bt_mua_online_nguoi_ban_moi__14",
+ "kich_ban": "bt_mua_online_nguoi_ban_moi",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "messenger",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Tớ thấy trang này đăng dịch vụ hỗ trợ thủ tục hành chính công giá rẻ trên Messenger nên tự nhắn hỏi, hẹn gặp trực tiếp đưa hồ sơ rồi mà giờ họ lại giục chuyển khoản trước qua mạng để mượn tiền làm thủ tục. Mà sao tự nhiên lại bắt chuyển tiền trước thế này, hay là cậu thấy có điềm gì lừa đảo không đấy?",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 500,
+  "tokens_out": 78,
+  "usd": 0.000345
+ }
+}

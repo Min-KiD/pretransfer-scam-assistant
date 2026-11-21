@@ -233,5 +233,5 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt   # một l�
 - 5 tình huống mỗi kịch bản là ít: một tình huống sai đổi tỉ lệ của kịch bản đó 20 điểm %. Lần 1 và lần 2 khác nhau cả lời nạn nhân giả lập (model sinh lại mỗi lần), không chỉ ở khâu điền bảng.
 - Bộ phát triển của prompt chỉ có 12 tin nhắn do tab code tự viết.
 - Ba trường tra cứu (nhãn, loại tài khoản, tên chủ tài khoản khớp hay không) được coi là đã biết từ đầu ở cả ba trợ lý. Trong app, `ten_khop_tu_xung` chỉ được code điền khi người kia tự xưng là một tổ chức.
-- Chưa có ảnh trong tình huống thử; chưa có tính cách "bị dặn trước" (để cho E4).
+- Chưa có ảnh trong tình huống thử; chưa có tính cách "bị dặn trước" (để cho E8, trước đây mang mã E4).
 

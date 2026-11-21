@@ -1,0 +1,40 @@
+{
+ "id": "gia_co_quan_nha_nuoc__15",
+ "kich_ban": "gia_co_quan_nha_nuoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app",
+   "bam_link"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "khac",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "quen"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "quen",
+  "loai_tai_khoan": "khac",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À thì tui chuyển cho cái anh bên cơ quan thuế trên Zalo vừa nãy ấy mà, anh ấy giục quá trời bắt phải gửi trước mấy chục ngàn tiền phí gì đấy để làm cái thủ tục trên mạng, mà công nhận nay trời nắng mệt ghê, tui vừa đi chợ mua ít thịt bò với mấy cọng hành về mà chưa kịp nấu thì điện thoại cứ reo liên tục.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 497,
+  "tokens_out": 87,
+  "usd": 0.0003666
+ }
+}

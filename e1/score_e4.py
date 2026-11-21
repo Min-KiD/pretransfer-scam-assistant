@@ -1,0 +1,185 @@
+"""E4 phase A report: every reader (regex on OCR, closed and open VLMs, OCR text -> LLM) on the four image sets.
+
+  python -m e1.score_e4 [--out experiments/E4]   -> report_A.md, summary_A.json, terminal summary
+
+Per config and split: string match (Wilson 95%), per type, made-up strings ("chuỗi bịa": returned strings that are
+not in the answer, over strings returned; strings in an answer's `skipped`/`ignore` excluded), valid JSON, sender side,
+s/image, VRAM, USD per 1000 images. `web` is split by id: odd = web-dev (errors may be read), even = web-test (only
+numbers). M1 (plan section 5) is checked on web-test against gemini-3.5-flash-lite.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+from pathlib import Path
+
+from core.llm import PRICES
+from e1.score import TYPES, TYPE_VI, wilson
+from e1.score_e1b import agg, build, cell, fabricated, speed
+
+ROOT = Path(__file__).resolve().parent.parent
+BASE = "J__gemini-3.5-flash-lite"
+SPLITS = ["E1", "E1b", "gen", "web-dev", "web-test", "web"]
+MODE_VI = {"A": "OCR CPU + regex", "T": "OCR/chữ + regex", "J": "ảnh -> JSON (ràng buộc)",
+           "Ju": "ảnh -> JSON (không ràng buộc)", "O": "chữ OCR -> LLM -> JSON"}
+
+
+def web_split(image_id: str) -> str:
+    m = re.search(r"(\d+)$", image_id)
+    return "web-dev" if int(m.group(1)) % 2 else "web-test"
+
+
+def split_rows(results):
+    out = {}
+    for r in results:
+        keys = [r["set"]] + ([web_split(r["image_id"])] if r["set"] == "web" else [])
+        for k in keys:
+            out.setdefault((k, r["config"]), []).append(r)
+    return out
+
+
+def usd_per_image(r) -> float | None:
+    if "usd" in r:
+        return r["usd"]
+    if "tokens_in" not in r:
+        return None
+    name = r["model"].split(":", 1)[-1].split("@")[0]
+    pin, pout = PRICES.get(name, (0.0, 0.0))
+    return (r["tokens_in"] * pin + (r.get("tokens_out", 0) + r.get("tokens_thought", 0)) * pout) / 1e6
+
+
+def metrics(rows, sets):
+    live = [r for r in rows if not r.get("missing")]
+    k, n = agg(live)
+    fab = ret = 0
+    fab_t = {t: [0, 0] for t in TYPES}
+    for r in live:
+        f, nn = fabricated(r, sets[r["set"]][r["image_id"]])
+        for t in TYPES:
+            fab_t[t][0] += f[t]
+            fab_t[t][1] += nn[t]
+        fab += sum(f.values())
+        ret += sum(nn.values())
+    js = [r for r in live if r["group"] == "J"]
+    sp = speed(live)
+    usd = [u for u in (usd_per_image(r) for r in live) if u is not None]
+    paid = any(u > 0 for u in usd)  # self-hosted models have no price, so their USD is 0
+    return {
+        "images": len(live), "total": len(rows), "match": (k, n),
+        "types": {t: agg(live, t=t) for t in TYPES}, "fab": (fab, ret), "fab_types": fab_t,
+        "json_ok": (sum(not r.get("json_broken") for r in js), len(js)) if js else None,
+        "side": (sum(r.get("side_correct", 0) for r in js), sum(r.get("side_total", 0) for r in js)) if js else None,
+        "speed": sp, "workers": max((r.get("workers", 1) for r in live), default=1),
+        "usd_1000": 1000 * sum(usd) / len(usd) if paid else None,
+    }
+
+
+def pp(x):
+    k, n = x
+    return k / n if n else float("nan")
+
+
+def fmt(x, ci=True):
+    return cell(*x, ci=ci) if x and x[1] else "-"
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", default="experiments/E4")
+    a = ap.parse_args()
+    out = ROOT / a.out
+    out.mkdir(parents=True, exist_ok=True)
+    results, sets = build(ROOT, b_models=None)
+    by = split_rows(results)
+    meta = json.loads((out / "open_meta.json").read_text()) if (out / "open_meta.json").exists() else {}
+    M = {key: metrics(rows, sets) for key, rows in by.items()}
+    configs = sorted({c for _, c in M}, key=lambda c: (c.split("__")[0] != "J" or "gemini" not in c, c))
+    L = ["# E4 giai đoạn A - Đọc ảnh chat ra JSON: baseline trên các bộ có sẵn\n",
+         "Không train gì ở giai đoạn này. Mỗi cấu hình chạy đúng một lần (không chạy lại để chọn kết quả tốt). Tỉ lệ ghi "
+         "`tử/mẫu` và khoảng tin cậy Wilson 95%. `web` chia theo số thứ tự ảnh: lẻ là `web-dev` (được mở lỗi ra xem), "
+         "chẵn là `web-test` (chỉ xem số). Chuỗi bịa = chuỗi model trả về mà không có trong đáp án, chia cho số chuỗi "
+         "model trả về; chuỗi đáp án ghi ở `skipped` (bị che, mờ, bị cắt) hoặc `ignore` không tính.\n",
+         "Cấu hình: " + "; ".join(f"`{k}` = {v}" for k, v in MODE_VI.items()) + ". `J__gemini-*` không có hậu tố "
+         "`@low` là lần chạy của E1 (thinking mặc định).\n"]
+    for s in SPLITS:
+        cs = [c for c in configs if (s, c) in M]
+        if not cs:
+            continue
+        n_img = max(M[(s, c)]["total"] for c in cs)
+        L.append(f"## {s} ({n_img} ảnh)\n")
+        partial = [c for c in cs if M[(s, c)]["images"] < n_img]
+        if partial:
+            L.append("Chưa chạy đủ ảnh (không so trực tiếp với các dòng đủ ảnh): "
+                     + ", ".join(f"`{c}` {M[(s, c)]['images']}/{n_img}" for c in partial) + ".\n")
+        L.append("| Cấu hình | Ảnh | Khớp chuỗi | Chuỗi bịa | JSON hợp lệ | Phía gửi | s/ảnh TB | p50 | p90 | USD/1000 ảnh |")
+        L.append("|---|---|---|---|---|---|---|---|---|---|")
+        for c in cs:
+            m = M[(s, c)]
+            sp = m["speed"]
+            L.append(f"| `{c}` | {m['images']}/{m['total']} | {fmt(m['match'])} | {fmt(m['fab'])} | "
+                     f"{fmt(m['json_ok'], False)} | {fmt(m['side'], False)} | "
+                     + (f"{sp[0]:.2f} | {sp[1]:.2f} | {sp[2]:.2f}" if sp else "- | - | -")
+                     + f"{' (song song ' + str(m['workers']) + ')' if m['workers'] > 1 else ''} | "
+                     + (f"{m['usd_1000']:.2f}" if m["usd_1000"] is not None else "0 (tự host)") + " |")
+        L.append("")
+        L.append(f"Theo loại chuỗi ({s}): khớp / bịa\n")
+        L.append("| Cấu hình | " + " | ".join(TYPE_VI.get(t, t) for t in TYPES) + " |")
+        L.append("|---|" + "---|" * len(TYPES))
+        for c in cs:
+            m = M[(s, c)]
+            L.append(f"| `{c}` | " + " | ".join(
+                f"{fmt(m['types'][t], False)} / bịa {m['fab_types'][t][0]}/{m['fab_types'][t][1]}" for t in TYPES) + " |")
+        L.append("")
+    # VRAM and load time of the open models
+    if meta:
+        L.append("## Model mở: VRAM, nạp model\n")
+        L.append("| Model | " + " | ".join(sorted({k for v in meta.values() for k in v})) + " |")
+        keys = sorted({k for v in meta.values() for k in v})
+        L.append("|---|" + "---|" * len(keys))
+        for mname, v in meta.items():
+            L.append(f"| `{mname}` | " + " | ".join(str(v.get(k, "-")) for k in keys) + " |")
+        L.append("")
+    # M1 on web-test
+    verdicts = {}
+    if ("web-test", BASE) in M:
+        b = M[("web-test", BASE)]
+        L.append("## Luật giữ M1 trên web-test (so với `gemini-3.5-flash-lite`)\n")
+        L.append(f"Mốc: khớp {fmt(b['match'])}, bịa {fmt(b['fab'])}. Đạt khi khớp kém không quá 5 điểm, bịa cao hơn "
+                 "không quá 2 điểm, p50 không quá 2 s/ảnh trên 4060 Ti (chạy 1 luồng). web-test nhỏ nên khoảng tin cậy "
+                 "rộng; kết luận \"đạt\" ở đây là điều kiện cần, chưa đủ.\n")
+        L.append("| Cấu hình | Khớp (chênh, điểm) | Bịa (chênh, điểm) | p50 (s) | M1 |")
+        L.append("|---|---|---|---|---|")
+        for c in configs:
+            mm = M.get(("web-test", c))
+            if not mm or not (c.startswith(("Ju__", "O__")) or c.split("__", 1)[1] in meta):
+                continue
+            dm = 100 * (pp(mm["match"]) - pp(b["match"]))
+            df = 100 * (pp(mm["fab"]) - pp(b["fab"])) if mm["fab"][1] and b["fab"][1] else float("nan")
+            p50 = mm["speed"][1] if mm["speed"] else float("nan")
+            ok = dm >= -5 and (df <= 2 or mm["fab"][0] == 0) and p50 <= 2 and mm["workers"] == 1
+            verdicts[c] = ok
+            L.append(f"| `{c}` | {fmt(mm['match'], False)} ({dm:+.1f}) | {fmt(mm['fab'], False)} ({df:+.1f}) | "
+                     f"{p50:.2f} | {'đạt' if ok else 'không đạt'} |")
+        L.append("")
+    (out / "report_A.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    summ = {f"{s}|{c}": {"match": m["match"], "fab": m["fab"], "json_ok": m["json_ok"],
+                         "p50": m["speed"][1] if m["speed"] else None, "usd_1000": m["usd_1000"]}
+            for (s, c), m in M.items()}
+    (out / "summary_A.json").write_text(json.dumps({"metrics": summ, "M1": verdicts}, ensure_ascii=False, indent=1))
+    # terminal summary: web-test and gen, the two sets every model ran on
+    for s in ("gen", "web-dev", "web-test"):
+        print(f"\n== {s}")
+        for c in configs:
+            m = M.get((s, c))
+            if m:
+                lo, hi = wilson(*m["match"]) if m["match"][1] else (0, 0)
+                print(f"  {c:38s} khop {pp(m['match']) * 100:5.1f}% ({m['match'][0]}/{m['match'][1]}) "
+                      f"[{lo * 100:.0f}-{hi * 100:.0f}]  bia {m['fab'][0]}/{m['fab'][1]}  "
+                      f"p50 {m['speed'][1] if m['speed'] else float('nan'):.2f}s")
+    print("M1:", verdicts)
+    print("report:", out / "report_A.md")
+
+
+if __name__ == "__main__":
+    main()

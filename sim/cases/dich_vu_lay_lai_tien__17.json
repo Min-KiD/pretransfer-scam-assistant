@@ -1,0 +1,38 @@
+{
+ "id": "dich_vu_lay_lai_tien__17",
+ "kich_ban": "dich_vu_lay_lai_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "dich_vu_thu_hoi_tien",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "khac"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình chuyển khoản cho bên dịch vụ hỗ trợ lấy lại tiền trên Messenger để đóng phí hồ sơ, nghe họ nói chuyên nghiệp và nhiệt tình lắm nên mình yên tâm.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 468,
+  "tokens_out": 34,
+  "usd": 0.0002254
+ }
+}

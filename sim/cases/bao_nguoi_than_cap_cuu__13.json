@@ -1,0 +1,41 @@
+{
+ "id": "bao_nguoi_than_cap_cuu__13",
+ "kich_ban": "bao_nguoi_than_cap_cuu",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "vien_phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Thầy giáo vừa gọi điện báo con tôi ngã cầu thang trường học phải mổ gấp nên tôi phải chuyển tiền ngay cho viện phí. Thầy nhiệt tình quá, gọi giục liên tục từng phút vì sợ chậm trễ tính mạng của con.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 482,
+  "tokens_out": 52,
+  "usd": 0.0002746
+ }
+}

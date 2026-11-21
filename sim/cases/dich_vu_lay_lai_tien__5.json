@@ -1,0 +1,39 @@
+{
+ "id": "dich_vu_lay_lai_tien__5",
+ "kich_ban": "dich_vu_lay_lai_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khac"
+ },
+ "tin_mo_dau": "Em chuyển tiền phí để cô giáo hỗ trợ đăng ký cho bé nhà em suất học bổng trên mạng ấy mà. Cô nhiệt tình hướng dẫn từ nãy đến giờ nên em chuyển luôn cho nhanh việc.",
+ "sinh_boi": {
+  "model": "gemini-3.5-flash-lite",
+  "tokens_in": 471,
+  "tokens_out": 42,
+  "usd": 0.00024629999999999997
+ }
+}
