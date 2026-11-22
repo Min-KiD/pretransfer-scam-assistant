@@ -92,17 +92,20 @@ All on small sets; they guide choices and are not quality claims. Details in [`E
 | `gen` screenshots | 40 | Made by an image model, labels reviewed by eye | Drive, `data/E1b/gen/` |
 | `web` real screenshots | 56 | Real scam chats/SMS published by police and news sites, with source URLs and string labels (all 56 labelled; experiment numbers so far cover the first 20). Evaluation only: never train on them, never republish | Drive, `data/E1b/real/` |
 | Real reported cases | 89 | Scam cases from news/police reports: verbatim quote, summary, a first-person retelling from just before the transfer, scenario label | Drive, `data/narr/real/` |
+| `E4` training screenshots | 4000 + 300 + 300 | Synthetic chat screenshots for the image-to-JSON model (M1), made by `e1/gen_train.py`: 7 app templates, 13 scenarios, random damage. `val_la` is held out (WhatsApp template, 2 unseen scenarios). Each image has labels and the exact JSON the model must output | Drive, `data/E4/` |
+| `E6` stories | 3300 | Simulated user stories with the true scenario, for the small text classifier (M3) | Drive, `data/E6/cases.jsonl` |
 | App recording notes | 35 frames | Layout notes of a wallet's transfer flow, used to design the sample UI | Not shared by default; ask Minh |
 
 No real user data. All account numbers, phone numbers and names in generated sets are made up.
 
 ## Data and weights (Google Drive)
 
-`data/` and model weights are not in git.
+`data/` and model weights are not in git. They are shared as a plain folder on Google Drive (no archive), so everything can be browsed online.
 
-- **To share:** `./scripts/pack_data.sh` writes `../drive_upload/pretransfer-data-YYYYMMDD.tar.gz` (about 150 MB today). Upload that file to the team Drive folder.
-- **To use:** download the archive and unpack it at the repo root: `tar -xzf pretransfer-data-YYYYMMDD.tar.gz`.
-- **Weights:** base models are downloaded from Hugging Face by the scripts. Our own LoRA adapters and classifier weights will go in `weights/` (ignored by git, included in the archive once they exist).
+- **To look first:** open `preview/` in the Drive folder: one contact sheet per image set, plus two full-size samples per set with their label files. The Drive `README.md` lists every set.
+- **To use:** download the Drive `data/` folder and put it at the repo root.
+- **To share:** `python3 scripts/export_data.py` (needs Pillow and rsync) builds `../drive_upload/pretransfer-data/` with `README.md`, `preview/` and a copy of `data/` (about 1.1 GB today, most of it `data/E4/train`). Upload that folder. Rerun after new data; only changes are copied.
+- **Weights:** base models are downloaded from Hugging Face by the scripts. Our own LoRA adapters and classifier weights do not exist yet.
 
 ## Repo map
 
@@ -112,7 +115,7 @@ No real user data. All account numbers, phone numbers and names in generated set
 | `docs/tasks/` | One brief per task or experiment (Vietnamese) |
 | `EXPERIMENTS.md`, `experiments/` | Summary and full report of each experiment |
 | `scenarios/`, `core/`, `app/`, `web/`, `sim/`, `e1/`, `tests/` | See "What exists today" |
-| `scripts/` | GPU-server pipelines, `pack_data.sh` |
+| `scripts/` | GPU-server pipelines, `export_data.py` |
 
 ## Run
 
