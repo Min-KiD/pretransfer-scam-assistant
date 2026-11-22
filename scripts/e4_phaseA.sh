@@ -6,8 +6,9 @@
 # 0. PP-OCRv6 GPU text for images that lack it (vidoc env, read-only), needed by the regex rows and mode O.
 # For each model in QUEUE, once scripts/e4_part0.sh has downloaded it:
 # 1. wait until nobody else uses the GPU (never kill other jobs), start `vllm serve` on 127.0.0.1:$PORT
-# 2. E4 modes J (schema constrained), Ju (schema only in the prompt), O (OCR text -> JSON), 1 request at a time so
-#    s/image is real latency on the 4060 Ti; sets E1,E1b,gen,web
+# 2. E4 modes J (schema constrained), Ju (schema only in the prompt), O (OCR text -> JSON). Per mode, web first with
+#    1 request at a time (its s/image is the real latency on the 4060 Ti; the M1 rule reads web-test), then the other
+#    sets 8 at a time (vLLM batches them; their s/image includes queueing and is not reported as latency)
 # 3. E5: 300 text-only sessions with this model as the assistant (victim = gemini-3.5-flash-lite, paid), 8 at a time
 # 4. stop the server, write experiments/E4/open_meta.json (+ E5), delete the weights unless the model is in KEEP
 #    (the disk has ~40 GB free; scripts/e4_part0.sh downloads the next model when space frees up)
@@ -106,9 +107,13 @@ for m in $QUEUE; do
       v=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | head -1); (( v > peak )) && peak=$v
       echo "$peak" > "$LOGS/$m.vram_peak"; sleep 5; done ) &
   export LOCAL_LLM_URL="http://127.0.0.1:$PORT/v1"
+  OTHER=$(tr , '\n' <<< "$SETS" | grep -vx web | paste -sd,)
   for mode in J Ju O; do
     status "$m" running "E4 mode $mode"
-    "$VPY" -m e1.e4_run --model "local:$m" --mode "$mode" --sets "$SETS" --workers 1 > "$LOGS/$m.$mode.log" 2>&1
+    { [[ ",$SETS," != *,web,* ]] ||
+        "$VPY" -m e1.e4_run --model "local:$m" --mode "$mode" --sets web --workers 1
+      [[ -z $OTHER ]] || "$VPY" -m e1.e4_run --model "local:$m" --mode "$mode" --sets "$OTHER" --workers 8
+    } > "$LOGS/$m.$mode.log" 2>&1
   done
   status "$m" running "E5 sessions"
   "$VPY" -m sim.e5 --models "local:$m" --workers 8 --cap-usd 1.5 > "$LOGS/$m.e5.log" 2>&1

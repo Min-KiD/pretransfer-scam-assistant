@@ -15,11 +15,11 @@
 #    a. train -> .cache/e4/lora/<run>/{log.jsonl,meta.json,ckpt-<step>/}
 #    b. vllm serve the base (served as $BASE_NAME) with every checkpoint as a LoRA module <run>-<step>, so
 #       `--model local:<run>-<step>` in e1.e4_run (core.llm: "local:<name>" -> model "<name>" at $LOCAL_LLM_URL) hits it
-#    c. selection pass per checkpoint: val with --workers 4, web with --workers 1 (web-dev picks; the picked
+#    c. selection pass per checkpoint: val with --workers 8, web with --workers 1 (web-dev picks; the picked
 #       checkpoint's web-test latency then comes from a 1-at-a-time run, as in phase A)
 #    d. python -m e1.lora_train pick --run <run> -> pick.json ("config" = picked e4_run config)
-#    e. picked checkpoint, --workers 1, on E1,E1b,gen,gen_ref,val_la
-#    f. once per server (resumable, so later servers skip it): the base model on val,val_la in J and JO, --workers 4,
+#    e. picked checkpoint, --workers 8 (not a latency run), on E1,E1b,gen,gen_ref,val_la
+#    f. once per server (resumable, so later servers skip it): the base model on val,val_la in J and JO, --workers 8,
 #       so every B row has a same-set baseline
 #    g. stop vLLM
 # Progress: .cache/logs/e4/phaseB.log, .cache/logs/e4/phaseB_status.json, per step .cache/logs/e4/B_*.log
@@ -156,19 +156,19 @@ run_all() {
       "$LOGS/B_$run.vllm.log" | tail -n 2 | tr '\n' ' ')"; continue; }
     for s in $(steps_of "$run"); do
       status "$run" running "selection pass ckpt $s"
-      e4 "$run-$s" "$mode" val 4 "$run"
+      e4 "$run-$s" "$mode" val 8 "$run"
       e4 "$run-$s" "$mode" web 1 "$run"
     done
     if "$VPY" -m e1.lora_train pick --run "$run" > "$LOGS/B_$run.pick.log" 2>&1; then
       p=$(picked "$run")
       status "$run" running "picked step $p: E1,E1b,gen,gen_ref,val_la"
-      e4 "$run-$p" "$mode" E1,E1b,gen,gen_ref,val_la 1 "$run"
+      e4 "$run-$p" "$mode" E1,E1b,gen,gen_ref,val_la 8 "$run"
     else
       status "$run" failed "pick: $(tail -n 2 "$LOGS/B_$run.pick.log" | tr '\n' ' ')"
     fi
     status "$run" running "base $BASE_NAME on val,val_la (J, JO)"
-    e4 "$BASE_NAME" J val,val_la 4 base
-    e4 "$BASE_NAME" JO val,val_la 4 base
+    e4 "$BASE_NAME" J val,val_la 8 base
+    e4 "$BASE_NAME" JO val,val_la 8 base
     stop_server
     [[ "$(state_of "$STATUS" "$run")" == failed ]] || status "$run" done "$(tail -n 1 "$LOGS/B_$run.pick.log")"
   done
