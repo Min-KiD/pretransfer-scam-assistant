@@ -90,7 +90,7 @@ All on small sets; they guide choices and are not quality claims. Details in [`E
 | `E1` screenshots | 180 | 30 HTML-rendered chats (Zalo, Messenger, SMS look) x 6 variants, exact labels | Drive, `data/E1/` |
 | `E1b` hard screenshots | 100 | Downscaled, double-JPEG, re-photographed, long chats | Drive, `data/E1b/` |
 | `gen` screenshots | 40 | Made by an image model, labels reviewed by eye | Drive, `data/E1b/gen/` |
-| `web` real screenshots | 56 | Real scam chats/SMS published by police and news sites, with source URLs and string labels. 9 of them still need labels. Evaluation only: never train on them, never republish | Drive, `data/E1b/real/` |
+| `web` real screenshots | 56 | Real scam chats/SMS published by police and news sites, with source URLs and string labels (all 56 labelled; experiment numbers so far cover the first 20). Evaluation only: never train on them, never republish | Drive, `data/E1b/real/` |
 | Real reported cases | 89 | Scam cases from news/police reports: verbatim quote, summary, a first-person retelling from just before the transfer, scenario label | Drive, `data/narr/real/` |
 | App recording notes | 35 frames | Layout notes of a wallet's transfer flow, used to design the sample UI | Not shared by default; ask Minh |
 
