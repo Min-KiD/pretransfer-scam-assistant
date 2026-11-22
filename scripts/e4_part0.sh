@@ -4,7 +4,8 @@
 #   bash scripts/e4_part0.sh --detach      # setsid + nohup, survives SSH drops; rerun any time (resumes)
 #
 # env      : .venv-e4 (python from .conda/pretransfer) with vllm, peft, bitsandbytes. Nothing goes into ~/vidoc-dev.
-# downloads: one model at a time in QUEUE order, resumable (huggingface_hub keeps partial files), retried.
+# downloads: one model at a time in QUEUE order, retried. NOT resumable: huggingface_hub 2.x + hf_xet starts over in
+#            a new blobs/*.incomplete after a kill and leaves the old one behind, so never restart a live download.
 #            The disk has ~40 GB free and is shared, so a model only starts when free space minus its size stays
 #            >= MIN_FREE_GB; otherwise it waits (the E4 runner deletes weights it is done with).
 # Progress: .cache/logs/e4/part0.log and .cache/logs/e4/part0_status.json
@@ -27,7 +28,9 @@ mkdir -p "$HOME" "$HF_HOME" "$XDG_CACHE_HOME" "$TMPDIR"
 PY=$ROOT/.conda/pretransfer/bin/python   # has huggingface_hub 2.4 + hf_xet
 # Dropped on 2026-11-22 (Minh), not result-based: gemma-4-e4b and qwen3.5-9b (shared disk had ~24 GB free), then
 # qwen3-vl-8b-fp8 (the "large model" reference is the closed API models).
-QUEUE=${QUEUE:-"qwen3-vl-4b qwen3.5-4b qwen3-vl-2b"}
+# qwen3.5-4b waits until after phase B: with qwen3-vl-4b kept as the phase-B base the shared disk (~16 GB free on
+# 2026-11-22) cannot hold it plus the MIN_FREE_GB margin. Run it then with QUEUE=qwen3.5-4b.
+QUEUE=${QUEUE:-"qwen3-vl-4b qwen3-vl-2b"}
 MIN_FREE_GB=${MIN_FREE_GB:-8}
 # GB (decimal), safetensors totals from the HF API, 2026-11-22
 declare -A SIZE=([qwen3-vl-2b]=4.26 [qwen3-vl-4b]=8.88 [qwen3.5-4b]=9.32)

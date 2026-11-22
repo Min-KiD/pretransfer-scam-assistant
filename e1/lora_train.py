@@ -22,14 +22,20 @@ Loss is on the answer tokens only (prompt, image tokens: label -100).
 same text: import user_text from here. OCR comes from data/E4/<split>/runs/T__pp-ocrv6-gpu/<id>.json.
 
 LoRA: q,k,v,o,gate,up,down of the language model only (Qwen3-VL's vision tower and merger use other module names; the
-script asserts no adapter lands outside language_model). bf16 weights, fp32 adapters, gradient checkpointing, AdamW,
-linear warmup 3% then cosine. Logits are computed only for the answer span (logits_to_keep), which keeps the
-151k-vocab logits small.
+script asserts no adapter lands outside language_model). bf16 weights, fp32 adapters while training (saved as bf16,
+~66 MB per checkpoint for the 4B at r16), gradient checkpointing, AdamW, linear warmup 3% then cosine. Logits are
+computed only for the answer span (logits_to_keep), which keeps the 151k-vocab logits small.
 
 Outputs in --out: log.jsonl (train rows every optimizer step, val rows every --eval-every steps and at the end),
 ckpt-<step>/ (peft save_pretrained: adapter_config.json + adapter_model.safetensors, loadable by
 `vllm serve <base> --enable-lora --lora-modules <name>=<out>/ckpt-<step>`), meta.json (hyperparameters, base
-repo/revision, data hash, wall time, peak VRAM, val loss per checkpoint, best step by val loss).
+repo/revision, data hash, wall time, peak VRAM, val loss per checkpoint, best step by val loss, finished).
+A run is not resumable: `train` starts over (log.jsonl rewritten); scripts/e4_phaseB.sh skips finished runs.
+
+  python -m e1.lora_train pick --run B1
+Checkpoint choice, rule fixed before any score existed: highest string match pooled over val + web-dev (odd web ids)
+of the e4_run configs <J|JO>__<run>-<step>; tie -> fewer made-up strings ("chuỗi bịa", e1.score_e1b.fabricated);
+tie -> earlier step. Reads only data/E4/val and the web-dev half of web. Writes <out>/pick.json.
 """
 from __future__ import annotations
 
@@ -87,8 +93,9 @@ def require_ocr(split: str, rows: list[dict]):
     missing = [r["image_id"] for r in rows if not ocr_path(split, r["image_id"]).exists()]
     if missing:
         raise SystemExit(f"--ocr: {len(missing)}/{len(rows)} {split} images have no PP-OCRv6 text in "
-                         f"{DATA / split / 'runs' / OCR_RUN}/ (first: {missing[:3]}). Run PP-OCRv6 on data/E4/{split} "
-                         "first (e1.open_models run --model pp-ocrv6-gpu --mode T on that set).")
+                         f"{DATA / split / 'runs' / OCR_RUN}/ (first: {missing[:3]}). Write PP-OCRv6 GPU output "
+                         f'({{"lines": [{{"text", "box": [x0, y0, x1, y1]}}]}}) for data/E4/{split} there first '
+                         "(e1.open_models SET_DIRS has no E4 sets yet).")
 
 
 def user_text(lines: list[dict] | None, width: int | None) -> str:
@@ -301,14 +308,14 @@ def cmd_train(a):
         model.train()
         return tot / n
 
-    log = open(out / "log.jsonl", "a", encoding="utf-8")
+    log = open(out / "log.jsonl", "w", encoding="utf-8")  # a run restarts from step 0
     meta = {"base": a.base, "base_path": str(base), "revision": base.name, "run": out.name, "mode": "J+ocr" if a.ocr
             else "J", "n_train": len(train_rows), "val_subset": VAL_N, "data_hash": dhash, "rank": a.rank,
             "alpha": a.alpha, "dropout": a.dropout, "lr": a.lr, "warmup": a.warmup, "schedule": "linear warmup + cosine",
             "epochs": a.epochs, "batch": a.batch, "grad_accum": a.grad_accum, "steps": total, "max_pixels": a.max_pixels,
             "seed": a.seed, "target_modules": TARGET_MODULES, "trainable_params": n_trainable, "dtype": "bf16 weights, "
-            "fp32 adapters", "answer_format": "json.dumps(target, ensure_ascii=False) + <|im_end|>",
-            "versions": _versions(), "checkpoints": {}}
+            "fp32 adapters (saved bf16)", "answer_format": "json.dumps(target, ensure_ascii=False) + <|im_end|>",
+            "versions": _versions(), "checkpoints": {}, "finished": False}
 
     def write_meta(step):
         meta.update(wall_s=round(time.time() - t_start), last_step=step,
@@ -317,6 +324,14 @@ def cmd_train(a):
         ck = {s: v for s, v in meta["checkpoints"].items() if v.get("val_loss") is not None}
         meta["best_step_by_val_loss"] = min(ck, key=lambda s: ck[s]["val_loss"]) if ck else None
         (out / "meta.json").write_text(json.dumps(meta, indent=1, ensure_ascii=False), encoding="utf-8")
+
+    def save(step):
+        d = out / f"ckpt-{step}"
+        model.save_pretrained(d)
+        # adapters train in fp32; vLLM casts them to the model dtype anyway, so store bf16 (half the disk)
+        from safetensors.torch import load_file, save_file
+        f = d / "adapter_model.safetensors"
+        save_file({k: v.to(torch.bfloat16) for k, v in load_file(f).items()}, f, metadata={"format": "pt"})
 
     def emit(row):
         log.write(json.dumps(row) + "\n")
@@ -351,11 +366,72 @@ def cmd_train(a):
                 vl = val_loss()
                 emit({"step": step, "val_loss": round(vl, 5), "seconds": round(time.time() - t0, 1)})
             if step % a.save_every == 0 or final:
-                model.save_pretrained(out / f"ckpt-{step}")
+                save(step)
                 meta["checkpoints"][str(step)] = {"path": f"ckpt-{step}", "val_loss": vl}
+            meta["finished"] = final
             write_meta(step)
     log.close()
     print(json.dumps({k: meta[k] for k in ("run", "steps", "wall_s", "peak_vram_mib", "best_step_by_val_loss")}))
+
+
+# ---------------------------------------------------------------- pick
+def pick_scores(run: str, mode: str, steps: list[int]) -> list[dict]:
+    """Per checkpoint: string match k/n and made-up strings on val and web-dev, scored with e1.score_e1b's functions."""
+    from e1.score import score_strings, vlm_strings
+    from e1.score_e1b import agg, empty_preds, fabricated, load_json_dir, normalize_gt
+    from e1.score_e4 import web_split
+    from e1.vlm import RUN_DIRS, SET_DIRS
+    gts = {}
+    for s, part in (("val", "val"), ("web", "web-dev")):
+        g = {k: v for k, v in load_json_dir(ROOT / SET_DIRS[s] / "gt").items()
+             if not any(e.get("raw") == "*" for e in v.get("skipped") or [])}  # same placeholder rule as build()
+        if s == "web":
+            g = {k: v for k, v in g.items() if web_split(k) == "web-dev"}  # never read web-test answers
+        gts[part] = (s, {k: normalize_gt(v, s) for k, v in g.items()})
+    out = []
+    for step in steps:
+        cfg = f"{mode}__{run}-{step}"
+        row = {"step": step, "config": cfg}
+        k_all = n_all = fab_all = ret_all = 0
+        for part, (s, g) in gts.items():
+            recs = load_json_dir(ROOT / RUN_DIRS[s] / cfg)
+            missing = sorted(set(g) - set(recs))
+            if missing:
+                raise SystemExit(f"{cfg}: {len(missing)}/{len(g)} {part} images not run yet (first {missing[:3]})")
+            k = n = fab = ret = 0
+            for iid, gt in g.items():
+                rec = recs[iid]
+                o = rec.get("output")
+                preds = empty_preds() if "error" in rec or o is None else vlm_strings(o)
+                r = {"pred": preds, "scores": score_strings(gt, preds, None, None)}
+                kk, nn = agg([r])
+                f, rt = fabricated(r, gt)
+                k, n, fab, ret = k + kk, n + nn, fab + sum(f.values()), ret + sum(rt.values())
+            row[part] = {"match": [k, n], "fabricated": [fab, ret], "images": len(g)}
+            k_all, n_all, fab_all, ret_all = k_all + k, n_all + n, fab_all + fab, ret_all + ret
+        row["pooled"] = {"match": [k_all, n_all], "fabricated": [fab_all, ret_all]}
+        out.append(row)
+    return out
+
+
+def cmd_pick(a):
+    d = Path(a.lora_root) / a.run
+    meta = json.loads((d / "meta.json").read_text(encoding="utf-8"))
+    if not meta.get("finished"):
+        raise SystemExit(f"{d}: training not finished")
+    mode = "JO" if meta["mode"] == "J+ocr" else "J"
+    rows = pick_scores(a.run, mode, sorted(int(s) for s in meta["checkpoints"]))
+    rate = lambda x: x[0] / x[1] if x[1] else 0.0  # noqa: E731
+    best = min(rows, key=lambda r: (-rate(r["pooled"]["match"]), r["pooled"]["fabricated"][0], r["step"]))
+    res = {"run": a.run, "mode": mode, "config": best["config"], "step": best["step"],
+           "adapter": str(d / f"ckpt-{best['step']}"),
+           "rule": "max string match pooled over val + web-dev; tie -> fewer made-up strings; tie -> earlier step",
+           "best_step_by_val_loss": meta.get("best_step_by_val_loss"), "checkpoints": rows}
+    (d / "pick.json").write_text(json.dumps(res, indent=1, ensure_ascii=False), encoding="utf-8")
+    for r in rows:
+        print(f"{r['config']}: val {r['val']['match']} web-dev {r['web-dev']['match']} pooled {r['pooled']['match']} "
+              f"made-up {r['pooled']['fabricated']}")
+    print(f"pick: {best['config']}")
 
 
 def _versions() -> str:
@@ -368,6 +444,9 @@ def _versions() -> str:
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
+    pk = sub.add_parser("pick")
+    pk.add_argument("--run", required=True, help="run name: <lora-root>/<run>/meta.json")
+    pk.add_argument("--lora-root", default=str(ROOT / ".cache/e4/lora"))
     for name in ("check", "train"):
         p = sub.add_parser(name)
         p.add_argument("--base", required=True, help="HF repo id (offline snapshot) or local snapshot dir")
@@ -391,7 +470,7 @@ def main():
     t.add_argument("--eval-every", type=int, default=250)
     t.add_argument("--save-every", type=int, default=250)
     a = ap.parse_args()
-    cmd_check(a) if a.cmd == "check" else cmd_train(a)
+    {"check": cmd_check, "train": cmd_train, "pick": cmd_pick}[a.cmd](a)
 
 
 if __name__ == "__main__":

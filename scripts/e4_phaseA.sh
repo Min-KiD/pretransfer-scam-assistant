@@ -29,12 +29,14 @@ export HOME=$ROOT/.cache/home HF_HOME=$ROOT/.cache/hf XDG_CACHE_HOME=$ROOT/.cach
   PADDLE_PDX_CACHE_HOME=$ROOT/.cache/paddlex PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK=True \
   PYTHONDONTWRITEBYTECODE=1 TOKENIZERS_PARALLELISM=false VLLM_NO_USAGE_STATS=1 DO_NOT_TRACK=1
 PY=$ROOT/.conda/pretransfer/bin/python          # huggingface_hub (snapshot paths, clean)
+VPY=$ROOT/.venv-e4/bin/python                   # vllm, e1.e4_run, sim.e5
 HPY=${HPY:-/home/intern/vidoc-dev/.venvs/mineru/bin/python}   # PP-OCRv6 env from E1b, used read-only
 # Dropped on 2026-11-22 (Minh), not result-based: gemma-4-e4b and qwen3.5-9b (shared disk had ~24 GB free), then
 # qwen3-vl-8b-fp8 (the "large model" reference is the closed API models).
-QUEUE=${QUEUE:-"qwen3-vl-4b qwen3.5-4b qwen3-vl-2b"}
+QUEUE=${QUEUE:-"qwen3-vl-4b qwen3-vl-2b"}   # qwen3.5-4b after phase B (disk), see scripts/e4_part0.sh
 SETS=${SETS:-E1,E1b,gen,gen_ref,web}
-KEEP=${KEEP:-}
+# qwen3-vl-4b stays on disk as the likely phase-B base (downloads run at ~1-2 MB/s, a re-download costs hours)
+KEEP=${KEEP:-qwen3-vl-4b}
 PORT=${PORT:-8000}
 STATUS=$LOGS/phaseA_status.json
 P0=$LOGS/part0_status.json

@@ -150,10 +150,10 @@ def build(root: Path, b_models=("gemini-3.5-flash-lite",), skip_prefixes=()):
             prefix, model = rd.name.split("__", 1)
             if prefix == "B" and b_models is not None and model not in b_models:
                 continue
-            if prefix not in ("B", "T", "J", "Ju", "O") or prefix in skip_prefixes:
+            if prefix not in ("B", "T", "J", "Ju", "O", "JO") or prefix in skip_prefixes:
                 continue
             recs = load_json_dir(rd)
-            group = {"B": "J", "T": "T", "J": "J", "Ju": "J", "O": "J"}[prefix]
+            group = {"B": "J", "T": "T", "J": "J", "Ju": "J", "O": "J", "JO": "J"}[prefix]
             cfg = rd.name if prefix != "B" else f"J__{model}"
             for iid, gt in gts.items():
                 add(s, gt, cfg, group, model, recs.get(iid))

@@ -20,9 +20,52 @@ from e1.score_e1b import agg, build, cell, fabricated, link_split, speed
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "J__gemini-3.5-flash-lite"
-SPLITS = ["E1", "E1b", "gen", "gen_ref", "web-dev", "web-test", "web"]
+SPLITS = ["E1", "E1b", "gen", "gen_ref", "val", "val_la", "web-dev", "web-test", "web"]
 MODE_VI = {"A": "OCR CPU + regex", "T": "OCR/chữ + regex", "J": "ảnh -> JSON (ràng buộc)",
-           "Ju": "ảnh -> JSON (không ràng buộc)", "O": "chữ OCR -> LLM -> JSON"}
+           "Ju": "ảnh -> JSON (không ràng buộc)", "O": "chữ OCR -> LLM -> JSON",
+           "JO": "ảnh + chữ OCR -> JSON (ràng buộc)"}
+OCR_RUN = "T__pp-ocrv6-gpu"
+LORA = re.compile(r"^J?O?__B\d")  # phase-B adapters, served as local:<run>-<step>
+
+
+def b4_check(results, sets, config: str):
+    """B4: an account or phone number the model returns must appear in the PP-OCRv6 text (spaces and dots removed,
+    lines joined so wrapped strings still count; +84 read as 0). Per split: (wrong strings flagged, wrong strings),
+    (right strings flagged, right strings). Strings matching `skipped`/`ignore` are left out as in fabricated()."""
+    from e1.score import NORMALIZERS
+    from e1.vlm import RUN_DIRS
+
+    def sq(s):
+        return re.sub(r"[\s.]", "", s).replace("+84", "0")
+
+    out = {}
+    for r in results:
+        if r["config"] != config or r.get("missing"):
+            continue
+        op = ROOT / RUN_DIRS[r["set"]] / OCR_RUN / f"{r['image_id']}.json"
+        if not op.exists():
+            continue
+        blob = sq("".join(x["text"] for x in json.loads(op.read_text(encoding="utf-8")).get("lines", [])))
+        gt = sets[r["set"]][r["image_id"]]
+        ignore = {(s["type"], s["norm"]) for s in gt["ignore"]["strings"]}
+        skipped = {(s["type"], NORMALIZERS[s["type"]](s.get("seen", ""))) for s in gt.get("skipped") or []
+                   if s.get("type") in NORMALIZERS}
+        for split in [r["set"]] + ([web_split(r["image_id"])] if r["set"] == "web" else []):
+            c = out.setdefault(split, [0, 0, 0, 0])
+            for t in ("account", "phone"):
+                gts = {e["norm"] for e in gt["strings"][t]}
+                for p in r["pred"].get(t, []):
+                    pn = NORMALIZERS[t](p)
+                    if (t, pn) in ignore or (t, pn) in skipped:
+                        continue
+                    flag = sq(p) not in blob
+                    if pn in gts:
+                        c[2] += flag
+                        c[3] += 1
+                    else:
+                        c[0] += flag
+                        c[1] += 1
+    return out
 
 
 def web_split(image_id: str) -> str:
@@ -216,7 +259,7 @@ def main():
         L.append("|---|---|---|---|---|")
         for c in configs:
             mm = M.get(("web-test", c))
-            if not mm or not (c.startswith(("Ju__", "O__")) or c.split("__", 1)[1] in meta):
+            if not mm or not (c.startswith(("Ju__", "O__")) or c.split("__", 1)[1] in meta or LORA.match(c)):
                 continue
             dm = 100 * (pp(mm["match"]) - pp(b["match"]))
             df = 100 * (pp(mm["fab"]) - pp(b["fab"])) if mm["fab"][1] and b["fab"][1] else float("nan")
@@ -226,6 +269,21 @@ def main():
             L.append(f"| `{c}` | {fmt(mm['match'], False)} ({dm:+.1f}) | {fmt(mm['fab'], False)} ({df:+.1f}) | "
                      f"{p50:.2f} | {'đạt' if ok else 'không đạt'} |")
         L.append("")
+    # B4: OCR cross-check of the picked B1 adapter (.cache/e4/lora/B1/pick.json, copied from the server)
+    pick = ROOT / ".cache/e4/lora/B1/pick.json"
+    if pick.exists():
+        cfg = json.loads(pick.read_text())["config"]
+        b4 = b4_check(results, sets, cfg)
+        if b4:
+            L.append(f"## B4: soát số tài khoản, số điện thoại của `{cfg}` bằng chữ PP-OCRv6\n")
+            L.append("Chuỗi model trả về không có trong chữ OCR (bỏ dấu cách, dấu chấm) thì gắn cờ.\n")
+            L.append("| Bộ | Cờ bắt chuỗi sai | Cờ gắn nhầm chuỗi đúng |")
+            L.append("|---|---|---|")
+            for s in SPLITS:
+                if s in b4:
+                    w, nw, rr, nr = b4[s]
+                    L.append(f"| {s} | {fmt((w, nw))} | {fmt((rr, nr))} |")
+            L.append("")
     (out / "report_A.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     (out / "gt_audit.md").write_text("\n".join(gt_audit(results, sets, M)) + "\n", encoding="utf-8")
     summ = {f"{s}|{c}": {"match": m["match"], "fab": m["fab"], "json_ok": m["json_ok"],
@@ -233,7 +291,7 @@ def main():
             for (s, c), m in M.items()}
     (out / "summary_A.json").write_text(json.dumps({"metrics": summ, "M1": verdicts}, ensure_ascii=False, indent=1))
     # terminal summary: web-test and gen, the two sets every model ran on
-    for s in ("gen", "gen_ref", "web-dev", "web-test"):
+    for s in ("gen", "gen_ref", "val", "val_la", "web-dev", "web-test"):
         print(f"\n== {s}")
         for c in configs:
             m = M.get((s, c))

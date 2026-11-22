@@ -4,6 +4,8 @@ Modes (the run dir prefix):
   J   image -> JSON, schema as constrained decoding (Gemini, OpenAI, vLLM)
   Ju  image -> JSON, schema only as text in the prompt (vLLM with constrained decoding off)
   O   PP-OCRv6 text lines with their horizontal position -> JSON, no image (answers "is the image needed?")
+  JO  image + the same OCR lines in the prompt -> JSON, constrained (phase B3; text from e1.lora_train.user_text,
+      identical to its training prompt)
 
   python -m e1.e4_run --model gemini-3.8-flash@low --mode J --sets web,gen [--workers 6] [--cap-usd 3]
   python -m e1.e4_run --model local:qwen3-vl-4b --mode Ju --sets E1,E1b,gen,web --workers 1
@@ -65,7 +67,7 @@ def run_name(model: str) -> str:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
-    ap.add_argument("--mode", choices=["J", "Ju", "O"], required=True)
+    ap.add_argument("--mode", choices=["J", "Ju", "O", "JO"], required=True)
     ap.add_argument("--sets", default="E1,E1b,gen,web")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--cap-usd", type=float, default=3.0, help="stop when this invocation has spent this much")
@@ -91,13 +93,18 @@ def main():
         rec = {"image_id": m["image_id"], "set": s, "config": f"{a.mode}__{run_name(a.model)}", "model": a.model,
                "workers": a.workers}
         try:
-            if a.mode == "O":
-                from PIL import Image  # only the text-only mode needs the image width
+            if a.mode in ("O", "JO"):
+                from PIL import Image  # only the OCR modes need the image width
                 w = Image.open(path).size[0]
+            if a.mode == "O":
                 r = llm.generate(PROMPT_TEXT.format(ocr=ocr_text(ocr_lines(s, m["image_id"]), w)), schema=SCHEMA,
                                  model=a.model, retries=2, max_tokens=a.max_tokens)
             else:
-                r = llm.generate(PROMPT, image=path.read_bytes(), schema=SCHEMA, model=a.model, retries=2,
+                prompt = PROMPT
+                if a.mode == "JO":
+                    from e1.lora_train import user_text
+                    prompt = user_text(ocr_lines(s, m["image_id"]), w)
+                r = llm.generate(prompt, image=path.read_bytes(), schema=SCHEMA, model=a.model, retries=2,
                                  max_tokens=a.max_tokens)
             rec.update(output=r.output, seconds=r.seconds, tokens_in=r.tokens_in, tokens_out=r.tokens_out,
                        usd=r.usd, retries=r.retries)
