@@ -117,7 +117,7 @@ def answer_text(target: dict) -> str:
 
 
 class Builder:
-    """One training example (input_ids, labels, pixel_values, image_grid_thw) per manifest row."""
+    """One training example (input_ids, labels, mm_token_type_ids, pixel_values, image_grid_thw) per manifest row."""
 
     def __init__(self, processor, split: str, max_pixels: int, ocr: bool):
         self.p, self.split, self.ocr = processor, split, ocr
@@ -148,9 +148,12 @@ class Builder:
         ids = torch.cat([pids, torch.tensor(ans, dtype=pids.dtype)])
         labels = torch.full_like(ids, IGNORE)
         labels[len(pids):] = ids[len(pids):]
-        return {"image_id": row["image_id"], "input_ids": ids, "labels": labels, "prompt_len": len(pids),
-                "pixel_values": enc["pixel_values"], "image_grid_thw": enc["image_grid_thw"], "image_size": img.size,
-                "answer": answer_text(target) + self.eot}
+        # transformers 5.x computes Qwen3-VL M-RoPE from mm_token_type_ids (1 = image token); answer tokens are text
+        tt = enc["mm_token_type_ids"][0]
+        tt = torch.cat([tt, torch.zeros(len(ans), dtype=tt.dtype)])
+        return {"image_id": row["image_id"], "input_ids": ids, "labels": labels, "mm_token_type_ids": tt,
+                "prompt_len": len(pids), "pixel_values": enc["pixel_values"], "image_grid_thw": enc["image_grid_thw"],
+                "image_size": img.size, "answer": answer_text(target) + self.eot}
 
 
 def collate(batch: list[dict], pad_id: int) -> dict:
@@ -159,10 +162,12 @@ def collate(batch: list[dict], pad_id: int) -> dict:
     ids = torch.full((len(batch), n), pad_id, dtype=batch[0]["input_ids"].dtype)
     labels = torch.full((len(batch), n), IGNORE, dtype=torch.long)
     att = torch.zeros((len(batch), n), dtype=torch.long)
+    tt = torch.zeros((len(batch), n), dtype=batch[0]["mm_token_type_ids"].dtype)
     for i, b in enumerate(batch):  # right padding
         k = len(b["input_ids"])
         ids[i, :k], labels[i, :k], att[i, :k] = b["input_ids"], b["labels"], 1
-    return {"input_ids": ids, "labels": labels, "attention_mask": att,
+        tt[i, :k] = b["mm_token_type_ids"]
+    return {"input_ids": ids, "labels": labels, "attention_mask": att, "mm_token_type_ids": tt,
             "pixel_values": torch.cat([b["pixel_values"] for b in batch]),
             "image_grid_thw": torch.cat([b["image_grid_thw"] for b in batch]),
             "min_prompt_len": min(b["prompt_len"] for b in batch)}
@@ -291,6 +296,7 @@ def cmd_train(a):
         L = ids.shape[1]
         keep = L - batch["min_prompt_len"] + 1  # logits for positions min_prompt_len-1 .. L-1
         o = model(input_ids=ids, attention_mask=batch["attention_mask"].cuda(),
+                  mm_token_type_ids=batch["mm_token_type_ids"].cuda(),
                   pixel_values=batch["pixel_values"].cuda().to(torch.bfloat16),
                   image_grid_thw=batch["image_grid_thw"].cuda(), logits_to_keep=keep)
         logits = o.logits[:, :-1].float()
