@@ -259,7 +259,7 @@ def main():
         L.append("|---|---|---|---|---|")
         for c in configs:
             mm = M.get(("web-test", c))
-            if not mm or not (c.startswith(("Ju__", "O__")) or c.split("__", 1)[1] in meta or LORA.match(c)):
+            if not mm or not (c.startswith(("Ju__", "O__")) or f"local:{c.split('__', 1)[1]}" in meta or LORA.match(c)):
                 continue
             dm = 100 * (pp(mm["match"]) - pp(b["match"]))
             df = 100 * (pp(mm["fab"]) - pp(b["fab"])) if mm["fab"][1] and b["fab"][1] else float("nan")
