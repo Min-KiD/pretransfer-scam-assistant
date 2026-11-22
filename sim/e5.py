@@ -30,8 +30,10 @@ E2_TU_DO_V1 = 0.787  # experiments/E2/report.md, tu_do after 3 questions, run 2
 # on the 75 `v1` cases. One mid-tier model per vendor from the official price page (2026-11-22). Claude's account has
 # no credit (tried once 22/11): skipped until the planner tab says otherwise.
 CLOSED = ["gemini-3.5-flash-lite", "gemini-3.8-flash@low", "gemini-4-carbon", "openai:gpt-6.2-sol"]
+_NO_DISK = "bỏ ngày 22/11 theo quyết định của Minh: đĩa server dùng chung chỉ còn khoảng 24 GB trống; lý do là dung lượng, không phải kết quả"
 SKIPPED = {"anthropic:claude-sonnet-5-5": "key hợp lệ nhưng tài khoản chưa có tiền (gọi thử 1 lần ngày 22/11, HTTP 400 "
-                                          "\"credit balance is too low\"); bỏ qua theo mục 7 bản kế hoạch"}
+                                          "\"credit balance is too low\"); bỏ qua theo mục 7 bản kế hoạch",
+           "local:gemma-4-e4b": _NO_DISK, "local:qwen3.5-9b": _NO_DISK}
 
 
 def full_set(model: str) -> bool:
@@ -168,7 +170,7 @@ def report(rows, scen, cases, cap, opening_usd):
             L.append(f"| {'Mở' if is_open(m) else 'Đóng'} | `{m}` | {s['n']} | " + " | ".join(
                 fmt(s[f"kb{k}"]) for k in range(K + 1)) + f" | {fmt(s['nhom'])} | {fmt(s['chua_du'])} |")
         for m, why in SKIPPED.items():
-            L.append(f"| Đóng | `{m}` | không chạy: {why} | | | | | | |")
+            L.append(f"| {'Mở' if is_open(m) else 'Đóng'} | `{m}` | không chạy: {why} | | | | | | |")
         L.append("")
     L.append("## Báo nhầm, bỏ sót, số câu hỏi\n")
     L.append("Báo nhầm: tình huống bình thường bị kết luận giống chiêu lừa (mẫu số 80 trên 300, 20 trên `v1`). Bỏ sót: "

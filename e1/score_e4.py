@@ -175,6 +175,10 @@ def main():
                 f"{fmt(m['types'][t], False)} / bịa {m['fab_types'][t][0]}/{m['fab_types'][t][1]}" for t in TYPES)
                 + f" | {fmt((dk, ln), False)} | {fmt((pk, ln), False)} |")
         L.append("")
+    L.append("## Model không chạy\n")
+    L.append("- `gemma-4-e4b` (16,0 GB) và `qwen3.5-9b` (19,3 GB): bỏ ngày 22/11 theo quyết định của Minh vì đĩa server "
+             "dùng chung chỉ còn khoảng 24 GB trống (98%). Lý do là dung lượng, không phải kết quả; hai model này chưa "
+             "chạy ảnh nào.\n")
     # VRAM and load time of the open models
     if meta:
         L.append("## Model mở: VRAM, nạp model\n")

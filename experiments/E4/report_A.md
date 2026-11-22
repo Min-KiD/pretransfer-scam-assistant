@@ -174,6 +174,10 @@ Theo loại chuỗi (web): khớp / bịa
 | `T__paddleocr-vl-1.6` | 50.0 (2/4) / bịa 5/7 | 40.0 (2/5) / bịa 0/2 | 11.1 (1/9) / bịa 3/4 | 68.0 (17/25) / bịa 6/22 | 44.4 (4/9) | 22.2 (2/9) |
 | `T__pp-ocrv6-gpu` | 75.0 (3/4) / bịa 7/10 | 40.0 (2/5) / bịa 0/2 | 11.1 (1/9) / bịa 3/4 | 76.0 (19/25) / bịa 8/25 | 44.4 (4/9) | 22.2 (2/9) |
 
+## Model không chạy
+
+- `gemma-4-e4b` (16,0 GB) và `qwen3.5-9b` (19,3 GB): bỏ ngày 22/11 theo quyết định của Minh vì đĩa server dùng chung chỉ còn khoảng 24 GB trống (98%). Lý do là dung lượng, không phải kết quả; hai model này chưa chạy ảnh nào.
+
 ## Luật giữ M1 trên web-test (so với `gemini-3.5-flash-lite`)
 
 Mốc: khớp 89.3% (50/56) [79-95], bịa 31.9% (22/69) [22-44]. Đạt khi khớp kém không quá 5 điểm, bịa cao hơn không quá 2 điểm, p50 không quá 2 s/ảnh trên 4060 Ti (chạy 1 luồng). web-test nhỏ nên khoảng tin cậy rộng; kết luận "đạt" ở đây là điều kiện cần, chưa đủ.

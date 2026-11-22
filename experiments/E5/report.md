@@ -14,6 +14,8 @@ Kiểm tra lặp lại E2: `gemini-3.5-flash-lite` trên `v1` đúng kịch bả
 |---|---|---|---|---|---|---|---|---|
 | Đóng | `gemini-3.5-flash-lite` | 300 | 78.7% (236/300) [74-83] | 80.7% (242/300) [76-85] | 81.0% (243/300) [76-85] | 81.3% (244/300) [77-85] | 94.3% (283/300) [91-96] | 0.0% (0/300) [0-1] |
 | Đóng | `anthropic:claude-sonnet-5-5` | không chạy: key hợp lệ nhưng tài khoản chưa có tiền (gọi thử 1 lần ngày 22/11, HTTP 400 "credit balance is too low"); bỏ qua theo mục 7 bản kế hoạch | | | | | | |
+| Mở | `local:gemma-4-e4b` | không chạy: bỏ ngày 22/11 theo quyết định của Minh: đĩa server dùng chung chỉ còn khoảng 24 GB trống; lý do là dung lượng, không phải kết quả | | | | | | |
+| Mở | `local:qwen3.5-9b` | không chạy: bỏ ngày 22/11 theo quyết định của Minh: đĩa server dùng chung chỉ còn khoảng 24 GB trống; lý do là dung lượng, không phải kết quả | | | | | | |
 
 ## Đúng kịch bản và đúng nhóm: Tập con `v1` (75 tình huống, so với E2; mọi model)
 
@@ -24,6 +26,8 @@ Kiểm tra lặp lại E2: `gemini-3.5-flash-lite` trên `v1` đúng kịch bả
 | Đóng | `gemini-4-carbon` | 75 | 58.7% (44/75) [47-69] | 74.7% (56/75) [64-83] | 81.3% (61/75) [71-89] | 82.7% (62/75) [73-90] | 90.7% (68/75) [82-95] | 4.0% (3/75) [1-11] |
 | Đóng | `openai:gpt-6.2-sol` | 75 | 62.7% (47/75) [51-73] | 70.7% (53/75) [60-80] | 72.0% (54/75) [61-81] | 76.0% (57/75) [65-84] | 89.3% (67/75) [80-94] | 9.3% (7/75) [5-18] |
 | Đóng | `anthropic:claude-sonnet-5-5` | không chạy: key hợp lệ nhưng tài khoản chưa có tiền (gọi thử 1 lần ngày 22/11, HTTP 400 "credit balance is too low"); bỏ qua theo mục 7 bản kế hoạch | | | | | | |
+| Mở | `local:gemma-4-e4b` | không chạy: bỏ ngày 22/11 theo quyết định của Minh: đĩa server dùng chung chỉ còn khoảng 24 GB trống; lý do là dung lượng, không phải kết quả | | | | | | |
+| Mở | `local:qwen3.5-9b` | không chạy: bỏ ngày 22/11 theo quyết định của Minh: đĩa server dùng chung chỉ còn khoảng 24 GB trống; lý do là dung lượng, không phải kết quả | | | | | | |
 
 ## Báo nhầm, bỏ sót, số câu hỏi
 
@@ -88,5 +92,5 @@ Tốt nhất nhóm đóng (trên `v1`): `gemini-4-carbon`. Tốt nhất nhóm m�
 | `gemini-4-carbon` | 2.150 | 0.029 |
 | `openai:gpt-6.2-sol` | 0.758 | 0.022 |
 
-Sinh 225 tin mở đầu mới: 0.059 USD. Tổng E5: 3.67 USD (trần lần chạy 6.0 USD; trần Gemini chung cho E4, E5, E6 là 20 USD, GPT 3 USD).
+Sinh 225 tin mở đầu mới: 0.059 USD. Tổng E5: 3.67 USD (trần lần chạy 5.0 USD; trần Gemini chung cho E4, E5, E6 là 20 USD, GPT 3 USD).
 

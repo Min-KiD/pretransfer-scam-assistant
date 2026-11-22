@@ -30,14 +30,14 @@ export HOME=$ROOT/.cache/home HF_HOME=$ROOT/.cache/hf XDG_CACHE_HOME=$ROOT/.cach
   PYTHONDONTWRITEBYTECODE=1 TOKENIZERS_PARALLELISM=false VLLM_NO_USAGE_STATS=1 DO_NOT_TRACK=1
 PY=$ROOT/.conda/pretransfer/bin/python          # huggingface_hub (snapshot paths, clean)
 HPY=${HPY:-/home/intern/vidoc-dev/.venvs/mineru/bin/python}   # PP-OCRv6 env from E1b, used read-only
-QUEUE=${QUEUE:-"qwen3-vl-4b qwen3.5-4b qwen3-vl-2b qwen3-vl-8b-fp8 gemma-4-e4b qwen3.5-9b"}
+# gemma-4-e4b and qwen3.5-9b were dropped on 2026-11-22 (Minh): the shared disk had ~24 GB free, not a result-based cut.
+QUEUE=${QUEUE:-"qwen3-vl-4b qwen3.5-4b qwen3-vl-2b qwen3-vl-8b-fp8"}
 SETS=${SETS:-E1,E1b,gen,web}
 KEEP=${KEEP:-}
 PORT=${PORT:-8000}
 STATUS=$LOGS/phaseA_status.json
 P0=$LOGS/part0_status.json
 [[ -f $STATUS ]] || echo '{}' > "$STATUS"
-declare -A QUANT=([gemma-4-e4b]="--quantization fp8" [qwen3.5-9b]="--quantization fp8")
 
 status() {  # key state detail
   python3 - "$STATUS" "$1" "$2" "$3" <<'EOF'
@@ -82,7 +82,7 @@ for m in $QUEUE; do
   t0=$(date +%s)
   "$VPY" -m vllm.entrypoints.openai.api_server --model "$path" --served-model-name "$m" --host 127.0.0.1 --port "$PORT" \
     --max-model-len 16384 --gpu-memory-utilization 0.88 --max-num-seqs 8 --limit-mm-per-prompt '{"image":1}' \
-    ${QUANT[$m]:-} $mm > "$LOGS/$m.vllm.log" 2>&1 &
+    $mm > "$LOGS/$m.vllm.log" 2>&1 &
   VPID=$!
   ok=0
   for _ in $(seq 1 120); do

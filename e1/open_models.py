@@ -42,9 +42,9 @@ MODELS = {
     "qwen3-vl-2b": {"repos": ["Qwen/Qwen3-VL-2B-Instruct"], "modes": ["J"]},
     # Qwen's own FP8 checkpoint: 10.6 GB on disk instead of 17.5 GB for bf16 (the server has 40 GB free).
     "qwen3-vl-8b-fp8": {"repos": ["Qwen/Qwen3-VL-8B-Instruct-FP8"], "modes": ["J"], "quant": "fp8 (Qwen checkpoint)"},
-    # Extra models (E4 allows two): Qwen3.5 is the generation after Qwen3-VL and is natively multimodal.
+    # Extra model (E4 allows two): Qwen3.5 is the generation after Qwen3-VL and is natively multimodal.
+    # qwen3.5-9b and gemma-4-e4b were dropped from E4 on 2026-11-22: the shared disk had ~24 GB free.
     "qwen3.5-4b": {"repos": ["Qwen/Qwen3.5-4B"], "modes": ["J"]},
-    "qwen3.5-9b": {"repos": ["Qwen/Qwen3.5-9B"], "modes": ["J"], "quant": "fp8 dynamic (vLLM, on load)"},
 }
 JSON_SUFFIX = ("\n\nTrả về đúng một đối tượng JSON hợp lệ theo JSON Schema dưới đây, không thêm chữ nào khác "
                "ngoài JSON:\n" + json.dumps(SCHEMA, ensure_ascii=False))
