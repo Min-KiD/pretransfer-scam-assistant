@@ -33,7 +33,7 @@ HPY=${HPY:-/home/intern/vidoc-dev/.venvs/mineru/bin/python}   # PP-OCRv6 env fro
 # Dropped on 2026-11-22 (Minh), not result-based: gemma-4-e4b and qwen3.5-9b (shared disk had ~24 GB free), then
 # qwen3-vl-8b-fp8 (the "large model" reference is the closed API models).
 QUEUE=${QUEUE:-"qwen3-vl-4b qwen3.5-4b qwen3-vl-2b"}
-SETS=${SETS:-E1,E1b,gen,web}
+SETS=${SETS:-E1,E1b,gen,gen_ref,web}
 KEEP=${KEEP:-}
 PORT=${PORT:-8000}
 STATUS=$LOGS/phaseA_status.json

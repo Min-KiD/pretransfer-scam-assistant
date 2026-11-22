@@ -20,7 +20,7 @@ from e1.score_e1b import agg, build, cell, fabricated, link_split, speed
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "J__gemini-3.5-flash-lite"
-SPLITS = ["E1", "E1b", "gen", "web-dev", "web-test", "web"]
+SPLITS = ["E1", "E1b", "gen", "gen_ref", "web-dev", "web-test", "web"]
 MODE_VI = {"A": "OCR CPU + regex", "T": "OCR/chữ + regex", "J": "ảnh -> JSON (ràng buộc)",
            "Ju": "ảnh -> JSON (không ràng buộc)", "O": "chữ OCR -> LLM -> JSON"}
 
@@ -153,6 +153,19 @@ def main():
         if partial:
             L.append("Chưa chạy đủ ảnh (không so trực tiếp với các dòng đủ ảnh): "
                      + ", ".join(f"`{c}` {M[(s, c)]['images']}/{n_img}" for c in partial) + ".\n")
+        if s == "gen_ref":
+            rs = ROOT / "data/E1b/gen_ref/review_summary.json"
+            if rs.exists():
+                r = json.loads(rs.read_text(encoding="utf-8"))
+                L.append(f"{r['images']} ảnh sinh bằng `gemini-nano-banana-2.1`, mỗi ảnh lấy một ảnh thật làm mẫu giao diện "
+                         f"và kiểu chụp, nội dung mới (`e1/gen_nb.py --ref`). Đáp án: {r['strings']} chuỗi dự định; "
+                         f"{r['kept'] + r.get('kept_fold', 0)} giữ vì `gemini-4-carbon` và chữ PP-OCRv6 cùng đọc lại "
+                         f"({r.get('kept_fold', 0)} trong đó chỉ khác I/l hoặc O/0 ở OCR); {r['auto_fixed']} sửa theo "
+                         f"chuỗi hai bên cùng đọc; {r['reviewed_kept'] + r['reviewed_fixed'] + r['reviewed_dropped']} "
+                         f"xem bằng mắt ({r['reviewed_fixed']} sửa, {r['reviewed_dropped']} bỏ); "
+                         f"{r['dropped_images']} ảnh bị loại; {r['copy_flags']} ảnh chép chuỗi của ảnh mẫu. "
+                         "**`gemini-4-carbon` đã được dùng để làm đáp án bộ này, nên số của nó ở đây lệch về phía có lợi; "
+                         "không dùng để so.**\n")
         L.append("| Cấu hình | Ảnh | Khớp chuỗi | Chuỗi bịa | JSON hợp lệ | Phía gửi | Lỗi ký tự chữ tin | s/ảnh TB | p50 | "
                  "p90 | USD/1000 ảnh |")
         L.append("|---|---|---|---|---|---|---|---|---|---|---|")
@@ -220,7 +233,7 @@ def main():
             for (s, c), m in M.items()}
     (out / "summary_A.json").write_text(json.dumps({"metrics": summ, "M1": verdicts}, ensure_ascii=False, indent=1))
     # terminal summary: web-test and gen, the two sets every model ran on
-    for s in ("gen", "web-dev", "web-test"):
+    for s in ("gen", "gen_ref", "web-dev", "web-test"):
         print(f"\n== {s}")
         for c in configs:
             m = M.get((s, c))

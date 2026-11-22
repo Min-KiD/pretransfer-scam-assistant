@@ -17,8 +17,10 @@ from pathlib import Path
 
 # Image sets: input dir (gt/, images/, optional manifest.jsonl) and where model outputs go. data/E1b/real is filled
 # by the planner tab, so web outputs live outside it.
-SET_DIRS = {"E1": "data/E1", "E1b": "data/E1b", "gen": "data/E1b/gen", "web": "data/E1b/real"}
-RUN_DIRS = {"E1": "data/E1/runs", "E1b": "data/E1b/runs", "gen": "data/E1b/gen/runs", "web": "data/E1b/web_runs"}
+SET_DIRS = {"E1": "data/E1", "E1b": "data/E1b", "gen": "data/E1b/gen", "gen_ref": "data/E1b/gen_ref",
+            "web": "data/E1b/real"}
+RUN_DIRS = {"E1": "data/E1/runs", "E1b": "data/E1b/runs", "gen": "data/E1b/gen/runs",
+            "gen_ref": "data/E1b/gen_ref/runs", "web": "data/E1b/web_runs"}
 
 
 def set_items(d: Path, s: str):

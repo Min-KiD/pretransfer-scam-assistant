@@ -277,7 +277,7 @@ def main():
 
     gen_review = root / "data/E1b/gen/review_summary.json"
     gen_review = json.loads(gen_review.read_text(encoding="utf-8")) if gen_review.exists() else None
-    for s in sets:
+    for s in [s for s in sets if s in SECTION]:  # gen_ref (E4) is reported by e1.score_e4 only
         w(f"## {SECTION[s]}. Xếp hạng trên bộ {SET_VI[s]}\n")
         if s == "gen" and gen_review:
             gr = gen_review
