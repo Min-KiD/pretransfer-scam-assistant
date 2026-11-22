@@ -16,7 +16,7 @@ from pathlib import Path
 
 from core.llm import PRICES
 from e1.score import TYPES, TYPE_VI, wilson
-from e1.score_e1b import agg, build, cell, fabricated, speed
+from e1.score_e1b import agg, build, cell, fabricated, link_split, speed
 
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "J__gemini-3.5-flash-lite"
@@ -70,6 +70,8 @@ def metrics(rows, sets):
         "types": {t: agg(live, t=t) for t in TYPES}, "fab": (fab, ret), "fab_types": fab_t,
         "json_ok": (sum(not r.get("json_broken") for r in js), len(js)) if js else None,
         "side": (sum(r.get("side_correct", 0) for r in js), sum(r.get("side_total", 0) for r in js)) if js else None,
+        "cer": (sum(r.get("msg_char_err", 0) for r in js), sum(r.get("msg_chars", 0) for r in js)) if js else None,
+        "link_dp": link_split(live),
         "speed": sp, "workers": max((r.get("workers", 1) for r in live), default=1),
         "usd_1000": 1000 * sum(usd) / len(usd) if paid else None,
     }
@@ -82,6 +84,45 @@ def pp(x):
 
 def fmt(x, ci=True):
     return cell(*x, ci=ci) if x and x[1] else "-"
+
+
+def gt_audit(results, sets, M) -> list[str]:
+    """Answers of the web set checked against the two strongest closed models (by web string match): a GT string that
+    both models read differently, or a string both models return that the answer lacks (and is not in skipped/ignore).
+    Nothing is changed; the planner tab looks at the image and fixes the answer."""
+    from e1.score import NORMALIZERS
+    closed = [c for (s, c), m in M.items() if s == "web" and c.startswith("J__") and m["images"] == m["total"]
+              and any(k in c for k in ("gemini", "gpt", "claude"))]
+    top = sorted(closed, key=lambda c: -pp(M[("web", c)]["match"]))[:2]
+    L = ["# E4 - Soát đáp án bộ `web`\n",
+         f"So đáp án với hai model đóng đọc tốt nhất trên `web`: {', '.join(f'`{c}`' for c in top)}. Ghi một dòng khi "
+         "cả hai cùng đọc khác đáp án (cả hai không có chuỗi đáp án), hoặc cả hai cùng trả một chuỗi mà đáp án không có "
+         "(không tính chuỗi trong `skipped`/`ignore`). Không tự sửa đáp án; tab kế hoạch xem ảnh rồi sửa.\n"]
+    if len(top) < 2:
+        return L + ["Chưa đủ hai model đóng chạy hết bộ `web`.\n"]
+    rows = {(r["config"], r["image_id"]): r for r in results if r["set"] == "web" and r["config"] in top}
+    L += ["| Ảnh | Loại | Vấn đề | Đáp án | " + " | ".join(f"`{c[3:]}`" for c in top) + " |", "|---|---|---|---|---|---|"]
+    n = 0
+    esc = lambda s: "`" + str(s).replace("\n", "⏎").replace("|", "\\|") + "`"  # noqa: E731
+    for iid, gt in sorted(sets.get("web", {}).items()):
+        a, b = rows.get((top[0], iid)), rows.get((top[1], iid))
+        if not a or not b or a.get("missing") or b.get("missing"):
+            continue
+        for t in TYPES:
+            for ga, gb in zip(a["scores"][t]["gt"], b["scores"][t]["gt"]):
+                if not ga["correct"] and not gb["correct"]:
+                    n += 1
+                    L.append(f"| {iid} | {t} | cả hai đọc khác | {esc(ga['gt'])} | "
+                             f"{esc(ga.get('closest', '(không có)'))} | {esc(gb.get('closest', '(không có)'))} |")
+            fb = {NORMALIZERS[t](p): p for p in b["scores"][t]["fp"]}
+            skipped = {NORMALIZERS[t](s.get("seen", "")) for s in gt.get("skipped") or [] if s.get("type") == t}
+            for p in a["scores"][t]["fp"]:
+                pn = NORMALIZERS[t](p)
+                if pn in fb and pn not in skipped:
+                    n += 1
+                    L.append(f"| {iid} | {t} | cả hai trả chuỗi đáp án không có | - | {esc(p)} | {esc(fb[pn])} |")
+    L.append(f"\n{n} dòng cần xem trên {len(sets.get('web', {}))} ảnh có đáp án.\n")
+    return L
 
 
 def main():
@@ -112,24 +153,27 @@ def main():
         if partial:
             L.append("Chưa chạy đủ ảnh (không so trực tiếp với các dòng đủ ảnh): "
                      + ", ".join(f"`{c}` {M[(s, c)]['images']}/{n_img}" for c in partial) + ".\n")
-        L.append("| Cấu hình | Ảnh | Khớp chuỗi | Chuỗi bịa | JSON hợp lệ | Phía gửi | s/ảnh TB | p50 | p90 | USD/1000 ảnh |")
-        L.append("|---|---|---|---|---|---|---|---|---|---|")
+        L.append("| Cấu hình | Ảnh | Khớp chuỗi | Chuỗi bịa | JSON hợp lệ | Phía gửi | Lỗi ký tự chữ tin | s/ảnh TB | p50 | "
+                 "p90 | USD/1000 ảnh |")
+        L.append("|---|---|---|---|---|---|---|---|---|---|---|")
         for c in cs:
             m = M[(s, c)]
             sp = m["speed"]
             L.append(f"| `{c}` | {m['images']}/{m['total']} | {fmt(m['match'])} | {fmt(m['fab'])} | "
-                     f"{fmt(m['json_ok'], False)} | {fmt(m['side'], False)} | "
+                     f"{fmt(m['json_ok'], False)} | {fmt(m['side'], False)} | {fmt(m['cer'], False)} | "
                      + (f"{sp[0]:.2f} | {sp[1]:.2f} | {sp[2]:.2f}" if sp else "- | - | -")
                      + f"{' (song song ' + str(m['workers']) + ')' if m['workers'] > 1 else ''} | "
                      + (f"{m['usd_1000']:.2f}" if m["usd_1000"] is not None else "0 (tự host)") + " |")
         L.append("")
         L.append(f"Theo loại chuỗi ({s}): khớp / bịa\n")
-        L.append("| Cấu hình | " + " | ".join(TYPE_VI.get(t, t) for t in TYPES) + " |")
-        L.append("|---|" + "---|" * len(TYPES))
+        L.append("| Cấu hình | " + " | ".join(TYPE_VI.get(t, t) for t in TYPES) + " | Link: tên miền | Link: đường dẫn |")
+        L.append("|---|" + "---|" * (len(TYPES) + 2))
         for c in cs:
             m = M[(s, c)]
+            dk, pk, ln = m["link_dp"]
             L.append(f"| `{c}` | " + " | ".join(
-                f"{fmt(m['types'][t], False)} / bịa {m['fab_types'][t][0]}/{m['fab_types'][t][1]}" for t in TYPES) + " |")
+                f"{fmt(m['types'][t], False)} / bịa {m['fab_types'][t][0]}/{m['fab_types'][t][1]}" for t in TYPES)
+                + f" | {fmt((dk, ln), False)} | {fmt((pk, ln), False)} |")
         L.append("")
     # VRAM and load time of the open models
     if meta:
@@ -163,6 +207,7 @@ def main():
                      f"{p50:.2f} | {'đạt' if ok else 'không đạt'} |")
         L.append("")
     (out / "report_A.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    (out / "gt_audit.md").write_text("\n".join(gt_audit(results, sets, M)) + "\n", encoding="utf-8")
     summ = {f"{s}|{c}": {"match": m["match"], "fab": m["fab"], "json_ok": m["json_ok"],
                          "p50": m["speed"][1] if m["speed"] else None, "usd_1000": m["usd_1000"]}
             for (s, c), m in M.items()}

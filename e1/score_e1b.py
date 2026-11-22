@@ -58,6 +58,36 @@ def normalize_gt(g: dict, set_name: str) -> dict:
     return g
 
 
+def _lev(a: str, b: str) -> int:
+    prev = list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        cur = [i]
+        for j, cb in enumerate(b, 1):
+            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb)))
+        prev = cur
+    return prev[-1]
+
+
+def msg_char_errors(gt_msgs, pred_msgs) -> tuple[int, int]:
+    """Character errors of the message texts: each GT message is aligned to its most similar unused predicted message
+    (same greedy alignment as side_score, threshold 0.5); edit distance on NFC text, an unaligned GT message counts all
+    its characters as wrong. Returns (errors, GT characters); errors/characters is the character error rate."""
+    import unicodedata
+    from e1.score import norm_text, ratio
+    nf = lambda s: unicodedata.normalize("NFC", s or "").strip()  # noqa: E731
+    pairs = sorted(((ratio(norm_text(g["text"]), norm_text(p.get("text", ""))), i, j)
+                    for i, g in enumerate(gt_msgs) for j, p in enumerate(pred_msgs)), reverse=True)
+    used_g, used_p, err = set(), set(), 0
+    for r, i, j in pairs:
+        if r < 0.5 or i in used_g or j in used_p:
+            continue
+        used_g.add(i)
+        used_p.add(j)
+        err += _lev(nf(gt_msgs[i]["text"]), nf(pred_msgs[j].get("text", "")))
+    err += sum(len(nf(g["text"])) for i, g in enumerate(gt_msgs) if i not in used_g)
+    return err, sum(len(nf(g["text"])) for g in gt_msgs)
+
+
 def build(root: Path, b_models=("gemini-3.5-flash-lite",), skip_prefixes=()):
     """b_models: which E1 method-B Gemini runs to include (None = all). E4 run dirs J/Ju/O count as JSON configs."""
     sets = {}
@@ -96,8 +126,11 @@ def build(root: Path, b_models=("gemini-3.5-flash-lite",), skip_prefixes=()):
                     row["raw"] = (rec.get("raw") or "")[:2000]
             else:
                 preds = vlm_strings(out)
-            c, n = side_score(gt["messages"], [] if broken else out.get("messages", []))
+            pm = [] if broken else out.get("messages", [])
+            c, n = side_score(gt["messages"], pm)
             row.update(side_correct=c, side_total=n)
+            if gt["messages"]:
+                row["msg_char_err"], row["msg_chars"] = msg_char_errors(gt["messages"], pm)
             for k in ("tokens_in", "tokens_out", "tokens_thought", "usd", "workers", "retries"):
                 if k in rec:
                     row[k] = rec[k]
