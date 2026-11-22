@@ -12,9 +12,9 @@ Most numbers come from data we built ourselves and from simulated users. They ar
 | E1b | Can open models on a 16GB GPU replace the closed API? What breaks on harder and real images? | Done | Open OCR reads text well, but no open model returned usable JSON. On real screenshots open OCR + regex falls to 51-61% |
 | E2 | Should code pick the next question (information gain), or should the LLM ask freely? | Done, 2 runs | LLM asking freely is better: 78.7% vs 69.3% correct scenario. Code-picked questions dropped |
 | E3 | How often is an ordinary transfer flagged as a scam? | Done | LLM asking freely: 1 of 20. Code-picked: 5 of 20 |
-| E4 | Can a small open vision model with LoRA read a screenshot into JSON as well as the closed API? (model M1) | Closed models and `qwen3-vl-4b` done; 2 more open models and LoRA running | Untrained `qwen3-vl-4b` finds 76.1% of real-screenshot strings vs 92.3% for the cheapest closed model, at 12 s/image on our GPU. M1 fails as defined: the 2 s/image limit is out of reach for any 2-4B model on an RTX 4060 Ti |
-| E5 | Can a small open LLM run the conversation as well as closed models? (model M2) | Closed models and `qwen3-vl-4b` done; 2 more open models running | Closed models: 76-83% correct scenario on 75 sessions. `qwen3-vl-4b`: 73.7% vs 81.3% for `gemini-3.5-flash-lite` on 300 sessions, 7.7 points short of the M2 rule |
-| E6 | Does a small CPU text classifier work as a second opinion on the scenario? (model M3) | Done for `gemini-3.5-flash-lite` and `qwen3-vl-4b` sessions | TF-IDF + logistic regression (1.3 ms on CPU) catches 66-70% of the LLM's wrong conclusions and flags 7-8% of its correct ones: M3 kept |
+| E4 | Can a small open vision model with LoRA read a screenshot into JSON as well as the closed API? (model M1) | Closed models, `qwen3-vl-4b`, `qwen3-vl-2b` done; `qwen3.5-4b` and LoRA running | Untrained `qwen3-vl-4b` finds 76.1% of real-screenshot strings vs 92.3% for the cheapest closed model, at 12 s/image on our GPU; `qwen3-vl-2b` finds 26.5%. M1 fails as defined: the 2 s/image limit is out of reach for any 2-4B model on an RTX 4060 Ti |
+| E5 | Can a small open LLM run the conversation as well as closed models? (model M2) | Closed models, `qwen3-vl-4b`, `qwen3-vl-2b` done; `qwen3.5-4b` running | Closed models: 76-83% correct scenario on 75 sessions. On 300 sessions: `qwen3-vl-4b` 73.7%, `qwen3-vl-2b` 55.3%, vs 81.3% for `gemini-3.5-flash-lite`. M2 fails for both |
+| E6 | Does a small CPU text classifier work as a second opinion on the scenario? (model M3) | Done for `gemini-3.5-flash-lite`, `qwen3-vl-4b`, `qwen3-vl-2b` sessions | TF-IDF + logistic regression (1.3 ms on CPU) catches 66-88% of the LLM's wrong conclusions and flags 4-8% of its correct ones: M3 kept |
 | E7 | Label propagation on the account graph (model M4) | Not started | |
 | E8 | A user who was coached by the scammer on what to answer | Not started | |
 | E9 | Time and cost per session | Not started | |
@@ -80,7 +80,7 @@ Strings found, all types together:
 
 ## E4: screenshot to JSON (M1)
 
-Phase A, no training. Closed models are the reference; `qwen3-vl-4b` is done and `qwen3-vl-2b`, `qwen3.5-4b` are running. Three larger open models were dropped for disk space, not for results. Open models run on an RTX 4060 Ti 16GB through vLLM; J = JSON schema enforced while decoding, Ju = schema only in the prompt, O = PP-OCRv6 text instead of the image.
+Phase A, no training. Closed models are the reference; `qwen3-vl-4b` and `qwen3-vl-2b` are done and `qwen3.5-4b` is running. Three larger open models were dropped for disk space, not for results. Open models run on an RTX 4060 Ti 16GB through vLLM; J = JSON schema enforced while decoding, Ju = schema only in the prompt, O = PP-OCRv6 text instead of the image.
 
 Real screenshots, all 56 (117 strings):
 
@@ -93,11 +93,15 @@ Real screenshots, all 56 (117 strings):
 | `qwen3-vl-4b`, J | 76.1% (89/117) | 25.0% (29/116) | 52 of 56 | 12.0 | own GPU |
 | `qwen3-vl-4b`, O | 65.8% (77/117) | 46.0% (64/139) | 51 of 56 | 20.8 | own GPU |
 | `qwen3-vl-4b`, Ju | 53.0% (62/117) | 16.9% (13/77) | 56 of 56 | 1.8 | own GPU |
+| `qwen3-vl-2b`, Ju | 47.0% (55/117) | 60.0% (87/145) | 46 of 56 | 6.1 | own GPU |
+| `qwen3-vl-2b`, O | 41.9% (49/117) | 84.1% (311/370) | 45 of 56 | 10.9 | own GPU |
+| `qwen3-vl-2b`, J | 26.5% (31/117) | 77.6% (104/134) | 36 of 56 | 5.1 | own GPU |
 
-- **M1 fails for untrained `qwen3-vl-4b` in all three modes.** On the 56-string test half: J 76.8% (43/56) vs 89.3% (50/56) for `gemini-3.5-flash-lite`, 12.5 points short (limit 5).
-- **The 2 s/image part of M1 cannot be met on this GPU.** Measured decode speed for the 4B model at one request: about 31 output tokens/s; one screenshot's JSON is about 380 tokens (median), so 12 s. A 2B model would still need several seconds. LoRA does not change speed. Plan: the product reads screenshots with `gemini-3.5-flash-lite`; LoRA is run to measure how much of the accuracy gap training closes, not to ship.
-- **Ju's 1.8 s is not real speed:** without the enforced schema, it returned an empty JSON for 29 of the 56 real screenshots. On synthetic images Ju is as good as J (87.8% vs 87.2% on 172 strings), so the failure is specific to real screenshots.
-- **OCR text instead of the image (O) is lower than J on every set** (within noise on the 40 synthetic images) and returns the most strings that are not in our labels.
+- **M1 fails for both untrained open models in all three modes.** On the 56-string test half: `qwen3-vl-4b` J 76.8% (43/56) vs 89.3% (50/56) for `gemini-3.5-flash-lite`, 12.5 points short (limit 5); the best `qwen3-vl-2b` mode (Ju) 37.5% (21/56).
+- **`qwen3-vl-2b` breaks on real screenshots, not in general:** 81.2% (522/643) of strings on the 150 synthetic images drawn after real references, 26.5% on the real ones in J mode, where 20 of 56 outputs never close and most returned strings are not in the labels.
+- **The 2 s/image part of M1 cannot be met on this GPU.** Measured decode speed for the 4B model at one request: about 31 output tokens/s; one screenshot's JSON is about 380 tokens (median), so 12 s. The 2B model takes 5.1 s (median, J). LoRA does not change speed. Plan: the product reads screenshots with `gemini-3.5-flash-lite`; LoRA is run to measure how much of the accuracy gap training closes, not to ship.
+- **`qwen3-vl-4b` Ju's 1.8 s is not real speed:** without the enforced schema, it returned an empty JSON for 29 of the 56 real screenshots. On synthetic images Ju is as good as J (87.8% vs 87.2% on 172 strings), so the failure is specific to real screenshots.
+- **OCR text instead of the image (O):** for `qwen3-vl-4b` it is lower than J on every set (within noise on the 40 synthetic images). For both models it returns the most strings that are not in our labels.
 - **Same model, synthetic images:** 87.2% (150/172) on 40 images like our training data and 87.2% (561/643) on 150 images drawn after real reference screenshots. The drop to 76% on real screenshots is the domain gap LoRA has to close.
 - **Valid JSON:** 100% for all four closed models. Of the 9 open-model failures on real screenshots, 8 are outputs that never close (text running on to the token limit) and 1 is an invalid escape.
 - **The cheapest closed model finds the most strings but also returns the most extra ones.** For this product a wrong account number in a warning is worse than a missing one, so both columns count.
@@ -118,12 +122,14 @@ Same `free` assistant and prompt as E2. 300 simulated sessions (20 per scenario)
 | `gemini-4-carbon` | 75 | 82.7% | 3 of 20 | 1 of 55 | 1.37 | 19.2 | 0.0287 |
 | `gpt-6.2-sol` | 75 | 76.0% | 1 of 20 | 0 of 55 | 1.11 | 1.8 | 0.0101 |
 | `qwen3-vl-4b` (open, RTX 4060 Ti) | 300 | 73.7% | 7 of 80 | 16 of 220 | 2.31 | 1.6 | own GPU |
+| `qwen3-vl-2b` (open, RTX 4060 Ti) | 300 | 55.3% | 4 of 80 | 43 of 220 | 2.29 | 0.9 | own GPU |
 
 - **Model size barely moves the scenario accuracy:** 76-83% on 75 sessions, all inside each other's intervals. The room for a small open model is there.
 - **The cheapest model asks too little.** It concludes with no question in about half the sessions, and it misses the most scams (6 of 55). The larger models ask about one question and miss 0-1.
 - **The E2 number reproduces:** 77.3% here vs 78.7% in E2 on the same 75 sessions.
 - **M2 fails for `qwen3-vl-4b`:** 73.7% (221/300) vs 81.3% (244/300) correct scenario, 7.7 points short (limit 5). It asks 3.5x as many questions as `gemini-3.5-flash-lite` and still misses more scams (16 vs 10 of 220). Ordinary transfers flagged as scam: 7 of 80 for both. Valid output format: 993 of 993 turns.
-- **Not run:** Claude (the API account has no credit). `qwen3-vl-2b` and `qwen3.5-4b` are running.
+- **`qwen3-vl-2b` is far behind:** 55.3% (166/300) correct scenario and 43 of 220 scams called ordinary.
+- **Not run:** Claude (the API account has no credit). `qwen3.5-4b` is running.
 
 ## E6: scenario classifier as a second opinion (M3)
 
@@ -146,7 +152,7 @@ Second opinion on the 300 `gemini-3.5-flash-lite` sessions, rule "if C0 disagree
 
 - **M3 is kept.** When C0 disagrees it catches 37 of the 56 wrong conclusions (66%, need 30%) and flags 17 of the 244 correct ones (7%, limit 15%).
 - **The cost is 18% of sessions ending in "not enough evidence".** Applying the rule only when C0 is confident (top probability > 0.65, the threshold set on validation) catches only 6 of 56: confident disagreements are rare.
-- **Same rule on the 300 `qwen3-vl-4b` sessions:** C0 catches 50 of 71 wrong conclusions (70%) and flags 18 of 221 correct ones (8%), so M3 also holds behind a weaker LLM. Correct on concluded sessions goes from 75.7% to 90.6%, but 25.3% of sessions end in "not enough evidence".
+- **Same rule behind the open models (300 sessions each):** for `qwen3-vl-4b`, C0 catches 50 of 71 wrong conclusions (70%) and flags 18 of 221 correct ones (8%); correct on concluded sessions goes from 75.7% to 90.6%, with 25.3% of sessions downgraded. For `qwen3-vl-2b`: 117 of 133 (88%) and 6 of 166 (4%); 55.5% to 90.9%, with 41.3% downgraded. M3 holds behind weaker LLMs, but the weaker the LLM, the more sessions end in "not enough evidence".
 - **On real narratives the fine-tuned PhoBERT is clearly better** (88% vs 72%), but it is also confident on the 14 stories that fit no scenario (9 of 14 above 0.5), while C0 never is. C0 stays the second opinion; PhoBERT is worth retesting if the scenario list gets an "other" class.
 - **Licence:** PhoBERT-base-v2 is AGPL-3.0; C0 has no such constraint.
 - **Limits:** the training stories and the test sessions both come from one LLM family; 89 real narratives.
