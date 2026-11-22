@@ -14,7 +14,7 @@ Most numbers come from data we built ourselves and from simulated users. They ar
 | E3 | How often is an ordinary transfer flagged as a scam? | Done | LLM asking freely: 1 of 20. Code-picked: 5 of 20 |
 | E4 | Can a small open vision model with LoRA read a screenshot into JSON as well as the closed API? (model M1) | Closed baselines done; open models running | Closed baseline on 56 real screenshots: 92.3% of strings found, but 26.2% of returned strings are not in our labels |
 | E5 | Can a small open LLM run the conversation as well as closed models? (model M2) | Closed baselines done; open models running | Closed models: 76-83% correct scenario on 75 sessions. The cheapest one is within noise of the best |
-| E6 | Does a small CPU text classifier work as a second opinion on the scenario? (model M3) | Data and code ready, not run | |
+| E6 | Does a small CPU text classifier work as a second opinion on the scenario? (model M3) | Done for `gemini-3.5-flash-lite`; open-model sessions pending | TF-IDF + logistic regression (1.3 ms on CPU) catches 66% of the LLM's wrong conclusions and flags 7% of its correct ones: M3 kept |
 | E7 | Label propagation on the account graph (model M4) | Not started | |
 | E8 | A user who was coached by the scammer on what to answer | Not started | |
 | E9 | Time and cost per session | Not started | |
@@ -113,6 +113,31 @@ Same `free` assistant and prompt as E2. 300 simulated sessions (20 per scenario)
 - **The cheapest model asks too little.** It concludes with no question in about half the sessions, and it misses the most scams (6 of 55). The larger models ask about one question and miss 0-1.
 - **The E2 number reproduces:** 77.3% here vs 78.7% in E2 on the same 75 sessions.
 - **Not run:** Claude (the API account has no credit). Open models are running.
+
+## E6: scenario classifier as a second opinion (M3)
+
+- **Data:** 3300 synthetic user stories written by `gemini-3.5-flash-lite` (15 scenarios x 220, 1.23 USD), each as an opening message and as opening + answers. Tested on the 300 E5 cases and on 89 real narratives (75 in the 11 scam scenarios, 14 outside them). Nothing from the test sets was used to train.
+- **Tested:** C0 TF-IDF + logistic regression; C1 multilingual-e5-base without training (nearest scenario description); C2 PhoBERT-base-v2 fine-tuned; C3 multilingual-e5-small fine-tuned. The classifier for the second-opinion test was fixed in advance as the best on validation macro-F1: C0.
+
+| Classifier | Validation | E5 cases, opening only | Real narratives (75) | Ordinary flagged as scam | ms/text CPU | Size |
+|---|---|---|---|---|---|---|
+| C0 TF-IDF + LR | 78.8% | 80.0% | 72.0% | 5 of 80 | 1.3 | 3.8 MB |
+| C1 e5-base, no training | 50.7% | 59.7% | 74.7% | 13 of 80 | 65 | not measured |
+| C2 PhoBERT-base-v2 | 77.0% | 81.0% | 88.0% | 4 of 80 | 62 | 542 MB |
+| C3 e5-small | 75.3% | 75.7% | 72.0% | 8 of 80 | 17 | 488 MB |
+
+Second opinion on the 300 `gemini-3.5-flash-lite` sessions, rule "if C0 disagrees, downgrade to *not enough evidence*":
+
+| | Correct on concluded sessions | Downgraded | Ordinary flagged as scam | Scam called ordinary |
+|---|---|---|---|---|
+| LLM alone | 81.3% | 0% | 7 of 80 | 10 of 220 |
+| LLM + C0 | 92.3% | 18.0% | 2 of 80 | 2 of 220 |
+
+- **M3 is kept.** When C0 disagrees it catches 37 of the 56 wrong conclusions (66%, need 30%) and flags 17 of the 244 correct ones (7%, limit 15%).
+- **The cost is 18% of sessions ending in "not enough evidence".** Applying the rule only when C0 is confident (top probability > 0.65, the threshold set on validation) catches only 6 of 56: confident disagreements are rare.
+- **On real narratives the fine-tuned PhoBERT is clearly better** (88% vs 72%), but it is also confident on the 14 stories that fit no scenario (9 of 14 above 0.5), while C0 never is. C0 stays the second opinion; PhoBERT is worth retesting if the scenario list gets an "other" class.
+- **Licence:** PhoBERT-base-v2 is AGPL-3.0; C0 has no such constraint.
+- **Limits:** the training stories and the test sessions both come from one LLM family; 89 real narratives.
 
 ## Known gaps
 
