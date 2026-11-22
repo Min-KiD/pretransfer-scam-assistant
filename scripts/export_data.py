@@ -4,7 +4,10 @@
   README.md   what each set is, with file counts taken from the folder itself
   preview/    one contact sheet per image set + a few full-size samples with their labels,
               to see what the data looks like without downloading it
-  data/       copy of data/ (everything that is not in git), minus data/app (each machine's own SQLite)
+  data/       the datasets only: images, labels, manifests, sources
+
+The working copy `data/` (ignored by git) stays on our machines and also holds experiment outputs: per-image model
+outputs, cost and call logs. Those are NOT exported (see EXCLUDE), and neither is data/app (each machine's SQLite).
 
   python3 scripts/export_data.py [--out DIR]      needs Pillow and rsync; rerun any time, only changes are copied
 Teammates: download `data/` from Drive and put it at the repo root.
@@ -31,6 +34,8 @@ SETS = [
      + ["zalo_L00__dai", "messenger_L01__dai", "sms_L02__dai"], 12, 6),
     ("gen", "E1b/gen", "Screenshots made by an image model. `intended` = the strings we asked for, `gt` = labels "
      "checked by eye.", None, 12, 6),
+    ("gen_ref", "E1b/gen_ref", "Screenshots made by an image model from a real screenshot as reference (`ref` in "
+     "manifest.jsonl), with new made-up strings. `intended` = the strings we asked for.", None, 12, 6),
     ("web_real", "E1b/real", "Real scam chats/SMS published by police and news sites; each gt has the source URL. "
      "Evaluation only: never train on them, never republish.", None, 18, 6),
     ("E4_train", "E4/train", "Training screenshots for the image-to-JSON model: 7 app templates, 13 scenarios, "
@@ -46,7 +51,9 @@ OTHER = [  # folder under data/, what it is
     ("narr/real", "Scam cases from news and police reports: source URL, verbatim quote, summary, a first-person "
      "retelling from just before the transfer, scenario label."),
 ]
-RUNS = "Folders named `runs/`, `web_runs/`, `ocr/`, `open/` hold raw model outputs per image (inputs of the scorers)."
+# Experiment outputs and logs: kept in the working copy only.
+EXCLUDE = ["/app/", "__pycache__/", "runs/", "web_runs/", "ocr/", "open/", "env.json", "calls.jsonl", "*cost.json",
+           "render_log.jsonl", "failures.jsonl", "review_summary.json"]
 
 
 def images_of(folder: Path) -> list[Path]:
@@ -91,7 +98,7 @@ def main():
     out = Path(ap.parse_args().out)
     data, preview = REPO / "data", out / "preview"
     out.mkdir(parents=True, exist_ok=True)
-    subprocess.run(["rsync", "-a", "--delete", "--exclude", "/app/", "--exclude", "__pycache__/",
+    subprocess.run(["rsync", "-a", "--delete", "--delete-excluded", *[f"--exclude={e}" for e in EXCLUDE],
                     f"{data}/", f"{out / 'data'}/"], check=True)
     shutil.rmtree(preview, ignore_errors=True)
     (preview / "samples").mkdir(parents=True)
@@ -128,10 +135,11 @@ def main():
         "Code: https://github.com/Min-KiD/pretransfer-scam-assistant", "",
         "- `preview/`: look here first. One contact sheet per image set, plus two full-size samples per set with "
         "their label files.",
-        f"- `data/`: the full data ({total} files). Download it and put it at the repo root.", "",
+        f"- `data/`: the datasets ({total} files): images, labels, manifests. Download it and put it at the repo "
+        "root. Model outputs and experiment logs are not shared here; results are summarised in the repo.", "",
         "No real user data. Account numbers, phone numbers and names in generated sets are made up. The real "
         "screenshots and cases come from published police and news pages.", "",
-        "| Folder | Size | What it is | Preview |", "|---|---|---|---|", *rows, "", RUNS, "",
+        "| Folder | Size | What it is | Preview |", "|---|---|---|---|", *rows, "",
         "Made by `scripts/export_data.py`.", ""]), encoding="utf-8")
     print(subprocess.run(["du", "-sh", str(out / "data"), str(preview)], capture_output=True, text=True).stdout)
 

@@ -1,6 +1,6 @@
 # Thí nghiệm
 
-Ghi ngắn gọn từng thí nghiệm: hỏi gì, dữ liệu nào, cấu hình nào, kết quả, quyết định kéo theo. Báo cáo chi tiết nằm ở `experiments/<mã>/report.md`.
+Ghi ngắn gọn từng thí nghiệm: hỏi gì, dữ liệu nào, cấu hình nào, kết quả, quyết định kéo theo. Báo cáo chi tiết và kết quả thô nằm ở `experiments/<mã>/` trên máy của nhóm, không đưa lên git.
 
 Mọi số đo ở đây là trên dữ liệu tự dựng. Chúng dùng để chọn cách làm, không phải để khẳng định chất lượng trên dữ liệu thật.
 

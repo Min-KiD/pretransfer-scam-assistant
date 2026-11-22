@@ -16,6 +16,10 @@ checkpoints/
 *.tar.gz
 *.zip
 
+# Experiment outputs (per-image results, session logs, long reports): stay on our machines.
+# What was tested and what we learned goes in EXPERIMENTS.md.
+experiments/
+
 # Environments and caches
 .conda/
 .venv/
