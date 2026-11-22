@@ -427,23 +427,6 @@ def _rate(x):
     return x[0] / x[1] if x[1] else 0.0
 
 
-def cmd_pick_base(a):
-    """Phase-B base: the phase-A open model with the highest J string match on web-dev (only the dev split may steer
-    choices); tie -> fewer made-up strings; tie -> order given. Rule fixed on 2026-11-22 before the 2B/3.5 runs."""
-    rows = score_configs([f"J__{m}" for m in a.models], parts=("web-dev",))
-    best = min(enumerate(rows), key=lambda x: (-_rate(x[1]["web-dev"]["match"]), x[1]["web-dev"]["fabricated"][0],
-                                               x[0]))[1]
-    name = best["config"].split("__", 1)[1]
-    res = {"base": name, "rule": "max J string match on web-dev; tie -> fewer made-up strings; tie -> queue order",
-           "candidates": rows}
-    out = ROOT / ".cache/e4/lora/base_pick.json"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(res, indent=1, ensure_ascii=False), encoding="utf-8")
-    for r in rows:
-        print(f"{r['config']}: web-dev {r['web-dev']['match']} made-up {r['web-dev']['fabricated']}", flush=True)
-    print(name)
-
-
 def cmd_pick(a):
     d = Path(a.lora_root) / a.run
     meta = json.loads((d / "meta.json").read_text(encoding="utf-8"))
@@ -476,8 +459,6 @@ def main():
     pk = sub.add_parser("pick")
     pk.add_argument("--run", required=True, help="run name: <lora-root>/<run>/meta.json")
     pk.add_argument("--lora-root", default=str(ROOT / ".cache/e4/lora"))
-    pb = sub.add_parser("pick-base")
-    pb.add_argument("models", nargs="+", help="phase-A model names with J runs on web")
     for name in ("check", "train"):
         p = sub.add_parser(name)
         p.add_argument("--base", required=True, help="HF repo id (offline snapshot) or local snapshot dir")
@@ -501,7 +482,7 @@ def main():
     t.add_argument("--eval-every", type=int, default=250)
     t.add_argument("--save-every", type=int, default=250)
     a = ap.parse_args()
-    {"check": cmd_check, "train": cmd_train, "pick": cmd_pick, "pick-base": cmd_pick_base}[a.cmd](a)
+    {"check": cmd_check, "train": cmd_train, "pick": cmd_pick}[a.cmd](a)
 
 
 if __name__ == "__main__":

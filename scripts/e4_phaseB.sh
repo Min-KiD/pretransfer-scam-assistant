@@ -1,27 +1,28 @@
 #!/usr/bin/env bash
-# E4 phase B on the server: LoRA runs B2_500, B2_2000, B1, B3 with e1.lora_train, each evaluated through vLLM + e1.e4_run
-# (B4 is an OCR cross-check of B1's outputs in e1.score_e4, no training here).
+# E4 phase B: LoRA runs (RUNS, default B2_500 B1) with e1.lora_train on base qwen3-vl-4b, each evaluated through
+# vLLM + e1.e4_run (B4 is an OCR cross-check of B1's outputs in e1.score_e4, no training here).
 #
-#   bash scripts/e4_phaseB.sh --detach     # unattended, after phase A: setsid + nohup; rerun any time (resumable)
+#   bash scripts/e4_phaseB.sh rented       # on a rented GPU: train every run, then every checkpoint on val
+#   bash scripts/e4_phaseB.sh --detach     # on the server, after phase A: setsid + nohup; rerun any time (resumable)
 #   bash scripts/e4_phaseB.sh check        # CPU smoke test: prompt layout, masking, image tokens
 #
+# `rented` gets only synthetic data (data/E4, code, base weights); the real screenshots never leave the server. Its
+# .cache/e4/lora/<run>/ and data/E4/val/runs/J__<run>-*/ are copied back before `all` evaluates.
 # `all` (what --detach runs):
 # 0. wait until phase A is finished (phaseA_status.json "phaseA" done, or its lock is free and every QUEUE model is
-#    done/failed) and no other process is on the GPU (never kill anything). Unless BASE_NAME is given, the base is
-#    `python -m e1.lora_train pick-base <phase-A models that finished>`: highest J string match on web-dev
-#    (.cache/e4/lora/base_pick.json)
-# 1. PP-OCRv6 GPU text for data/E4/{train,val,val_la} as phase A step 0 does it (needed by B3 and its JO inference)
-# 2. per run, cheapest first; a run whose meta.json says finished is not trained again:
-#    a. train -> .cache/e4/lora/<run>/{log.jsonl,meta.json,ckpt-<step>/}
-#    b. vllm serve the base (served as $BASE_NAME) with every checkpoint as a LoRA module <run>-<step>, so
+#    done/failed) and no other process is on the GPU (never kill anything)
+# 1. PP-OCRv6 GPU text for data/E4/{val,val_la} (B4), plus train when B3 is in RUNS (its prompts)
+# 2. wait until every run's adapters are there (meta.json finished); TRAIN_HERE=1 trains missing runs here instead
+# 3. per run:
+#    a. vllm serve the base (served as $BASE_NAME) with every checkpoint as a LoRA module <run>-<step>, so
 #       `--model local:<run>-<step>` in e1.e4_run (core.llm: "local:<name>" -> model "<name>" at $LOCAL_LLM_URL) hits it
-#    c. selection pass per checkpoint: val with --workers 8, web with --workers 1 (web-dev picks; the picked
-#       checkpoint's web-test latency then comes from a 1-at-a-time run, as in phase A)
-#    d. python -m e1.lora_train pick --run <run> -> pick.json ("config" = picked e4_run config)
-#    e. picked checkpoint, --workers 8 (not a latency run), on E1,E1b,gen,gen_ref,val_la
-#    f. once per server (resumable, so later servers skip it): the base model on val,val_la in J and JO, --workers 8,
-#       so every B row has a same-set baseline
-#    g. stop vLLM
+#    b. selection pass per checkpoint: val with --workers 8 (skipped when copied back), web with --workers 1
+#       (web-dev picks; the picked checkpoint's web-test latency then comes from a 1-at-a-time run on the 4060 Ti)
+#    c. python -m e1.lora_train pick --run <run> -> pick.json ("config" = picked e4_run config)
+#    d. picked checkpoint, --workers 8 (not a latency run), on E1,E1b,gen,gen_ref,val_la
+#    e. once (resumable): the base model on val,val_la in J (and JO for B3), --workers 8, so every B row has a
+#       same-set baseline
+#    f. stop vLLM
 # Progress: .cache/logs/e4/phaseB.log, .cache/logs/e4/phaseB_status.json, per step .cache/logs/e4/B_*.log
 set -uo pipefail
 cd "$(dirname "$0")/.."
@@ -40,8 +41,10 @@ export HOME=$ROOT/.cache/home HF_HOME=$ROOT/.cache/hf HF_HUB_OFFLINE=1 XDG_CACHE
   PYTHONDONTWRITEBYTECODE=1 TOKENIZERS_PARALLELISM=false VLLM_NO_USAGE_STATS=1 DO_NOT_TRACK=1
 VPY=$ROOT/.venv-e4/bin/python                                   # torch/peft training, vllm, e1.e4_run
 HPY=${HPY:-/home/intern/vidoc-dev/.venvs/mineru/bin/python}      # PP-OCRv6 env from E1b, used read-only
-BASE_NAME=${BASE_NAME:-}                                        # empty: phase-A winner by e1.lora_train pick-base
-RUNS=${RUNS:-"B2_500 B2_2000 B1 B3"}
+# Fixed on 2026-11-22 (Minh), when training moved to a rented GPU before phase A ended: base qwen3-vl-4b, runs B2_500
+# and B1 only (B2_2000 and B3 cut for time). B4 is a scoring step in e1.score_e4.
+BASE_NAME=${BASE_NAME:-qwen3-vl-4b}
+RUNS=${RUNS:-"B2_500 B1"}
 QUEUE=${QUEUE:-"qwen3-vl-4b qwen3-vl-2b qwen3.5-4b"}           # phase A's queue (to know when it is over)
 PORT=${PORT:-8000}
 STATUS=$LOGS/phaseB_status.json
@@ -110,17 +113,41 @@ e4() {  # model mode sets workers logname
   "$VPY" -m e1.e4_run --model "local:$1" --mode "$2" --sets "$3" --workers "$4" >> "$LOGS/B_$5.e4.log" 2>&1
 }
 
+train_runs() {  # 2a for every run; returns after the last one
+  for run in $RUNS; do
+    finished "$run" && continue
+    wait_gpu "$run"
+    status "$run" running "train"
+    # shellcheck disable=SC2046
+    "$VPY" -m e1.lora_train train --base "$(base_path)" --out "$OUT/$run" $(train_args "$run") \
+      > "$LOGS/B_$run.train.log" 2>&1
+    finished "$run" || status "$run" failed "train: $(tail -n 2 "$LOGS/B_$run.train.log" | tr '\n' ' ')"
+  done
+}
+
+run_rented() {  # on a rented GPU: train, then every checkpoint on val (synthetic only; no real images go there)
+  exec 9> "$LOGS/phaseB.lock"
+  flock -n 9 || { echo "another e4_phaseB.sh is running"; exit 1; }
+  train_runs
+  export LOCAL_LLM_URL="http://127.0.0.1:$PORT/v1"
+  for run in $RUNS; do
+    finished "$run" || continue
+    mode=J; [[ $run == B3 ]] && mode=JO
+    serve "$run" || { status "$run" failed "vllm did not start"; continue; }
+    for s in $(steps_of "$run"); do
+      status "$run" running "val pass ckpt $s"
+      e4 "$run-$s" "$mode" val 8 "$run"
+    done
+    stop_server
+    status "$run" trained "val done for $(steps_of "$run" | wc -w) checkpoints"
+  done
+  status phaseB rented_done "$(du -sh "$OUT" | cut -f1)"
+}
+
 run_all() {
   exec 9> "$LOGS/phaseB.lock"
   flock -n 9 || { echo "another e4_phaseB.sh is running"; exit 1; }
   while ! phaseA_over; do status phaseB waiting "phase A not finished"; sleep 300; done
-  if [[ -z $BASE_NAME ]]; then
-    cands=""; for m in $QUEUE; do [[ "$(state_of "$A_STATUS" "$m")" == done ]] && cands="$cands $m"; done
-    [[ -n $cands ]] || { status phaseB failed "no phase-A model finished"; exit 1; }
-    BASE_NAME=$("$VPY" -m e1.lora_train pick-base $cands 2> "$LOGS/B_base_pick.log" | tail -n 1) \
-      || { status phaseB failed "pick-base: $(tail -n 1 "$LOGS/B_base_pick.log")"; exit 1; }
-    status phaseB running "base $BASE_NAME (pick-base over$cands)"
-  fi
   for s in train val val_la; do
     d=data/E4/$s
     if [[ $(ls "$d/images" | wc -l) -ne $(wc -l < "$d/manifest.jsonl") || \
@@ -130,27 +157,27 @@ run_all() {
   done
   base_path > /dev/null 2>&1 || { status phaseB failed "$BASE_NAME weights not on disk"; exit 1; }
 
-  # ---------------------------------------------------------------- 1. PP-OCRv6 on the E4 sets
+  # ---------------------------------------------------------------- 1. PP-OCRv6 (B3 prompts; B4 on val/val_la)
+  ocr_sets=val,val_la; [[ " $RUNS " == *" B3 "* ]] && ocr_sets=train,val,val_la
   wait_gpu ocr
-  status ocr running "PP-OCRv6 GPU on train,val,val_la"
+  status ocr running "PP-OCRv6 GPU on $ocr_sets"
   PYTHONPATH=$ROOT/.cache/pylib:$ROOT "$HPY" -m e1.open_models run --model pp-ocrv6-gpu --mode T \
-    --sets train,val,val_la --budget-min 600 --min-images 0 > "$LOGS/B_ocr.log" 2>&1 \
+    --sets "$ocr_sets" --budget-min 600 --min-images 0 > "$LOGS/B_ocr.log" 2>&1 \
     && status ocr done "$(tail -n 1 "$LOGS/B_ocr.log")" \
     || status ocr failed "$(tail -n 2 "$LOGS/B_ocr.log" | tr '\n' ' ')"
 
+  if [[ ${TRAIN_HERE:-0} == 1 ]]; then
+    train_runs
+  else
+    for run in $RUNS; do
+      while ! finished "$run"; do status "$run" waiting "adapters from the rented GPU"; sleep 300; done
+    done
+  fi
   export LOCAL_LLM_URL="http://127.0.0.1:$PORT/v1"
   for run in $RUNS; do
     mode=J; [[ $run == B3 ]] && mode=JO
-    # ------------------------------------------------------------ 2a. train
-    if ! finished "$run"; then
-      wait_gpu "$run"
-      status "$run" running "train"
-      # shellcheck disable=SC2046
-      "$VPY" -m e1.lora_train train --base "$(base_path)" --out "$OUT/$run" $(train_args "$run") \
-        > "$LOGS/B_$run.train.log" 2>&1
-      finished "$run" || { status "$run" failed "train: $(tail -n 2 "$LOGS/B_$run.train.log" | tr '\n' ' ')"; continue; }
-    fi
-    # ------------------------------------------------------------ 2b-g. evaluate
+    finished "$run" || continue
+    # ------------------------------------------------------------ 3. evaluate
     status "$run" running "vllm serve with $(steps_of "$run" | wc -w) adapters"
     serve "$run" || { status "$run" failed "vllm did not start: $(grep -i -E 'error|exception' \
       "$LOGS/B_$run.vllm.log" | tail -n 2 | tr '\n' ' ')"; continue; }
@@ -166,9 +193,9 @@ run_all() {
     else
       status "$run" failed "pick: $(tail -n 2 "$LOGS/B_$run.pick.log" | tr '\n' ' ')"
     fi
-    status "$run" running "base $BASE_NAME on val,val_la (J, JO)"
+    status "$run" running "base $BASE_NAME on val,val_la"
     e4 "$BASE_NAME" J val,val_la 8 base
-    e4 "$BASE_NAME" JO val,val_la 8 base
+    [[ $mode == JO ]] && e4 "$BASE_NAME" JO val,val_la 8 base
     stop_server
     [[ "$(state_of "$STATUS" "$run")" == failed ]] || status "$run" done "$(tail -n 1 "$LOGS/B_$run.pick.log")"
   done
@@ -177,7 +204,7 @@ run_all() {
 
 case "${1:-}" in
   all) run_all ;;
-  check) BASE_NAME=${BASE_NAME:-qwen3-vl-4b}
-    CUDA_VISIBLE_DEVICES= nice -n 15 "$VPY" -m e1.lora_train check --base "$(base_repo)" --n 4 ;;
+  rented) run_rented ;;
+  check) CUDA_VISIBLE_DEVICES= nice -n 15 "$VPY" -m e1.lora_train check --base "$(base_repo)" --n 4 ;;
   *) sed -n 2,24p "$0"; exit 2 ;;
 esac
