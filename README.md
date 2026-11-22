@@ -4,16 +4,6 @@ An assistant that steps in at the moment a wallet user is about to send money to
 
 Entry for MoMo Tech Contest 2026, topics "Anti-fraud" and "AI assistant".
 
-**Status (22 Nov 2026):** research phase. A local sample app runs; the model experiments below are in progress; nothing is deployed yet. Design docs and task briefs are in Vietnamese.
-
-| Date | What |
-|---|---|
-| 27 Nov, 23:59 | Team registration closes (2-3 members, no changes afterwards) |
-| 3 Dec, 23:59 | Submission: live product link + 1-page guide, source `.zip`, 10 slides, 3-minute video |
-| 3-11 Dec | Freeze: no changes, the app must stay online |
-| 8 Dec | Top 5 announced |
-| 11 Dec | Final in Ho Chi Minh City, in person |
-
 ## The problem
 
 More than 90% of online-scam victims make the transfer themselves, under pressure from a story told on Zalo, Messenger, SMS or a phone call. A wallet app only sees the last step. It can flag a risky receiving account, but it does not know the story, so its warning is generic.
