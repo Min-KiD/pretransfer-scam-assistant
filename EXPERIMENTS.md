@@ -14,7 +14,7 @@ Most numbers come from data we built ourselves and from simulated users. They ar
 | E3 | How often is an ordinary transfer flagged as a scam? | Done | LLM asking freely: 1 of 20. Code-picked: 5 of 20 |
 | E4 | Can a small open vision model with LoRA read a screenshot into JSON as well as the closed API? (model M1) | Closed models and `qwen3-vl-4b` done; 2 more open models and LoRA running | Untrained `qwen3-vl-4b` finds 76.1% of real-screenshot strings vs 92.3% for the cheapest closed model, at 12 s/image on our GPU. M1 fails as defined: the 2 s/image limit is out of reach for any 2-4B model on an RTX 4060 Ti |
 | E5 | Can a small open LLM run the conversation as well as closed models? (model M2) | Closed models and `qwen3-vl-4b` done; 2 more open models running | Closed models: 76-83% correct scenario on 75 sessions. `qwen3-vl-4b`: 73.7% vs 81.3% for `gemini-3.5-flash-lite` on 300 sessions, 7.7 points short of the M2 rule |
-| E6 | Does a small CPU text classifier work as a second opinion on the scenario? (model M3) | Done for `gemini-3.5-flash-lite`; open-model sessions pending | TF-IDF + logistic regression (1.3 ms on CPU) catches 66% of the LLM's wrong conclusions and flags 7% of its correct ones: M3 kept |
+| E6 | Does a small CPU text classifier work as a second opinion on the scenario? (model M3) | Done for `gemini-3.5-flash-lite` and `qwen3-vl-4b` sessions | TF-IDF + logistic regression (1.3 ms on CPU) catches 66-70% of the LLM's wrong conclusions and flags 7-8% of its correct ones: M3 kept |
 | E7 | Label propagation on the account graph (model M4) | Not started | |
 | E8 | A user who was coached by the scammer on what to answer | Not started | |
 | E9 | Time and cost per session | Not started | |
@@ -146,6 +146,7 @@ Second opinion on the 300 `gemini-3.5-flash-lite` sessions, rule "if C0 disagree
 
 - **M3 is kept.** When C0 disagrees it catches 37 of the 56 wrong conclusions (66%, need 30%) and flags 17 of the 244 correct ones (7%, limit 15%).
 - **The cost is 18% of sessions ending in "not enough evidence".** Applying the rule only when C0 is confident (top probability > 0.65, the threshold set on validation) catches only 6 of 56: confident disagreements are rare.
+- **Same rule on the 300 `qwen3-vl-4b` sessions:** C0 catches 50 of 71 wrong conclusions (70%) and flags 18 of 221 correct ones (8%), so M3 also holds behind a weaker LLM. Correct on concluded sessions goes from 75.7% to 90.6%, but 25.3% of sessions end in "not enough evidence".
 - **On real narratives the fine-tuned PhoBERT is clearly better** (88% vs 72%), but it is also confident on the 14 stories that fit no scenario (9 of 14 above 0.5), while C0 never is. C0 stays the second opinion; PhoBERT is worth retesting if the scenario list gets an "other" class.
 - **Licence:** PhoBERT-base-v2 is AGPL-3.0; C0 has no such constraint.
 - **Limits:** the training stories and the test sessions both come from one LLM family; 89 real narratives.
