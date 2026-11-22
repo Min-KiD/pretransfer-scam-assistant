@@ -103,7 +103,7 @@ No real user data. All account numbers, phone numbers and names in generated set
 |---|---|
 | `docs/specs/` | Design and plan (Vietnamese). Start with `2026-11-22-ke-hoach-model-va-thi-nghiem.md` |
 | `docs/tasks/` | One brief per task or experiment (Vietnamese) |
-| `EXPERIMENTS.md` | Short log of each experiment: question, data, result, decision (Vietnamese). Raw outputs and long reports stay on our machines |
+| `EXPERIMENTS.md` | Short log of each experiment: question, data, result, decision. Raw outputs and long reports stay on our machines |
 | `scenarios/`, `core/`, `app/`, `web/`, `sim/`, `e1/`, `tests/` | See "What exists today" |
 | `scripts/` | GPU-server pipelines, `export_data.py` |
 

@@ -1,159 +1,121 @@
-# Thí nghiệm
+# Experiments
 
-Ghi ngắn gọn từng thí nghiệm: hỏi gì, dữ liệu nào, cấu hình nào, kết quả, quyết định kéo theo. Báo cáo chi tiết và kết quả thô nằm ở `experiments/<mã>/` trên máy của nhóm, không đưa lên git.
+Short log: what we tested, the main numbers, what we learned, what we decided. Raw outputs and long reports stay on our machines (`experiments/`, not in git).
 
-Mọi số đo ở đây là trên dữ liệu tự dựng. Chúng dùng để chọn cách làm, không phải để khẳng định chất lượng trên dữ liệu thật.
+Most numbers come from data we built ourselves and from simulated users. They are for choosing an approach, not for claiming quality on real users. Each configuration was run once.
 
-## Tổng quan
+## Overview
 
-| Mã | Câu hỏi | Trạng thái | Kết quả chính |
+| ID | Question | State | Main finding |
 |---|---|---|---|
-| E1 | Đọc chuỗi từ ảnh chat: có cần OCR riêng bên cạnh VLM không | Xong với Gemini (3 cách x 3 model); phải chạy lại với model Bedrock | Số tài khoản, số điện thoại, số tiền: đạt 100% ở mọi cách trừ model rẻ nhất khi không có OCR. Link: 66-93%, gần hết lỗi là nhầm `I` với `l`, OCR không sửa được |
-| E1b | Model mở trên GPU 16GB có thay được Gemini không; OCR nào hơn PP-OCRv6; ảnh khó hơn thì cách nào gãy | Xong (4 bộ ảnh: E1, khó, gen, web) | Đọc chữ: GLM-OCR và PP-OCRv6 GPU đủ dùng (PP-OCRv6 0,3 giây/ảnh). Không model mở nào trả JSON dùng được. Trên 20 ảnh chat thật: Gemini flash-lite 83,7%, model mở 51-61%, phần lớn do regex trích chuỗi bỏ sót chứ không phải OCR đọc sai |
-| E2 | Chọn câu hỏi bằng tính toán có hơn để model tự hỏi không | Lần 2 xong (75 tình huống chữ, sau khi sửa điền bảng); lần 1 giữ ở `experiments/E2/run1/` | Sau 3 câu: tính toán 69,3% đúng kịch bản (lần 1: 71,4%), model tự hỏi 78,7% (lần 1: 75,7%). Kém 9,3 điểm, không đạt ngưỡng hơn 5 điểm: đề xuất bỏ phần chọn câu hỏi, giữ bảng câu chuyện. Biến thể hỏi ít nhất 1 câu cũng 69,3% |
-| E3 | Tỉ lệ báo nhầm giao dịch bình thường | Lần 2 xong (20 tình huống bình thường) | Tính toán 25% (5/20; lần 1: 10%), hỏi ít nhất 1 câu 10%, model tự hỏi 5% (1/20); trần với người trả lời hoàn hảo 6,2% |
-| E4 | Model mở (VLM + LoRA) đọc ảnh chat ra JSON có thay được Gemini không | Đang chạy (giai đoạn A) | |
-| E5 | Model mở cho hội thoại so với các model đóng | Đang chạy | |
-| E6 | Bộ phân loại kịch bản nhỏ làm ý kiến thứ hai | Chưa làm | |
-| E8 | Người dùng bị kẻ gian dặn trước câu trả lời (trước đây mang mã E4) | Chưa làm | |
-| E9 | Thời gian và chi phí mỗi phiên (trước đây mang mã E5) | Chưa làm | |
+| E1 | Can a model read account numbers, phones, links and amounts from a chat screenshot? Does separate OCR help? | Done | On clean screenshots everything is near 100% except links. Link errors are almost all `I` read as `l`; the domain is always right |
+| E1b | Can open models on a 16GB GPU replace the closed API? What breaks on harder and real images? | Done | Open OCR reads text well, but no open model returned usable JSON. On real screenshots open OCR + regex falls to 51-61% |
+| E2 | Should code pick the next question (information gain), or should the LLM ask freely? | Done, 2 runs | LLM asking freely is better: 78.7% vs 69.3% correct scenario. Code-picked questions dropped |
+| E3 | How often is an ordinary transfer flagged as a scam? | Done | LLM asking freely: 1 of 20. Code-picked: 5 of 20 |
+| E4 | Can a small open vision model with LoRA read a screenshot into JSON as well as the closed API? (model M1) | Closed baselines done; open models running | Closed baseline on 56 real screenshots: 92.3% of strings found, but 26.2% of returned strings are not in our labels |
+| E5 | Can a small open LLM run the conversation as well as closed models? (model M2) | Closed baselines done; open models running | Closed models: 76-83% correct scenario on 75 sessions. The cheapest one is within noise of the best |
+| E6 | Does a small CPU text classifier work as a second opinion on the scenario? (model M3) | Data and code ready, not run | |
+| E7 | Label propagation on the account graph (model M4) | Not started | |
+| E8 | A user who was coached by the scammer on what to answer | Not started | |
+| E9 | Time and cost per session | Not started | |
 
-## E1 - Đọc chuỗi chính xác từ ảnh chụp chat
+## E1: reading strings from clean screenshots
 
-Ngày: 2026-11-20. Đề bài: `docs/tasks/E1-doc-anh-chat.md`. Báo cáo: `experiments/E1/report.md`.
+- **Data:** 180 images. 30 chats rendered from HTML (Zalo, Messenger, SMS look) x 6 variants (original, dark, cropped, JPEG 40, half size, blurred). 756 strings, all made up. Links contain look-alike characters on purpose.
+- **Tested:** PP-OCRv6 + regex; three Gemini models reading the image directly; the same models with the OCR text added to the prompt.
 
-### Dữ liệu
+| Setup | Accounts | Phones | Links | Amounts | s/image | USD/1000 images |
+|---|---|---|---|---|---|---|
+| PP-OCRv6 (CPU) + regex | 100% | 100% | 68.7% | 100% | 20.0 | 0 |
+| `gemini-3.5-flash-lite` | 95.6% | 100% | 68.2% | 100% | 5.8 | 1.53 |
+| `gemini-3.5-flash-lite` + OCR text | 100% | 100% | 65.9% | 100% | 5.5 | 1.62 |
+| `gemini-4-carbon` | 100% | 100% | 92.7% | 100% | 18.7 | 16.93 |
 
-- 30 ảnh chat gốc, dựng từ mẫu HTML rồi chụp bằng Playwright: 3 kiểu giao diện (giống Zalo, Messenger, SMS) x 5 tình huống x 2.
-- Mỗi ảnh gốc có 6 biến thể: gốc, chế độ tối, cắt mép trên, JPEG chất lượng 40, thu nhỏ 50%, mờ nhẹ. Tổng 180 ảnh, 756 chuỗi cần đọc.
-- Bốn loại chuỗi: số tài khoản, số điện thoại, link, số tiền. Tất cả tự sinh ngẫu nhiên. Link cố ý có ký tự dễ nhầm (`I`, `l`, `1`, `0`, `O`).
+- **Links:** 50 of 55 errors or more are `I` vs `l`, which look the same in chat fonts. The domain was read correctly in 179/179 links by every setup; all errors are in the random path after `/`.
+- **OCR as a cross-check:** it fixed all 8 dropped digits in account numbers for the cheapest model. It does not fix links, because OCR makes the same mistake.
+- **Who said what:** 100% (1116/1116 messages) for every model.
+- **Decisions:** the product uses only the domain of a link. OCR stays as a cross-check for account numbers when the vision model is small.
+- **Limit:** this set is too easy to separate the approaches.
 
-### Cấu hình
+## E1b: open models, harder images, real images
 
-| Cách | Mô tả |
-|---|---|
-| A | PaddleOCR 3.7.0, PP-OCRv6 tiếng Việt, chạy CPU, rồi regex |
-| B | Chỉ VLM, structured output, nhiệt độ và mức suy nghĩ mặc định |
-| C | Như B, thêm toàn bộ chữ OCR của A vào prompt; chuỗi nào lệch với OCR thì gắn cờ "không chắc" |
+- **Data:** the E1 set; 100 harder images (shrunk to 33%, saved twice as JPEG, photo of a screen, long chats); 40 images made by an image model; 20 real scam screenshots published by police and news sites (the set is now 56).
+- **Tested on our 16GB GPU:** GLM-OCR, MinerU 2.5 Pro, PaddleOCR-VL 1.6, PP-OCRv6, each followed by regex; GLM-OCR also asked for JSON directly.
 
-Model cho B và C: `gemini-3.5-flash-lite`, `gemini-3.8-flash`, `gemini-4-carbon`. Từ thí nghiệm sau không dùng dòng gemini-4 (giá gấp đôi từ 01/12/2026).
+Strings found, all types together:
 
-### Kết quả (khớp chính xác, gộp 6 biến thể, 180 ảnh)
-
-| Cách | Model | Số tài khoản | Số điện thoại | Link | Link khi coi `I` = `l` | Số tiền | Giây/ảnh | USD/1000 ảnh |
-|---|---|---|---|---|---|---|---|---|
-| A | PaddleOCR | 100% | 100% | 68,7% | 97,8% | 100% | 20,0 (CPU) | 0 |
-| B | gemini-3.5-flash-lite | 95,6% | 100% | 68,2% | 96,1% | 100% | 5,8 | 1,53 |
-| B | gemini-3.8-flash | 100% | 100% | 69,3% | 97,2% | 100% | 31,2 | 12,53 |
-| B | gemini-4-carbon | 100% | 100% | 92,7% | 100% | 100% | 18,7 | 16,93 |
-| C | gemini-3.5-flash-lite | 100% | 100% | 65,9% | 97,2% | 100% | 5,5 | 1,62 |
-| C | gemini-3.8-flash | 100% | 100% | 67,0% | 97,8% | 100% | 27,7 | 12,36 |
-| C | gemini-4-carbon | 100% | 100% | 93,3% | 100% | 100% | 21,9 | 19,50 |
-
-Mẫu số: 180 số tài khoản, 180 số điện thoại, 179 link, 217 số tiền. Phía gửi (ai nói câu nào): 100% (1116/1116) ở mọi cấu hình B và C. Giây/ảnh của C chưa cộng thời gian OCR.
-
-### Đọc từ số đo
-
-- **OCR chỉ giúp ở một chỗ:** model rẻ nhất làm rơi một chữ số ở 8/180 số tài khoản; thêm chữ OCR thì sửa được cả 8 và không làm hỏng chuỗi nào. Hai model còn lại đã đạt 100% khi không có OCR.
-- **OCR không sửa được link.** OCR tự nó cũng chỉ đọc đúng 68,7% link. Ở cách C, chữ OCR sửa được 5-11 link nhưng làm hỏng 4-15 link mà VLM vốn đọc đúng.
-- **Gần hết lỗi link là nhầm `I` với `l`:** 50/55 đến 13/13 lỗi tùy cấu hình. Trong font không chân của app chat, hai chữ này gần như trùng nét. Lỗi còn lại là sai hoa/thường ở phần đường dẫn.
-- **Tên miền của link đạt 100% (179/179) ở cả 7 cấu hình**, kể cả tên miền giả dạng (`c0ngan-xacminh.vip`, `rnbbank-hoantien.xyz`). Mọi lỗi link nằm ở đoạn đường dẫn ngẫu nhiên sau dấu `/`, thứ sản phẩm không cần đọc đúng từng ký tự.
-- **Cờ "không chắc" gần như không bắt được lỗi link:** chỉ gắn đúng 8-25% chuỗi sai, vì OCR sai cùng chỗ với VLM. Với `gemini-4-carbon` cờ còn báo nhầm 45/167 link đúng.
-- **`gemini-3.8-flash` ở mức suy nghĩ mặc định không đáng tiền cho việc này:** trung bình 2761 token suy nghĩ mỗi ảnh, 31 giây/ảnh (p90 67 giây), giá gần bằng `gemini-4-carbon`, mà link không hơn model rẻ nhất.
-- **Biến thể ảnh (tối, mờ, JPEG 40, thu nhỏ) không làm đổi kết quả rõ rệt:** chênh giữa các biến thể nằm trong 1-3 chuỗi mỗi ô.
-
-### Quyết định
-
-Quy tắc đặt trước (bỏ OCR riêng nếu VLM đạt từ 98% ở mọi loại chuỗi và mọi biến thể) cho ra "giữ cả hai" với cả ba model, nhưng chỉ vì link, và link là thứ OCR không sửa được. Đề xuất, chờ Minh duyệt:
-
-- Với link, sản phẩm chỉ dùng tên miền. Không dùng cờ "lệch với OCR" cho link, không coi sai đường dẫn là đọc sai.
-- Có giữ OCR hay không tùy model của bản nộp: model rẻ thì cần OCR để soát số tài khoản; model đọc đủ chữ số thì bỏ được. Chốt sau khi chạy lại E1 với model Bedrock.
-
-### Giới hạn
-
-- Ảnh dựng từ HTML sạch hơn ảnh chụp màn hình thật. Chưa có số đo trên ảnh thật.
-- Mỗi ô biến thể chỉ có khoảng 30 chuỗi, một lỗi là 3,3 điểm phần trăm.
-- Bộ ảnh này quá dễ: mọi thứ sản phẩm cần đều đạt 100% trừ một ô. Nó không phân biệt được các cách đọc; E1b thêm bộ ảnh khó hơn.
-- Link trong dữ liệu cố ý chứa `I` và `l` cạnh nhau, nên tỉ lệ sai link cao hơn link ngoài đời.
-- Thời gian OCR đo trên CPU 12 nhân, tắt oneDNN, chạy chung với các lượt gọi API; không đại diện cho GPU.
-- Chưa thử `gemini-3.8-flash` với mức suy nghĩ thấp.
-- Bản nộp dùng model trên Bedrock, nên E1 phải chạy lại với model đó; số của Gemini không dùng thay được.
-
-## E2 - Chọn câu hỏi bằng tính toán so với để model tự hỏi
-
-Lần 1: 2026-11-21, đề bài `docs/tasks/T1-loi-hoi-dap-va-khung-app.md` (Phần 1, Phần 5), kết quả giữ nguyên ở `experiments/E2/run1/`. Lần 2: đề bài `docs/tasks/T2-sua-dien-bang-chay-lai-E2.md`, sau khi sửa khâu điền bảng. Báo cáo: `experiments/E2/report.md` (có cột lần 1 cạnh mỗi số).
-
-### Dữ liệu
-
-- Lần 2: 15 kịch bản (11 lừa đảo, 4 bình thường). Lần 1 chỉ có 14, vì `scenarios/gia_ngan_hang.yaml` lỗi cú pháp; tab kế hoạch đã sửa file đó.
-- Phần 1: người trả lời hoàn hảo, 200 bảng câu chuyện mỗi kịch bản, lấy mẫu từ chính bảng xác suất của kịch bản (seed 20261121). Không gọi model.
-- Phần 5: 75 tình huống chỉ có chữ, 5 tình huống mỗi kịch bản, lưu ở `sim/cases/`. 70 tình huống của lần 1 giữ nguyên; lần 2 thêm 5 tình huống `gia_ngan_hang`. Mỗi tình huống có bảng câu chuyện thật lấy mẫu như Phần 1, một tính cách (vội / cả tin / nghi ngờ / kể lộn xộn), tin mở đầu do model viết một lần rồi giữ nguyên, và nhãn tài khoản.
-- Bộ phát triển cho prompt điền bảng: 12 tin nhắn tự viết, không lấy từ `sim/cases/`, kèm trường mong đợi (`tests/fill_dev.json`). Prompt chỉ được chỉnh trên bộ này.
-
-### Cấu hình
-
-- `tinh_toan`: code chọn trường có lợi ích thông tin kỳ vọng cao nhất; model viết câu hỏi và điền bảng; dừng khi xác suất đứng đầu từ 0,7 hoặc đã hỏi 3 câu.
-- Điền bảng ở lần 2: chỉ điền trường người dùng nói rõ. Mỗi trường phải kèm `trich` chép nguyên văn; code bỏ trường nào có `trich` không nằm trong tin nhắn (so sau khi chuẩn hóa Unicode, dấu cách, hoa thường, bỏ ngoặc kép và dấu câu ở hai đầu). Không suy `nguoi_lien_lac`, `ai_bat_dau`, `ap_luc`, `da_gap_truc_tiep` từ giọng điệu.
-- `tinh_toan_min1` (khai trước, báo riêng): như `tinh_toan`, nhưng khi chưa có ảnh thì phải hỏi ít nhất 1 câu rồi mới kết luận.
-- `tu_do`: model đọc `ten` và `mo_ta` của mọi kịch bản, tự hỏi tối đa 3 câu, rồi chọn một `id` hoặc "chưa đủ căn cứ".
-- Mọi trợ lý và nạn nhân giả lập đều dùng `gemini-3.5-flash-lite`. Chi phí Phần 5 lần 2 là 0,45 USD (ba trợ lý); đo điền bảng thêm khoảng 0,15 USD. Lần 1: 0,25 USD.
-
-### Kết quả
-
-Đúng kịch bản (lần 2, lần 1 trong ngoặc):
-
-| | Sau 0 câu | Sau 1 câu | Sau 2 câu | Sau 3 câu |
+| Setup | E1 | Hard | Generated | Real (20) |
 |---|---|---|---|---|
-| Người trả lời hoàn hảo, `tinh_toan` | 1,6% (1,8%) | 68,4% (67,8%) | 76,1% (77,1%) | 79,1% (80,3%) |
-| Nạn nhân giả lập, `tinh_toan` | 58,7% (58,6%) | 68,0% (67,1%) | 68,0% (70,0%) | 69,3% [58,7-80,0] (71,4%) |
-| Nạn nhân giả lập, `tinh_toan_min1` | 54,7% | 72,0% | 68,0% | 69,3% [58,7-80,0] |
-| Nạn nhân giả lập, `tu_do` | 74,7% (72,9%) | 80,0% (77,1%) | 80,0% (75,7%) | 78,7% [69,3-88,0] (75,7%) |
+| `gemini-3.5-flash-lite` (closed) | 91.4% | 89.7% | 93.0% | 83.7% (36/43) |
+| GLM-OCR + regex | 96.4% | 94.6% | 84.3% | 60.5% |
+| PP-OCRv6 GPU + regex | 92.9% | 91.8% | 83.7% | 58.1% |
+| MinerU 2.5 Pro + regex | 90.5% (67 images) | 92.5% (43 images) | 89.0% | 55.8% |
+| PaddleOCR-VL 1.6 + regex | 88.5% (121 images) | 88.3% (70 images) | 86.0% | 51.2% |
+| GLM-OCR, image to JSON | 0% | 0% | 0% | 2.3% |
 
-Đúng nhóm sau 3 câu: `tinh_toan` 89,3% (94,3%), `tinh_toan_min1` 94,7%, `tu_do` 92,0% (92,9%). Chỉ trên 70 tình huống chung với lần 1, đúng kịch bản sau 3 câu: `tinh_toan` 72,9%, `tinh_toan_min1` 71,4%, `tu_do` 80,0%. Số câu hỏi trung bình: `tinh_toan` 0,72 (0,63), `tinh_toan_min1` 1,41, `tu_do` 0,64 (0,87). Ngoặc vuông là khoảng tin cậy 95% bootstrap.
+- **Reading text is solved by open models.** PP-OCRv6 takes 0.3 s/image on GPU, GLM-OCR about 4 s.
+- **Image to JSON is not.** The one open model tried in JSON mode returned valid JSON for about a quarter of the images and no correct string. Qwen3-VL was not run here; that is E4.
+- **Real screenshots are much harder than ours.** Most of the open-OCR misses are strings that are present in the OCR text but that our regex does not catch (`+84 86 ...`, wrapped links, bare domains, `8tr999k`). The weak part is the extraction step, not the OCR.
+- **Decision:** train a small open vision model to output the JSON directly (M1), and keep PP-OCRv6 as a fast cross-check.
+- **Limit:** 20 real images and 43 strings; one string is 2.3 points.
 
-Điền bảng từ tin mở đầu của 75 tình huống (một lần gọi mỗi tin, `python -m sim.fill_eval --openings`):
+## E2 and E3: who chooses the questions
 
-| | Prompt lần 1 | Prompt lần 2 |
-|---|---|---|
-| Số trường điền trung bình | 4,35 | 3,89 |
-| Trường có `trich` không nằm trong tin nhắn | 4 (không kiểm, vẫn điền) | 0 (bị bỏ) |
-| Số tin điền `ap_luc` | 51 | 32 |
-| Số tin điền `ai_bat_dau` | 19 | 8 |
+- **Data:** 75 simulated text-only sessions, 5 per scenario (11 scam, 4 ordinary). The simulated user is an LLM given a true story, a persona and an opening message.
+- **Tested:** `computed` (code picks the field with the highest expected information gain, the LLM words the question and fills a story table); `computed, min 1 question`; `free` (the LLM reads the scenario descriptions and asks up to 3 questions on its own). All with `gemini-3.5-flash-lite`.
 
-Trong Phần 5 lần 2, code bỏ 4 trường vì `trich` không có trong tin nhắn ở `tinh_toan` (129 lần gọi điền bảng) và 4 ở `tinh_toan_min1` (181 lần gọi).
+| After 3 questions | Correct scenario | Correct group (scam / ordinary) | Ordinary flagged as scam |
+|---|---|---|---|
+| `computed` | 69.3% | 89.3% | 5 of 20 |
+| `computed`, min 1 question | 69.3% | 94.7% | 2 of 20 |
+| `free` | 78.7% | 92.0% | 1 of 20 |
 
-Trên bộ phát triển 12 tin, prompt lần 1 điền đủ 28/31 trường mong đợi và điền thừa 6 trường, trong đó có hai lần lấy việc người dùng đang vội làm `ap_luc`. Prompt lần 2 sau khi chỉnh: đủ 29/31, thừa 1.
+- **`free` wins by 9.3 points.** The rule set before the run was "keep `computed` only if it wins by 5 points", so it is dropped. Confidence intervals overlap (59-80 vs 69-88).
+- **Why `computed` loses:** filling the story table from the user's first message over-infers. In 46 of 75 sessions it concluded with no question at all. Forcing one question did not help the final number.
+- **Ceiling of the method:** with a simulated user who answers every field perfectly, `computed` reaches only 79.1%. Some scenarios are close by construction.
+- **Over-inference is hard to prompt away.** Requiring a verbatim quote for every filled field cut "pressure" fills from 51 to 32 of 75 openings, but the model still quoted the user's own hurry as pressure from the other side.
+- **False alarms cluster:** 4 of the 5 `computed` false alarms name "impersonating someone you know", triggered by "lending money to a friend".
+- **Decision:** the LLM asks freely. The story table is kept as the structured output for the report to staff.
+- **Limits:** the simulated user and the assistant are the same model; 5 cases per scenario; 20 ordinary cases give a very wide interval.
 
-### Đọc từ số đo
+## E4: screenshot to JSON (M1)
 
-- **Sửa điền bảng không đổi kết luận.** `tinh_toan` vẫn ở khoảng 70% (69,3% lần 2, 71,4% lần 1), `tu_do` vẫn cao hơn (78,7%). Khoảng cách tăng từ 4,3 lên 9,3 điểm, nhưng hai khoảng tin cậy vẫn chồng lên nhau, và lần 2 sinh lại cả lời nạn nhân giả lập nên không tách được phần do sửa prompt.
-- **Điền bảng bớt suy diễn nhưng chưa hết.** Số tin mở đầu bị điền `ap_luc` giảm từ 51 xuống 32, `ai_bat_dau` từ 19 xuống 8. Nhưng trong phiên sai `bt_tra_tien_nguoi_ban_quen__4`, lời kết luận vẫn trích chính câu người dùng tự giục ("chuyển nhanh giùm cái đang vội") làm bằng chứng bị hối thúc.
-- **`tinh_toan` vẫn dừng sớm:** 46/75 phiên kết luận ngay sau tin mở đầu (đúng 76%). Buộc hỏi 1 câu (`tinh_toan_min1`) nâng đúng kịch bản sau 1 câu lên 72,0%, nhưng sau 3 câu vẫn 69,3%: hỏi thêm không bù được.
-- **Báo nhầm dồn vào một kịch bản lừa:** 4 trong 5 lần `tinh_toan` báo nhầm kết luận `mao_danh_nguoi_quen`; 2 trong số đó người dùng kể chuyển cho bạn hoặc em họ mượn tiền. Với lý do "mượn tiền", bảng xác suất hiện tại nghiêng về chiêu mạo danh người quen. Đây là chuyện bảng xác suất, tab code không sửa.
-- **Trần của phương pháp gần như không đổi** khi thêm `gia_ngan_hang` (79,1% sau 3 câu); cặp nhầm mới lớn nhất là `chuyen_nham_tien` → `gia_ngan_hang` (10%).
+Phase A, no training. Closed models are the reference; the open models (`qwen3-vl-4b`, `qwen3.5-4b`, `qwen3-vl-2b`) are running. Three larger open models were dropped for disk space, not for results.
 
-### Quyết định
+Real screenshots, all 56 (117 strings):
 
-Quy tắc đặt trước: `tinh_toan` hơn `tu_do` từ 5 điểm về đúng kịch bản sau 3 câu thì giữ. Lần 2 kém 9,3 điểm (lần 1 kém 4,3), nên đề xuất bỏ phần chọn câu hỏi và giữ bảng câu chuyện. Biến thể `tinh_toan_min1` cũng kém 9,3 điểm. Đây là số của một lần chạy, không chạy lại để chọn. Chờ Minh và tab kế hoạch quyết.
+| Model | Strings found | Returned strings not in our labels | s/image | USD/1000 images |
+|---|---|---|---|---|
+| `gemini-3.5-flash-lite` | 92.3% | 26.2% | 2.6 | 1.52 |
+| `gemini-4-carbon` | 91.5% | 9.7% | 42.5 | 20.99 |
+| `gpt-6.2-sol` | 82.1% | 11.0% | 8.3 | 10.05 |
+| `gemini-3.8-flash`, low thinking | 79.5% | 16.3% | 6.6 | 2.66 |
 
-### Giới hạn
+- **The cheapest closed model finds the most strings but also returns the most extra ones.** For this product a wrong account number in a warning is worse than a missing one, so both columns count.
+- **Part of the "extra" strings are gaps in our labels.** An audit found 9 places on the 56 images where two models agree with each other and not with the label. Not reviewed yet, so the second column is an upper bound.
+- **Valid JSON:** 100% for all four closed models.
+- **Training data ready:** 4000 synthetic screenshots (7 app templates, 13 scenarios, random damage), 300 validation, and 300 held out with an unseen app template and 2 unseen scenarios.
+- **Next:** open models with no training, then LoRA, scored on the half of the real set that nobody has looked at.
 
-- Nạn nhân giả lập và trợ lý dùng cùng một model, và nạn nhân được đọc mô tả kịch bản.
-- Bảng câu chuyện thật lấy mẫu từng trường độc lập, nên có những câu chuyện không tự nhiên (ví dụ "đặt cọc giá rẻ" mà kể là cho mượn tiền).
-- 5 tình huống mỗi kịch bản; một tình huống là 20 điểm % của kịch bản đó.
-- Lần 1 và lần 2 khác nhau cả lời nạn nhân giả lập, không chỉ ở prompt điền bảng.
-- Bộ phát triển của prompt chỉ có 12 tin do tab code tự viết; số "trước, sau" của điền bảng đo bằng một lần gọi mỗi tin.
-- Chưa có ảnh, chưa có tính cách "bị dặn trước" (để cho E8).
+## E5: conversation model (M2)
 
-## E3 - Báo nhầm giao dịch bình thường
+Same `free` assistant and prompt as E2. 300 simulated sessions (20 per scenario); the more expensive closed models ran only on the 75 sessions of E2.
 
-Cùng lần chạy với E2. Đo tỉ lệ tình huống bình thường bị kết luận "giống chiêu lừa" sau 3 câu.
+| Model | Sessions | Correct scenario | Ordinary flagged as scam | Scam called ordinary | Questions asked | s/turn | USD/session |
+|---|---|---|---|---|---|---|---|
+| `gemini-3.5-flash-lite` | 300 | 81.3% | 7 of 80 | 10 of 220 | 0.65 | 0.8 | 0.0011 |
+| `gemini-3.5-flash-lite` | 75 | 77.3% | 1 of 20 | 6 of 55 | 0.69 | 0.8 | 0.0011 |
+| `gemini-3.8-flash`, low thinking | 75 | 80.0% | 3 of 20 | 1 of 55 | 1.04 | 3.1 | 0.0033 |
+| `gemini-4-carbon` | 75 | 82.7% | 3 of 20 | 1 of 55 | 1.37 | 19.2 | 0.0287 |
+| `gpt-6.2-sol` | 75 | 76.0% | 1 of 20 | 0 of 55 | 1.11 | 1.8 | 0.0101 |
 
-| Cách đo | Lần 2 | Lần 1 |
-|---|---|---|
-| Người trả lời hoàn hảo (trần) | 6,2% (50/800) | 6,0% (48/800) |
-| Nạn nhân giả lập, `tinh_toan` | 25% (5/20) [5-45] | 10% (2/20) |
-| Nạn nhân giả lập, `tinh_toan_min1` | 10% (2/20) [0-25] | - |
-| Nạn nhân giả lập, `tu_do` | 5% (1/20) [0-15] | 5% (1/20) |
+- **Model size barely moves the scenario accuracy:** 76-83% on 75 sessions, all inside each other's intervals. The room for a small open model is there.
+- **The cheapest model asks too little.** It concludes with no question in about half the sessions, and it misses the most scams (6 of 55). The larger models ask about one question and miss 0-1.
+- **The E2 number reproduces:** 77.3% here vs 78.7% in E2 on the same 75 sessions.
+- **Not run:** Claude (the API account has no credit). Open models are running.
 
-`tinh_toan` báo nhầm nhiều hơn lần 1 (5 so với 2 trên 20), nhưng 20 tình huống là quá ít để so: khoảng tin cậy rộng 40 điểm. `bt_mua_online_nguoi_ban_moi` được đặt là khó phân biệt (mong đợi "chưa đủ căn cứ"); với người trả lời hoàn hảo chỉ 4% số phiên kết thúc ở "chưa đủ căn cứ" và 14,5% bị kết luận "giống chiêu lừa". Bảng xác suất của kịch bản này vẫn cần tab kế hoạch xem lại.
+## Known gaps
+
+- No real users anywhere. Simulated users are more cooperative than real ones.
+- Real screenshots: 56 images, used for evaluation only.
+- Open OCR setups ran on only the first 20 real screenshots; closed models ran on all 56. The two groups are not directly comparable on that set.
