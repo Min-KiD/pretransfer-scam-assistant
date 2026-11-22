@@ -375,23 +375,25 @@ def cmd_train(a):
 
 
 # ---------------------------------------------------------------- pick
-def pick_scores(run: str, mode: str, steps: list[int]) -> list[dict]:
-    """Per checkpoint: string match k/n and made-up strings on val and web-dev, scored with e1.score_e1b's functions."""
+def score_configs(cfgs: list[str], parts=("val", "web-dev")) -> list[dict]:
+    """Per run config: string match k/n and made-up strings on val and/or web-dev, scored with e1.score_e1b's
+    functions. Never reads web-test answers."""
     from e1.score import score_strings, vlm_strings
     from e1.score_e1b import agg, empty_preds, fabricated, load_json_dir, normalize_gt
     from e1.score_e4 import web_split
     from e1.vlm import RUN_DIRS, SET_DIRS
     gts = {}
     for s, part in (("val", "val"), ("web", "web-dev")):
+        if part not in parts:
+            continue
         g = {k: v for k, v in load_json_dir(ROOT / SET_DIRS[s] / "gt").items()
              if not any(e.get("raw") == "*" for e in v.get("skipped") or [])}  # same placeholder rule as build()
         if s == "web":
             g = {k: v for k, v in g.items() if web_split(k) == "web-dev"}  # never read web-test answers
         gts[part] = (s, {k: normalize_gt(v, s) for k, v in g.items()})
     out = []
-    for step in steps:
-        cfg = f"{mode}__{run}-{step}"
-        row = {"step": step, "config": cfg}
+    for cfg in cfgs:
+        row = {"config": cfg}
         k_all = n_all = fab_all = ret_all = 0
         for part, (s, g) in gts.items():
             recs = load_json_dir(ROOT / RUN_DIRS[s] / cfg)
@@ -414,6 +416,34 @@ def pick_scores(run: str, mode: str, steps: list[int]) -> list[dict]:
     return out
 
 
+def pick_scores(run: str, mode: str, steps: list[int]) -> list[dict]:
+    rows = score_configs([f"{mode}__{run}-{s}" for s in steps])
+    for r, s in zip(rows, steps):
+        r["step"] = s
+    return rows
+
+
+def _rate(x):
+    return x[0] / x[1] if x[1] else 0.0
+
+
+def cmd_pick_base(a):
+    """Phase-B base: the phase-A open model with the highest J string match on web-dev (only the dev split may steer
+    choices); tie -> fewer made-up strings; tie -> order given. Rule fixed on 2026-11-22 before the 2B/3.5 runs."""
+    rows = score_configs([f"J__{m}" for m in a.models], parts=("web-dev",))
+    best = min(enumerate(rows), key=lambda x: (-_rate(x[1]["web-dev"]["match"]), x[1]["web-dev"]["fabricated"][0],
+                                               x[0]))[1]
+    name = best["config"].split("__", 1)[1]
+    res = {"base": name, "rule": "max J string match on web-dev; tie -> fewer made-up strings; tie -> queue order",
+           "candidates": rows}
+    out = ROOT / ".cache/e4/lora/base_pick.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(res, indent=1, ensure_ascii=False), encoding="utf-8")
+    for r in rows:
+        print(f"{r['config']}: web-dev {r['web-dev']['match']} made-up {r['web-dev']['fabricated']}", flush=True)
+    print(name)
+
+
 def cmd_pick(a):
     d = Path(a.lora_root) / a.run
     meta = json.loads((d / "meta.json").read_text(encoding="utf-8"))
@@ -421,8 +451,7 @@ def cmd_pick(a):
         raise SystemExit(f"{d}: training not finished")
     mode = "JO" if meta["mode"] == "J+ocr" else "J"
     rows = pick_scores(a.run, mode, sorted(int(s) for s in meta["checkpoints"]))
-    rate = lambda x: x[0] / x[1] if x[1] else 0.0  # noqa: E731
-    best = min(rows, key=lambda r: (-rate(r["pooled"]["match"]), r["pooled"]["fabricated"][0], r["step"]))
+    best = min(rows, key=lambda r: (-_rate(r["pooled"]["match"]), r["pooled"]["fabricated"][0], r["step"]))
     res = {"run": a.run, "mode": mode, "config": best["config"], "step": best["step"],
            "adapter": str(d / f"ckpt-{best['step']}"),
            "rule": "max string match pooled over val + web-dev; tie -> fewer made-up strings; tie -> earlier step",
@@ -447,6 +476,8 @@ def main():
     pk = sub.add_parser("pick")
     pk.add_argument("--run", required=True, help="run name: <lora-root>/<run>/meta.json")
     pk.add_argument("--lora-root", default=str(ROOT / ".cache/e4/lora"))
+    pb = sub.add_parser("pick-base")
+    pb.add_argument("models", nargs="+", help="phase-A model names with J runs on web")
     for name in ("check", "train"):
         p = sub.add_parser(name)
         p.add_argument("--base", required=True, help="HF repo id (offline snapshot) or local snapshot dir")
@@ -470,7 +501,7 @@ def main():
     t.add_argument("--eval-every", type=int, default=250)
     t.add_argument("--save-every", type=int, default=250)
     a = ap.parse_args()
-    {"check": cmd_check, "train": cmd_train, "pick": cmd_pick}[a.cmd](a)
+    {"check": cmd_check, "train": cmd_train, "pick": cmd_pick, "pick-base": cmd_pick_base}[a.cmd](a)
 
 
 if __name__ == "__main__":

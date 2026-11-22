@@ -7,7 +7,9 @@
 #
 # `all` (what --detach runs):
 # 0. wait until phase A is finished (phaseA_status.json "phaseA" done, or its lock is free and every QUEUE model is
-#    done/failed) and no other process is on the GPU (never kill anything)
+#    done/failed) and no other process is on the GPU (never kill anything). Unless BASE_NAME is given, the base is
+#    `python -m e1.lora_train pick-base <phase-A models that finished>`: highest J string match on web-dev
+#    (.cache/e4/lora/base_pick.json)
 # 1. PP-OCRv6 GPU text for data/E4/{train,val,val_la} as phase A step 0 does it (needed by B3 and its JO inference)
 # 2. per run, cheapest first; a run whose meta.json says finished is not trained again:
 #    a. train -> .cache/e4/lora/<run>/{log.jsonl,meta.json,ckpt-<step>/}
@@ -38,9 +40,9 @@ export HOME=$ROOT/.cache/home HF_HOME=$ROOT/.cache/hf HF_HUB_OFFLINE=1 XDG_CACHE
   PYTHONDONTWRITEBYTECODE=1 TOKENIZERS_PARALLELISM=false VLLM_NO_USAGE_STATS=1 DO_NOT_TRACK=1
 VPY=$ROOT/.venv-e4/bin/python                                   # torch/peft training, vllm, e1.e4_run
 HPY=${HPY:-/home/intern/vidoc-dev/.venvs/mineru/bin/python}      # PP-OCRv6 env from E1b, used read-only
-BASE_NAME=${BASE_NAME:-qwen3-vl-4b}                             # e1.open_models.MODELS key of the phase-A winner
+BASE_NAME=${BASE_NAME:-}                                        # empty: phase-A winner by e1.lora_train pick-base
 RUNS=${RUNS:-"B2_500 B2_2000 B1 B3"}
-QUEUE=${QUEUE:-"qwen3-vl-4b qwen3-vl-2b"}             # phase A's queue (to know when it is over)
+QUEUE=${QUEUE:-"qwen3-vl-4b qwen3-vl-2b qwen3.5-4b"}           # phase A's queue (to know when it is over)
 PORT=${PORT:-8000}
 STATUS=$LOGS/phaseB_status.json
 A_STATUS=$LOGS/phaseA_status.json
@@ -112,6 +114,13 @@ run_all() {
   exec 9> "$LOGS/phaseB.lock"
   flock -n 9 || { echo "another e4_phaseB.sh is running"; exit 1; }
   while ! phaseA_over; do status phaseB waiting "phase A not finished"; sleep 300; done
+  if [[ -z $BASE_NAME ]]; then
+    cands=""; for m in $QUEUE; do [[ "$(state_of "$A_STATUS" "$m")" == done ]] && cands="$cands $m"; done
+    [[ -n $cands ]] || { status phaseB failed "no phase-A model finished"; exit 1; }
+    BASE_NAME=$("$VPY" -m e1.lora_train pick-base $cands 2> "$LOGS/B_base_pick.log" | tail -n 1) \
+      || { status phaseB failed "pick-base: $(tail -n 1 "$LOGS/B_base_pick.log")"; exit 1; }
+    status phaseB running "base $BASE_NAME (pick-base over$cands)"
+  fi
   for s in train val val_la; do
     d=data/E4/$s
     if [[ $(ls "$d/images" | wc -l) -ne $(wc -l < "$d/manifest.jsonl") || \
@@ -168,6 +177,7 @@ run_all() {
 
 case "${1:-}" in
   all) run_all ;;
-  check) CUDA_VISIBLE_DEVICES= nice -n 15 "$VPY" -m e1.lora_train check --base "$(base_repo)" --n 4 ;;
+  check) BASE_NAME=${BASE_NAME:-qwen3-vl-4b}
+    CUDA_VISIBLE_DEVICES= nice -n 15 "$VPY" -m e1.lora_train check --base "$(base_repo)" --n 4 ;;
   *) sed -n 2,24p "$0"; exit 2 ;;
 esac

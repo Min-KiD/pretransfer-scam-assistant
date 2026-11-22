@@ -33,10 +33,11 @@ VPY=$ROOT/.venv-e4/bin/python                   # vllm, e1.e4_run, sim.e5
 HPY=${HPY:-/home/intern/vidoc-dev/.venvs/mineru/bin/python}   # PP-OCRv6 env from E1b, used read-only
 # Dropped on 2026-11-22 (Minh), not result-based: gemma-4-e4b and qwen3.5-9b (shared disk had ~24 GB free), then
 # qwen3-vl-8b-fp8 (the "large model" reference is the closed API models).
-QUEUE=${QUEUE:-"qwen3-vl-4b qwen3-vl-2b"}   # qwen3.5-4b after phase B (disk), see scripts/e4_part0.sh
+QUEUE=${QUEUE:-"qwen3-vl-4b qwen3-vl-2b qwen3.5-4b"}
 SETS=${SETS:-E1,E1b,gen,gen_ref,web}
-# qwen3-vl-4b stays on disk as the likely phase-B base (downloads run at ~1-2 MB/s, a re-download costs hours)
-KEEP=${KEEP:-qwen3-vl-4b}
+# Weights stay on disk: phase B picks its base among these after phase A (e1.lora_train pick-base), and downloads run
+# at ~1-2 MB/s. Set KEEP="" to delete each model after its runs when the shared disk is short again.
+KEEP=${KEEP-"qwen3-vl-4b qwen3-vl-2b qwen3.5-4b"}
 PORT=${PORT:-8000}
 STATUS=$LOGS/phaseA_status.json
 P0=$LOGS/part0_status.json
