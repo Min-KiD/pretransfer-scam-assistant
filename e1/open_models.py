@@ -40,10 +40,8 @@ MODELS = {
     "gemma-4-e4b": {"repos": ["google/gemma-4-E4B-it"], "modes": ["J"], "quant": "nf4"},
     # E4 (2026-11-22). All Apache-2.0, not gated; sizes are in scripts/e4_part0.sh.
     "qwen3-vl-2b": {"repos": ["Qwen/Qwen3-VL-2B-Instruct"], "modes": ["J"]},
-    # Qwen's own FP8 checkpoint: 10.6 GB on disk instead of 17.5 GB for bf16 (the server has 40 GB free).
-    "qwen3-vl-8b-fp8": {"repos": ["Qwen/Qwen3-VL-8B-Instruct-FP8"], "modes": ["J"], "quant": "fp8 (Qwen checkpoint)"},
     # Extra model (E4 allows two): Qwen3.5 is the generation after Qwen3-VL and is natively multimodal.
-    # qwen3.5-9b and gemma-4-e4b were dropped from E4 on 2026-11-22: the shared disk had ~24 GB free.
+    # Dropped from E4 on 2026-11-22 (Minh): qwen3.5-9b, gemma-4-e4b (disk ~24 GB free) and qwen3-vl-8b-fp8.
     "qwen3.5-4b": {"repos": ["Qwen/Qwen3.5-4B"], "modes": ["J"]},
 }
 JSON_SUFFIX = ("\n\nTrả về đúng một đối tượng JSON hợp lệ theo JSON Schema dưới đây, không thêm chữ nào khác "

@@ -33,7 +33,9 @@ CLOSED = ["gemini-3.5-flash-lite", "gemini-3.8-flash@low", "gemini-4-carbon", "o
 _NO_DISK = "bỏ ngày 22/11 theo quyết định của Minh: đĩa server dùng chung chỉ còn khoảng 24 GB trống; lý do là dung lượng, không phải kết quả"
 SKIPPED = {"anthropic:claude-sonnet-5-5": "key hợp lệ nhưng tài khoản chưa có tiền (gọi thử 1 lần ngày 22/11, HTTP 400 "
                                           "\"credit balance is too low\"); bỏ qua theo mục 7 bản kế hoạch",
-           "local:gemma-4-e4b": _NO_DISK, "local:qwen3.5-9b": _NO_DISK}
+           "local:gemma-4-e4b": _NO_DISK, "local:qwen3.5-9b": _NO_DISK,
+           "local:qwen3-vl-8b-fp8": "bỏ ngày 22/11 theo quyết định của Minh: mốc model lớn là các model đóng qua API; "
+                                    "không phải vì kết quả"}
 
 
 def full_set(model: str) -> bool:

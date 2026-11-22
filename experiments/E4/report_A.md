@@ -177,6 +177,7 @@ Theo loại chuỗi (web): khớp / bịa
 ## Model không chạy
 
 - `gemma-4-e4b` (16,0 GB) và `qwen3.5-9b` (19,3 GB): bỏ ngày 22/11 theo quyết định của Minh vì đĩa server dùng chung chỉ còn khoảng 24 GB trống (98%). Lý do là dung lượng, không phải kết quả; hai model này chưa chạy ảnh nào.
+- `qwen3-vl-8b-fp8` (10,6 GB): cũng bỏ ngày 22/11 theo quyết định của Minh. Mốc "model lớn" trong báo cáo là các model đóng qua API (Gemini, GPT), nên không cần thêm model mở lớn. Model này cũng chưa chạy ảnh nào.
 
 ## Luật giữ M1 trên web-test (so với `gemini-3.5-flash-lite`)
 

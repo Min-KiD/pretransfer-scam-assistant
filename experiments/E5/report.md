@@ -16,6 +16,7 @@ Kiểm tra lặp lại E2: `gemini-3.5-flash-lite` trên `v1` đúng kịch bả
 | Đóng | `anthropic:claude-sonnet-5-5` | không chạy: key hợp lệ nhưng tài khoản chưa có tiền (gọi thử 1 lần ngày 22/11, HTTP 400 "credit balance is too low"); bỏ qua theo mục 7 bản kế hoạch | | | | | | |
 | Mở | `local:gemma-4-e4b` | không chạy: bỏ ngày 22/11 theo quyết định của Minh: đĩa server dùng chung chỉ còn khoảng 24 GB trống; lý do là dung lượng, không phải kết quả | | | | | | |
 | Mở | `local:qwen3.5-9b` | không chạy: bỏ ngày 22/11 theo quyết định của Minh: đĩa server dùng chung chỉ còn khoảng 24 GB trống; lý do là dung lượng, không phải kết quả | | | | | | |
+| Mở | `local:qwen3-vl-8b-fp8` | không chạy: bỏ ngày 22/11 theo quyết định của Minh: mốc model lớn là các model đóng qua API; không phải vì kết quả | | | | | | |
 
 ## Đúng kịch bản và đúng nhóm: Tập con `v1` (75 tình huống, so với E2; mọi model)
 
@@ -28,6 +29,7 @@ Kiểm tra lặp lại E2: `gemini-3.5-flash-lite` trên `v1` đúng kịch bả
 | Đóng | `anthropic:claude-sonnet-5-5` | không chạy: key hợp lệ nhưng tài khoản chưa có tiền (gọi thử 1 lần ngày 22/11, HTTP 400 "credit balance is too low"); bỏ qua theo mục 7 bản kế hoạch | | | | | | |
 | Mở | `local:gemma-4-e4b` | không chạy: bỏ ngày 22/11 theo quyết định của Minh: đĩa server dùng chung chỉ còn khoảng 24 GB trống; lý do là dung lượng, không phải kết quả | | | | | | |
 | Mở | `local:qwen3.5-9b` | không chạy: bỏ ngày 22/11 theo quyết định của Minh: đĩa server dùng chung chỉ còn khoảng 24 GB trống; lý do là dung lượng, không phải kết quả | | | | | | |
+| Mở | `local:qwen3-vl-8b-fp8` | không chạy: bỏ ngày 22/11 theo quyết định của Minh: mốc model lớn là các model đóng qua API; không phải vì kết quả | | | | | | |
 
 ## Báo nhầm, bỏ sót, số câu hỏi
 

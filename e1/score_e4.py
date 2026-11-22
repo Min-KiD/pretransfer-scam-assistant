@@ -178,7 +178,10 @@ def main():
     L.append("## Model không chạy\n")
     L.append("- `gemma-4-e4b` (16,0 GB) và `qwen3.5-9b` (19,3 GB): bỏ ngày 22/11 theo quyết định của Minh vì đĩa server "
              "dùng chung chỉ còn khoảng 24 GB trống (98%). Lý do là dung lượng, không phải kết quả; hai model này chưa "
-             "chạy ảnh nào.\n")
+             "chạy ảnh nào.")
+    L.append("- `qwen3-vl-8b-fp8` (10,6 GB): cũng bỏ ngày 22/11 theo quyết định của Minh. Mốc \"model lớn\" trong báo "
+             "cáo là các model đóng qua API (Gemini, GPT), nên không cần thêm model mở lớn. Model này cũng chưa chạy "
+             "ảnh nào.\n")
     # VRAM and load time of the open models
     if meta:
         L.append("## Model mở: VRAM, nạp model\n")

@@ -25,11 +25,12 @@ export HOME=$ROOT/.cache/home HF_HOME=$ROOT/.cache/hf XDG_CACHE_HOME=$ROOT/.cach
   PIP_NO_CACHE_DIR=1 PYTHONDONTWRITEBYTECODE=1
 mkdir -p "$HOME" "$HF_HOME" "$XDG_CACHE_HOME" "$TMPDIR"
 PY=$ROOT/.conda/pretransfer/bin/python   # has huggingface_hub 2.4 + hf_xet
-# gemma-4-e4b and qwen3.5-9b were dropped on 2026-11-22 (Minh): the shared disk had ~24 GB free, not a result-based cut.
-QUEUE=${QUEUE:-"qwen3-vl-4b qwen3.5-4b qwen3-vl-2b qwen3-vl-8b-fp8"}
+# Dropped on 2026-11-22 (Minh), not result-based: gemma-4-e4b and qwen3.5-9b (shared disk had ~24 GB free), then
+# qwen3-vl-8b-fp8 (the "large model" reference is the closed API models).
+QUEUE=${QUEUE:-"qwen3-vl-4b qwen3.5-4b qwen3-vl-2b"}
 MIN_FREE_GB=${MIN_FREE_GB:-8}
 # GB (decimal), safetensors totals from the HF API, 2026-11-22
-declare -A SIZE=([qwen3-vl-2b]=4.26 [qwen3-vl-4b]=8.88 [qwen3-vl-8b-fp8]=10.59 [qwen3.5-4b]=9.32)
+declare -A SIZE=([qwen3-vl-2b]=4.26 [qwen3-vl-4b]=8.88 [qwen3.5-4b]=9.32)
 STATUS=$LOGS/part0_status.json
 [[ -f $STATUS ]] || echo '{}' > "$STATUS"
 

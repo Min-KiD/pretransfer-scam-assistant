@@ -30,8 +30,9 @@ export HOME=$ROOT/.cache/home HF_HOME=$ROOT/.cache/hf XDG_CACHE_HOME=$ROOT/.cach
   PYTHONDONTWRITEBYTECODE=1 TOKENIZERS_PARALLELISM=false VLLM_NO_USAGE_STATS=1 DO_NOT_TRACK=1
 PY=$ROOT/.conda/pretransfer/bin/python          # huggingface_hub (snapshot paths, clean)
 HPY=${HPY:-/home/intern/vidoc-dev/.venvs/mineru/bin/python}   # PP-OCRv6 env from E1b, used read-only
-# gemma-4-e4b and qwen3.5-9b were dropped on 2026-11-22 (Minh): the shared disk had ~24 GB free, not a result-based cut.
-QUEUE=${QUEUE:-"qwen3-vl-4b qwen3.5-4b qwen3-vl-2b qwen3-vl-8b-fp8"}
+# Dropped on 2026-11-22 (Minh), not result-based: gemma-4-e4b and qwen3.5-9b (shared disk had ~24 GB free), then
+# qwen3-vl-8b-fp8 (the "large model" reference is the closed API models).
+QUEUE=${QUEUE:-"qwen3-vl-4b qwen3.5-4b qwen3-vl-2b"}
 SETS=${SETS:-E1,E1b,gen,web}
 KEEP=${KEEP:-}
 PORT=${PORT:-8000}
