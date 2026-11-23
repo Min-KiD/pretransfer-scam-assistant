@@ -3,7 +3,8 @@
 From: planner tab `Momo_TechContest`. For: `code` tab. Issued 2026-11-23, revised the same day. Minh approved parts A-D on 2026-11-23.
 Follows E4 and E5 (`experiments/E4/report.md`, `experiments/E5/report.md`). E7-E9 are reserved for other work, so this batch is E10.
 
-**Status: ON HOLD. Do not download, call an API or change code until the planner tab says go.**
+**Status (2026-11-23 evening): PREPARE ONLY.** Minh approved the batch and the new Gemini cap, but wants the runs started when he is back.
+Allowed now: download the three part-A models to the server, write the E10 code and scripts, build the part-D case list. Not allowed until the planner tab says go: any paid API call, any experiment run (including serving a model for E5 or E4).
 
 ## Questions
 
@@ -16,9 +17,9 @@ Already decided, not to be re-proved: the assistant asks its own questions (`tu_
 
 ## Money and order
 
-- Before any API call: add up the real Gemini spend so far from every `cost.json`, `calls.jsonl` and report cost table, and put it at the top of `experiments/E10/report.md`. Planner's sum from the E4, E5 and E6 reports is about 18.2 USD of the 20 USD cap.
+- Before any API call: add up the real Gemini spend so far from every `cost.json`, `calls.jsonl` and report cost table, and put it at the top of `experiments/E10/report.md`. Planner's sum from the E4, E5 and E6 reports is about 18.2 USD.
+- **Gemini cap is now 25 USD in total** (Minh, 2026-11-23; was 20). Planner's estimate for this batch: part A 0.6, part B 1.0, part D 2.7 USD.
 - **Part A runs first** (its only API cost is the simulated user, about 0.2 USD per model). Downloads are the slowest step.
-- **Parts B and D run only after the planner tab confirms Minh raised the Gemini cap.** Until then prepare code and cases only.
 - **Part C runs only with a working Claude key** (see part C).
 - Each run has its own `--cap-usd`, given per part. At the cap: stop and report, never raise it yourself.
 - Server: one GPU, one model at a time. Never kill other people's jobs. Never restart a download that is in progress.
