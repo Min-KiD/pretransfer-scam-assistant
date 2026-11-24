@@ -44,7 +44,7 @@ def scen():
 @pytest.fixture
 def stub(monkeypatch):
     box = {}
-    monkeypatch.setattr(vision, "READERS", [lambda img: box["reading"]])
+    monkeypatch.setattr(vision, "READERS", [lambda img, model=None: box["reading"]])
     monkeypatch.setattr(dialog, "dien_bang", lambda t, f, h: ([], res(), 0))
     monkeypatch.setattr(dialog, "viet_cau_hoi", lambda f, t, h, co_anh=False: llm.Result(None, f"hỏi {f}?", 1, 1, 0, 0, "s"))
     monkeypatch.setattr(dialog, "viet_ket_luan", lambda c, ten, t: llm.Result(None, "kết luận", 1, 1, 0, 0, "s"))

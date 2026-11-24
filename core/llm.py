@@ -7,11 +7,13 @@ seconds and USD (list prices in PRICES) come with every result, and every call i
 enforce a budget. Result.retries counts failed attempts before the one returned (errors and malformed JSON).
 
 Model names (default from $LLM_MODEL):
-- "gemini-..." goes to the Google SDK; a suffix "@low" / "@high" ... sets the thinking level (e.g. "gemini-3.8-flash@low").
-- "<provider>:<model>" goes to an OpenAI-style /chat/completions endpoint (PROVIDERS): "local:<name>" is a vLLM server
-  on the GPU box at $LOCAL_LLM_URL; "openai:" and "anthropic:" need a key in the environment or .env. Providers in JSON_SCHEMA
-  get the schema as constrained decoding; the rest get it as text in the prompt, and a reply that does not parse is
-  asked again (counted in retries). $LOCAL_LLM_SCHEMA=0 turns constrained decoding off for the local server.
+- "gemini-..." goes to the Google SDK; a suffix "@low" / "@medium" ... sets the thinking level (e.g. "gemini-3.8-flash@low").
+- "anthropic:<model>" goes to Anthropic's native Messages API, the schema as `output_config.format` (constrained
+  decoding; their OpenAI-compatible layer ignores response_format). Thinking stays at the model's default.
+- "<provider>:<model>" otherwise goes to an OpenAI-style /chat/completions endpoint (PROVIDERS): "local:<name>" is a
+  vLLM server on the GPU box at $LOCAL_LLM_URL; "openai:" needs a key in the environment or .env. Providers in
+  JSON_SCHEMA get the schema as constrained decoding; the rest get it as text in the prompt, and a reply that does not
+  parse is asked again (counted in retries). $LOCAL_LLM_SCHEMA=0 turns constrained decoding off for the local server.
 """
 from __future__ import annotations
 
@@ -35,12 +37,14 @@ MIME = {b"\x89PNG": "image/png", b"\xff\xd8\xff": "image/jpeg", b"RIFF": "image/
 PROVIDERS = {
     "local": ("LOCAL_LLM_URL", ()),
     "openai": ("https://api.openai.com/v1", ("OPENAI_API_KEY",)),
-    # Anthropic's OpenAI-compatible endpoint
+    # base URL of the native Messages API (POST /messages), see _generate_anthropic
     "anthropic": ("https://api.anthropic.com/v1", ("CLAUDE_API_KEY", "ANTHROPIC_API_KEY")),
 }
-JSON_SCHEMA = {"local", "openai"}  # Anthropic's compatibility layer ignores response_format
-# USD per 1M tokens (input, output), official price pages read 2026-11-22: the mid-tier model of each vendor
-PRICES = {**PRICES, "gpt-6.2-sol": (2.00, 10.00), "claude-sonnet-5-5": (2.00, 10.00)}
+JSON_SCHEMA = {"local", "openai", "anthropic"}
+ANTHROPIC_VERSION = "2026-10-21"  # the version header in Anthropic's structured-outputs docs, read 2026-11-23
+# USD per 1M tokens (input, output), official price pages: the mid-tier model of each vendor (read 2026-11-22);
+# claude-haiku-5-5 for prompts up to 100,000 tokens (read 2026-11-23; longer prompts cost more, ours are far shorter)
+PRICES = {**PRICES, "gpt-6.2-sol": (2.00, 10.00), "claude-sonnet-5-5": (2.00, 10.00), "claude-haiku-5-5": (0.10, 0.50)}
 NO_CREDIT = ("insufficient_quota", "credit balance", "billing")  # out of money: fail at once, never retry
 SCHEMA_IN_PROMPT = "\n\nTrả về đúng một đối tượng JSON hợp lệ theo JSON Schema dưới đây, không thêm chữ nào khác:\n"
 
@@ -55,6 +59,7 @@ class Result:
     usd: float
     model: str
     retries: int = 0  # failed attempts before this one (API errors, malformed JSON)
+    tokens_thought: int = 0  # the thinking part of tokens_out, where the provider reports it (Gemini)
 
 
 @dataclass
@@ -130,6 +135,8 @@ def parse_json(text: str, schema: dict) -> dict:
 def generate(prompt: str, image: bytes | None = None, schema: dict | None = None, system: str | None = None,
              model: str | None = None, retries: int = 5, max_tokens: int | None = None) -> Result:
     model = model or DEFAULT_MODEL
+    if model.startswith("anthropic:"):
+        return _generate_anthropic(prompt, image, schema, system, model, retries, max_tokens)
     if ":" in model:
         return _generate_openai(prompt, image, schema, system, model, retries, max_tokens)
     from google.genai import types
@@ -150,10 +157,11 @@ def generate(prompt: str, image: bytes | None = None, schema: dict | None = None
             dt = time.perf_counter() - t0
             u = resp.usage_metadata
             tin = u.prompt_token_count or 0
-            tout = (u.candidates_token_count or 0) + (u.thoughts_token_count or 0)
+            thought = u.thoughts_token_count or 0
+            tout = (u.candidates_token_count or 0) + thought
             text = resp.text or ""
             pin, pout = PRICES.get(name, (0.0, 0.0))
-            r = Result(None, text, tin, tout, round(dt, 3), (tin * pin + tout * pout) / 1e6, model, attempt)
+            r = Result(None, text, tin, tout, round(dt, 3), (tin * pin + tout * pout) / 1e6, model, attempt, thought)
             USAGE.add(r)  # billed even if the JSON below turns out malformed
             if schema:
                 r.output = json.loads(text)
@@ -213,6 +221,77 @@ def _generate_openai(prompt, image, schema, system, model, retries, max_tokens) 
             USAGE.add(r)
             if schema:
                 r.output = json.loads(text) if native else parse_json(text, schema)
+            return r
+        except LLMError:
+            raise
+        except Exception as e:
+            last = f"{type(e).__name__}: {str(e)[:200]}"
+            if attempt < retries:
+                time.sleep(min(30, 2 ** attempt) + random.random())
+    raise LLMError(last)
+
+
+def anthropic_schema(schema: dict) -> dict:
+    """Our JSON schemas in the subset Anthropic's constrained decoding accepts: every object closed with
+    additionalProperties false; numeric/string-length constraints and minItems above 1 dropped (400 otherwise)."""
+    if isinstance(schema, list):
+        return [anthropic_schema(s) for s in schema]
+    if not isinstance(schema, dict):
+        return schema
+    out = {k: anthropic_schema(v) for k, v in schema.items()
+           if k not in ("minimum", "maximum", "exclusiveMinimum", "exclusiveMaximum", "multipleOf", "minLength",
+                        "maxLength", "maxItems")}
+    if out.get("minItems", 0) > 1:
+        out["minItems"] = 1
+    t = out.get("type")
+    if t == "object" or (isinstance(t, list) and "object" in t) or "properties" in out:
+        out["additionalProperties"] = False
+    return out
+
+
+def _generate_anthropic(prompt, image, schema, system, model, retries, max_tokens) -> Result:
+    import httpx
+    global _http
+    name = model.split(":", 1)[1]
+    base, key_vars = PROVIDERS["anthropic"]
+    key = next((env_value(v) for v in key_vars if env_value(v)), None)
+    if not key:
+        raise LLMError(f"{' / '.join(key_vars)} missing from environment and .env")
+    content = ([{"type": "image", "source": {"type": "base64", "media_type": mime_of(image),
+                                             "data": base64.b64encode(image).decode()}}] if image else [])
+    content.append({"type": "text", "text": prompt})
+    # No temperature (the model page says to omit it); adaptive thinking at the model's default effort.
+    body = {"model": name, "max_tokens": max_tokens or 8192, "messages": [{"role": "user", "content": content}]}
+    if system:
+        body["system"] = system
+    if schema is not None:
+        body["output_config"] = {"format": {"type": "json_schema", "schema": anthropic_schema(schema)}}
+    if _http is None:
+        _http = httpx.Client(timeout=600)
+    last = ""
+    for attempt in range(retries + 1):
+        t0 = time.perf_counter()
+        try:
+            resp = _http.post(base.rstrip("/") + "/messages", json=body,
+                              headers={"x-api-key": key, "anthropic-version": ANTHROPIC_VERSION})
+            # A wrong key, a key without a workspace, no credit or a rejected schema will not fix itself: fail at once.
+            if 400 <= resp.status_code < 500 and resp.status_code not in (408, 409, 429):
+                raise LLMError(f"HTTP {resp.status_code} {resp.text[:300]}")
+            resp.raise_for_status()
+            d = resp.json()
+            dt = time.perf_counter() - t0
+            u = d.get("usage") or {}
+            tin = (u.get("input_tokens", 0) + u.get("cache_creation_input_tokens", 0)
+                   + u.get("cache_read_input_tokens", 0))
+            tout = u.get("output_tokens", 0)  # includes thinking
+            text = "".join(b.get("text", "") for b in d.get("content", []) if b.get("type") == "text")
+            pin, pout = PRICES.get(name, (0.0, 0.0))
+            r = Result(None, text, tin, tout, round(dt, 3), (tin * pin + tout * pout) / 1e6, model, attempt)
+            USAGE.add(r)  # billed even if the reply below is unusable
+            if d.get("stop_reason") in ("refusal", "max_tokens"):
+                raise ValueError(f"stop_reason {d['stop_reason']}")
+            if schema:
+                r.output = json.loads(text)
             return r
         except LLMError:
             raise

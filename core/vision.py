@@ -58,9 +58,9 @@ def domain(link: str) -> str:
     return s.split("/", 1)[0].removeprefix("www.")
 
 
-def vlm_reader(image: bytes) -> Reading:
+def vlm_reader(image: bytes, model: str | None = None) -> Reading:
     r = llm.generate(VLM_PROMPT + "\n" + DATA_RULE.replace("<du_lieu_nguoi_dung> và <lich_su>", "ảnh"), image=image,
-                     schema=image_schema())
+                     schema=image_schema(), model=model)
     o = r.output or {}
     rd = Reading("vlm", result=r)
     for n in IMAGE_FIELDS:
@@ -106,8 +106,10 @@ def merge(readings: list[Reading]) -> tuple[dict, dict, list[str]]:
     return fields, strings, unsure
 
 
-def read_image(image: bytes) -> tuple[dict, dict, list[str], list[llm.Result]]:
-    readings = [reader(image) for reader in READERS]
+def read_image(image: bytes, model: str | None = None) -> tuple[dict, dict, list[str], list[llm.Result]]:
+    """model: the reading model (default core.llm.DEFAULT_MODEL). Result.output of each result is the reader's full
+    JSON (messages, strings and story fields)."""
+    readings = [reader(image, model) for reader in READERS]
     fields, strings, unsure = merge(readings)
     return fields, strings, unsure, [r.result for r in readings if r.result]
 

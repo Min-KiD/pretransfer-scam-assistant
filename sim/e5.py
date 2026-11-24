@@ -243,6 +243,10 @@ def main():
     ap.add_argument("--cap-usd", type=float, default=5.0, help="cap on the new spend of this invocation")
     ap.add_argument("--limit", type=int, default=0, help="first N cases only (smoke test, rows still kept)")
     ap.add_argument("--report-only", action="store_true")
+    ap.add_argument("--full", action="store_true", help="all 300 cases for every model given (E10 part B)")
+    ap.add_argument("--project-after", type=int, default=0,
+                    help="after N sessions, project the cost of all jobs; above --cap-usd run only the v1 cases "
+                         "(v1 cases are queued first)")
     a = ap.parse_args()
     scen, issues = load()
     assert not issues, issues
@@ -262,12 +266,15 @@ def main():
         models = [m for m in models if llm.has_key(m)]
         subset = cases[: a.limit] if a.limit else cases
         jobs = [(c, m) for m in models for c in subset
-                if (c["id"], m) not in done and (full_set(m) or c["v1"])]
+                if (c["id"], m) not in done and (a.full or full_set(m) or c["v1"])]
+        jobs.sort(key=lambda j: not j[0]["v1"])  # stable: v1 cases first, so a projection stop still covers v1
         print(f"{len(jobs)} sessions to run; E5 spent so far {spent:.3f} USD", flush=True)
         lock = threading.Lock()
+        v1_only = threading.Event()
+        finished = []  # USD (assistant + simulated user) of the sessions finished in this invocation
 
         def one(c, m):
-            if budget.stop.is_set():
+            if budget.stop.is_set() or (v1_only.is_set() and not c["v1"]):
                 return None
             base = {"case": c["id"], "model": m, "assistant": "tu_do", "kich_ban": c["kich_ban"], "nhom": c["nhom"],
                     "tinh_cach": c["tinh_cach"], "v1": c["v1"]}
@@ -289,6 +296,14 @@ def main():
                     print(f"  {r['case']} {r['model']}: {r['error'][:160]}", flush=True)
                 else:
                     rows.append(r)
+                    finished.append(r["usd"] + r.get("victim_usd", 0))
+                    if a.project_after and len(finished) == a.project_after:
+                        proj = sum(finished) / len(finished) * len(jobs)
+                        print(f"PROJECTION after {len(finished)} sessions: {proj:.3f} USD for {len(jobs)} "
+                              f"(cap {a.cap_usd})", flush=True)
+                        if proj > a.cap_usd:
+                            v1_only.set()
+                            print("PROJECTION over the cap: running the v1 cases only", flush=True)
                 if i % 25 == 0:
                     print(f"  {i}/{len(jobs)} sessions, {budget.spent():.3f} USD", flush=True)
         if budget.stop.is_set():

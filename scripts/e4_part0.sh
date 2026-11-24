@@ -30,8 +30,10 @@ PY=$ROOT/.conda/pretransfer/bin/python   # has huggingface_hub 2.4 + hf_xet
 # qwen3-vl-8b-fp8 (the "large model" reference is the closed API models).
 QUEUE=${QUEUE:-"qwen3-vl-4b qwen3-vl-2b qwen3.5-4b"}
 MIN_FREE_GB=${MIN_FREE_GB:-8}
-# GB (decimal), safetensors totals from the HF API, 2026-11-22
-declare -A SIZE=([qwen3-vl-2b]=4.26 [qwen3-vl-4b]=8.88 [qwen3.5-4b]=9.32)
+# GB (decimal), safetensors totals from the HF API, 2026-11-22 (E4) and 2026-11-23 (E10 part A:
+#   QUEUE="qwen3-14b-awq qwen3-8b-fp8 gemma-4-e4b-qat" bash scripts/e4_part0.sh --detach)
+declare -A SIZE=([qwen3-vl-2b]=4.26 [qwen3-vl-4b]=8.88 [qwen3.5-4b]=9.32 [qwen3-14b-awq]=9.98 [qwen3-8b-fp8]=9.44
+                 [gemma-4-e4b-qat]=11.51)
 STATUS=$LOGS/part0_status.json
 [[ -f $STATUS ]] || echo '{}' > "$STATUS"
 

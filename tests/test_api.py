@@ -75,7 +75,7 @@ def test_image_one_char_off_gets_free_confirmation(client, monkeypatch):
     from core import vision
     rd = vision.Reading("vlm", {"kenh": "zalo", "tu_xung": "shipper"}, result=fake())
     rd.strings["account"] = ["000123450005"]  # paying 000123450004
-    monkeypatch.setattr(vision, "READERS", [lambda img: rd])
+    monkeypatch.setattr(vision, "READERS", [lambda img, model=None: rd])
     s = client.post("/sessions", json={"so_tk": "000123450004", "so_tien": 30000}).json()
     t = client.post(f"/sessions/{s['session_id']}/messages", files={"image": ("a.png", b"x", "image/png")}).json()
     assert t["kind"] == "xac_nhan" and "000123450005" in t["text"] and t["so_cau_da_hoi"] == s["so_cau_da_hoi"]

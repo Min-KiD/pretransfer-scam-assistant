@@ -43,6 +43,12 @@ MODELS = {
     # Extra model (E4 allows two): Qwen3.5 is the generation after Qwen3-VL and is natively multimodal.
     # Dropped from E4 on 2026-11-22 (Minh): qwen3.5-9b, gemma-4-e4b (disk ~24 GB free) and qwen3-vl-8b-fp8.
     "qwen3.5-4b": {"repos": ["Qwen/Qwen3.5-4B"], "modes": ["J"]},
+    # E10 part A (2026-11-23): larger open chat models that fit the 16 GB card, all Apache-2.0 and not gated. The Qwen3
+    # builds are text only (E5 chat); Gemma 4 is multimodal, so it also reads screenshots (E4 modes J, Ju).
+    "qwen3-14b-awq": {"repos": ["Qwen/Qwen3-14B-AWQ"], "modes": [], "quant": "awq 4-bit (official)", "text_only": True},
+    "qwen3-8b-fp8": {"repos": ["Qwen/Qwen3-8B-FP8"], "modes": [], "quant": "fp8 (official)", "text_only": True},
+    "gemma-4-e4b-qat": {"repos": ["google/gemma-4-E4B-it-qat-w4a16-ct"], "modes": ["J"],
+                        "quant": "w4a16 QAT, compressed-tensors (official)"},
 }
 JSON_SUFFIX = ("\n\nTrả về đúng một đối tượng JSON hợp lệ theo JSON Schema dưới đây, không thêm chữ nào khác "
                "ngoài JSON:\n" + json.dumps(SCHEMA, ensure_ascii=False))
