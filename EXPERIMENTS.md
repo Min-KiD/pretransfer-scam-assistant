@@ -15,6 +15,7 @@ Most numbers come from data we built ourselves and from simulated users. They ar
 | E4 | Can a small open vision model with LoRA read a screenshot into JSON as well as the closed API? (model M1) | Done (phase B reduced: 500 and 4000 training images, no OCR-in-prompt run) | On the real test half, LoRA on 4000 synthetic images moves `qwen3-vl-4b` from 76.8% to 80.4% of strings found (intervals overlap) vs 89.3% for `gemini-3.5-flash-lite`; LoRA on 500 images makes real screenshots worse (60.7%). M1 fails: no open setup is within 5 points, and none gets near 2 s/image on an RTX 4060 Ti |
 | E5 | Can a small open LLM run the conversation as well as closed models? (model M2) | Done | Closed models: 76-83% correct scenario on 75 sessions. On 300 sessions: `qwen3-vl-4b` 73.7%, `qwen3.5-4b` 69.3%, `qwen3-vl-2b` 55.3%, vs 81.3% for `gemini-3.5-flash-lite`. M2 fails for all three |
 | E6 | Does a small CPU text classifier work as a second opinion on the scenario? (model M3) | Done | TF-IDF + logistic regression (1.3 ms on CPU) catches 66-88% of the LLM's wrong conclusions and flags 4-8% of its correct ones, behind all four LLMs tested: M3 kept |
+| E10 | Do larger open chat models, more thinking, or Claude Haiku 5.5 close the gap? Should the chat model see the screenshot itself (merged) or the JSON read from it (split)? | Done | `gemma-4-e4b-qat` (open, 16 GB GPU) is the first open model to pass M2: 77.0% vs 81.3%, fewer ordinary transfers flagged. More thinking for `gemini-3.5-flash-lite` adds nothing. Haiku 5.5 chats as well as `gemini-3.5-flash-lite` and reads clean screenshots like `gemini-4-carbon`. With an image, split beats merged by 6.7 points; the app stays split |
 | E7 | Label propagation on the account graph (model M4) | Not started | |
 | E8 | A user who was coached by the scammer on what to answer | Not started | |
 | E9 | Time and cost per session | Not started | |
@@ -166,6 +167,41 @@ Second opinion on the 300 `gemini-3.5-flash-lite` sessions, rule "if C0 disagree
 - **On real narratives the fine-tuned PhoBERT is clearly better** (88% vs 72%), but it is also confident on the 14 stories that fit no scenario (9 of 14 above 0.5), while C0 never is. C0 stays the second opinion; PhoBERT is worth retesting if the scenario list gets an "other" class.
 - **Licence:** PhoBERT-base-v2 is AGPL-3.0; C0 has no such constraint.
 - **Limits:** the training stories and the test sessions both come from one LLM family; 89 real narratives.
+
+## E10: larger open chat models, thinking level, Claude Haiku 5.5, merged vs split
+
+Same 300 chat cases and simulated user as E5. Spend: Gemini 4.46 USD (22.71 of the 25 USD cap for E4-E10 used), Anthropic 2.28 USD.
+
+| Chat model | Sessions | Correct scenario | Ordinary flagged as scam | Scam called ordinary | Questions asked | s/turn | USD/session |
+|---|---|---|---|---|---|---|---|
+| `gemini-3.5-flash-lite` (E5) | 300 | 81.3% | 7 of 80 | 10 of 220 | 0.65 | 0.8 | 0.0011 |
+| `gemma-4-e4b-qat` (open, RTX 4060 Ti) | 300 | 77.0% | 4 of 80 | 18 of 220 | 1.87 | 0.9 | own GPU |
+| `qwen3-14b-awq` (open, RTX 4060 Ti) | 300 | 74.7% | 6 of 80 | 22 of 220 | 2.36 | 2.4 | own GPU |
+| `qwen3-8b-fp8` (open, RTX 4060 Ti) | 300 | 70.3% | 4 of 80 | 17 of 220 | 2.54 | 2.0 | own GPU |
+| `claude-haiku-5-5` | 300 | 81.7% | 6 of 80 | 4 of 220 | 1.30 | 3.7 | 0.0015 |
+| `gemini-3.5-flash-lite`, medium thinking | 75 | 76.0% (77.3% at default) | 2 of 20 | 2 of 55 | 0.71 | 3.1 | 0.0049 |
+
+- **M2 passes for `gemma-4-e4b-qat`** (Google's 4-bit QAT build, 11.6 GB, Apache-2.0): 4.3 points behind (limit 5) and fewer ordinary transfers flagged. It asks almost 3x as many questions and misses more scams (18 vs 10 of 220). The two larger Qwen3 models fail (6.6 and 11.0 points behind).
+- **The C0 second opinion (E6) holds behind every new chat model:** it catches 53-74% of wrong conclusions and flags 4-8% of correct ones.
+- **Gemma 4 cannot read screenshots:** 48.2% of strings found on real screenshots (vs 89.3% for `gemini-3.5-flash-lite`), half of what it returns is made up, and a quarter of schema-constrained calls fail.
+- **Medium thinking for `gemini-3.5-flash-lite` adds nothing:** 76.0% vs 77.3% on the 75 E2 cases, at 4.3x the cost and 4x the time per turn. The 300-case run was stopped by the cost projection rule.
+- **Claude Haiku 5.5:** chat accuracy equal to `gemini-3.5-flash-lite`, fewer scams missed, 4.7x slower per turn. As a screenshot reader it finds 95-99% of strings on synthetic and clean sets (`gemini-3.5-flash-lite` 90-93%, `gemini-4-carbon` 96-98%) at 1/20 of the price of `gemini-4-carbon`; on real screenshots 85.7% vs 89.3% for `gemini-3.5-flash-lite` (intervals overlap), with far fewer made-up strings (6 of 50 vs 22 of 69).
+
+**Merged vs split** (300 cases with a synthetic screenshot, 20 per scenario; the opening message is neutral, so what happened is only in the image; the simulated user answers from the image's ground truth):
+
+| Chat | What the chat model sees | Correct scenario | Ordinary flagged as scam | Scam called ordinary | Questions asked | First reply (s) |
+|---|---|---|---|---|---|---|
+| `gemini-3.5-flash-lite` | no image | 89.3% | 7 of 80 | 2 of 220 | 1.39 | 0.9 |
+| `gemini-3.5-flash-lite` | split: JSON read by `gemini-3.5-flash-lite` | 93.3% (rerun 92.3%) | 6 of 80 | 1 of 220 | 0.28 | 3.7 |
+| `gemini-3.5-flash-lite` | merged: the image itself | 86.7% | 14 of 80 | 2 of 220 | 0.65 | 1.6 |
+| `claude-haiku-5-5` | split: JSON read by Haiku | 81.0% | 16 of 80 | 0 of 220 | 0.96 | 10.3 |
+| `claude-haiku-5-5` | merged | 79.7% | 27 of 80 | 0 of 220 | 0.91 | 3.8 |
+| `gemma-4-e4b-qat` (open) | split: same JSON as the `gemini-3.5-flash-lite` row | 89.3% | 4 of 80 | 5 of 220 | 2.27 | 4.3 |
+
+- **The app stays split.** By the rule declared in advance, merged is 6.7 points behind split (paired interval -10.3 to -3.0; run-to-run noise of split 1.0 point). Merged is no better than no image at all; it is faster to the first reply and half the cost.
+- **Haiku with a screenshot does not conclude "ordinary":** it gets 97% of scam cases right and never calls a scam ordinary, but only 25-30 of 80 ordinary transfers right; the rest are flagged as scam or left at "not enough evidence". Merged and split are equal for Haiku.
+- **Closed reader + open chat stays within 5 points:** `gemma-4-e4b-qat` chatting on the `gemini-3.5-flash-lite` reads is 4.0 points behind (interval -7.7 to -0.3), about the same margin as in the text-only test, with fewer ordinary transfers flagged and more scams missed (5 vs 1 of 220).
+- **Limits:** synthetic screenshots only (real ones have no scenario label); 41 of the 300 images come from the E4 training split (no E10 model was trained on them); many synthetic chats contain generic filler lines.
 
 ## Known gaps
 

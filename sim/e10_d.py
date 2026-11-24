@@ -323,17 +323,17 @@ def report(rows, scen, cases, cap, claude_cap):
                 m, extra, mw, w = reading_quality(rs, by_id)
                 L.append(f"- `{arm}` reading step: GT strings read exactly {fmt(m)}; extra strings {extra}; wrong "
                          f"conclusions on a misread image {mw}/{w}.")
-        pairs = [("split", "split2"), ("merged", "split"), ("merged", "split2"), ("split", "no_image"),
-                 ("merged", "no_image")]
+        pairs = [(a, b) for a, b in (("split", "split2"), ("merged", "split"), ("merged", "split2"),
+                                     ("split", "no_image"), ("merged", "no_image")) if a in arms and b in arms]
         P = {}
-        L.append("\n| A vs B | n | Both right | Only A right | Only B right | Neither | A - B (paired 95%) | "
-                 "McNemar p |")
-        L.append("|---|---|---|---|---|---|---|---|")
+        if pairs:
+            L.append("\n| A vs B | n | Both right | Only A right | Only B right | Neither | A - B (paired 95%) | "
+                     "McNemar p |")
+            L.append("|---|---|---|---|---|---|---|---|")
         for a, b in pairs:
-            if a in arms and b in arms:
-                p = P[(a, b)] = paired(arms[a], arms[b])
-                L.append(f"| `{a}` vs `{b}` | {p['n']} | {p['both']} | {p['a_only']} | {p['b_only']} | {p['neither']} | "
-                         f"{100 * p['diff']:+.1f} [{100 * p['lo']:+.1f}, {100 * p['hi']:+.1f}] | {p['p']:.3f} |")
+            p = P[(a, b)] = paired(arms[a], arms[b])
+            L.append(f"| `{a}` vs `{b}` | {p['n']} | {p['both']} | {p['a_only']} | {p['b_only']} | {p['neither']} | "
+                     f"{100 * p['diff']:+.1f} [{100 * p['lo']:+.1f}, {100 * p['hi']:+.1f}] | {p['p']:.3f} |")
         if ("merged", "split") in P and ("split", "split2") in P:
             noise = abs(P[("split", "split2")]["diff"])
             p = P[("merged", "split")]
@@ -349,28 +349,38 @@ def report(rows, scen, cases, cap, claude_cap):
             L.append(f"- `{arm}` most common confusions: "
                      + "; ".join(f"`{a}` -> `{b}` {n}" for (a, b), n in c.most_common(6)))
         L.append("")
-    # chat models compared on the same cases (both arms): a cost cap can leave a chat with fewer cases or whole
-    # scenarios out, so this section keeps only the cases every chat model finished in every image arm it ran
+    # chat models compared on the same cases (paired, per image arm). A cost cap can leave a chat with fewer cases or
+    # whole scenarios out, so only the cases every chat model finished in every image arm it ran are kept
     per_scen = Counter(c["kich_ban"] for c in cases)
     cmp = [(c, arm) for c in sorted(groups, key=lambda c: c != BASE) for arm in ("split", "merged") if arm in groups[c]]
     common = set.intersection(*({r["case"] for r in groups[c][arm]} for c, arm in cmp)) if cmp else set()
-    if len({c for c, _ in cmp}) > 1 and any(len(groups[c][arm]) != len(common) for c, arm in cmp):
-        out = Counter(c["kich_ban"] for c in cases if c["id"] not in common)
-        L += [f"## Chat models on the same {len(common)} cases\n",
-              "Sessions already run, kept only for the cases every chat model below finished in every image arm it "
-              "ran (no new calls). Left out: "
-              + ", ".join(f"`{s}` {n}/{per_scen[s]}" + (" (the whole scenario)" if n == per_scen[s] else "")
-                          for s, n in sorted(out.items())) + ". The `split` rows use each chat's own reader ("
-              + ", ".join(f"`{c}` read by `{readers[c]}`" for c, arm in cmp if arm == "split")
-              + "), so a `split` difference is reader and chat together; `merged` has no reader.\n",
-              "| Chat | Arm | n | Correct scenario after 3 | Scam called ordinary | Ordinary flagged as scam | "
-              "`chua_du_can_cu` | Questions |", "|---|---|---|---|---|---|---|---|"]
+    if len({c for c, _ in cmp}) > 1:
         sub = {(c, arm): [r for r in groups[c][arm] if r["case"] in common] for c, arm in cmp}
-        for (c, arm), rs in sub.items():
-            s = score(rs, scen)
-            L.append(f"| `{c}` | `{arm}` | {s['n']} | {fmt(s['kb3'])} | {fmt(s['miss'])} | {fmt(s['fp'])} | "
-                     f"{fmt(s['chua_du'])} | {s['q']:.2f} |")
-        L += ["", "| A vs B | n | Both right | Only A right | Only B right | Neither | A - B (paired 95%) | McNemar p |",
+        same_reader = [c for c, arm in cmp if arm == "split" and c != BASE and readers[c] == readers.get(BASE)]
+        other_reader = [c for c, arm in cmp if arm == "split" and c != BASE and readers[c] != readers.get(BASE)]
+        L += [f"## Chat models on the same {len(common)} cases\n"]
+        note = ("`split` with the same reader as `" + BASE + "` (" + ", ".join(f"`{c}`" for c in same_reader)
+                + ") reuses the same reads, so the difference is the chat model alone. " if same_reader else "")
+        note += ("`split` with its own reader (" + ", ".join(f"`{c}` read by `{readers[c]}`" for c in other_reader)
+                 + ") differs in reader and chat together. " if other_reader else "")
+        note += "`merged` has no reader."
+        if any(len(groups[c][arm]) != len(common) for c, arm in cmp):
+            out = Counter(c["kich_ban"] for c in cases if c["id"] not in common)
+            L += ["Sessions already run, kept only for the cases every chat model below finished in every image arm "
+                  "it ran (no new calls). Left out: "
+                  + ", ".join(f"`{s}` {n}/{per_scen[s]}" + (" (the whole scenario)" if n == per_scen[s] else "")
+                              for s, n in sorted(out.items())) + ". " + note + "\n",
+                  "| Chat | Arm | n | Correct scenario after 3 | Scam called ordinary | Ordinary flagged as scam | "
+                  "`chua_du_can_cu` | Questions |", "|---|---|---|---|---|---|---|---|"]
+            for (c, arm), rs in sub.items():
+                s = score(rs, scen)
+                L.append(f"| `{c}` | `{arm}` | {s['n']} | {fmt(s['kb3'])} | {fmt(s['miss'])} | {fmt(s['fp'])} | "
+                         f"{fmt(s['chua_du'])} | {s['q']:.2f} |")
+            L.append("")
+        else:
+            L.append("Every chat model ran all cases in every image arm it ran; the rates are in the tables above. "
+                     + note + "\n")
+        L += ["| A vs B | n | Both right | Only A right | Only B right | Neither | A - B (paired 95%) | McNemar p |",
               "|---|---|---|---|---|---|---|---|"]
         for (c, arm), rs in sub.items():
             if c != BASE and (BASE, arm) in sub:
