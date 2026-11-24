@@ -26,6 +26,7 @@ of the image's ground truth and the rest of the story table.
 from __future__ import annotations
 
 import argparse
+import fcntl
 import json
 import math
 import threading
@@ -394,6 +395,14 @@ def main():
     if a.eyeball:
         return eyeball(cases)
     OUT.mkdir(parents=True, exist_ok=True)
+    if not a.report_only:
+        # one part D run at a time: runs share sessions.jsonl and the caps are computed from it at the start
+        lock_f = open(OUT / "run.lock", "w")
+        try:
+            fcntl.flock(lock_f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            print("another part D run holds experiments/E10/D/run.lock; waiting", flush=True)
+            fcntl.flock(lock_f, fcntl.LOCK_EX)
     path = OUT / "sessions.jsonl"
     rows = [json.loads(l) for l in open(path, encoding="utf-8")] if path.exists() else []
     rows = [r for r in rows if "preds" in r]
