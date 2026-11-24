@@ -308,6 +308,13 @@ def report(rows, scen, cases, cap, claude_cap):
                      f"{sum(r['session_usd'] for r in rs) / len(rs):.5f} |")
         L.append("\nFirst reply = reading step (split) + the first assistant call. Session seconds exclude the "
                  "simulated user. Calls ran 8 at a time.\n")
+        per_scen = Counter(c["kich_ban"] for c in cases)
+        for arm, rs in arms.items():
+            got = Counter(r["kich_ban"] for r in rs)
+            short_by = {s: per_scen[s] - got[s] for s in per_scen if got[s] < per_scen[s]}
+            if short_by:
+                L.append(f"- `{arm}` not run (cost cap) for {sum(short_by.values())} cases: "
+                         + ", ".join(f"`{s}` {n}" for s, n in sorted(short_by.items())))
         for arm in ("split", "split2"):
             rs = [r for r in arms.get(arm, []) if r.get("_read")]
             if rs:
