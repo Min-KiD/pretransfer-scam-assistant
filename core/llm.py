@@ -68,6 +68,7 @@ class Usage:
     tokens_in: int = 0
     tokens_out: int = 0
     usd: float = 0.0
+    usd_by_model: dict = field(default_factory=dict)  # model name as called -> USD
     lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
 
     def add(self, r: Result):
@@ -76,6 +77,7 @@ class Usage:
             self.tokens_in += r.tokens_in
             self.tokens_out += r.tokens_out
             self.usd += r.usd
+            self.usd_by_model[r.model] = self.usd_by_model.get(r.model, 0.0) + r.usd
 
 
 USAGE = Usage()

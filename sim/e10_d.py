@@ -8,11 +8,14 @@ Arms (the chat prompt is sim.run.FREE_PROMPT in every arm; only its {image_block
   merged    the screenshot itself is attached to every assistant call; no JSON
 
     python -m sim.e10_d --eyeball                                   # 15 cases (one per scenario) to check by eye
-    python -m sim.e10_d --arms no_image,split,split2,merged --cap-usd 3.0
+    python -m sim.e10_d --arms no_image,split,split2,merged --cap-usd 3.6
     python -m sim.e10_d --arms split --chat local:<best part-A model> --reader gemini-3.5-flash-lite
     python -m sim.e10_d --arms split,merged --chat anthropic:claude-haiku-5-5 --reader anthropic:claude-haiku-5-5
     python -m sim.e10_d --report-only
---cap-usd caps the whole of part D: spend already recorded in sessions.jsonl counts against it.
+Two caps, each checked on recorded plus live spend: --cap-usd is the Gemini spend of all of part D (simulated user,
+Gemini chat and reads); --claude-cap-usd is the Anthropic spend of part D plus all of part C (scripts/e10_partC.sh:
+Haiku runs and their simulated-user cost, read back from the run files). Part D started with one 3.0 USD cap; the
+planner raised it to 3.6 (Gemini) and moved the Haiku arms' Anthropic cost to the 2.0 USD Claude cap on 2026-11-24.
 The reader's output for `split` is cached per (reader, run) in experiments/E10/D/reads/<reader>__r<run>/<image>.json,
 so the second pair (another chat model, `split`) reuses run 1's reading instead of paying for it again; such sessions
 are marked read_reused and their reading cost is not new spend. Sessions: experiments/E10/D/sessions.jsonl
@@ -160,8 +163,64 @@ def run_session(case, scen, arm: str, chat: str, reader: str | None, budget: Bud
             "session_usd": r["usd"] + read_usd}
 
 
+def provider(model: str | None) -> str:
+    if not model or model.startswith("local:"):
+        return "free"
+    return "claude" if "claude" in model else "gemini"
+
+
+def spend_split(row) -> dict[str, float]:
+    """New spend of one session by provider (a reused reading is not new spend)."""
+    out = {"gemini": row.get("victim_usd", 0), "claude": 0.0, "free": 0.0}  # the simulated user is Gemini
+    out[provider(row["chat"])] += row["usd"]
+    if not row.get("read_reused"):
+        out[provider(row["reader"])] += row.get("read_usd", 0)
+    return out
+
+
 def new_spend(row) -> float:
-    return row["usd"] + row.get("victim_usd", 0) + (0 if row.get("read_reused") else row.get("read_usd", 0))
+    return sum(spend_split(row).values())
+
+
+def part_c_spend() -> float:
+    """All of part C (same count as scripts/e10_partC.sh): Haiku screenshot runs + Haiku E5 sessions with victim."""
+    from e1.vlm import RUN_DIRS
+    spent = 0.0
+    for d in RUN_DIRS.values():
+        for p in (ROOT / d / "J__claude-haiku-5-5").glob("*.json"):
+            spent += json.loads(p.read_text(encoding="utf-8")).get("usd") or 0
+    sp = ROOT / "experiments/E5/sessions.jsonl"
+    for line in open(sp, encoding="utf-8"):
+        r = json.loads(line)
+        if r.get("model") == "anthropic:claude-haiku-5-5" and "preds" in r:
+            spent += r["usd"] + r.get("victim_usd", 0)
+    return spent
+
+
+class CapBudget(Budget):
+    """sim.run.Budget with one cap per provider; live spend split by model name from llm.USAGE."""
+
+    def __init__(self, caps: dict[str, float], base: dict[str, float]):
+        super().__init__(sum(caps.values()), sum(base.values()))
+        self.caps, self.bases = caps, base
+
+    def by_provider(self) -> dict[str, float]:
+        out = dict(self.bases)
+        with llm.USAGE.lock:
+            for m, usd in llm.USAGE.usd_by_model.items():
+                p = provider(m)
+                if p in out:
+                    out[p] += usd
+        return out
+
+    def check(self):
+        for p, v in self.by_provider().items():
+            if v > self.caps[p] * 0.95:
+                self.stop.set()
+                raise RuntimeError(f"cost cap ({p}): {v:.3f} USD of {self.caps[p]}")
+
+    def status(self) -> str:
+        return ", ".join(f"{p} {v:.3f}/{self.caps[p]}" for p, v in self.by_provider().items())
 
 
 # ---------------------------------------------------------------- scoring
@@ -206,17 +265,20 @@ def reading_quality(rows, cases_by_id):
     return rate(hit, tot), extra, misread_wrong, wrong
 
 
-def report(rows, scen, cases, cap):
+def report(rows, scen, cases, cap, claude_cap):
     by_id = {c["id"]: {**c, "_gt": gt_of(c)} for c in cases}
     groups = {}
     for r in rows:
         groups.setdefault((r["chat"], r["reader"] or "-"), {}).setdefault(r["arm"], []).append(r)
-    spent = sum(new_spend(r) for r in rows)
+    gem = sum(spend_split(r)["gemini"] for r in rows)
+    cla = sum(spend_split(r)["claude"] for r in rows)
     L = ["# E10 part D - full flow with an image: merged vs split\n",
          f"{len(cases)} cases (`sim/cases_d.jsonl`: 20 per scenario, synthetic screenshots from `data/E4`, 5 neutral "
          "openings). Real screenshots have no scenario label, so they cannot be used here. Simulated user "
          f"`{VICTIM_MODEL}` (answers from the chat messages of the image's ground truth, never sees the image). "
-         f"Spend recorded for part D: {spent:.3f} USD of the {cap} USD cap. Rates as k/n [Wilson 95%].\n",
+         f"Spend recorded for part D: Gemini {gem:.3f} USD of the {cap} USD part D cap (3.0 at the start, raised to "
+         f"3.6 by the planner on 2026-11-24); Anthropic {cla:.3f} USD, which counts with part C ({part_c_spend():.3f} "
+         f"USD) against the {claude_cap} USD Claude cap. Rates as k/n [Wilson 95%].\n",
          "The chat prompt is `sim.run.FREE_PROMPT` in every arm; the only difference is the image block placed before "
          "the question count:\n"]
     for arm in ("no_image", "split", "merged"):
@@ -316,7 +378,9 @@ def main():
     ap.add_argument("--chat", default=BASE)
     ap.add_argument("--reader", default=BASE, help="reading model of the split arms")
     ap.add_argument("--workers", type=int, default=8)
-    ap.add_argument("--cap-usd", type=float, default=3.0, help="cap on all of part D (recorded spend included)")
+    ap.add_argument("--cap-usd", type=float, default=3.6, help="Gemini cap on all of part D (recorded spend included)")
+    ap.add_argument("--claude-cap-usd", type=float, default=2.0,
+                    help="Anthropic cap on part D + all of part C (recorded spend included)")
     ap.add_argument("--limit", type=int, default=0, help="first N cases only (smoke test, rows still kept)")
     ap.add_argument("--report-only", action="store_true")
     ap.add_argument("--eyeball", action="store_true")
@@ -334,13 +398,15 @@ def main():
         arms = [x for x in a.arms.split(",") if x]
         assert set(arms) <= set(ARMS), arms
         done = {(r["case"], r["arm"], r["chat"], r["reader"]) for r in rows}
-        spent = sum(new_spend(r) for r in rows)
-        budget = Budget(a.cap_usd, spent)
+        base = {p: sum(spend_split(r)[p] for r in rows) for p in ("gemini", "claude")}
+        base["claude"] += part_c_spend()
+        budget = CapBudget({"gemini": a.cap_usd, "claude": a.claude_cap_usd}, base)
         subset = cases[: a.limit] if a.limit else cases
         # case-major order: a cap stop leaves every finished case with all its arms, so the pairs stay paired
         jobs = [(c, arm) for c in subset for arm in arms
                 if (c["id"], arm, a.chat, a.reader if arm in READ_RUN else None) not in done]
-        print(f"{len(jobs)} sessions to run; part D spent so far {spent:.3f} USD of {a.cap_usd}", flush=True)
+        print(f"{len(jobs)} sessions to run; spent so far (part D Gemini; part C + part D Anthropic): "
+              f"{budget.status()}", flush=True)
         lock = threading.Lock()
 
         def one(c, arm):
@@ -368,11 +434,11 @@ def main():
                 else:
                     rows.append(r)
                 if i % 25 == 0:
-                    print(f"  {i}/{len(jobs)} sessions, {budget.spent():.3f} USD", flush=True)
+                    print(f"  {i}/{len(jobs)} sessions, {budget.status()}", flush=True)
         if budget.stop.is_set():
-            print(f"STOPPED at the cost cap: {budget.spent():.3f} USD")
+            print(f"STOPPED at a cost cap: {budget.status()}")
     attach_reads(rows)
-    groups = report(rows, scen, cases, a.cap_usd)
+    groups = report(rows, scen, cases, a.cap_usd, a.claude_cap_usd)
     for (chat, reader), arms in groups.items():
         for arm, rs in arms.items():
             s = score(rs, scen)
