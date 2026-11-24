@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # E10 part C on the laptop: Claude Haiku 5.5 through the native Anthropic API (core.llm "anthropic:"). One Claude cap
 # of $CAP USD covers all of part C (Anthropic + the Gemini simulated user of the chat step) and the Anthropic cost of
-# the Haiku arms of part D (planner, 2026-11-24). Steps, in the planner's order of priority (2026-11-24):
+# the Haiku arms of part D (planner, 2026-11-24). The cap was 2.0 USD; Minh raised it to 2.6 on 2026-11-24 (via the
+# planner) so the Haiku part D arms can finish all 300 cases. Steps, in the planner's order of priority (2026-11-24):
 #   1. screenshots, E4 mode J (= E1 method B: image -> JSON, schema constrained) on `web`, 1 request at a time
 #   2. chat: E5 on the 300 cases (`tu_do`), after any other sim.e5 run has finished (they share sessions.jsonl)
 #   3. part D Haiku arms: split + merged with Haiku as reader and chat (sim.e10_d checks both caps itself)
@@ -13,7 +14,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 PY=.venv/bin/python
 M=anthropic:claude-haiku-5-5
-CAP=${CAP:-2.0}
+CAP=${CAP:-2.6}
 left() {  # cap at 95% minus part C spend minus the Anthropic spend of part D
   "$PY" - "$CAP" <<'EOF'
 import json, sys

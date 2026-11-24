@@ -15,7 +15,8 @@ Arms (the chat prompt is sim.run.FREE_PROMPT in every arm; only its {image_block
 Two caps, each checked on recorded plus live spend: --cap-usd is the Gemini spend of all of part D (simulated user,
 Gemini chat and reads); --claude-cap-usd is the Anthropic spend of part D plus all of part C (scripts/e10_partC.sh:
 Haiku runs and their simulated-user cost, read back from the run files). Part D started with one 3.0 USD cap; the
-planner raised it to 3.6 (Gemini) and moved the Haiku arms' Anthropic cost to the 2.0 USD Claude cap on 2026-11-24.
+planner raised it to 3.6 (Gemini) and moved the Haiku arms' Anthropic cost to the 2.0 USD Claude cap on 2026-11-24;
+Minh raised the Claude cap to 2.6 the same day so the Haiku arms could finish all 300 cases.
 The reader's output for `split` is cached per (reader, run) in experiments/E10/D/reads/<reader>__r<run>/<image>.json,
 so the second pair (another chat model, `split`) reuses run 1's reading instead of paying for it again; such sessions
 are marked read_reused and their reading cost is not new spend. Sessions: experiments/E10/D/sessions.jsonl
@@ -282,7 +283,8 @@ def report(rows, scen, cases, cap, claude_cap):
          f"`{VICTIM_MODEL}` (answers from the chat messages of the image's ground truth, never sees the image). "
          f"Spend recorded for part D: Gemini {gem:.3f} USD of the {cap} USD part D cap (3.0 at the start, raised to "
          f"3.6 by the planner on 2026-11-24); Anthropic {cla:.3f} USD, which counts with part C ({part_c_spend():.3f} "
-         f"USD) against the {claude_cap} USD Claude cap. Rates as k/n [Wilson 95%].\n",
+         f"USD) against the {claude_cap} USD Claude cap (2.0 at first, raised to 2.6 by Minh on 2026-11-24 so the Haiku "
+         "arms could finish all 300 cases). Rates as k/n [Wilson 95%].\n",
          "The chat prompt is `sim.run.FREE_PROMPT` in every arm; the only difference is the image block placed before "
          "the question count:\n"]
     for arm in ("no_image", "split", "merged"):
@@ -420,7 +422,7 @@ def main():
     ap.add_argument("--reader", default=BASE, help="reading model of the split arms")
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--cap-usd", type=float, default=3.6, help="Gemini cap on all of part D (recorded spend included)")
-    ap.add_argument("--claude-cap-usd", type=float, default=2.0,
+    ap.add_argument("--claude-cap-usd", type=float, default=2.6,
                     help="Anthropic cap on part D + all of part C (recorded spend included)")
     ap.add_argument("--limit", type=int, default=0, help="first N cases only (smoke test, rows still kept)")
     ap.add_argument("--report-only", action="store_true")
