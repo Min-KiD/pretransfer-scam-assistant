@@ -347,6 +347,36 @@ def report(rows, scen, cases, cap, claude_cap):
             L.append(f"- `{arm}` most common confusions: "
                      + "; ".join(f"`{a}` -> `{b}` {n}" for (a, b), n in c.most_common(6)))
         L.append("")
+    # chat models compared on the same cases (both arms): a cost cap can leave a chat with fewer cases or whole
+    # scenarios out, so this section keeps only the cases every chat model finished in every image arm it ran
+    per_scen = Counter(c["kich_ban"] for c in cases)
+    cmp = [(c, arm) for c in sorted(groups, key=lambda c: c != BASE) for arm in ("split", "merged") if arm in groups[c]]
+    common = set.intersection(*({r["case"] for r in groups[c][arm]} for c, arm in cmp)) if cmp else set()
+    if len({c for c, _ in cmp}) > 1 and any(len(groups[c][arm]) != len(common) for c, arm in cmp):
+        out = Counter(c["kich_ban"] for c in cases if c["id"] not in common)
+        L += [f"## Chat models on the same {len(common)} cases\n",
+              "Sessions already run, kept only for the cases every chat model below finished in every image arm it "
+              "ran (no new calls). Left out: "
+              + ", ".join(f"`{s}` {n}/{per_scen[s]}" + (" (the whole scenario)" if n == per_scen[s] else "")
+                          for s, n in sorted(out.items())) + ". The `split` rows use each chat's own reader ("
+              + ", ".join(f"`{c}` read by `{readers[c]}`" for c, arm in cmp if arm == "split")
+              + "), so a `split` difference is reader and chat together; `merged` has no reader.\n",
+              "| Chat | Arm | n | Correct scenario after 3 | Scam called ordinary | Ordinary flagged as scam | "
+              "`chua_du_can_cu` | Questions |", "|---|---|---|---|---|---|---|---|"]
+        sub = {(c, arm): [r for r in groups[c][arm] if r["case"] in common] for c, arm in cmp}
+        for (c, arm), rs in sub.items():
+            s = score(rs, scen)
+            L.append(f"| `{c}` | `{arm}` | {s['n']} | {fmt(s['kb3'])} | {fmt(s['miss'])} | {fmt(s['fp'])} | "
+                     f"{fmt(s['chua_du'])} | {s['q']:.2f} |")
+        L += ["", "| A vs B | n | Both right | Only A right | Only B right | Neither | A - B (paired 95%) | McNemar p |",
+              "|---|---|---|---|---|---|---|---|"]
+        for (c, arm), rs in sub.items():
+            if c != BASE and (BASE, arm) in sub:
+                p = paired(rs, sub[(BASE, arm)])
+                L.append(f"| `{c}` vs `{BASE}`, `{arm}` | {p['n']} | {p['both']} | {p['a_only']} | {p['b_only']} | "
+                         f"{p['neither']} | {100 * p['diff']:+.1f} [{100 * p['lo']:+.1f}, {100 * p['hi']:+.1f}] | "
+                         f"{p['p']:.3f} |")
+        L.append("")
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "report.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     return groups
