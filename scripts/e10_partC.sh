@@ -40,7 +40,8 @@ for s in gen_ref gen E1b E1; do
   awk "BEGIN{exit !($l < 0.01)}" && stopped=1
   (( stopped )) && { not_run+=("$s"); continue; }
   echo "[$(date +%T)] screenshots $s, left $l USD"
-  out=$("$PY" -m e1.e4_run --model "$M" --mode J --sets "$s" --workers 8 --max-tokens 8192 --cap-usd "$l" | tee /dev/stderr)
+  # tee -a: /dev/stderr is the log file itself, and plain tee would truncate it
+  out=$("$PY" -m e1.e4_run --model "$M" --mode J --sets "$s" --workers 8 --max-tokens 8192 --cap-usd "$l" | tee -a /dev/stderr)
   grep -q '"cap_stop": true' <<< "$out" && { echo "cap reached inside $s: partial"; stopped=1; }
 done
 (( ${#not_run[@]} )) && echo "not run (cap reached): ${not_run[*]}"
