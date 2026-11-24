@@ -2,16 +2,20 @@
 
 300 cases, 20 per scenario. Each case is one synthetic screenshot from data/E4 (e1/gen_train.py: the image's ground
 truth has the visible chat messages, and the scenario the dialog was written for is the answer key):
-- images come from `val` (13 scenarios) and `val_la` (the 2 held-out scenarios). `val` has only 17-19 usable images
-  for six scenarios, so those are topped up from `train`. No model in E10 was trained on any of these images (the E4
-  LoRA, the only model trained on `train`, is not used), so `train` images are as unseen as `val` ones here.
-- usable = at least 3 chat messages in the ground truth (an image with 0-2 bubbles says almost nothing about the case).
+- images come from `val` (13 scenarios) and `val_la` (the 2 held-out scenarios). Six scenarios have fewer than 20
+  usable `val` images, so those are topped up from `train`. No model in E10 was trained on any of these images (the
+  E4 LoRA, the only model trained on `train`, is not used), so `train` images are as unseen as `val` ones here.
+- usable = at least 3 chat messages in the ground truth (an image with 0-2 bubbles says almost nothing about the case)
+  and none of the E4 overlays that carry a verdict (found in the eyeball check, 2026-11-24): a stamp ("LỪA ĐẢO",
+  "CẢNH BÁO", ...), a news-site watermark, or a big red X. A user's own screenshot has none of these, and they would
+  hand the image-seeing arms the answer. Red circles and arrows (emphasis only) are kept.
 - the opening message is one of 5 fixed neutral sentences (seeded, no model call): what happened is only in the image.
-- the simulated user's story: the chat messages of the image (read at run time from its gt file) plus a story table.
-  Table fields the image shows are set from the image, never sampled against it: `kenh` from the app template,
-  `ai_bat_dau` from the first bubble of the whole dialog; `tu_xung`, `ap_luc`, `yeu_cau`, `ly_do_tien` are left empty
-  and the simulated user reads them from the chat. The other fields and the account lookup (`tai_khoan`) are sampled
-  from the scenario's table as in sim/cases.py.
+- the simulated user's story: the contact name and chat messages of the image (read at run time from its gt file)
+  plus a story table. Table fields the image shows are set from the image, never sampled against it: `kenh` from the
+  app template; `ai_bat_dau` from the first item of the dialog (bubble, call, picture) when the image shows the start
+  of the chat, else sampled (a cropped screenshot does not show who started); `tu_xung`, `ap_luc`, `yeu_cau`,
+  `ly_do_tien` are left empty and the simulated user reads them from the chat. The other fields and the account lookup
+  (`tai_khoan`) are sampled from the scenario's table as in sim/cases.py.
 - personas rotate as in sim/cases.py.
 
     python -m sim.cases_d          # writes sim/cases_d.jsonl (deterministic; committed)
@@ -42,10 +46,12 @@ OPENINGS = [
 KENH = {"zalo": "zalo", "messenger": "messenger", "telegram": "telegram", "imessage": "sms", "android": "sms",
         "viber": "khac", "web": "khac", "whatsapp": "khac"}
 FROM_CHAT = ("tu_xung", "ap_luc", "yeu_cau", "ly_do_tien")  # read from the chat by the simulated user
+VERDICT_MARKS = {"stamp", "logo", "x"}  # e1/gen_train.py draw_marks: overlays that say "scam" or "news story"
 
 
 def pool(split: str) -> dict[str, list[dict]]:
-    """scenario -> usable images of a split, in file order."""
+    """scenario -> usable images of a split, in file order (verdict overlays still in: filtered after the shuffle,
+    so the images picked before that filter was added, and checked by eye, keep their place)."""
     d = ROOT / "data/E4" / split
     manifest = {json.loads(l)["image_id"]: json.loads(l) for l in open(d / "manifest.jsonl", encoding="utf-8")}
     out: dict[str, list[dict]] = {}
@@ -58,10 +64,13 @@ def pool(split: str) -> dict[str, list[dict]]:
         gt = json.loads(gt_path.read_text(encoding="utf-8"))
         if len(gt.get("messages", [])) < MIN_MESSAGES:
             continue
-        first = next((it["side"] for it in conv["items"] if it["kind"] == "text"), None)
+        first = next((it["side"] for it in conv["items"] if it.get("side")), None)
         out.setdefault(conv["scenario"], []).append({
             "split": split, "image_id": conv["id"], "path": f"data/E4/{split}/{m['path']}",
-            "template": conv["template"], "first_side": first, "n_messages": len(gt["messages"])})
+            "template": conv["template"], "contact": conv["contact"], "first_side": first,
+            # every text bubble of the dialog is in the image (none cut off or scrolled away): the start is visible
+            "start_visible": conv["n_text"] == len(gt["messages"]), "n_messages": len(gt["messages"]),
+            "marks": conv.get("marks") or []})
     return out
 
 
@@ -74,16 +83,18 @@ def main():
         rng = random.Random(f"{SEED}:{sid}:d")
         main_pool = list((val_la if sid in val_la else val).get(sid, []))
         rng.shuffle(main_pool)
-        picked = main_pool[:PER_SCENARIO]
+        clean = lambda imgs: [x for x in imgs if not VERDICT_MARKS & set(x["marks"])]  # noqa: E731
+        picked = clean(main_pool)[:PER_SCENARIO]
         if len(picked) < PER_SCENARIO:
             extra = list(train.get(sid, []))
             rng.shuffle(extra)
-            picked += extra[: PER_SCENARIO - len(picked)]
+            picked += clean(extra)[: PER_SCENARIO - len(picked)]
         assert len(picked) == PER_SCENARIO, (sid, len(picked))
         for i, img in enumerate(picked):
             truth = sample_table(scen[sid], rng)
             truth["kenh"] = KENH[img["template"]]
-            truth["ai_bat_dau"] = {"left": "ho_truoc", "right": "minh_truoc"}.get(img["first_side"])
+            if img["start_visible"]:
+                truth["ai_bat_dau"] = {"left": "ho_truoc", "right": "minh_truoc"}[img["first_side"]]
             for n in FROM_CHAT:
                 truth[n] = [] if FIELDS[n].multi else None
             rows.append({"id": f"{sid}__d{i:02d}", "kich_ban": sid, "nhom": scen[sid].nhom,

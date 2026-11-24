@@ -61,7 +61,7 @@ Quy tắc:
 - Trả lời đúng câu được hỏi, có thể thêm tối đa một chi tiết khác.
 - {no_scam}
 Tình huống chung (để hiểu bối cảnh, không chép lại): {mo_ta}
-Đoạn chat trong ảnh ("Người kia" là bên trái, "Bạn" là bên phải):
+Đoạn chat trong ảnh, với người lưu tên "{contact}" ("Người kia" là bên trái, "Bạn" là bên phải):
 <doan_chat>
 {chat}
 </doan_chat>
@@ -107,7 +107,8 @@ def victim_d(case, scen, history) -> llm.Result:
     rule = ('Được nói ra nghi ngờ, kể cả từ "lừa đảo".' if case["tinh_cach"] == "nghi_ngo" else
             'Không nói tên gọi của tình huống, không dùng từ "lừa đảo".')
     h = [{**history[0], "text": history[0]["text"] + " [kèm ảnh chụp đoạn chat]"}] + history[1:]
-    r = llm.generate(VICTIM_D_PROMPT.format(no_scam=rule, mo_ta=s.mo_ta, chat=chat_text(case["_gt"]),
+    r = llm.generate(VICTIM_D_PROMPT.format(no_scam=rule, mo_ta=s.mo_ta, contact=case["anh"]["contact"],
+                                            chat=chat_text(case["_gt"]),
                                             story=story_d(case), persona=PERSONAS[case["tinh_cach"]],
                                             history=history_text(h)), model=VICTIM_MODEL)
     r.text = " ".join(r.text.strip().strip('"').split())
@@ -300,7 +301,8 @@ def eyeball(cases):
         L += [f"## {c['id']} (`{c['kich_ban']}`)\n", f"![]({ROOT / a['path']})\n",
               f"- image `{a['image_id']}` ({a['split']}, template `{a['template']}`, {a['n_messages']} messages); "
               f"opening: \"{c['tin_mo_dau']}\"; persona `{c['tinh_cach']}`",
-              f"- kenh `{c['bang_that']['kenh']}`, ai_bat_dau `{c['bang_that']['ai_bat_dau']}`",
+              f"- contact `{a['contact']}`; kenh `{c['bang_that']['kenh']}`, ai_bat_dau "
+              f"`{c['bang_that']['ai_bat_dau']}` (start visible: {a['start_visible']}); marks {a['marks']}",
               "- chat given to the simulated user:\n```\n" + chat_text(c["_gt"]) + "\n```",
               "- story given to the simulated user:\n```\n" + story_d(c) + "\n```\n"]
     OUT.mkdir(parents=True, exist_ok=True)
