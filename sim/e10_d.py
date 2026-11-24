@@ -267,9 +267,12 @@ def reading_quality(rows, cases_by_id):
 
 def report(rows, scen, cases, cap, claude_cap):
     by_id = {c["id"]: {**c, "_gt": gt_of(c)} for c in cases}
-    groups = {}
+    # one group per chat model, so merged / no_image (no reader) pair with that chat's split arms; one reader per chat
+    groups, readers = {}, {}
     for r in rows:
-        groups.setdefault((r["chat"], r["reader"] or "-"), {}).setdefault(r["arm"], []).append(r)
+        groups.setdefault(r["chat"], {}).setdefault(r["arm"], []).append(r)
+        if r["reader"]:
+            assert readers.setdefault(r["chat"], r["reader"]) == r["reader"], ("two readers for one chat", r["chat"])
     gem = sum(spend_split(r)["gemini"] for r in rows)
     cla = sum(spend_split(r)["claude"] for r in rows)
     L = ["# E10 part D - full flow with an image: merged vs split\n",
@@ -284,8 +287,8 @@ def report(rows, scen, cases, cap, claude_cap):
     for arm in ("no_image", "split", "merged"):
         L.append(f"- `{arm}`: " + (f"`{IMAGE_BLOCK[arm]!r}`" if IMAGE_BLOCK[arm] else "(empty)"))
     L.append("")
-    for (chat, reader), arms in groups.items():
-        L.append(f"## Chat `{chat}`, reader `{reader}`\n")
+    for chat, arms in groups.items():
+        L.append(f"## Chat `{chat}`, reader of the split arms `{readers.get(chat, '-')}`\n")
         L.append("| Arm | n | Correct scenario after 3 | Scam called ordinary | Ordinary flagged as scam | "
                  "`chua_du_can_cu` | Questions | First reply s (mean, p90) | Session s (mean) | Tokens/session | "
                  "USD/session |")
@@ -439,11 +442,10 @@ def main():
             print(f"STOPPED at a cost cap: {budget.status()}")
     attach_reads(rows)
     groups = report(rows, scen, cases, a.cap_usd, a.claude_cap_usd)
-    for (chat, reader), arms in groups.items():
+    for chat, arms in groups.items():
         for arm, rs in arms.items():
             s = score(rs, scen)
-            print(f"{chat} / {reader} {arm:9s} n={s['n']:3d} kb3={fmt(s['kb3'])} miss={fmt(s['miss'])} "
-                  f"fp={fmt(s['fp'])}")
+            print(f"{chat} {arm:9s} n={s['n']:3d} kb3={fmt(s['kb3'])} miss={fmt(s['miss'])} fp={fmt(s['fp'])}")
     print("report:", (OUT / "report.md").relative_to(ROOT))
 
 
