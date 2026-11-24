@@ -41,14 +41,14 @@ flowchart TD
 
 ## Models
 
-The demo should run on our own open models, not on a closed API. Closed models (Gemini, GPT, Claude) are used as reference points and as teachers for training data.
+Closed models (Gemini, GPT, Claude) and open models on a 16 GB GPU were measured side by side for each job. Which of them the live build uses is not decided yet; the numbers are below and in [`EXPERIMENTS.md`](EXPERIMENTS.md).
 
 | Id | Model | Job | Trained on | Scored on | Experiment | State |
 |---|---|---|---|---|---|---|
-| M1 | Open VLM + LoRA, with PP-OCRv6 as a cross-check | Chat screenshot to JSON: messages, who said what, account numbers, phone numbers, links, amounts | Screenshots rendered from HTML (exact labels) | Real scam screenshots published by police and news sites | E4 | Running |
-| M2 | Open LLM for the conversation (same base model as M1 if possible) | Ask follow-ups, pick the scenario, write the warning | Not trained yet; distillation only if E5 shows a gap | 300 simulated sessions | E5 | Running |
-| M3 | Small text classifier on CPU | Second opinion on the scenario, with probabilities | Simulated user stories, labels set by us | Held-out simulated sessions + stories from real reported cases | E6 | Queued |
-| M4 | Label propagation on the account graph | A confirmed report spreads to linked accounts | Sample data | No meaningful accuracy number; shows the mechanism only | - | Last, first to cut |
+| M1 | Vision model that reads a screenshot | Chat screenshot to JSON: messages, who said what, account numbers, phone numbers, links, amounts | Open models: LoRA on screenshots rendered from HTML (exact labels). Closed models: not trained | Real scam screenshots published by police and news sites | E4, E10 | Measured. No open model reached the closed ones; LoRA training of readers was stopped |
+| M2 | LLM for the conversation | Ask follow-ups, pick the scenario, write the warning | Not trained | 300 simulated sessions; 300 more with a screenshot | E5, E10 | Measured. One open model (`gemma-4-e4b-qat`) is within 5 points of the closed reference |
+| M3 | Small text classifier on CPU | Second opinion on the scenario, with probabilities | Simulated user stories, labels set by us | Held-out simulated sessions + stories from real reported cases | E6 | Measured, kept. Not wired into the app yet |
+| M4 | Label propagation on the account graph | A confirmed report spreads to linked accounts | Sample data | No meaningful accuracy number; shows the mechanism only | - | Postponed |
 
 Keep-or-drop conditions for M1-M3 were written down before any numbers came in: [`docs/specs/2026-11-22-ke-hoach-model-va-thi-nghiem.md`](docs/specs/2026-11-22-ke-hoach-model-va-thi-nghiem.md), section 5.
 
@@ -56,9 +56,11 @@ Keep-or-drop conditions for M1-M3 were written down before any numbers came in: 
 
 All on small sets; they guide choices and are not quality claims. Details in [`EXPERIMENTS.md`](EXPERIMENTS.md).
 
-- **Reading screenshots (E1, E1b):** on 20 real screenshots, `gemini-3.5-flash-lite` recovered 83.7% of the strings (36/43). Open OCR models followed by regex recovered 51-61%. The one open model run in image-to-JSON mode (GLM-OCR) scored 0%; Qwen3-VL and Gemma 4 were not run then. This gap is what M1 is meant to close.
-- **Conversation (E2):** with at most 3 questions, the LLM asking freely named the right scenario in 78.7% of 75 simulated sessions and raised a false alarm on 1 of 20 ordinary transfers. Having code pick the questions by entropy scored 69.3% and was dropped.
-- **Not measured yet:** anything with real users.
+- **Reading real screenshots (E4, E10; 56 images, 117 strings):** `gemini-3.5-flash-lite` found 92.3% of the strings in 2.6 s per image, but 26.2% of the strings it returned were not in the image. Claude Haiku 5.5 found 88.0% with 9.3% made up, in 7.3 s. The best open model (`qwen3-vl-4b`) found 76.1% in 12 s; LoRA moved it within noise.
+- **Conversation, text only (E2, E5, E10; 300 simulated sessions, at most 3 questions):** the LLM asks its own questions (code-picked questions scored 69.3% vs 78.7% on 75 sessions and were dropped). Correct scenario: Claude Haiku 5.5 81.7%, `gemini-3.5-flash-lite` 81.3%, open `gemma-4-e4b-qat` 77.0%, open Qwen3 8B and 14B 70-75%.
+- **Conversation with a screenshot (E10; 300 simulated sessions):** reading the image to JSON first and chatting on the JSON scored 93.3%; letting the chat model look at the image itself scored 86.7% and flagged twice as many ordinary transfers (14 vs 6 of 80). The app keeps the two-step flow.
+- **Second opinion (E6, E10):** the CPU classifier catches 53-88% of the LLM's wrong conclusions, depending on the chat model, and flags 4-8% of the correct ones.
+- **Not measured yet:** anything with real users. Sessions with a screenshot use synthetic images only.
 
 ## What exists today
 
@@ -134,7 +136,7 @@ Updated until submission.
 |---|---|
 | Pre-existing assets | None used so far |
 | Open-source libraries | App and core: FastAPI, Starlette, Uvicorn, python-multipart, Pydantic, PyYAML, google-genai; tests: pytest, httpx. Image experiments: PaddleOCR, Playwright, Pillow, transformers |
-| Open models tried | PP-OCRv6, PaddleOCR-VL 1.6, MinerU2.5-Pro, GLM-OCR; Qwen3-VL and Gemma 4 in E4 |
-| Closed models and APIs | Gemini API, OpenAI API: reference points in experiments, and generation of synthetic training and test text. The image model `gemini-nano-banana-2.1` made the `gen` test screenshots |
+| Open models tried | Readers: PP-OCRv6, PaddleOCR-VL 1.6, MinerU2.5-Pro, GLM-OCR, Qwen3-VL 2B and 4B, Qwen3.5 4B, Gemma 4 E4B. Chat: the same Qwen models, Qwen3 8B and 14B, Gemma 4 E4B |
+| Closed models and APIs | Gemini API, OpenAI API, Anthropic API: reference points in experiments, and generation of synthetic training and test text. The image model `gemini-nano-banana-2.1` made the `gen` test screenshots |
 | AI tools used to build | The coding assistant omp running Claude models: planning, documents, code |
 | Infrastructure | A private GPU server (RTX 4060 Ti 16GB) for experiments; hosting for the submission not decided |
