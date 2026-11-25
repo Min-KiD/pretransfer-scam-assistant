@@ -16,6 +16,7 @@ Most numbers come from data we built ourselves and from simulated users. They ar
 | E5 | Can a small open LLM run the conversation as well as closed models? (model M2) | Done | Closed models: 76-83% correct scenario on 75 sessions. On 300 sessions: `qwen3-vl-4b` 73.7%, `qwen3.5-4b` 69.3%, `qwen3-vl-2b` 55.3%, vs 81.3% for `gemini-3.5-flash-lite`. M2 fails for all three |
 | E6 | Does a small CPU text classifier work as a second opinion on the scenario? (model M3) | Done | TF-IDF + logistic regression (1.3 ms on CPU) catches 66-88% of the LLM's wrong conclusions and flags 4-8% of its correct ones, behind all four LLMs tested: M3 kept |
 | E10 | Do larger open chat models, more thinking, or Claude Haiku 5.5 close the gap? Should the chat model see the screenshot itself (merged) or the JSON read from it (split)? | Done | `gemma-4-e4b-qat` (open, 16 GB GPU) is the first open model to pass M2: 77.0% vs 81.3%, fewer ordinary transfers flagged. More thinking for `gemini-3.5-flash-lite` adds nothing. Haiku 5.5 chats as well as `gemini-3.5-flash-lite` and reads clean screenshots like `gemini-4-carbon`. With an image, split beats merged by 6.7 points; the app stays split |
+| E11 | Does `gemini-3.8-flash` at high thinking call fewer scams ordinary, and at what cost? | Stopped by the cost projection after 30 of 75 sessions | 0.052 USD and 113 s per session, 14x the cost of low thinking. On the 30 sessions it ran, it is not more accurate (63.3% vs 76.7% at low, 83.3% for `gemini-3.5-flash-lite`) and ends 5 of 30 at "not enough evidence". The 30 hold only 10 scam cases, none called ordinary by any model, so the scam question is unanswered |
 | E7 | Label propagation on the account graph (model M4) | Not started | |
 | E8 | A user who was coached by the scammer on what to answer | Not started | |
 | E9 | Time and cost per session | Not started | |
@@ -202,6 +203,23 @@ Same 300 chat cases and simulated user as E5. Spend: Gemini 4.46 USD (22.71 of t
 - **Haiku with a screenshot does not conclude "ordinary":** it gets 97% of scam cases right and never calls a scam ordinary, but only 25-30 of 80 ordinary transfers right; the rest are flagged as scam or left at "not enough evidence". Merged and split are equal for Haiku.
 - **Closed reader + open chat stays within 5 points:** `gemma-4-e4b-qat` chatting on the `gemini-3.5-flash-lite` reads is 4.0 points behind (interval -7.7 to -0.3), about the same margin as in the text-only test, with fewer ordinary transfers flagged and more scams missed (5 vs 1 of 220).
 - **Limits:** synthetic screenshots only (real ones have no scenario label); 41 of the 300 images come from the E4 training split (no E10 model was trained on them); many synthetic chats contain generic filler lines.
+
+## E11: `gemini-3.8-flash` at high thinking
+
+Question: Minh weighs "few scams called ordinary" above "few ordinary transfers flagged". At low thinking `gemini-3.8-flash` called 1 of 55 scams ordinary on the 75 E2 cases (`gemini-3.5-flash-lite`: 6 of 55). Does high thinking help, and what does it cost? Same protocol as E5, 75 cases planned, cap 1.8 USD, cost projected after 30 sessions.
+
+- **Stopped at 30 sessions by the cost rule.** Projection 3.89 USD for 75 sessions (0.052 per session), over the 1.8 cap. Spent 1.556 USD. Cost per session has a long tail: median 0.017 USD, but one session cost 0.33 USD and took 695 s, and one call thought for 42,511 tokens.
+- **The 30 sessions are not a fair sample.** The runner takes cases in id order, so they are the first 6 scenarios alphabetically: all 20 ordinary cases and only 10 of the 55 scam cases (2 of 11 scam scenarios). None of the three Gemini setups calls any of those 10 scams ordinary; every miss of the other two (1 and 6) is in the 45 cases not reached, so the main question stays open. A shuffled order would have given a representative 30.
+
+| Model (same 30 cases) | Correct scenario | Ordinary flagged as scam | Scam called ordinary | `chua_du_can_cu` | Questions asked | s/session | USD/session |
+|---|---|---|---|---|---|---|---|
+| `gemini-3.8-flash`, high thinking | 63.3% | 3 of 20 | 0 of 10 | 5 of 30 | 1.17 | 113 | 0.0516 |
+| `gemini-3.8-flash`, low thinking | 76.7% | 3 of 20 | 0 of 10 | 1 of 30 | 1.27 | 6.5 | 0.0037 |
+| `gemini-3.5-flash-lite` | 83.3% | 1 of 20 | 0 of 10 | 0 of 30 | 0.70 | 1.4 | 0.0012 |
+
+- **More thinking does not help on these cases.** High vs low: -13.3 points (paired interval -30.0 to 0.0, McNemar p=0.22). High vs `gemini-3.5-flash-lite`: -20.0 points (-36.7 to -6.7, p=0.03). Of its 11 wrong conclusions, 5 are "not enough evidence" (3 on the ordinary `bt_mua_online_nguoi_ban_moi`, 2 on the scam `bao_nguoi_than_cap_cuu`). No rule was declared in advance: on 30 cases this shows a direction; it decides nothing.
+- **It is slow:** 60 s per call that asks a question, 43 s per call that concludes (p90 120 s and 71 s), so a user would wait minutes.
+- **Spend:** the Gemini cap for E4-E11 now stands at 24.27 of 25 USD.
 
 ## Known gaps
 
