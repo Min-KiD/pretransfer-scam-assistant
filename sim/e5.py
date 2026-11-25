@@ -245,8 +245,9 @@ def main():
     ap.add_argument("--report-only", action="store_true")
     ap.add_argument("--full", action="store_true", help="all 300 cases for every model given (E10 part B)")
     ap.add_argument("--project-after", type=int, default=0,
-                    help="after N sessions, project the cost of all jobs; above --cap-usd run only the v1 cases "
-                         "(v1 cases are queued first)")
+                    help="run N sessions, then project the cost of all jobs before starting more: above --cap-usd "
+                         "run only the v1 cases (queued first); if the v1 cases alone are still above the cap, stop "
+                         "at those N sessions (E10 part B, E11)")
     a = ap.parse_args()
     scen, issues = load()
     assert not issues, issues
@@ -271,10 +272,23 @@ def main():
         print(f"{len(jobs)} sessions to run; E5 spent so far {spent:.3f} USD", flush=True)
         lock = threading.Lock()
         v1_only = threading.Event()
+        halt = threading.Event()  # projection over the cap even for the v1 cases: no new session starts
+        decided = threading.Event()  # the first --project-after sessions have settled and the projection is made
+        if not a.project_after:
+            decided.set()
+        started = [0]
+        n_v1 = sum(c["v1"] for c, _ in jobs)
         finished = []  # USD (assistant + simulated user) of the sessions finished in this invocation
+        settled = 0  # sessions of this invocation that returned (finished or error)
 
         def one(c, m):
-            if budget.stop.is_set() or (v1_only.is_set() and not c["v1"]):
+            with lock:
+                gated = started[0] >= a.project_after
+                if not gated:
+                    started[0] += 1
+            if gated:  # wait for the projection, so exactly --project-after sessions run before it
+                decided.wait()
+            if budget.stop.is_set() or halt.is_set() or (v1_only.is_set() and not c["v1"]):
                 return None
             base = {"case": c["id"], "model": m, "assistant": "tu_do", "kich_ban": c["kich_ban"], "nhom": c["nhom"],
                     "tinh_cach": c["tinh_cach"], "v1": c["v1"]}
@@ -287,23 +301,30 @@ def main():
             futs = [ex.submit(one, c, m) for c, m in jobs]
             for i, fu in enumerate(as_completed(futs), 1):
                 r = fu.result()
-                if r is None:
-                    continue
-                with lock:
-                    f.write(json.dumps(r, ensure_ascii=False) + "\n")
-                    f.flush()
-                if "error" in r:
-                    print(f"  {r['case']} {r['model']}: {r['error'][:160]}", flush=True)
-                else:
-                    rows.append(r)
-                    finished.append(r["usd"] + r.get("victim_usd", 0))
-                    if a.project_after and len(finished) == a.project_after:
-                        proj = sum(finished) / len(finished) * len(jobs)
-                        print(f"PROJECTION after {len(finished)} sessions: {proj:.3f} USD for {len(jobs)} "
-                              f"(cap {a.cap_usd})", flush=True)
-                        if proj > a.cap_usd:
+                settled += 1  # before the projection only the first --project-after sessions can return
+                if r is not None:
+                    with lock:
+                        f.write(json.dumps(r, ensure_ascii=False) + "\n")
+                        f.flush()
+                    if "error" in r:
+                        print(f"  {r['case']} {r['model']}: {r['error'][:160]}", flush=True)
+                    else:
+                        rows.append(r)
+                        finished.append(r["usd"] + r.get("victim_usd", 0))
+                if not decided.is_set() and settled == min(a.project_after, len(jobs)):
+                    mean = sum(finished) / len(finished) if finished else float("inf")
+                    proj = mean * len(jobs)
+                    print(f"PROJECTION after {len(finished)} sessions ({settled - len(finished)} errors or not "
+                          f"run): {proj:.3f} USD for {len(jobs)} (cap {a.cap_usd})", flush=True)
+                    if proj > a.cap_usd:
+                        if n_v1 < len(jobs) and mean * n_v1 <= a.cap_usd:
                             v1_only.set()
                             print("PROJECTION over the cap: running the v1 cases only", flush=True)
+                        else:
+                            halt.set()
+                            print(f"PROJECTION over the cap for the {n_v1} v1 cases too ({mean * n_v1:.3f} USD): "
+                                  f"STOPPED at the {len(finished)} sessions run", flush=True)
+                    decided.set()
                 if i % 25 == 0:
                     print(f"  {i}/{len(jobs)} sessions, {budget.spent():.3f} USD", flush=True)
         if budget.stop.is_set():

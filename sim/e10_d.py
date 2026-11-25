@@ -235,10 +235,11 @@ def mcnemar_p(b: int, c: int) -> float:
     return min(1.0, 2 * tail)
 
 
-def paired(rows_a, rows_b):
-    """2x2 right/wrong after 3 questions on the cases both arms ran; difference a - b with a paired bootstrap 95%."""
-    a = {r["case"]: r["preds"][K] == r["kich_ban"] for r in rows_a}
-    b = {r["case"]: r["preds"][K] == r["kich_ban"] for r in rows_b}
+def paired(rows_a, rows_b, ok=lambda r: r["preds"][K] == r["kich_ban"]):
+    """2x2 of ok(row) (default: right after 3 questions) on the cases both arms ran; difference a - b with a paired
+    bootstrap 95%."""
+    a = {r["case"]: ok(r) for r in rows_a}
+    b = {r["case"]: ok(r) for r in rows_b}
     common = sorted(set(a) & set(b))
     t = Counter((a[c], b[c]) for c in common)
     d = [float(a[c]) - float(b[c]) for c in common]
