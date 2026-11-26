@@ -1,0 +1,39 @@
+id: vay_online_dong_phi_truoc
+ten: Mời vay tiền online lãi thấp, đòi nộp phí trước thì mới giải ngân
+nhom: lua_dao
+nguon:
+  - {noi: "Bộ Công an, 31/10/2026 (Công an xã Lạc Sơn, Phú Thọ)", url: "https://www.bocongan.gov.vn/bai-viet/phu-tho-cong-an-xa-lac-son-kip-thoi-ngan-chan-vu-lua-dao-gia-danh-nhan-vien-ngan-hang-1793435269", do_tin_cay: da_doc}
+  - {noi: "CafeF, 14/07/2026: Công an cảnh báo tuyệt đối không chuyển tiền trước để làm thủ tục vay", url: "https://cafef.vn/cong-an-canh-bao-tuyet-doi-khong-chuyen-tien-truoc-de-lam-thu-tuc-vay-188260714090725473.chn", do_tin_cay: tim_kiem}
+mo_ta: >
+  Một người tự xưng nhân viên ngân hàng, công ty tài chính hoặc ứng dụng cho vay mời vay với lãi suất ưu đãi,
+  không cần thế chấp, thủ tục nhanh. Sau khi nạn nhân gửi thông tin, họ báo hồ sơ sai thông tin hoặc cần đóng
+  phí hồ sơ, phí bảo hiểm khoản vay, phí xác minh, phí giải ngân, và yêu cầu chuyển trước vào một tài khoản cá nhân.
+  Chuyển xong vẫn chưa nhận được tiền vay, lại bị báo lỗi và đòi chuyển thêm.
+cac_buoc:
+  - Quảng cáo hoặc nhắn tin mời vay nhanh, lãi thấp, không thế chấp
+  - Hướng dẫn điền hồ sơ qua Zalo, link hoặc ứng dụng lạ
+  - Báo cần nộp phí hoặc hồ sơ sai thông tin, yêu cầu chuyển tiền trước để được giải ngân
+  - Tiếp tục báo lỗi, đòi chuyển thêm để "mở khóa khoản vay"
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.6, tu_tim_den: 0.4}
+  kenh: {zalo: 0.4, messenger: 0.3, cuoc_goi: 0.15, telegram: 0.1}
+  tu_xung: {ngan_hang: 0.9}
+  ai_bat_dau: {ho_truoc: 0.5, minh_truoc: 0.5}
+  ap_luc: {hua_loi: 0.7, hoi_thuc: 0.5, doa: 0.25}
+  yeu_cau: {chuyen_tien: 0.98, cai_app: 0.35, bam_link: 0.3, nap_them_de_rut: 0.3}
+  ly_do_tien: {phi: 0.6, khac_phuc_loi: 0.35}
+  loai_tai_khoan: {ca_nhan: 0.9}
+  ten_khop_tu_xung: {khong: 0.9}
+  da_gap_truc_tiep: {khong: 0.97}
+  da_chuyen_truoc_do: {co: 0.4, khong: 0.6}
+dau_hieu:
+  - Chưa nhận được tiền vay mà đã phải nộp phí
+  - Phí nộp vào tài khoản cá nhân, không phải tài khoản của ngân hàng hay công ty tài chính
+  - Báo hồ sơ sai, khoản vay bị đóng băng, đòi chuyển thêm để sửa
+viec_can_kiem_tra:
+  - Ngân hàng và công ty tài chính có giấy phép không thu phí trước khi giải ngân qua tài khoản cá nhân
+  - Tự gọi tổng đài chính thức hoặc ra chi nhánh hỏi về khoản vay này
+  - Không cài ứng dụng vay từ link người lạ gửi
+cau_noi_mau:
+  - "Hồ sơ vay 50 triệu của chị đã duyệt, chị chuyển trước 5 triệu phí bảo hiểm khoản vay để bên em giải ngân."
+  - "Chị nhập sai số tài khoản nên khoản vay bị đóng băng, cần nộp 10 triệu để mở khóa, xong sẽ hoàn lại."

@@ -1,0 +1,41 @@
+id: tinh_cam_qua_mang_gui_qua
+ten: Quen qua mạng, hứa gửi quà hoặc tiền từ nước ngoài, rồi đòi phí hải quan, phí nhận hàng
+nhom: lua_dao
+nguon:
+  - {noi: "Báo Gia Lai, 08/11/2026 (Công an xã Đak Đoa)", url: "https://baogialai.com.vn/cong-an-xa-dak-doa-kip-thoi-ngan-chan-vu-lua-dao-post604260.html", do_tin_cay: da_doc}
+  - {noi: "Kenh14 theo An ninh tiền tệ, 23/10/2026 (ba vụ ở Tuyên Quang, Hải Phòng, Hà Nội)", url: "https://kenh14.vn/can-bo-ngan-hang-dung-loat-lenh-chuyen-tien-rut-truoc-han-so-tiet-kiem-tu-28-trieu-90-trieu-den-380-trieu-dong-khach-hang-sau-do-cam-on-dung-giao-dich-215261023203042579.chn", do_tin_cay: da_doc}
+  - {noi: "Tạp chí Hàng không, 01/11/2026 (Công an cửa khẩu Nội Bài)", url: "https://tapchihangkhong.vn/cong-an-cua-khau-noi-bai-bao-thu-doan-nguoi-nuoc-ngoai-bi-tam-giu-tai-san-bay-d15221.html", do_tin_cay: tim_kiem}
+mo_ta: >
+  Một tài khoản mạng xã hội tự giới thiệu là người nước ngoài (bác sĩ, kỹ sư, doanh nhân) nhắn tin làm quen,
+  tỏ tình cảm trong vài ngày đến vài tuần. Sau đó báo đã gửi thùng quà, trang sức, ngoại tệ, hoặc sắp sang thăm.
+  Tiếp theo, chính người đó hoặc một người tự xưng nhân viên sân bay, hải quan, công ty vận chuyển yêu cầu
+  chuyển phí thông quan, thuế, tiền phạt vào một tài khoản cá nhân thì mới nhận được quà. Chuyển xong lại bị đòi thêm.
+cac_buoc:
+  - Kết bạn, nhắn tin hằng ngày, tạo quan hệ tình cảm; chưa từng gặp, hiếm khi gọi video
+  - Gửi ảnh quà đắt tiền, ngoại tệ, vé máy bay; báo quà đã về sân bay
+  - Yêu cầu chuyển phí hải quan, phí vận chuyển, thuế, tiền phạt vào tài khoản cá nhân
+  - Nhận tiền xong đòi thêm khoản khác hoặc cắt liên lạc
+truong:
+  nguoi_lien_lac: {nguoi_la: 0.85, nguoi_quen: 0.1}
+  kenh: {messenger: 0.6, zalo: 0.15, cuoc_goi: 0.15, telegram: 0.05}
+  tu_xung: {nguoi_quen_qua_mang: 0.75, co_quan_nha_nuoc: 0.1, shipper: 0.1}
+  ai_bat_dau: {ho_truoc: 0.9}
+  ap_luc: {hua_loi: 0.85, hoi_thuc: 0.6, doa: 0.2, giu_bi_mat: 0.2}
+  yeu_cau: {chuyen_tien: 0.98, lien_he_so_ho_dua: 0.3, bam_link: 0.15}
+  ly_do_tien: {phi: 0.9}
+  loai_tai_khoan: {ca_nhan: 0.95}
+  ten_khop_tu_xung: {khong: 0.9}
+  da_gap_truc_tiep: {khong: 0.98}
+  da_chuyen_truoc_do: {co: 0.4, khong: 0.6}
+dau_hieu:
+  - Người quen qua mạng, chưa từng gặp, tự nhận là người nước ngoài
+  - Hứa tặng quà hoặc tiền giá trị rất lớn, rồi phát sinh phí phải đóng trước
+  - Phí hải quan, thuế, tiền phạt lại chuyển vào tài khoản cá nhân
+  - Chuyển xong lại bị đòi thêm khoản khác
+viec_can_kiem_tra:
+  - Hải quan và hãng vận chuyển không thu phí qua tài khoản cá nhân; tự tra mã vận đơn trên website của hãng
+  - Đề nghị gọi video trực tiếp và hỏi ý kiến người thân trước khi chuyển
+  - Không chuyển tiền để được nhận quà hay nhận tiền
+cau_noi_mau:
+  - "Honey, quà anh gửi đã tới sân bay Tân Sơn Nhất rồi, em đóng giúp 28 triệu phí hải quan để họ giao nhé."
+  - "Tôi là nhân viên sân bay, kiện hàng của chị có ngoại tệ nên phải nộp thuế thông quan vào số tài khoản này."

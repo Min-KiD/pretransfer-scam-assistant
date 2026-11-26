@@ -1,0 +1,35 @@
+id: bt_tai_khoan_cua_minh
+ten: Chuyển sang tài khoản khác của chính mình (ngân hàng, tiết kiệm, chứng khoán)
+nhom: binh_thuong
+doi_chieu_voi: gia_cong_an
+nguon:
+  - {noi: "Tự viết", url: "", do_tin_cay: tu_viet}
+mo_ta: >
+  Người dùng tự chuyển tiền sang một tài khoản khác đứng tên chính mình: tài khoản ngân hàng khác, tài khoản
+  tiết kiệm, hoặc tài khoản chứng khoán mở ở công ty có giấy phép. Tên chủ tài khoản nhận trùng tên người dùng.
+  Không ai yêu cầu, không ai hướng dẫn qua điện thoại.
+cac_buoc:
+  - Người dùng tự quyết định dồn tiền, gửi tiết kiệm hoặc nộp tiền vào tài khoản đầu tư của mình
+  - Nhập số tài khoản của chính mình, thấy tên mình hiện ra, rồi chuyển
+truong:
+  nguoi_lien_lac: {khac: 0.7, nguoi_quen: 0.25}
+  kenh: {khac: 0.8, truc_tiep: 0.15}
+  tu_xung: {chinh_minh: 0.95}
+  ai_bat_dau: {minh_truoc: 0.97}
+  ap_luc: {khong_co: 0.97}
+  yeu_cau: {chuyen_tien: 0.9}
+  ly_do_tien: {chuyen_noi_bo: 0.75, dau_tu: 0.2}
+  loai_tai_khoan: {ca_nhan: 0.85, to_chuc: 0.15}
+  ten_khop_tu_xung: {co: 0.98}
+  da_gap_truc_tiep: {co: 0.85}
+  duoc_dan_cach_tra_loi: {khong: 0.99}
+  mau_thuan_loi_ke_va_anh: {khong: 0.97}
+  da_chuyen_truoc_do: {khong: 0.9}
+dau_hieu:
+  - Tên chủ tài khoản nhận là tên của chính người dùng
+  - Không ai gọi điện hay nhắn tin hướng dẫn chuyển
+viec_can_kiem_tra:
+  - Đọc lại tên chủ tài khoản trên màn hình xác nhận, phải đúng tên mình
+  - Nếu có người bảo chuyển tiền sang "tài khoản an toàn" hay "tài khoản tạm giữ" thì dừng lại
+cau_noi_mau:
+  - "Mình chuyển tiền từ ví sang tài khoản ngân hàng của mình để gửi tiết kiệm thôi."

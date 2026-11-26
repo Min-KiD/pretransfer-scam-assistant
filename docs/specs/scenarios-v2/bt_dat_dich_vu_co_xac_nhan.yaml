@@ -1,0 +1,37 @@
+id: bt_dat_dich_vu_co_xac_nhan
+ten: Đặt tour, vé, khách sạn, khóa học ở công ty có hợp đồng hoặc mã đặt chỗ kiểm tra được
+nhom: binh_thuong
+doi_chieu_voi: dat_coc_gia_re
+nguon:
+  - {noi: "Tự viết", url: "", do_tin_cay: tu_viet}
+mo_ta: >
+  Người dùng tự tìm đến công ty du lịch, đại lý vé, khách sạn hoặc trung tâm đào tạo qua website hay văn phòng
+  chính thức, nhận hợp đồng hoặc mã đặt chỗ kiểm tra được trên hệ thống của hãng, rồi chuyển tiền cọc hoặc
+  thanh toán vào tài khoản công ty, tên khớp. Giá ngang thị trường, không bị giục "giữ chỗ trong vài phút".
+cac_buoc:
+  - Người dùng tự liên hệ công ty qua website, số tổng đài hoặc đến văn phòng
+  - Nhận hợp đồng, phiếu xác nhận hoặc mã đặt chỗ, tự kiểm tra được trên hệ thống của hãng
+  - Chuyển khoản vào tài khoản đứng tên công ty
+truong:
+  nguoi_lien_lac: {tu_tim_den: 0.95}
+  kenh: {truc_tiep: 0.35, zalo: 0.3, cuoc_goi: 0.15, messenger: 0.15}
+  tu_xung: {nguoi_ban: 0.6, to_chuc_dich_vu: 0.35}
+  ai_bat_dau: {minh_truoc: 0.95}
+  ap_luc: {khong_co: 0.8, hoi_thuc: 0.15}
+  yeu_cau: {chuyen_tien: 0.98}
+  ly_do_tien: {dat_coc: 0.55, tra_hang: 0.4}
+  loai_tai_khoan: {to_chuc: 0.9, ca_nhan: 0.1}
+  ten_khop_tu_xung: {co: 0.95}
+  da_gap_truc_tiep: {co: 0.45, khong: 0.55}
+  duoc_dan_cach_tra_loi: {khong: 0.99}
+  mau_thuan_loi_ke_va_anh: {khong: 0.95}
+  da_chuyen_truoc_do: {khong: 0.9}
+dau_hieu:
+  - Tự tìm đến công ty qua kênh chính thức, có hợp đồng hoặc mã đặt chỗ kiểm tra được
+  - Tài khoản nhận đứng tên công ty, khớp với hợp đồng
+  - Giá ngang thị trường, không bị giục
+viec_can_kiem_tra:
+  - Tra mã đặt chỗ trên website của hãng bay, khách sạn
+  - Đối chiếu tên tài khoản với tên công ty trên hợp đồng; tài khoản cá nhân thì hỏi lại
+cau_noi_mau:
+  - "Em gửi anh hợp đồng tour và mã đặt chỗ, anh kiểm tra trên web hãng bay rồi chuyển cọc 30% vào tài khoản công ty nhé."
