@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "ca_tin",
- "viec": "Gửi 350 nghìn sang ví của anh tài xế để anh chốt tiền ca",
+ "viec": "Gửi trả tiền cô chủ tiệm hoa nhắn là cô vừa chuyển nhầm.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -27,12 +27,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Em đang chuyển 350 nghìn vào ví anh tài xế để anh ấy tổng kết tiền ca. Anh ấy gọi bảo lỡ chuyển nhầm cho em, nghe thật thà lắm nên em gửi lại thôi.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang chuyển lại tiền cho cô chủ tiệm hoa, cô bảo vừa gửi nhầm vào ví mình. Mình không quen cô, nhưng nghe cô gọi giải thích thì mình tin là cô nhầm thật thôi.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 542,
+  "tokens_in": 540,
   "tokens_out": 48,
-  "usd": 0.001564
+  "usd": 0.00156
  },
- "vong": 0
+ "a2": true
 }

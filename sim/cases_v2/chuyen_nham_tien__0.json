@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Trả tiền cọc phòng theo mã QR của cô chủ trọ bên quận Bảy",
+ "viec": "Trả lại 500 nghìn anh giao hàng vừa gọi bảo chuyển nhầm vào tài khoản mình.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình quét QR gửi cọc phòng cho cô chủ trọ ở quận 7. Cô ấy nhắn Zalo giục chuyển, mình cũng đang vội, muốn làm cho xong.",
+ "vong": 0,
+ "tin_mo_dau": "Mình gửi lại 500 nghìn cho anh giao hàng mới báo chuyển nhầm vào tài khoản mình. Anh ấy giục trên Zalo, mình cũng đang vội nên chuyển cho xong.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 541,
-  "tokens_out": 46,
-  "usd": 0.001542
+  "tokens_in": 542,
+  "tokens_out": 44,
+  "usd": 0.001524
  },
- "vong": 0
+ "a2": true
 }

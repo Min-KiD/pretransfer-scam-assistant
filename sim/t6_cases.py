@@ -12,6 +12,14 @@ Files: `<scenario>__<i>.json` (one per kept case, same keys as sim/cases/ plus `
 An evaluation set only: nobody trains on it, and the sonnet tab must not read it.
 
   python -m sim.t6_cases [--cap-usd 1.5] [--chunk 25] [--workers 6]
+
+Part A2 (planner, 2026-11-26): the purpose lines of three scam scenarios drifted off their subject, because the
+prompt forbade paraphrasing the train lines. `--a2` rewrites `viec` and `tin_mo_dau` of their 45 cases with
+`VIEC_PROMPT_A2` (a core purpose given verbatim by the brief); tables, personas and ids stay. Old case files and the old
+`_viec.json` entries go to `_replaced/`, their Part C sessions to experiments/T6/sessions_replaced.jsonl; old and new
+side by side in experiments/T6/a2.md.
+
+  python -m sim.t6_cases --a2 [--cap-usd 1.6]
 """
 from __future__ import annotations
 
@@ -19,6 +27,7 @@ import argparse
 import json
 import random
 import threading
+import shutil
 from concurrent.futures import ThreadPoolExecutor
 
 from core import llm
@@ -27,6 +36,8 @@ from sim.cases import VIEC, make_case, write_opening
 
 CASE_DIR = ROOT / "sim/cases_v2"
 VIEC_FILE, DROP_FILE, COST_FILE = CASE_DIR / "_viec.json", CASE_DIR / "_dropped.json", CASE_DIR / "_cost.json"
+REPLACED = CASE_DIR / "_replaced"
+T6_OUT = ROOT / "experiments/T6"
 SEED = 20261128
 MODEL = "openai:gpt-6.2-sol"
 N_CASES = {"lua_dao": 15, "binh_thuong": 25}
@@ -54,6 +65,32 @@ ngờ.
 Trả về JSON {{"viec": [ ... ]}}."""
 VIEC_SCHEMA = {"type": "object", "properties": {"viec": {"type": "array", "items": {"type": "string"}}},
                "required": ["viec"]}
+
+# Part A2: the "do not paraphrase" paragraph is replaced by "do not copy" plus a core purpose (cores verbatim from the
+# brief); everything else as VIEC_PROMPT.
+VIEC_PROMPT_A2 = VIEC_PROMPT.replace(
+    "Không dùng lại, không viết lại chúng theo cách khác; hãy nghĩ ra những hoàn cảnh cụ thể khác cùng loại:\n{train}",
+    "Không chép nguyên văn:\n{train}\n\nMỗi dòng phải giữ đúng việc cốt lõi sau, chỉ đổi hoàn cảnh cụ thể: {core}")
+assert VIEC_PROMPT_A2 != VIEC_PROMPT
+A2_CORES = {
+    "chuyen_nham_tien": "Người dùng đang trả lại một khoản tiền lạ vừa vào tài khoản của mình, vì có người liên lạc nói "
+                        "là họ chuyển nhầm. Dòng nào cũng phải nói rõ đây là trả lại tiền người ta chuyển nhầm. Đổi số "
+                        "tiền, cách người kia liên lạc, nơi được bảo trả về (một số tài khoản khác, mã QR, đường link), "
+                        "hoặc việc khoản tiền bị gọi là tiền vay và bị đòi thêm lãi.",
+    "gia_don_hang_lon_mua_ho": "Người dùng là người bán hàng hoặc làm dịch vụ, đang chuyển tiền cọc hoặc tiền hàng cho "
+                               "một nhà cung cấp do chính vị khách đặt đơn lớn giới thiệu, để lấy hộ khách món hàng "
+                               "mình không có sẵn. Dòng nào cũng phải nói rõ là mua hộ hoặc lấy hàng hộ khách đặt đơn, "
+                               "và bên nhận tiền là chỗ khách giới thiệu. Đổi loại cửa hàng, món hàng, đơn vị của khách "
+                               "(doanh trại, bệnh viện, trường học), khoản tiền.",
+    "mo_vi_tra_sau_nhan_hoa_hong": "Người dùng đang chuyển chính số tiền vừa vay hoặc vừa được ứng (ví trả sau, vay "
+                                   "nhanh trên ví, hạn mức mua trả góp) cho người hoặc 'dịch vụ' đã hướng dẫn mình, để "
+                                   "nhận hoa hồng, ưu đãi, hoặc vì được hứa sẽ hủy khoản vay. Dòng nào cũng phải nói rõ "
+                                   "tiền chuyển đi là tiền vừa vay hoặc vừa được ứng. Đổi nguồn tiền, người hướng dẫn, "
+                                   "lời hứa, khoản tiền.",
+}
+# Keyword check for a2.md only (not a filter): does the line / opening carry the core?
+A2_KEYS = {"chuyen_nham_tien": ("nhầm",), "gia_don_hang_lon_mua_ho": ("hộ",),
+           "mo_vi_tra_sau_nhan_hoa_hong": ("vay", "ứng", "trả sau", "trả góp")}
 
 REREAD_PROMPT = """Danh sách các kiểu lừa đảo chuyển tiền:
 {catalog}
@@ -105,13 +142,14 @@ def clean_lines(lines, train) -> tuple[list[str], list[str], list[str]]:
     return kept, rej, dup
 
 
-def write_lines(s, n) -> dict:
-    p = VIEC_PROMPT.format(n=n, ten=s.ten, mo_ta=s.mo_ta, cac_buoc="\n".join(f"- {x}" for x in s.raw["cac_buoc"]),
-                           train="\n".join(f"- {x}" for x in VIEC[s.id]))
+def write_lines(s, n, core=None) -> dict:
+    fmt = dict(n=n, ten=s.ten, mo_ta=s.mo_ta, cac_buoc="\n".join(f"- {x}" for x in s.raw["cac_buoc"]),
+               train="\n".join(f"- {x}" for x in VIEC[s.id]))
+    p = VIEC_PROMPT_A2.format(core=core, **fmt) if core else VIEC_PROMPT.format(**fmt)
     r = llm.generate(p, schema=VIEC_SCHEMA, model=MODEL)
     kept, rej, dup = clean_lines(r.output["viec"], VIEC[s.id])
     return {"lines": kept, "rejected_train": rej, "duplicates": dup, "asked": n, "returned": len(r.output["viec"]),
-            "tokens_in": r.tokens_in, "tokens_out": r.tokens_out, "usd": r.usd}
+            "tokens_in": r.tokens_in, "tokens_out": r.tokens_out, "usd": r.usd, **({"core": core} if core else {})}
 
 
 def round_robin(items_by_sid: dict[str, list]) -> list:
@@ -129,6 +167,7 @@ def main():
                     help="cases per chunk (openings in parallel, then one re-read call for the chunk's ordinary "
                          "ones); the cost of the rest is projected after the first chunk, stop if over the cap")
     ap.add_argument("--workers", type=int, default=6)
+    ap.add_argument("--a2", action="store_true", help="Part A2: rewrite the three drifted scam scenarios")
     a = ap.parse_args()
     scen, issues = load()
     assert not issues, issues
@@ -145,6 +184,8 @@ def main():
     def spent():
         return base["usd"] + llm.USAGE.usd
 
+    if a.a2:
+        return part_a2(scen, a, spent, save_cost)
     # ---- purpose lines, one call per scenario
     viec = read_json(VIEC_FILE, {})
     todo = [sid for sid in sorted(scen) if sid not in viec]
@@ -281,6 +322,106 @@ def main():
     n = {sid: len(kept(sid)) for sid in scen}
     print(f"{sum(n.values())} cases kept in {CASE_DIR.relative_to(ROOT)}, {len(dropped)} dropped; part A spend "
           f"{spent():.4f} USD; short: {({s: k for s, k in n.items() if k < N_CASES[scen[s].nhom]})}")
+
+
+def has_core(sid, text):
+    return any(k in text.lower() for k in A2_KEYS[sid])
+
+
+def part_a2(scen, a, spent, save_cost):
+    """Rewrite `viec` and `tin_mo_dau` of the cases of A2_CORES; tables, personas, ids and `vong` stay. Resumable: a
+    case whose old file is already in _replaced/ is done."""
+    REPLACED.mkdir(exist_ok=True)
+    viec, old_viec = read_json(VIEC_FILE, {}), read_json(REPLACED / "_viec.json", {})
+    for sid in A2_CORES:
+        if sid in old_viec:  # lines already rewritten
+            continue
+        if spent() >= a.cap_usd:
+            print(f"STOPPED (cap) at {spent():.4f} USD before the lines of {sid}", flush=True)
+            return
+        got = write_lines(scen[sid], N_CASES[scen[sid].nhom] + SPARE, core=A2_CORES[sid])
+        assert len(got["lines"]) >= N_CASES[scen[sid].nhom], (sid, len(got["lines"]))
+        old_viec[sid], viec[sid] = viec[sid], {**got, "a2": True}
+        write_json(REPLACED / "_viec.json", old_viec)
+        write_json(VIEC_FILE, viec)
+        save_cost()
+        print(f"A2 purpose lines {sid}: {len(got['lines'])} kept, {len(got['rejected_train'])} equal to a train "
+              f"line, {sum(has_core(sid, x) for x in got['lines'])} with the core keyword; {spent():.4f} USD", flush=True)
+    # Part C sessions of the old cases: moved once, before any new session can exist for these ids
+    sess, moved = T6_OUT / "sessions.jsonl", T6_OUT / "sessions_replaced.jsonl"
+    if sess.exists() and not moved.exists():
+        rows = [json.loads(l) for l in open(sess, encoding="utf-8")]
+        old = [r for r in rows if r.get("kich_ban") in A2_CORES]
+        moved.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in old), encoding="utf-8")
+        sess.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows if r not in old),
+                        encoding="utf-8")
+        print(f"A2: {len(old)} Part C sessions moved to {moved.relative_to(ROOT)}", flush=True)
+    todo = [p for sid in sorted(A2_CORES) for p in sorted(CASE_DIR.glob(f"{sid}__*.json"))
+            if not (REPLACED / p.name).exists()]
+    lock = threading.Lock()
+
+    def redo(p):
+        old = json.loads(p.read_text(encoding="utf-8"))
+        with lock:
+            if spent() >= a.cap_usd:
+                return f"{old['id']}: cap"
+        i = int(old["id"].rsplit("__", 1)[1])
+        case = {k: v for k, v in old.items() if k not in ("tin_mo_dau", "sinh_boi")}
+        case["viec"] = viec[old["kich_ban"]]["lines"][i]
+        try:
+            new = write_opening(case, scen, model=MODEL)
+        except Exception as e:
+            return f"{old['id']}: {type(e).__name__}: {str(e)[:160]}"
+        new["a2"] = True
+        with lock:
+            shutil.move(p, REPLACED / p.name)
+            write_json(p, new)
+            save_cost()
+
+    with ThreadPoolExecutor(a.workers) as ex:
+        for err in ex.map(redo, todo):
+            if err:
+                print("  " + err, flush=True)
+    left = [p.name for p in todo if not (REPLACED / p.name).exists()]
+    write_a2_md(scen, viec, old_viec, spent())
+    print(f"A2: {len(todo) - len(left)} of {len(todo)} cases rewritten; left {left}; part A spend {spent():.4f} USD",
+          flush=True)
+
+
+def write_a2_md(scen, viec, old_viec, usd):
+    L = ["# T6 part A2 - three scam scenarios rewritten, old and new side by side\n",
+         f"`python -m sim.t6_cases --a2`. Same tables, personas and ids; new `viec` (`VIEC_PROMPT_A2`: \"không chép "
+         f"nguyên văn\" plus the core purpose of the brief, verbatim) and new opening (`OPENING_PROMPT`, `{MODEL}`). "
+         f"Part A spend so far, A2 included: {usd:.4f} USD (cap 1.6). Keyword check (not a filter): "
+         + "; ".join(f"`{s}` {' / '.join(repr(k) for k in A2_KEYS[s])}" for s in A2_CORES) + ".\n",
+         "| Scenario | Old lines with the keyword | New lines (all, spares included) | Old openings | New openings |",
+         "|---|---|---|---|---|"]
+    cases = {sid: [(json.loads(p.read_text(encoding="utf-8")),
+                    json.loads((REPLACED / p.name).read_text(encoding="utf-8")) if (REPLACED / p.name).exists() else None)
+                   for p in sorted(CASE_DIR.glob(f"{sid}__*.json"), key=lambda p: int(p.stem.rsplit("__", 1)[1]))]
+             for sid in A2_CORES}
+    for sid in A2_CORES:
+        pairs = [(n, o) for n, o in cases[sid] if o]
+        ol, nl = old_viec.get(sid, {}).get("lines", []), viec[sid]["lines"]
+        L.append(f"| `{sid}` | {sum(has_core(sid, x) for x in ol)}/{len(ol)} | {sum(has_core(sid, x) for x in nl)}/"
+                 f"{len(nl)} | {sum(has_core(sid, o['tin_mo_dau']) for _, o in pairs)}/{len(pairs)} | "
+                 f"{sum(has_core(sid, n['tin_mo_dau']) for n, _ in pairs)}/{len(pairs)} |")
+    for sid in A2_CORES:
+        L += [f"\n## `{sid}`: {scen[sid].ten}\n", f"Core: *{A2_CORES[sid]}*\n",
+              "Spare lines (not used by a case): " + "; ".join(viec[sid]["lines"][N_CASES['lua_dao']:]) + "\n"]
+        for new, old in cases[sid]:
+            if not old:
+                L.append(f"### `{new['id']}`: not rewritten yet\n")
+                continue
+            t = new["tai_khoan"]
+            L += [f"### `{new['id']}` (persona `{new['tinh_cach']}`; account `{t['nhan_tai_khoan']}`, "
+                  f"`{t['loai_tai_khoan']}`, name matches: `{t['ten_khop_tu_xung']}`)\n",
+                  "| | Old | New |", "|---|---|---|",
+                  f"| Purpose line | {old['viec']} | {new['viec']} |",
+                  f"| Opening | {old['tin_mo_dau']} | {new['tin_mo_dau']} |", ""]
+    T6_OUT.mkdir(parents=True, exist_ok=True)
+    (T6_OUT / "a2.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    print(f"A2: wrote {(T6_OUT / 'a2.md').relative_to(ROOT)}", flush=True)
 
 
 if __name__ == "__main__":

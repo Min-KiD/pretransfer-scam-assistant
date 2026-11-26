@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "ca_tin",
- "viec": "Tôi đóng phí kiểm định lô cân sức khỏe cho trạm quân y.",
+ "viec": "Trả 12 triệu lấy hộ máy chiếu cho khách đặt đơn lớn, qua chỗ họ giới thiệu",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang chuyển tiền để kiểm định lô cân sức khỏe cho bên trạm quân y. Anh khách nhắn qua Zalo bảo nộp thêm khoản này, mình thấy anh ấy nói chuyện đàng hoàng nên cũng tin.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang chuyển 12 triệu qua chỗ khách giới thiệu để mua hộ cái máy chiếu, khách này đặt bên mình đơn lớn lắm. Họ bảo mình cũng có chút lời, mà nói chuyện qua Zalo thấy đàng hoàng nên mình tin thôi.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 615,
-  "tokens_out": 52,
-  "usd": 0.00175
+  "tokens_in": 622,
+  "tokens_out": 59,
+  "usd": 0.001834
  },
- "vong": 0
+ "a2": true
 }

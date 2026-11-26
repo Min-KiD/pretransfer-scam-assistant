@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "nghi_ngo",
- "viec": "Tôi trả tiền cho thợ sửa khóa tủ đồ trước khi giao về doanh trại.",
+ "viec": "Cọc 10 triệu cho chỗ khách đặt sỉ giới thiệu để mua hộ bảng tương tác",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang định chuyển tiền cho thợ sửa khóa tủ đồ để sửa xong rồi mới giao tủ về doanh trại. Khoản này là tiền cọc mà mình chưa gặp thợ bao giờ, nên cũng hơi nghi — có khi nào là lừa đảo không bạn?",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang định chuyển 10 triệu tiền cọc để mua hộ bảng tương tác bên chỗ khách mua sỉ giới thiệu. Mình chưa gặp người nhận tiền bao giờ, mà khách lại bảo mua hộ sẽ có tiền chênh, nghe hơi cấn—liệu có phải lừa đảo không?",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 607,
-  "tokens_out": 62,
-  "usd": 0.001834
+  "tokens_in": 609,
+  "tokens_out": 67,
+  "usd": 0.001888
  },
- "vong": 0
+ "a2": true
 }

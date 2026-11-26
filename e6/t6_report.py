@@ -25,6 +25,7 @@ from e6.classify import SCEN, SCEN_V2, WDIR, c0_predict
 from e6.report import pick_tau
 from sim.e5 import BASE, K, confusions, fmt, load_cases, load_rows, per_scenario, rate, score
 from sim.run import CHUA_DU
+from sim.t6_cases import A2_CORES
 
 CASES = ROOT / "sim/cases_v2"
 OUT = ROOT / "experiments/T6"
@@ -154,18 +155,22 @@ def main():
     dropped = json.loads((CASES / "_dropped.json").read_text(encoding="utf-8")) if (CASES / "_dropped.json").exists() else []
     cost = json.loads((CASES / "_cost.json").read_text(encoding="utf-8"))
     sess = [r for r in load_rows(OUT / "sessions.jsonl") if "preds" in r and r["model"] == BASE]
+    old_sess = [r for r in load_rows(OUT / "sessions_replaced.jsonl") if "preds" in r and r["model"] == BASE]
+    a2_ids = {c["id"] for c in cases if c.get("a2")}
     vc = re.search(r"(\d+) calls, ([\d.]+) USD", (OUT / "victim_check.md").read_text(encoding="utf-8"))
     vc_usd = float(vc.group(2)) if vc else 0.0
-    gem = sum(r["usd"] + r.get("victim_usd", 0) for r in sess)
+    gem = sum(r["usd"] + r.get("victim_usd", 0) for r in sess + old_sess)
 
     L = ["# T6 - Test set v2 (written by GPT) and the flash-lite baseline\n",
          "Brief: `docs/tasks/T6-test-set-v2.md`. Report: `python3 -m e6.t6_report`. Rates as k/n [Wilson 95%]; one run per "
          "configuration.\n",
          "## Spend\n",
          "| Provider | Part | USD | Cap |", "|---|---|---|---|",
-         f"| OpenAI (`gpt-6.2-sol`) | A: purpose lines, openings, re-reads ({cost['calls']} calls) | {cost['usd']:.4f} | 1.5 |",
+         f"| OpenAI (`gpt-6.2-sol`) | A and A2: purpose lines, openings, re-reads ({cost['calls']} calls) | "
+         f"{cost['usd']:.4f} | 1.6 (1.5 before A2) |",
          f"| Gemini (`gemini-3.5-flash-lite`) | B2: simulated-user check (120 calls) | {vc_usd:.4f} | - |",
-         f"| Gemini (`gemini-3.5-flash-lite`) | C: {len(sess)} sessions, assistant + simulated user | {gem:.4f} | 1.0 |",
+         f"| Gemini (`gemini-3.5-flash-lite`) | C: {len(sess)} sessions + {len(old_sess)} on the cases replaced by A2, "
+         f"assistant + simulated user | {gem:.4f} | 1.0 |",
          "\nNo server, no GPU.\n"]
 
     # ---------------------------------------------------------------- part A
@@ -191,6 +196,11 @@ def main():
           "2.2 USD against the 1.5 cap (the catalogue block is about 6.8k characters). The prompt also says that a shared "
           "general topic (a deposit, paying a shipper, sending to family) is not enough to flag a message; it needs a "
           "detail that the scam type describes (my wording).",
+          f"- **Part A2** (planner, after reading part A): the purpose lines of `{'`, `'.join(sorted(A2_CORES))}` had "
+          "drifted off their subject (the prompt forbade paraphrasing the train lines, and these scams have one purpose "
+          f"only). Their {len(a2_ids)} cases got new purpose lines (`VIEC_PROMPT_A2`: \"do not copy\" plus a core purpose "
+          "given verbatim by the brief) and new openings; tables, personas and ids unchanged. Old files in "
+          "`sim/cases_v2/_replaced/`, old and new side by side in `experiments/T6/a2.md`.",
           f"- Identical openings (lower-case, spaces collapsed) against {n_old} openings of `data/E6/cases.jsonl`, "
           f"`data/E6/cases_v2.jsonl` and `sim/cases/`, and within the set: **{len(hits)}**"
           + (": " + ", ".join(f"`{a}` = `{b}`" for a, b in hits) if hits else "") + ".\n",
@@ -290,6 +300,20 @@ def main():
             L.append(f"| {tag(s)} | {nhom[s]} | {cell(ps)} | {cell(p1)} |")
         L += ["\nMost frequent confusions on v2 (true -> answered after 3 questions): "
               + "; ".join(f"`{a}` -> `{b}` {n}" for (a, b), n in confusions(sess, 10)) + "\n"]
+        if old_sess:
+            new45 = [r for r in sess if r["case"] in a2_ids]
+            L += [f"## The {len(a2_ids)} cases rewritten by part A2\n",
+                  "Same tables and ids; the old sessions ran on the drifted purpose lines and openings, the new ones on "
+                  "the rewritten ones. The main tables above use the new ones.\n", *HEAD]
+            for name, rs in (("before A2", old_sess), ("after A2", new45)):
+                if rs:
+                    L.append(f"| {name} | {len(rs)} | {metric_rows(score(rs, scen))} |")
+            po, pn = per_scenario(old_sess, scen), per_scenario(new45, scen)
+            L += ["", "| Scenario | Before A2 | After A2 |", "|---|---|---|"]
+            for s in sorted(A2_CORES):
+                cell = lambda p: f"{100 * p[s]['p']:.0f}% ({p[s]['k']}/{p[s]['n']})" if s in p else "-"  # noqa: E731
+                L.append(f"| {tag(s)} | {cell(po)} | {cell(pn)} |")
+            L.append("")
 
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "report.md").write_text("\n".join(L) + "\n", encoding="utf-8")

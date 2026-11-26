@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "nghi_ngo",
- "viec": "Gửi 600 nghìn vào ví chị thủ quỹ để đoàn kịp đặt xe",
+ "viec": "Trả lại ba triệu cô chủ quán nhắn bảo chuyển nhầm, vào tài khoản quán.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang chuyển 600 nghìn vào ví của chị thủ quỹ để đoàn kịp chốt xe. Mà mình hơi lấn cấn: có người lạ gọi bảo chuyển nhầm tiền cho mình rồi cứ giục mình trả lại ngay, vậy có khi nào là lừa đảo không?",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang tính chuyển lại 3 triệu vào tài khoản quán vì cô chủ bảo lỡ gửi nhầm cho mình. Cô ấy là người lạ, gọi điện giục mình chuyển ngay nên mình hơi nghi, liệu có phải lừa đảo không?",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 536,
-  "tokens_out": 67,
-  "usd": 0.001742
+  "tokens_in": 538,
+  "tokens_out": 57,
+  "usd": 0.001646
  },
- "vong": 0
+ "a2": true
 }

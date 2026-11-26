@@ -1,0 +1,42 @@
+{
+ "id": "gia_don_hang_lon_mua_ho__9",
+ "kich_ban": "gia_don_hang_lon_mua_ho",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Tôi chuyển ba triệu để kho xuất bộ chăn gối cho khu nội trú.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "khach_dat_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình gửi 3 triệu để bên kho chịu xuất bộ chăn gối cho khu nội trú ấy mà. Anh khách gọi giục chuyển sớm, chắc cũng chỉ muốn kịp lấy hàng thôi, mình thấy anh ấy đáng tin.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 634,
+  "tokens_out": 53,
+  "usd": 0.001798
+ },
+ "vong": 0
+}

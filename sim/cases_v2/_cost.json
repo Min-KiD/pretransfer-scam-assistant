@@ -1,7 +1,7 @@
 {
  "model": "openai:gpt-6.2-sol",
- "calls": 521,
- "tokens_in": 335917,
- "tokens_out": 55176,
- "usd": 1.22359
+ "calls": 569,
+ "tokens_in": 364868,
+ "tokens_out": 59675,
+ "usd": 1.32648
 }

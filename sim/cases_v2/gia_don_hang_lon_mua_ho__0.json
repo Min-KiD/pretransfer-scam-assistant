@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Tôi cọc hai triệu cho kho đệm để họ cắt đúng cỡ giường bệnh.",
+ "viec": "Cọc 3 triệu cho chỗ khách đặt đơn lớn giới thiệu, lấy hộ đệm doanh trại",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -31,12 +31,13 @@
   "loai_tai_khoan": "to_chuc",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Tôi chuyển trước 2 triệu cho bên kho để họ cắt đệm vừa giường bệnh. Khách giục quá, tôi đang vội, muốn chuyển cho xong.",
+ "vong": 0,
+ "tin_mo_dau": "Tôi chuyển cọc 3 triệu để mua hộ đệm cho doanh trại, bên nhận là chỗ khách đặt đơn lớn chỉ cho. Họ đang giục, tôi chuyển cho xong.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 622,
-  "tokens_out": 41,
-  "usd": 0.001654
+  "tokens_in": 625,
+  "tokens_out": 45,
+  "usd": 0.0017
  },
- "vong": 0
+ "a2": true
 }

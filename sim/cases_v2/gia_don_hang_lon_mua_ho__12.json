@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Tôi ứng tiền gỗ cho xưởng đóng kệ hồ sơ theo kích thước phòng trực.",
+ "viec": "Cọc 18 triệu cho xưởng khách đặt đơn lớn giới thiệu để lấy hộ cửa nhôm",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Tôi cọc tiền gỗ cho xưởng làm kệ hồ sơ vừa phòng trực. Bên kia đang giục, tôi chuyển cho xong.",
+ "vong": 0,
+ "tin_mo_dau": "Mình chuyển 18 triệu tiền cọc cho xưởng bên khách đặt đơn lớn giới thiệu, để lấy cửa nhôm hộ họ. Họ giục quá, mình chuyển cho xong.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 627,
-  "tokens_out": 35,
-  "usd": 0.001604
+  "tokens_in": 628,
+  "tokens_out": 43,
+  "usd": 0.001686
  },
- "vong": 0
+ "a2": true
 }

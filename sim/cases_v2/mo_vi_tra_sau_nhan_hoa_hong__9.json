@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "ca_tin",
- "viec": "Mình chuyển ba triệu cho đại lý Bình Dương để chốt bộ bàn ăn trả góp",
+ "viec": "Mình chuyển tiền vừa ứng từ hạn mức trả góp cho bên tư vấn để mua laptop giá ưu đãi",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "telegram",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình gửi ba triệu qua đại lý ở Bình Dương để chốt mua trả góp bộ bàn ăn á. Bên đó nhắn mình qua Telegram, bảo cứ chuyển khoản tiền vừa được ứng qua là có ưu đãi, mình thấy họ tư vấn nhiệt tình nên cũng tin.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang gửi cho bên tư vấn khoản tiền mới ứng từ hạn mức trả góp để mua laptop giá ưu đãi. Họ nhắn mình qua Telegram, nói chuyện nghe đàng hoàng nên mình tin thôi.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 621,
-  "tokens_out": 61,
-  "usd": 0.001852
+  "tokens_in": 624,
+  "tokens_out": 48,
+  "usd": 0.001728
  },
- "vong": 0
+ "a2": true
 }

@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Em quét mã chị quản lý gửi để nhận thưởng kích hoạt hạn mức mua sách",
+ "viec": "Mình gửi ba triệu vừa vay nhanh cho chị tư vấn trong nhóm để nhận hoa hồng",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "messenger",
@@ -31,12 +31,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Em đang quét QR chị quản lý gửi để lấy thưởng mở hạn mức mua sách. Chị ấy giục chuyển tiền vừa ứng, em làm cho xong.",
+ "vong": 0,
+ "tin_mo_dau": "Mình mới vay nhanh 3 triệu, giờ chuyển cho chị tư vấn trong nhóm để lấy hoa hồng. Chị ấy giục nãy giờ, mình chuyển cho xong.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 641,
-  "tokens_out": 37,
-  "usd": 0.001652
+  "tokens_in": 643,
+  "tokens_out": 41,
+  "usd": 0.001696
  },
- "vong": 0
+ "a2": true
 }

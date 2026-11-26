@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "nghi_ngo",
- "viec": "Em chuyển một triệu rưỡi cho điều phối viên để hoàn tất đơn góp xe đạp",
+ "viec": "Mình gửi tiền vừa vay trên ví cho người đăng tin việc tối để nhận hoa hồng",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "messenger",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Em đang gửi 1 triệu rưỡi cho người phụ trách để chốt đơn mua xe đạp trả góp, mà số tiền này là bên ví vừa ứng cho em. Em đã chuyển cho họ một lần rồi, giờ họ lại bảo chuyển thêm nên em thấy hơi lo, có khi nào là lừa đảo không ạ?",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang chuyển số tiền mới vay qua ví cho người đăng bài tuyển làm buổi tối, họ bảo chuyển xong thì mình được hoa hồng. Mình chưa gặp họ bao giờ, lần trước đã chuyển một lần rồi mà giờ họ lại bảo chuyển thêm, nghe có giống lừa đảo không bạn?",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 615,
-  "tokens_out": 72,
-  "usd": 0.00195
+  "tokens_in": 614,
+  "tokens_out": 67,
+  "usd": 0.001898
  },
- "vong": 0
+ "a2": true
 }

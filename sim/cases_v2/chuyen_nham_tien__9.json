@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "ca_tin",
- "viec": "Trả tiền cọc bàn tiệc vào tài khoản quản lý nhà hàng ở Huế",
+ "viec": "Gửi trả khoản tiền cọc anh thuê xe gọi bảo vừa chuyển nhầm.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "sms",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang chuyển tiền giữ chỗ bàn tiệc vào tài khoản của quản lý một nhà hàng ở Huế. Có người nhắn SMS bảo là bên ngân hàng, mình tin là họ đang giúp mình thôi.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang chuyển lại tiền cọc cho anh thuê xe, anh ấy bảo lỡ gửi nhầm vào ví mình. Anh ấy nhắn SMS giục mình gửi lại sớm, chắc đang cần tiền gấp thôi, mình tin anh ấy nói thật.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 554,
-  "tokens_out": 47,
-  "usd": 0.001578
+  "tokens_in": 552,
+  "tokens_out": 56,
+  "usd": 0.001664
  },
- "vong": 0
+ "a2": true
 }

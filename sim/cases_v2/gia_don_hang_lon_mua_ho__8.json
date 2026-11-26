@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Tôi thanh toán tiền bọc chống sốc cho lô máy đo huyết áp.",
+ "viec": "Cọc 9 triệu lấy hộ bàn học cho khách đặt đơn lớn, gửi xưởng họ giới thiệu",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang chuyển thêm tiền cọc mua màng chống sốc để bọc lô máy đo huyết áp. Đang vội, chuyển cho xong thôi.",
+ "vong": 0,
+ "tin_mo_dau": "Mình cọc 9 triệu cho xưởng khách đặt đơn lớn chỉ để lấy hộ họ mấy cái bàn học. Chưa gặp bên xưởng, mà mình đang vội, chuyển cho xong thôi.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 610,
-  "tokens_out": 39,
-  "usd": 0.00161
+  "tokens_in": 614,
+  "tokens_out": 47,
+  "usd": 0.001698
  },
- "vong": 0
+ "a2": true
 }

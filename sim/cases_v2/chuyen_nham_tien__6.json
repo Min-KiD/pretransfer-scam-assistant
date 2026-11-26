@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "nghi_ngo",
- "viec": "Quét mã trả tiền đồng phục vào quỹ lớp của con chị ấy",
+ "viec": "Hoàn lại khoản tiền cô bán rau gọi xin vì chuyển nhầm vào tài khoản mình.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -31,12 +31,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Chị đang quét mã để nộp tiền đồng phục của con vào quỹ lớp. Mà vừa có người lạ gọi, bảo chị chuyển trả khoản họ nói là gửi nhầm, còn giục chị chuyển ngay — nghe vậy chị thấy nghi nghi, có phải lừa đảo không em?",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang định gửi lại tiền cho cô bán rau vừa gọi bảo lỡ chuyển nhầm vào tài khoản mình. Mình không quen cô ấy, mà cô ấy cứ giục chuyển ngay nên mình hơi nghi, liệu có phải lừa đảo không nhỉ?",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 548,
-  "tokens_out": 66,
-  "usd": 0.001756
+  "tokens_in": 551,
+  "tokens_out": 57,
+  "usd": 0.001672
  },
- "vong": 0
+ "a2": true
 }

@@ -1,0 +1,41 @@
+{
+ "id": "mo_vi_tra_sau_nhan_hoa_hong__2",
+ "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Em gửi anh Tú phần tiền góp máy lạnh để anh ấy hoàn đơn cuối ngày",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "tien_vay_chuyen_di",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em đang định chuyển cho anh Tú khoản tiền trả góp máy lạnh để cuối ngày anh ấy hoàn đơn. Em chưa gặp anh ấy bao giờ, chỉ nói chuyện qua Zalo, mà khoản này là tiền em vừa vay trên ví nên cũng hơi nghi — có khi nào là lừa đảo không ạ?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 617,
+  "tokens_out": 65,
+  "usd": 0.001884
+ },
+ "vong": 0
+}

@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "ke_lon_xon",
- "viec": "Tôi chuyển tiền cho thợ điện lắp ổ cắm cho dãy giường mới.",
+ "viec": "Gửi 6 triệu cho đại lý khách đặt đơn lớn giới thiệu, lấy hộ xe đẩy thuốc",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "messenger",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "À, người ta có dặn nếu ai hỏi thì cứ nói là tiền công, mà em chưa gặp anh thợ đó bao giờ. Em đang chuyển tiền công nhờ ảnh gắn mấy cái ổ điện chỗ dãy giường mới ấy, nãy em còn loay hoay tìm cái kính để bấm cho đúng.",
+ "vong": 0,
+ "tin_mo_dau": "À, cái người bán nhắn qua Messenger ấy, nãy mình còn đang ăn dở tô bún… Mình đang chuyển 6 triệu cho bên đại lý mà khách đặt đơn lớn chỉ cho, để mua hộ khách cái xe đẩy thuốc.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 623,
-  "tokens_out": 72,
-  "usd": 0.001966
+  "tokens_in": 626,
+  "tokens_out": 55,
+  "usd": 0.001802
  },
- "vong": 0
+ "a2": true
 }

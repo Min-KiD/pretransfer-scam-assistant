@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "ke_lon_xon",
- "viec": "Tôi gửi phí xác nhận giao dịch cho bên bán máy lọc nước.",
+ "viec": "Chuyển 1 triệu mua hộ bạt che cho khách đặt đơn lớn, trả chỗ họ giới thiệu",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "À, nãy tôi còn đang dở bữa cơm… giờ tôi chuyển cho bên bán máy lọc nước cái khoản phí để xác nhận giao dịch ấy. Người đó nhắn tôi qua Zalo trước, chứ tôi có quen họ đâu.",
+ "vong": 0,
+ "tin_mo_dau": "À, nãy đang dọn hàng thì khách đặt đơn lớn nhắn Zalo, giờ tôi chuyển một triệu cho chỗ họ chỉ để mua hộ mấy tấm bạt che. Chỗ nhận tiền thì tôi có quen đâu.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 635,
-  "tokens_out": 55,
-  "usd": 0.00182
+  "tokens_in": 644,
+  "tokens_out": 52,
+  "usd": 0.001808
  },
- "vong": 0
+ "a2": true
 }

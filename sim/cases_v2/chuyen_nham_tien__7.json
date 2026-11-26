@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "ke_lon_xon",
- "viec": "Trả tiền gốc trong hôm nay để bên cho vay khỏi tính lãi",
+ "viec": "Trả lại 150 nghìn bạn mua sách nhắn Zalo bảo vừa chuyển nhầm.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -31,12 +31,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "À, nãy mình đang ăn dở tô mì thì có người lạ gọi, bảo khoản đó là tiền họ gửi nhầm. Nói vòng vo quá, tóm lại là mình đang chuyển trả phần gốc ngay hôm nay để bên cho vay khỏi tính lãi ấy.",
+ "vong": 0,
+ "tin_mo_dau": "À, mình đang gửi lại 150 nghìn cho bạn mua sách, bạn ấy nhắn Zalo bảo lỡ chuyển nhầm cho mình. Nãy còn gọi giục mình chuyển lẹ nữa, đúng lúc mình đang loay hoay tìm cái sạc.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 556,
-  "tokens_out": 61,
-  "usd": 0.001722
+  "tokens_in": 559,
+  "tokens_out": 57,
+  "usd": 0.001688
  },
- "vong": 0
+ "a2": true
 }

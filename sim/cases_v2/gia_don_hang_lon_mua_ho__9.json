@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "ca_tin",
- "viec": "Tôi chuyển ba triệu để kho xuất bộ chăn gối cho khu nội trú.",
+ "viec": "Trả 11 triệu cho chỗ khách đặt đơn lớn giới thiệu để mua hộ tủ thuốc",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -31,12 +31,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình gửi 3 triệu để bên kho chịu xuất bộ chăn gối cho khu nội trú ấy mà. Anh khách gọi giục chuyển sớm, chắc cũng chỉ muốn kịp lấy hàng thôi, mình thấy anh ấy đáng tin.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang chuyển 11 triệu cho bên mà anh khách đặt đơn lớn chỉ để mua hộ anh ấy cái tủ thuốc. Anh ấy bảo chuyển sớm giúp, mình thấy anh ấy nói chuyện đàng hoàng nên cũng tin.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 634,
-  "tokens_out": 53,
-  "usd": 0.001798
+  "tokens_in": 638,
+  "tokens_out": 51,
+  "usd": 0.001786
  },
- "vong": 0
+ "a2": true
 }

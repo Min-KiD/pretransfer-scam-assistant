@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Em gửi tiền ứng cho bạn cùng trọ để gộp suất mua tủ lạnh trả góp",
+ "viec": "Mình chuyển hai triệu vừa ứng từ ví trả sau cho quản trị viên nhóm để lấy hoa hồng",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Em đang chuyển khoản tiền vừa ứng để gộp chung suất trả góp tủ lạnh với bạn cùng trọ. Bên nhận nhắn qua Zalo, em chưa gặp, giờ em vội chuyển cho xong.",
+ "vong": 0,
+ "tin_mo_dau": "Mình gửi 2 triệu mới ứng từ ví trả sau qua cho admin nhóm để lấy hoa hồng. Người lạ nhắn qua Zalo thôi, mình đang vội, chuyển cho xong.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 620,
-  "tokens_out": 49,
-  "usd": 0.00173
+  "tokens_in": 621,
+  "tokens_out": 45,
+  "usd": 0.001692
  },
- "vong": 0
+ "a2": true
 }

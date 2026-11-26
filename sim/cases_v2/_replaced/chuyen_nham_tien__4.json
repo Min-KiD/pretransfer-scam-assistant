@@ -1,0 +1,39 @@
+{
+ "id": "chuyen_nham_tien__4",
+ "kich_ban": "chuyen_nham_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "viec": "Trả tiền vé xe Tết qua link hoàn tiền bên nhà xe gửi",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_chuyen_nham",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [],
+  "ly_do_tien": "hoan_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang trả tiền vé xe Tết bằng cái link hoàn tiền nhà xe gửi. Có người lạ bảo chuyển nhầm tiền cho mình, cứ giục trả, mình đang vội nên muốn chuyển cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 546,
+  "tokens_out": 49,
+  "usd": 0.001582
+ },
+ "vong": 0
+}

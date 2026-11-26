@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "ke_lon_xon",
- "viec": "Mình gửi tiền ứng cho anh chủ tiệm kính để giữ giá ưu đãi gọng mới",
+ "viec": "Mình chuyển tiền vừa ứng từ ví trả sau cho anh hướng dẫn để anh hủy đơn điện thoại",
  "bang_that": {
   "nguoi_lien_lac": "tu_tim_den",
   "kenh": "zalo",
@@ -31,12 +31,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang chuyển trước cho anh chủ tiệm kính một khoản để giữ giá ưu đãi cho cái gọng mới, chứ kính cũ cứ tuột xuống mũi hoài. À mà nãy anh ấy có nhắn Zalo giục chuyển sớm, mình cũng từng gửi một lần rồi.",
+ "vong": 0,
+ "tin_mo_dau": "À nãy mình còn đang ăn dở tô mì, anh ấy cứ giục chuyển lẹ. Mình gửi cho anh hướng dẫn khoản tiền ví trả sau mới ứng để anh ấy hủy cái đơn mua điện thoại ấy.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 649,
-  "tokens_out": 68,
-  "usd": 0.001978
+  "tokens_in": 650,
+  "tokens_out": 49,
+  "usd": 0.00179
  },
- "vong": 0
+ "a2": true
 }

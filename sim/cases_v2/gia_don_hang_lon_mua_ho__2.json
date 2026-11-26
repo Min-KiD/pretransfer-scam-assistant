@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "nghi_ngo",
- "viec": "Tôi trả phí chở sáu xe lăn từ kho về cổng bệnh viện.",
+ "viec": "Cọc 2 triệu chỗ khách đặt in số lượng lớn giới thiệu để mua hộ rèm lớp",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -31,12 +31,13 @@
   "loai_tai_khoan": "to_chuc",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Tôi đang định chuyển tiền cọc thuê chở sáu chiếc xe lăn từ kho tới cổng bệnh viện. Người nhận tiền tôi không quen mà họ cứ giục chuyển ngay, tôi thấy hơi cấn, liệu có phải lừa đảo không?",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang tính chuyển 2 triệu tiền cọc để mua hộ rèm cho lớp, bên bán là do khách đặt in số lượng lớn bên mình giới thiệu. Mình chưa gặp người nhận tiền bao giờ mà họ cứ giục chuyển nhanh, nên cũng nghi nghi, liệu có phải lừa đảo không?",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 615,
-  "tokens_out": 56,
-  "usd": 0.00179
+  "tokens_in": 619,
+  "tokens_out": 67,
+  "usd": 0.001908
  },
- "vong": 0
+ "a2": true
 }

@@ -1,0 +1,42 @@
+{
+ "id": "mo_vi_tra_sau_nhan_hoa_hong__5",
+ "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Mình nộp vào mã quầy máy ảnh để nhận chiết khấu đơn ống kính trả góp",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "tien_vay_chuyen_di",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang quét mã của quầy máy ảnh để chuyển tiền lấy giảm giá cho đơn ống kính mua trả góp. Bên tuyển cộng tác viên nhắn mình qua Messenger, nói chuyện dễ mến nên mình tin là ưu đãi thật.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 646,
+  "tokens_out": 55,
+  "usd": 0.001842
+ },
+ "vong": 0
+}

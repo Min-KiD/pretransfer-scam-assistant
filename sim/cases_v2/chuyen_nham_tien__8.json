@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Gửi 180 nghìn tiền cơm trưa vào tài khoản của chị thu ngân",
+ "viec": "Hoàn tiền chị đặt phòng báo chuyển nhầm, theo đường link chị nhắn.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình chuyển 180 nghìn tiền ăn trưa vô tài khoản chị thu ngân. Có người lạ gọi bảo chuyển nhầm, còn dọa nữa, mình đang vội nên muốn chuyển cho xong.",
+ "vong": 0,
+ "tin_mo_dau": "Em đang bấm link chị đặt phòng gửi để trả lại khoản chị ấy bảo chuyển nhầm. Chị ấy gọi dọa nên em muốn chuyển cho xong.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 537,
-  "tokens_out": 48,
-  "usd": 0.001554
+  "tokens_in": 536,
+  "tokens_out": 38,
+  "usd": 0.001452
  },
- "vong": 0
+ "a2": true
 }

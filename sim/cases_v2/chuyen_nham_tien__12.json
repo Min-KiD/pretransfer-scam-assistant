@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Chuyển 900 nghìn tiền sữa sang tài khoản chồng chị khách ở Biên Hòa",
+ "viec": "Trả lại tiền chị đặt áo dài nhắn là chuyển nhầm, qua mã QR của tiệm.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Em đang gửi 900 nghìn tiền sữa vào tài khoản của chồng chị khách ở Biên Hòa. Chị ấy bảo chuyển nhầm, giục em gửi lại, em đang vội nên muốn làm cho xong.",
+ "vong": 0,
+ "tin_mo_dau": "Em quét QR của tiệm để gửi lại tiền cho chị khách đặt áo dài, chị ấy bảo chuyển nhầm. Chị ấy gọi giục nãy giờ, em đang vội, chuyển cho xong thôi.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 550,
-  "tokens_out": 52,
-  "usd": 0.00162
+  "tokens_in": 549,
+  "tokens_out": 49,
+  "usd": 0.001588
  },
- "vong": 0
+ "a2": true
 }

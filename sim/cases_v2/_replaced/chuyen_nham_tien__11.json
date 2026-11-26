@@ -1,0 +1,40 @@
+{
+ "id": "chuyen_nham_tien__11",
+ "kich_ban": "chuyen_nham_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Hoàn tiền thuê sân bóng theo mã QR của anh giữ sân",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "nguoi_chuyen_nham",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "hoan_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, mình đang quét cái QR anh giữ sân đưa để trả lại tiền thuê sân bóng ấy, nãy còn đang lo tìm đôi giày đá banh. Có người gọi bảo chuyển nhầm tiền cho mình, cứ giục mình gửi lại nhanh.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 538,
+  "tokens_out": 56,
+  "usd": 0.001636
+ },
+ "vong": 0
+}

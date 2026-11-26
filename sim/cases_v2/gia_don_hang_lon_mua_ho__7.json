@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "ke_lon_xon",
- "viec": "Tôi gửi tiền cho thợ khắc số phòng lên bộ biển inox.",
+ "viec": "Chuyển 7 triệu cho tiệm khách đặt sỉ giới thiệu để mua hộ ghế phòng chờ",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "to_chuc",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "À, mình đang gửi tiền cọc cho anh thợ để ảnh khắc số phòng lên mấy tấm biển inox ấy. Mà mình chưa gặp ảnh bao giờ, nãy mải pha cà phê suýt quên mất vụ chuyển tiền.",
+ "vong": 0,
+ "tin_mo_dau": "À cái ghế phòng chờ ấy, tôi mua hộ khách đặt sỉ, giờ đang chuyển 7 triệu tiền cọc cho cái tiệm khách chỉ, chứ tôi có quen bên tiệm đâu. Nãy giờ ly cà phê còn chưa kịp uống nữa.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 609,
-  "tokens_out": 56,
-  "usd": 0.001778
+  "tokens_in": 618,
+  "tokens_out": 61,
+  "usd": 0.001846
  },
- "vong": 0
+ "a2": true
 }

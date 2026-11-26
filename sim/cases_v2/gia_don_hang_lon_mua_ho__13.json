@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "ca_tin",
- "viec": "Tôi chuyển tiền lấy bộ mẫu áo blouse để khoa duyệt màu.",
+ "viec": "Trả 13 triệu cho đại lý khách đặt đơn lớn giới thiệu, mua hộ máy lọc nước",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang gửi tiền cọc để lấy mấy mẫu áo blouse cho bên khoa chọn màu. Khách gọi đặt hàng nghe đàng hoàng lắm, chắc họ giục chuyển sớm vì cần mẫu gấp thôi.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang chuyển 13 triệu tiền cọc cho bên đại lý mà khách đặt đơn lớn giới thiệu, để mua hộ mấy cái máy lọc nước. Khách có giục chuyển sớm, chắc họ cần gấp thôi, mình thấy họ nói chuyện đàng hoàng mà.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 612,
-  "tokens_out": 50,
-  "usd": 0.001724
+  "tokens_in": 620,
+  "tokens_out": 63,
+  "usd": 0.00187
  },
- "vong": 0
+ "a2": true
 }

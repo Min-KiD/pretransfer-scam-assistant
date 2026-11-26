@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "ca_tin",
- "viec": "Mình chuyển tiền ứng qua mã của cửa hàng Huế để giữ chiếc điện thoại giảm giá",
+ "viec": "Mình chuyển 500 nghìn vừa vay trên ví cho bạn tuyển cộng tác viên để nhận thưởng",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "messenger",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình quét mã của shop ở Huế để chuyển khoản tiền vừa được ứng, giữ cái điện thoại đang giảm giá ấy mà. Bạn bên tuyển cộng tác viên nói chuyện dễ mến lắm, mình nghĩ họ làm ăn đàng hoàng.",
+ "vong": 0,
+ "tin_mo_dau": "Mình mới vay 500 nghìn trên ví, giờ gửi số đó cho bạn tuyển cộng tác viên để lấy thưởng ấy. Tụi mình mới nói chuyện qua Messenger thôi, mà bạn ấy tư vấn nhiệt tình lắm nên mình tin.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 622,
-  "tokens_out": 55,
-  "usd": 0.001794
+  "tokens_in": 623,
+  "tokens_out": 53,
+  "usd": 0.001776
  },
- "vong": 0
+ "a2": true
 }

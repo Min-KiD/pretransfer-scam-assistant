@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Tôi ứng tiền vải cho xưởng may rèm ngăn giường ở khoa nhi.",
+ "viec": "Cọc 4 triệu mua hộ tủ sắt cho khách đặt sỉ, chuyển chỗ họ giới thiệu",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình chuyển trước tiền vải cho xưởng may rèm ngăn giường bên khoa nhi, họ bảo phải đóng phí. Mình đang vội, chuyển cho xong thôi.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang bận, chuyển nốt 4 triệu tiền cọc cho chỗ khách chỉ để mua hộ tủ sắt cho đơn sỉ. Bên nhận tiền là người lạ, khách bảo mình có phần chênh.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 631,
-  "tokens_out": 42,
-  "usd": 0.001682
+  "tokens_in": 636,
+  "tokens_out": 53,
+  "usd": 0.001802
  },
- "vong": 0
+ "a2": true
 }

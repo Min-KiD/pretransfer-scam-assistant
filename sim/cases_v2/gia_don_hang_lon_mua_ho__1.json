@@ -3,7 +3,7 @@
  "kich_ban": "gia_don_hang_lon_mua_ho",
  "nhom": "lua_dao",
  "tinh_cach": "ca_tin",
- "viec": "Tôi gửi tiền cho xưởng in thẻ tên theo danh sách bên doanh trại.",
+ "viec": "Trả 8 triệu cho xưởng khách đặt đơn lớn giới thiệu, mua hộ giường bệnh",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "to_chuc",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang đặt cọc cho xưởng in bảng tên theo danh sách doanh trại gửi. Anh bên doanh trại nhắn qua Zalo, nói chuyện đàng hoàng lắm nên mình tin là anh ấy làm bên đó thật.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang chuyển 8 triệu tiền cọc mua hộ giường bệnh cho khách đặt đơn lớn, vào tài khoản xưởng bên khách giới thiệu. Anh ấy bảo làm bên cơ quan nhà nước, nói chuyện qua Zalo cũng đàng hoàng nên mình tin.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 628,
-  "tokens_out": 53,
-  "usd": 0.001786
+  "tokens_in": 631,
+  "tokens_out": 58,
+  "usd": 0.001842
  },
- "vong": 0
+ "a2": true
 }

@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "ke_lon_xon",
- "viec": "Gửi lại tiền viện phí qua mã QR của chị gái người bệnh",
+ "viec": "Hoàn tiền chị bán bánh bảo chuyển nhầm qua mã QR chị vừa gửi.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "À, nãy đang hâm cơm thì có người gọi bảo chuyển nhầm tiền cho mình. Giờ mình quét mã QR của chị bệnh nhân để trả lại khoản viện phí ấy, mà người ta cứ giục mình làm lẹ.",
+ "vong": 0,
+ "tin_mo_dau": "À mình đang quét cái mã QR chị bán bánh mới gửi để trả lại khoản chị bảo gửi nhầm cho mình. Chị gọi giục nãy giờ, mà mình có quen chị đâu, đang ăn dở tô mì nữa.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 539,
-  "tokens_out": 53,
-  "usd": 0.001608
+  "tokens_in": 541,
+  "tokens_out": 52,
+  "usd": 0.001602
  },
- "vong": 0
+ "a2": true
 }

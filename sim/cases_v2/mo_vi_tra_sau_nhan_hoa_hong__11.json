@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "ke_lon_xon",
- "viec": "Mình gửi khoản ứng đầu tiên cho tổ trưởng để đủ doanh số nhận thưởng tuần",
+ "viec": "Mình gửi 800 nghìn vừa ứng từ ví trả sau cho chị tuyển người làm thêm để nhận thưởng",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "messenger",
@@ -31,12 +31,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang chuyển món tiền mới được ứng lần đầu cho anh tổ trưởng, kiểu cho đủ chỉ tiêu để lấy thưởng tuần ấy. À mà ảnh nhắn qua Messenger giục chuyển lẹ, đúng lúc mình đang hâm cơm.",
+ "vong": 0,
+ "tin_mo_dau": "Nãy mình còn đang rửa chén dở, chị kia cứ giục chuyển lẹ. À, mình định chuyển cho chị tuyển cộng tác viên 800 nghìn mới ứng bên ví trả sau để lấy thưởng, chứ mình có quen chị ấy đâu.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 639,
-  "tokens_out": 51,
-  "usd": 0.001788
+  "tokens_in": 644,
+  "tokens_out": 57,
+  "usd": 0.001858
  },
- "vong": 0
+ "a2": true
 }

@@ -1,0 +1,41 @@
+{
+ "id": "gia_don_hang_lon_mua_ho__5",
+ "kich_ban": "gia_don_hang_lon_mua_ho",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Tôi đóng phí kiểm định lô cân sức khỏe cho trạm quân y.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "khach_dat_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang chuyển tiền để kiểm định lô cân sức khỏe cho bên trạm quân y. Anh khách nhắn qua Zalo bảo nộp thêm khoản này, mình thấy anh ấy nói chuyện đàng hoàng nên cũng tin.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 615,
+  "tokens_out": 52,
+  "usd": 0.00175
+ },
+ "vong": 0
+}

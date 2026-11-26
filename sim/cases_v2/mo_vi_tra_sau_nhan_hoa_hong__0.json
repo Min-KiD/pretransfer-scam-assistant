@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Em gửi chị Hạnh hai triệu để chốt suất mua máy giặt trả góp cho mẹ",
+ "viec": "Mình chuyển tiền vừa ứng từ ví trả sau cho chị trong nhóm để lấy hoa hồng",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Em chuyển 2 triệu cho chị Hạnh để giữ suất mua trả góp cái máy giặt cho mẹ. Chị ấy nhắn em qua Zalo, em đang vội, chuyển cho xong thôi.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang gửi khoản mới ứng từ ví trả sau cho chị kia trong nhóm để nhận hoa hồng. Chị ấy nhắn Zalo bảo chuyển thêm, mình đang vội, muốn làm cho xong.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
   "tokens_in": 619,
-  "tokens_out": 46,
-  "usd": 0.001698
+  "tokens_out": 47,
+  "usd": 0.001708
  },
- "vong": 0
+ "a2": true
 }

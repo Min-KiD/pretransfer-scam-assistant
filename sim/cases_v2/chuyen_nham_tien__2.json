@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "nghi_ngo",
- "viec": "Hoàn tiền bánh cưới vào tài khoản chú rể để tiệm kịp chốt sổ",
+ "viec": "Trả lại hai triệu chú bên gara gọi xin vì vừa chuyển nhầm cho mình.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang chuyển lại tiền bánh cưới vào tài khoản của chú rể để tiệm kịp chốt sổ. Mà mình hơi nghi: có người lạ gọi bảo đã chuyển nhầm tiền cho mình, bạn thấy có giống lừa đảo không?",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang định gửi lại hai triệu cho chú bên gara, chú gọi bảo vừa chuyển nhầm vào ví mình. Mình không quen chú ấy, mà chú cứ giục chuyển ngay rồi còn dọa nữa, liệu có phải lừa đảo không bạn?",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 546,
-  "tokens_out": 59,
-  "usd": 0.001682
+  "tokens_in": 541,
+  "tokens_out": 57,
+  "usd": 0.001652
  },
- "vong": 0
+ "a2": true
 }

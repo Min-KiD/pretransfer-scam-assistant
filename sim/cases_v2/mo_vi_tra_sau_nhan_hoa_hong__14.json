@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "nghi_ngo",
- "viec": "Em chuyển phần hạn mức còn lại cho chị Trang để đủ mốc thưởng thứ hai",
+ "viec": "Mình gửi tiền vừa ứng từ ví trả sau cho chị hướng dẫn để chị hủy khoản ứng",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "messenger",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Em đang chuyển nốt số tiền còn dùng được trong hạn mức ví cho chị Trang để đủ mức nhận thưởng lần hai. Chị ấy nhắn em qua Messenger mà em chưa gặp chị ấy bao giờ, nên cũng hơi nghi, không biết có phải lừa đảo không ạ?",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang chuyển cho chị chỉ mình số tiền ví trả sau vừa ứng, chị ấy bảo nhận được tiền thì sẽ hủy khoản ứng đó. Chị ấy là người lạ nhắn mình trước qua Messenger nên mình cũng hơi nghi, vậy có phải lừa đảo không?",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 616,
-  "tokens_out": 61,
-  "usd": 0.001842
+  "tokens_in": 619,
+  "tokens_out": 60,
+  "usd": 0.001838
  },
- "vong": 0
+ "a2": true
 }

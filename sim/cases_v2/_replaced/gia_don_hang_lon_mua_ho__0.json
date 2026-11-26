@@ -1,0 +1,42 @@
+{
+ "id": "gia_don_hang_lon_mua_ho__0",
+ "kich_ban": "gia_don_hang_lon_mua_ho",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "viec": "Tôi cọc hai triệu cho kho đệm để họ cắt đúng cỡ giường bệnh.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "khach_dat_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tôi chuyển trước 2 triệu cho bên kho để họ cắt đệm vừa giường bệnh. Khách giục quá, tôi đang vội, muốn chuyển cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 622,
+  "tokens_out": 41,
+  "usd": 0.001654
+ },
+ "vong": 0
+}

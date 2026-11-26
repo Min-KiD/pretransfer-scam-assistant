@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "nghi_ngo",
- "viec": "Em chuyển tiền góp máy lọc nước qua mã kỹ thuật viên để được hoàn phí lắp",
+ "viec": "Mình chuyển tiền vừa vay trên ví cho bạn hướng dẫn qua Zalo để bạn hủy khoản vay",
  "bang_that": {
   "nguoi_lien_lac": "tu_tim_den",
   "kenh": "zalo",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Em đang quét mã của kỹ thuật viên để đóng tiền trả góp máy lọc nước, bên đó bảo làm vậy thì được hoàn phí lắp đặt. Mà em thấy hơi cấn vì họ bảo chuyển luôn số tiền ví vừa ứng cho em, vậy có phải lừa đảo không ạ?",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang chuyển số tiền mới vay trên ví cho người hướng dẫn mình qua Zalo, họ bảo nhận được tiền thì sẽ hủy khoản vay cho mình. Mình chủ động nhắn họ trước chứ chưa gặp ngoài đời, giờ nghĩ lại thấy hơi cấn, liệu có phải lừa đảo không bạn?",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 632,
-  "tokens_out": 65,
-  "usd": 0.001914
+  "tokens_in": 634,
+  "tokens_out": 68,
+  "usd": 0.001948
  },
- "vong": 0
+ "a2": true
 }

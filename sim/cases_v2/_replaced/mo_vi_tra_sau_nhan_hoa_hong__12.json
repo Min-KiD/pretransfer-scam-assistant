@@ -1,0 +1,40 @@
+{
+ "id": "mo_vi_tra_sau_nhan_hoa_hong__12",
+ "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "viec": "Em quét mã tiệm nhạc cụ để lấy lại tiền đơn đàn trả góp đã hủy",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tien_vay_chuyen_di",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em đang quét QR của cửa hàng nhạc cụ để lấy lại tiền đơn mua đàn trả góp em hủy rồi. Bên tuyển cộng tác viên nhắn qua Messenger bảo chuyển, em đang vội, muốn chuyển cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 620,
+  "tokens_out": 52,
+  "usd": 0.00176
+ },
+ "vong": 0
+}

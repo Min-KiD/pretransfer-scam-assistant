@@ -1,0 +1,41 @@
+{
+ "id": "gia_don_hang_lon_mua_ho__10",
+ "kich_ban": "gia_don_hang_lon_mua_ho",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Tôi trả tiền thay bánh xe chịu lực cho mấy cáng cấp cứu.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tôi đang chuyển tiền để thay mấy cái bánh xe chịu tải cho mấy cáng cấp cứu. Tôi chuyển cho họ một lần rồi, giờ họ lại giục chuyển thêm để xác minh giao dịch, nghe cứ sai sai, có khi nào là lừa đảo không?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 630,
+  "tokens_out": 60,
+  "usd": 0.00186
+ },
+ "vong": 0
+}

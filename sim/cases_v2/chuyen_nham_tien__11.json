@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "ke_lon_xon",
- "viec": "Hoàn tiền thuê sân bóng theo mã QR của anh giữ sân",
+ "viec": "Hoàn tiền chú bán cá vừa gọi xin lại vì bấm chuyển nhầm.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "À, mình đang quét cái QR anh giữ sân đưa để trả lại tiền thuê sân bóng ấy, nãy còn đang lo tìm đôi giày đá banh. Có người gọi bảo chuyển nhầm tiền cho mình, cứ giục mình gửi lại nhanh.",
+ "vong": 0,
+ "tin_mo_dau": "Nãy em còn đang cất đồ ăn vào tủ lạnh ấy, giờ em gửi lại tiền cho chú bán cá vừa gọi, chú bảo lỡ bấm nhầm sang ví em. Em có quen chú đâu mà chú cứ giục em chuyển nhanh.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 538,
+  "tokens_in": 541,
   "tokens_out": 56,
-  "usd": 0.001636
+  "usd": 0.001642
  },
- "vong": 0
+ "a2": true
 }

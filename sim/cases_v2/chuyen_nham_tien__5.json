@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "ca_tin",
- "viec": "Chuyển lại hai triệu tiền cọc máy ảnh cho bạn cùng phòng của khách",
+ "viec": "Gửi trả tiền anh thợ điện vừa chuyển nhầm vào số tài khoản vợ anh ấy.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "sms",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang gửi trả hai triệu tiền đặt cọc máy ảnh cho bạn ở chung phòng với khách. Người ta nhắn SMS bảo chuyển nhầm, mình tin họ nói thật, chắc đang cần tiền gấp nên mới giục mình vậy.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang chuyển lại khoản anh thợ điện gửi nhầm cho mình, ảnh nhờ gửi vào tài khoản của vợ ảnh. Ảnh có nhắn SMS giục chuyển sớm, chắc đang cần tiền gấp thôi, mình tin ảnh nói thật.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 549,
-  "tokens_out": 53,
-  "usd": 0.001628
+  "tokens_in": 552,
+  "tokens_out": 58,
+  "usd": 0.001684
  },
- "vong": 0
+ "a2": true
 }

@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "voi",
- "viec": "Trả tiền vé xe Tết qua link hoàn tiền bên nhà xe gửi",
+ "viec": "Trả lại 320 nghìn người mua vé xe nhắn bảo đã chuyển nhầm.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "zalo",
@@ -28,12 +28,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang trả tiền vé xe Tết bằng cái link hoàn tiền nhà xe gửi. Có người lạ bảo chuyển nhầm tiền cho mình, cứ giục trả, mình đang vội nên muốn chuyển cho xong.",
+ "vong": 0,
+ "tin_mo_dau": "Mình gửi lại 320 nghìn cho người mua vé xe, họ nhắn Zalo bảo chuyển nhầm. Họ giục quá, mình cũng đang vội, chuyển cho xong.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 546,
-  "tokens_out": 49,
-  "usd": 0.001582
+  "tokens_in": 549,
+  "tokens_out": 44,
+  "usd": 0.001538
  },
- "vong": 0
+ "a2": true
 }

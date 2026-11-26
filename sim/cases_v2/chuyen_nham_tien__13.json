@@ -3,7 +3,7 @@
  "kich_ban": "chuyen_nham_tien",
  "nhom": "lua_dao",
  "tinh_cach": "ca_tin",
- "viec": "Trả khoản vay ghi trong giao dịch để họ khỏi báo công an",
+ "viec": "Gửi trả 780 nghìn anh mua đồ cũ nhắn báo chuyển nhầm qua Messenger.",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "cuoc_goi",
@@ -30,12 +30,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "Mình đang chuyển lại số tiền ghi là tiền vay trong giao dịch để người ta khỏi báo công an. Họ gọi bảo chuyển nhầm cho mình, mình tin là họ nhầm thật, chắc họ cũng đang sốt ruột thôi.",
+ "vong": 0,
+ "tin_mo_dau": "Mình đang gửi lại 780 nghìn cho anh mua đồ cũ nhắn trên Messenger bảo gửi nhầm cho mình. Anh ấy còn gọi giục mình chuyển sớm, chắc đang cần tiền thật nên mình trả luôn cho anh ấy.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 549,
+  "tokens_in": 555,
   "tokens_out": 53,
-  "usd": 0.001628
+  "usd": 0.00164
  },
- "vong": 0
+ "a2": true
 }

@@ -3,7 +3,7 @@
  "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
  "nhom": "lua_dao",
  "tinh_cach": "ke_lon_xon",
- "viec": "Mình chuyển sáu trăm nghìn cho chị kế toán để lấy thưởng đơn nồi chiên trả góp",
+ "viec": "Mình gửi tiền vừa vay nhanh trên ví cho chị chỉ cách mở ví để chị hủy khoản vay",
  "bang_that": {
   "nguoi_lien_lac": "nguoi_la",
   "kenh": "messenger",
@@ -29,12 +29,13 @@
   "loai_tai_khoan": "ca_nhan",
   "ten_khop_tu_xung": "khong"
  },
- "tin_mo_dau": "À, cái nồi chiên ấy, bếp nhà mình cũng chật chứ có rộng gì đâu, mà mình đang gửi chị kế toán 600 nghìn để nhận tiền thưởng của đơn mua trả góp. Bữa trước mình gửi một lần rồi, giờ chị ấy nhắn Messenger bảo gửi thêm.",
+ "vong": 0,
+ "tin_mo_dau": "À, lần trước mình chuyển cho chị ấy một lần rồi, mà hai bên cũng chưa gặp nhau bao giờ. Giờ mình chuyển cho chị chỉ mình mở ví cái khoản ví vừa cho vay nhanh, để chị ấy hủy khoản vay hộ mình.",
  "sinh_boi": {
   "model": "openai:gpt-6.2-sol",
-  "tokens_in": 625,
-  "tokens_out": 66,
-  "usd": 0.00191
+  "tokens_in": 623,
+  "tokens_out": 54,
+  "usd": 0.001786
  },
- "vong": 0
+ "a2": true
 }
