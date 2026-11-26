@@ -21,7 +21,7 @@ truong:
   ai_bat_dau: {ho_truoc: 0.8, minh_truoc: 0.2}
   ap_luc: {hua_loi: 0.95, hoi_thuc: 0.4}
   yeu_cau: {chuyen_tien: 0.98, nap_them_de_rut: 0.5, cai_app: 0.2, bam_link: 0.2}
-  ly_do_tien: {nhiem_vu: 0.6, dau_tu: 0.15, tra_hang: 0.15}
+  ly_do_tien: {tien_vay_chuyen_di: 0.75, nhiem_vu: 0.15}
   loai_tai_khoan: {ca_nhan: 0.9}
   ten_khop_tu_xung: {khong: 0.85}
   da_gap_truc_tiep: {khong: 0.97}

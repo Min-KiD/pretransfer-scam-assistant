@@ -18,7 +18,7 @@ truong:
   ai_bat_dau: {minh_truoc: 0.97}
   ap_luc: {khong_co: 0.97}
   yeu_cau: {chuyen_tien: 0.9}
-  ly_do_tien: {chuyen_noi_bo: 0.75, dau_tu: 0.2}
+  ly_do_tien: {chuyen_noi_bo: 0.95}
   loai_tai_khoan: {ca_nhan: 0.85, to_chuc: 0.15}
   ten_khop_tu_xung: {co: 0.98}
   da_gap_truc_tiep: {co: 0.85}
