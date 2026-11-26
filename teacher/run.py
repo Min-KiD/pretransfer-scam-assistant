@@ -66,10 +66,12 @@ class Helper:
 
 
 def with_account(row):
-    """E6 rows have no `tai_khoan`: build it from `bang_that`, draw the label seeded by the story id."""
+    """Build `tai_khoan` from `bang_that`. cases_v2 rows already carry `nhan_tai_khoan`; older E6 rows get a label
+    drawn with the T4 rule, seeded by the story id."""
     t = row["bang_that"]
     labels = ACCOUNT_LABEL[row["nhom"]]
-    label = random.Random(f"T5-account:{row['id']}").choices(list(labels), weights=list(labels.values()))[0]
+    label = t.get("nhan_tai_khoan") or random.Random(f"T5-account:{row['id']}").choices(
+        list(labels), weights=list(labels.values()))[0]
     case = dict(row)
     case["bang_that"] = dict(t, nhan_tai_khoan=label)
     case["tai_khoan"] = {"nhan_tai_khoan": label, "loai_tai_khoan": t["loai_tai_khoan"],
