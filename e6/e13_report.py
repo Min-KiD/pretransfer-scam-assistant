@@ -19,7 +19,8 @@ from core.scenarios import ROOT
 from e6 import e12_report as e12
 from e6.e12_report import (CAP, FLASH, QWEN, account_rule_table, flash_rows, load_all, main_tables, missed_table,
                            paired_pair, per_scenario_table, run_facts)
-from sim.e5 import K, load_rows, score
+from sim.e5 import K, fmt, load_rows, rate, score
+from sim.run import CHUA_DU
 
 OUT = ROOT / "experiments/E13"
 PREFIX = "local:qwen3-4b-e13-"
@@ -132,6 +133,17 @@ def main():
              "show \"-\".")
     L.append("")
     main_tables(L, runs, names, scen, by_id)
+    L += [f"### `{CHUA_DU}` after {K} questions, by group\n",
+          "Minh counts `chua_du_can_cu` on an ordinary transfer as a safe outcome; Run B's training data keeps the "
+          "ordinary sessions the teacher ended with it, so this run may give it more often.\n",
+          "| Model | All | Scam | Ordinary |", "|---|---|---|---|"]
+    for m, rs in runs.items():
+        cd = [r for r in rs if r["preds"][K] == CHUA_DU]
+        n_s = sum(r["nhom"] == "lua_dao" for r in rs)
+        L.append(f"| {names[m]} | {fmt(rate(len(cd), len(rs)))} | "
+                 f"{fmt(rate(sum(r['nhom'] == 'lua_dao' for r in cd), n_s))} | "
+                 f"{fmt(rate(sum(r['nhom'] == 'binh_thuong' for r in cd), len(rs) - n_s))} |")
+    L.append("")
     L.append("## Paired comparisons on the same cases\n")
     for i, m in enumerate(ADAPTERS):
         if m in runs:
