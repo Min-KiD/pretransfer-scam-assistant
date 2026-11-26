@@ -1,0 +1,73 @@
+# Story-table values in plain Vietnamese, for the story writer and the simulated user (`sim.cases.story_text`).
+# Reason (T4b pilot, 2026-11-26): the raw id `nguoi_ban` (người bán, a seller) was read as "người bạn" (a friend):
+# 14 of 17 simulated users asked "Họ tự giới thiệu là ai?" answered "bạn bè" or "người quen".
+# Simulation input only. The assistant, the catalogue and `core/` keep the ids. `khac` is not mapped: both prompts
+# explain it by that name.
+nguoi_lien_lac:
+  nguoi_la: người lạ
+  nguoi_quen: người quen
+  tu_tim_den: do mình tự tìm đến (cửa hàng, công ty, dịch vụ)
+kenh:
+  cuoc_goi: gọi điện thoại
+  sms: tin nhắn SMS
+  zalo: Zalo
+  messenger: Facebook Messenger
+  telegram: Telegram
+  truc_tiep: gặp trực tiếp
+tu_xung:
+  shipper: shipper, nhân viên giao hàng
+  cong_an: công an, viện kiểm sát hoặc tòa án
+  ngan_hang: nhân viên ngân hàng, ví điện tử hoặc công ty tài chính
+  co_quan_nha_nuoc: cán bộ cơ quan nhà nước (thuế, điện lực, phường, đơn vị quân đội...)
+  nguoi_than: người thân, bạn bè hoặc cấp trên
+  nguoi_ban: người bán hàng, chủ shop, chủ nhà hoặc thợ
+  nha_tuyen_dung: bên tuyển dụng, tuyển cộng tác viên
+  san_dau_tu: sàn đầu tư, chuyên gia đầu tư
+  giao_vien_y_te: giáo viên, bác sĩ hoặc nhân viên y tế
+  dich_vu_thu_hoi_tien: luật sư hoặc dịch vụ nhận lấy lại tiền bị mất
+  nguoi_chuyen_nham: người nói đã chuyển nhầm tiền cho mình
+  nguoi_quen_qua_mang: người chỉ quen qua mạng, chưa gặp bao giờ
+  khach_dat_hang: khách đặt mua hàng của mình
+  to_chuc_dich_vu: nhân viên của trường học, bệnh viện, công ty điện nước, công ty du lịch hoặc trung tâm đào tạo
+  chinh_minh: không có ai khác, tài khoản nhận là của chính mình
+ai_bat_dau:
+  ho_truoc: họ liên lạc trước
+  minh_truoc: mình liên lạc trước
+ap_luc:
+  hoi_thuc: hối thúc, giục chuyển nhanh
+  doa: đe dọa
+  hua_loi: hứa hẹn lợi ích
+  giu_bi_mat: bảo giữ bí mật
+  khong_co: không hối thúc, không dọa, không hứa hẹn gì
+yeu_cau:
+  chuyen_tien: chuyển tiền
+  cai_app: cài một ứng dụng
+  doc_otp: đọc mã OTP
+  bam_link: bấm vào đường link
+  nap_them_de_rut: nạp thêm tiền thì mới rút được tiền
+  lien_he_so_ho_dua: liên hệ số điện thoại do họ đưa
+ly_do_tien:
+  phi: đóng một khoản phí hoặc lệ phí
+  dat_coc: đặt cọc
+  tai_khoan_an_toan: chuyển tiền vào tài khoản an toàn, tài khoản tạm giữ để xác minh
+  hoan_tien: hoàn lại tiền người ta nói đã chuyển nhầm
+  dau_tu: đầu tư
+  tra_hang: trả tiền mua hàng hoặc dịch vụ
+  muon_tien: cho mượn tiền, gửi tiền giúp
+  vien_phi: viện phí
+  nhiem_vu: làm nhiệm vụ để nhận hoa hồng
+  khac_phuc_loi: sửa lỗi giao dịch, hủy đăng ký, mở khóa hoặc xác minh
+  hoa_don: đóng hóa đơn (học phí, điện nước, lệ phí) theo thông báo
+  tra_no: trả góp, trả nợ thẻ hoặc khoản vay đã nhận
+  mung_gop_quy: tiền mừng cưới, phúng viếng hoặc góp quỹ chung
+  chuyen_noi_bo: chuyển giữa các tài khoản của chính mình
+  tien_vay_chuyen_di: tiền vừa vay hoặc vừa được ứng, chuyển tiếp cho người khác
+da_gap_truc_tiep:
+  co: có
+  khong: không
+duoc_dan_cach_tra_loi:
+  co: có
+  khong: không
+da_chuyen_truoc_do:
+  co: có
+  khong: không

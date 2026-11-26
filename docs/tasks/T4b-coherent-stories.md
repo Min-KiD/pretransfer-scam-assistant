@@ -46,6 +46,21 @@ A real user asked "Bạn đang chuyển khoản này vì việc gì?" says what 
 - Send the planner one line with: spend; per scenario the share of openings that carry the purpose; where to read
   3 full stories per scenario (a file under `experiments/T4b/`). Then **wait for "T4b full go"**.
 
+## Planner's decisions after the pilot (2026-11-26) - "T4b full go" with these changes
+
+- Your prompt fix (rephrase the purpose, write with diacritics) is accepted.
+- **Values in plain words.** In pilot B, 14 of the 17 simulated users with `tu_xung: nguoi_ban` who were asked "Họ tự
+  giới thiệu là ai?" answered "bạn bè" or "người quen": the raw id reads as "người bạn". `sim/gia_tri_bang_loi.yaml`
+  (planner, committed) maps every value of the ten story fields to plain Vietnamese. `story_text` uses it for cases
+  that carry `viec`; cases without `viec` (v1) keep the old text byte for byte. `khac` stays as it is. A test fails
+  if a value of those fields has no entry.
+- The 250 pilot B rows are discarded (keep them under `.cache/logs/t4b/`); the full run starts from case 0.
+- Sizes: 190 train + 20 val per scenario (5,250). Cap for this brief raised by the planner to **2.75 USD**
+  (0.228 spent, about 2.3 projected for the run).
+- Automatic stop: after the first 500 stories, among cases with `tu_xung: nguoi_ban` whose questions include "Họ tự
+  giới thiệu là ai?", fewer than 10% of the answers may contain "bạn bè", "người bạn" or "người quen". If not, stop
+  and tell the planner. The report gives this figure for the whole file.
+
 ## Full run (after the go)
 
 - 220 per scenario for all 25 (200 train, 20 val), interleaved over scenarios, resumable, into
