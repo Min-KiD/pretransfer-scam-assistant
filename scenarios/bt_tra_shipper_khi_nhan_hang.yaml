@@ -5,8 +5,9 @@ doi_chieu_voi: gia_shipper
 nguon:
   - {noi: "Tự viết", url: "", do_tin_cay: tu_viet}
 mo_ta: >
-  Người dùng có đơn hàng đang giao, xem được trên app mua hàng. Shipper mang hàng đến tận nơi; người dùng đã cầm
-  và kiểm hàng rồi chuyển khoản tiền thu hộ hoặc phí ship cho shipper thay vì trả tiền mặt. Shipper không đòi gì thêm.
+  Người dùng có đơn hàng đang giao do chính mình hoặc người nhà đặt, xem được trên app mua hàng. Shipper mang hàng đến tận nơi;
+  người dùng đã cầm và kiểm hàng rồi chuyển khoản tiền thu hộ (COD) hoặc phí ship cho shipper thay vì trả tiền mặt.
+  Shipper không đòi gì thêm.
 cac_buoc:
   - Shipper gọi báo giao hàng và mang hàng đến
   - Người dùng nhận hàng, đối chiếu mã đơn và số tiền trên app
@@ -20,7 +21,7 @@ truong:
   yeu_cau: {chuyen_tien: 0.98}
   ly_do_tien: {tra_hang: 0.85, phi: 0.12}
   loai_tai_khoan: {ca_nhan: 0.9, to_chuc: 0.1}
-  ten_khop_tu_xung: {co: 0.6, khong: 0.4}
+  ten_khop_tu_xung: {khong: 0.85, co: 0.15}
   da_gap_truc_tiep: {co: 0.97}
   duoc_dan_cach_tra_loi: {khong: 0.99}
   mau_thuan_loi_ke_va_anh: {khong: 0.97}
@@ -32,5 +33,6 @@ dau_hieu:
 viec_can_kiem_tra:
   - Đối chiếu mã đơn và số tiền trên app trước khi chuyển
   - Chỉ chuyển khi đã cầm hàng
+  - Không nhớ đã đặt đơn nào thì chưa trả, gọi hỏi người nhà trước
 cau_noi_mau:
   - "Chị ơi đơn Shopee 245k, chị chuyển khoản hay tiền mặt ạ? Em gửi mã QR nhé."

@@ -1,34 +1,34 @@
 id: gia_don_hang_lon_mua_ho
-ten: Giả cán bộ quân đội, bệnh viện, trường học đặt đơn hàng lớn, rồi nhờ chuyển tiền cho "nhà cung cấp"
+ten: Giả cán bộ quân đội, bệnh viện đặt đơn hàng lớn, rồi nhờ chuyển tiền cho "nhà cung cấp"
 nhom: lua_dao
 nguon:
   - {noi: "Bộ Công an, 27/06/2026 (Công an tỉnh Bắc Ninh)", url: "https://bocongan.gov.vn/bai-viet/bac-ninh-xuat-hien-thu-doan-gia-danh-don-vi-quan-doi-dat-hang-de-lua-dao-1782814919", do_tin_cay: da_doc}
   - {noi: "Bộ Công an, 02/10/2026 (Công an phường Mạo Khê, Quảng Ninh)", url: "https://bocongan.gov.vn/bai-viet/quang-ninh-cong-an-phuong-mao-khe-kip-thoi-ngan-chan-nguy-co-lua-dao-qua-mang-voi-thu-doan-gia-danh-can-bo-benh-vien-dat-mua-hang-1790913523", do_tin_cay: da_doc}
 mo_ta: >
-  Nạn nhân là chủ cửa hàng, hộ kinh doanh. Một người lạ tự xưng cán bộ đơn vị quân đội, bệnh viện, trường học
-  gọi hoặc nhắn đặt đơn hàng lớn, trả giá cao, gửi ảnh giấy tờ có dấu đỏ hoặc ảnh chuyển khoản giả để tạo lòng tin.
-  Sau đó họ nhờ mua hộ thêm mặt hàng mà cửa hàng không bán (giường, đệm, thực phẩm, quà tặng) từ một "đối tác"
-  do chính họ giới thiệu, hứa phần chênh lệch giá. "Đối tác" yêu cầu chuyển tiền cọc hoặc tiền "xác nhận giao dịch"
-  trước, nhận tiền xong thì cắt liên lạc.
+  Nạn nhân là chủ cửa hàng, hộ kinh doanh hoặc người làm dịch vụ. Một người lạ tự xưng cán bộ đơn vị quân đội hoặc bệnh viện
+  gọi hoặc nhắn đặt vài đơn nhỏ (in ấn, vật tư) trả giá cao hơn thị trường, rồi đặt đơn lớn, gửi ảnh giấy tờ có dấu đỏ hoặc
+  ảnh chuyển khoản giả để tạo lòng tin. Sau đó họ nhờ mua hộ thêm mặt hàng (giường, đệm, thiết bị) từ một "đối tác" do chính
+  họ giới thiệu, hứa phần chênh lệch giá. "Đối tác" yêu cầu chuyển tiền cọc hoặc tiền "xác nhận giao dịch" trước,
+  nhận tiền xong thì chặn số, cắt liên lạc.
 cac_buoc:
-  - Gọi hoặc nhắn Zalo đặt hàng số lượng lớn, tự xưng cán bộ cơ quan, đơn vị
-  - Gửi ảnh giấy giới thiệu, báo giá đóng dấu, hoặc ảnh chuyển khoản giả
+  - Gọi hoặc nhắn đặt hàng, tự xưng cán bộ đơn vị quân đội, bệnh viện; đơn đầu nhỏ và trả giá cao
+  - Gửi ảnh giấy ra vào đơn vị, báo giá đóng dấu, hoặc ảnh chuyển khoản giả
   - Nhờ mua hộ mặt hàng khác từ một "nhà cung cấp" do họ giới thiệu, hứa chênh lệch giá
   - Bên "nhà cung cấp" yêu cầu chuyển cọc trước để giữ hàng, rồi chặn số
 truong:
   nguoi_lien_lac: {nguoi_la: 0.95}
   kenh: {zalo: 0.45, cuoc_goi: 0.4, messenger: 0.1}
-  tu_xung: {khach_dat_hang: 0.6, co_quan_nha_nuoc: 0.25, nguoi_ban: 0.1}
+  tu_xung: {khach_dat_hang: 0.6, co_quan_nha_nuoc: 0.25, nguoi_ban: 0.15}
   ai_bat_dau: {ho_truoc: 0.97}
-  ap_luc: {hua_loi: 0.8, hoi_thuc: 0.7}
+  ap_luc: {hua_loi: 0.8, hoi_thuc: 0.55}
   yeu_cau: {chuyen_tien: 0.98, lien_he_so_ho_dua: 0.8}
-  ly_do_tien: {dat_coc: 0.7, phi: 0.15, tra_hang: 0.1}
+  ly_do_tien: {dat_coc: 0.65, khac_phuc_loi: 0.15, tra_hang: 0.1, phi: 0.05}
   loai_tai_khoan: {ca_nhan: 0.8, to_chuc: 0.2}
   ten_khop_tu_xung: {khong: 0.85}
   da_gap_truc_tiep: {khong: 0.95}
   da_chuyen_truoc_do: {khong: 0.7, co: 0.3}
 dau_hieu:
-  - Khách lạ xưng cơ quan, đơn vị đặt đơn rất lớn chỉ qua điện thoại hoặc Zalo
+  - Khách lạ xưng cơ quan, đơn vị đặt đơn rất lớn chỉ qua điện thoại hoặc mạng xã hội
   - Nhờ mua hộ mặt hàng khác từ một đối tác do chính khách giới thiệu
   - Phải chuyển cọc cho bên thứ ba trước khi khách trả tiền
   - Giấy tờ đóng dấu, ảnh chuyển khoản chỉ gửi qua mạng
@@ -38,4 +38,4 @@ viec_can_kiem_tra:
   - Không chuyển cọc cho bên thứ ba do khách giới thiệu
 cau_noi_mau:
   - "Anh bên Bộ Chỉ huy quân sự tỉnh, đơn vị cần 50 bộ bàn ghế, em báo giá rồi anh chuyển khoản luôn."
-  - "Đơn vị cần thêm 100 cái đệm, em lấy giúp bên anh Hùng này, cọc cho họ 30% trước, cuối tuần anh thanh toán cả thể."
+  - "Đơn vị cần thêm 100 cái đệm, em lấy giúp bên anh Hùng này, cọc cho họ 30% trước, cuối tuần anh thanh toán một thể."

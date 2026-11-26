@@ -6,14 +6,14 @@ nguon:
   - {noi: "Tự viết", url: "", do_tin_cay: tu_viet}
 mo_ta: >
   Người dùng tự chuyển tiền sang một tài khoản khác đứng tên chính mình: tài khoản ngân hàng khác, tài khoản
-  tiết kiệm, hoặc tài khoản chứng khoán mở ở công ty có giấy phép. Tên chủ tài khoản nhận trùng tên người dùng.
-  Không ai yêu cầu, không ai hướng dẫn qua điện thoại.
+  tiết kiệm, hoặc tài khoản chứng khoán tự mở bằng app của công ty chứng khoán có giấy phép. Tên chủ tài khoản nhận
+  trùng tên người dùng. Không ai yêu cầu, không ai hướng dẫn qua điện thoại hay gửi link.
 cac_buoc:
-  - Người dùng tự quyết định dồn tiền, gửi tiết kiệm hoặc nộp tiền vào tài khoản đầu tư của mình
+  - Người dùng tự quyết định dồn tiền, gửi tiết kiệm hoặc nạp tiền vào tài khoản chứng khoán do chính mình mở
   - Nhập số tài khoản của chính mình, thấy tên mình hiện ra, rồi chuyển
 truong:
-  nguoi_lien_lac: {khac: 0.7, nguoi_quen: 0.25}
-  kenh: {khac: 0.8, truc_tiep: 0.15}
+  nguoi_lien_lac: {khac: 0.9, nguoi_quen: 0.05}
+  kenh: {khac: 0.95}
   tu_xung: {chinh_minh: 0.95}
   ai_bat_dau: {minh_truoc: 0.97}
   ap_luc: {khong_co: 0.97}
@@ -31,5 +31,6 @@ dau_hieu:
 viec_can_kiem_tra:
   - Đọc lại tên chủ tài khoản trên màn hình xác nhận, phải đúng tên mình
   - Nếu có người bảo chuyển tiền sang "tài khoản an toàn" hay "tài khoản tạm giữ" thì dừng lại
+  - Nếu tài khoản hoặc ứng dụng do người khác gửi link, hướng dẫn mở thì dừng lại
 cau_noi_mau:
   - "Mình chuyển tiền từ ví sang tài khoản ngân hàng của mình để gửi tiết kiệm thôi."

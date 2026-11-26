@@ -5,9 +5,9 @@ doi_chieu_voi: mao_danh_nguoi_quen
 nguon:
   - {noi: "Tự viết", url: "", do_tin_cay: tu_viet}
 mo_ta: >
-  Người dùng chuyển tiền mừng cưới, phúng viếng, mừng sinh nhật, hoặc góp quỹ lớp, quỹ nhóm, tiền ăn chung.
-  Số tài khoản in trên thiệp, do người quen đưa trực tiếp, hoặc đăng trong nhóm chat chung có nhiều người quen
-  cùng chuyển. Số tiền nhỏ, không ai giục gấp, không ai nhờ chuyển vào tài khoản của người thứ ba.
+  Người dùng chuyển tiền mừng cưới, phúng viếng, hoặc góp quỹ lớp, quỹ đồng nghiệp, quỹ nhóm cho một sự kiện chung
+  mà nhiều người quen cùng biết và cùng chuyển. Số tài khoản in trên thiệp, hoặc do trưởng nhóm đăng trong nhóm chat chung.
+  Số tiền nhỏ, không ai giục gấp, không ai nhờ riêng chuyển vào tài khoản của người thứ ba.
 cac_buoc:
   - Người quen gửi thiệp, hoặc trưởng nhóm thông báo thu quỹ trong nhóm chat chung
   - Người dùng chuyển vào tài khoản đứng tên chính người đó
@@ -20,17 +20,18 @@ truong:
   yeu_cau: {chuyen_tien: 0.98}
   ly_do_tien: {mung_gop_quy: 0.9}
   loai_tai_khoan: {ca_nhan: 0.97}
-  ten_khop_tu_xung: {co: 0.9}
+  ten_khop_tu_xung: {co: 0.8, khong: 0.2}
   da_gap_truc_tiep: {co: 0.9}
   duoc_dan_cach_tra_loi: {khong: 0.99}
   mau_thuan_loi_ke_va_anh: {khong: 0.97}
   da_chuyen_truoc_do: {khong: 0.85}
 dau_hieu:
-  - Người nhận là người quen ngoài đời, tài khoản đứng tên chính người đó
+  - Người nhận là người quen ngoài đời, tài khoản đứng tên chính người đó hoặc người nhà họ
   - Lý do rõ ràng (đám cưới, đám tang, quỹ chung), nhiều người quen cùng biết
   - Số tiền nhỏ, không bị giục chuyển ngay
 viec_can_kiem_tra:
   - Đối chiếu tên chủ tài khoản với tên người quen
+  - Nếu thiệp hoặc mã QR đến dưới dạng file, link yêu cầu cài ứng dụng thì không mở; gọi hỏi người mời
   - Nếu chỉ nhận được một tin nhắn riêng mượn tiền gấp thì gọi điện cho người đó trước
 cau_noi_mau:
   - "Tuần sau đám cưới Lan mà mình bận không về được, gửi mừng qua số tài khoản in trên thiệp."

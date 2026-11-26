@@ -1,21 +1,21 @@
 id: bt_dat_dich_vu_co_xac_nhan
-ten: Đặt tour, vé, khách sạn, khóa học ở công ty có hợp đồng hoặc mã đặt chỗ kiểm tra được
+ten: Đặt tour, vé, khách sạn, khóa học ở công ty có hợp đồng hoặc mã đặt chỗ đã tự kiểm tra
 nhom: binh_thuong
 doi_chieu_voi: dat_coc_gia_re
 nguon:
   - {noi: "Tự viết", url: "", do_tin_cay: tu_viet}
 mo_ta: >
-  Người dùng tự tìm đến công ty du lịch, đại lý vé, khách sạn hoặc trung tâm đào tạo qua website hay văn phòng
-  chính thức, nhận hợp đồng hoặc mã đặt chỗ kiểm tra được trên hệ thống của hãng, rồi chuyển tiền cọc hoặc
-  thanh toán vào tài khoản công ty, tên khớp. Giá ngang thị trường, không bị giục "giữ chỗ trong vài phút".
+  Người dùng tự tìm đến công ty du lịch, đại lý vé, khách sạn hoặc trung tâm đào tạo có địa chỉ, website và pháp nhân rõ ràng,
+  nhận hợp đồng hoặc mã đặt chỗ rồi đã tự tra trên hệ thống chính thức của hãng. Tiền chuyển vào tài khoản đứng tên công ty,
+  tên khớp với hợp đồng. Giá ngang thị trường, không bị giục "giữ chỗ trong vài phút".
 cac_buoc:
   - Người dùng tự liên hệ công ty qua website, số tổng đài hoặc đến văn phòng
-  - Nhận hợp đồng, phiếu xác nhận hoặc mã đặt chỗ, tự kiểm tra được trên hệ thống của hãng
+  - Nhận hợp đồng, phiếu xác nhận hoặc mã đặt chỗ, tự tra lại trên hệ thống của hãng
   - Chuyển khoản vào tài khoản đứng tên công ty
 truong:
   nguoi_lien_lac: {tu_tim_den: 0.95}
-  kenh: {truc_tiep: 0.35, zalo: 0.3, cuoc_goi: 0.15, messenger: 0.15}
-  tu_xung: {nguoi_ban: 0.6, to_chuc_dich_vu: 0.35}
+  kenh: {truc_tiep: 0.45, zalo: 0.2, cuoc_goi: 0.15, messenger: 0.05}
+  tu_xung: {to_chuc_dich_vu: 0.7, nguoi_ban: 0.25}
   ai_bat_dau: {minh_truoc: 0.95}
   ap_luc: {khong_co: 0.8, hoi_thuc: 0.15}
   yeu_cau: {chuyen_tien: 0.98}
@@ -27,7 +27,7 @@ truong:
   mau_thuan_loi_ke_va_anh: {khong: 0.95}
   da_chuyen_truoc_do: {khong: 0.9}
 dau_hieu:
-  - Tự tìm đến công ty qua kênh chính thức, có hợp đồng hoặc mã đặt chỗ kiểm tra được
+  - Tự tìm đến công ty qua kênh chính thức, đã tự tra hợp đồng hoặc mã đặt chỗ trên hệ thống của hãng
   - Tài khoản nhận đứng tên công ty, khớp với hợp đồng
   - Giá ngang thị trường, không bị giục
 viec_can_kiem_tra:

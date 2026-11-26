@@ -7,14 +7,15 @@ nguon:
 mo_ta: >
   Người dùng tự đóng một khoản đã biết trước cho trường học, bệnh viện, ban quản lý chung cư, công ty điện nước
   hoặc cơ quan nhà nước. Số tiền và số tài khoản lấy từ thông báo, hóa đơn, quầy thu hoặc cổng thanh toán chính thức.
-  Tài khoản nhận là tài khoản tổ chức, tên khớp. Không ai gọi điện giục, không ai bảo cài ứng dụng hay bấm link.
+  Tài khoản nhận là tài khoản tổ chức, tên khớp. Đây là kỳ đóng đã định sẵn, không phải khoản bị đòi thêm.
+  Không ai gọi điện giục, không ai bảo cài ứng dụng hay bấm link.
 cac_buoc:
   - Người dùng nhận hóa đơn, thông báo thu định kỳ, hoặc được báo số tiền tại quầy
   - Tự mở app chuyển khoản vào tài khoản tổ chức ghi trên hóa đơn, thông báo
 truong:
-  nguoi_lien_lac: {tu_tim_den: 0.7, nguoi_quen: 0.25}
+  nguoi_lien_lac: {tu_tim_den: 0.85, nguoi_quen: 0.1}
   kenh: {truc_tiep: 0.55, zalo: 0.2, sms: 0.15}
-  tu_xung: {to_chuc_dich_vu: 0.75, co_quan_nha_nuoc: 0.2}
+  tu_xung: {to_chuc_dich_vu: 0.5, giao_vien_y_te: 0.25, co_quan_nha_nuoc: 0.2}
   ai_bat_dau: {minh_truoc: 0.75, ho_truoc: 0.25}
   ap_luc: {khong_co: 0.9, hoi_thuc: 0.08}
   yeu_cau: {chuyen_tien: 0.98}
@@ -31,6 +32,7 @@ dau_hieu:
   - Không ai gọi giục, không bị yêu cầu cài ứng dụng hay đọc mã OTP
 viec_can_kiem_tra:
   - Đối chiếu số tài khoản với hóa đơn giấy, website hoặc quầy thu chính thức
+  - Tên chủ tài khoản hiện trên màn hình xác nhận phải đúng tên nơi thu
   - Nếu số tài khoản đến từ một cuộc gọi hay tin nhắn lạ thì tự gọi lại nơi thu để hỏi
 cau_noi_mau:
   - "Nhà trường thông báo học phí học kỳ 2 là 4.200.000đ, phụ huynh chuyển khoản vào tài khoản của trường ghi trên phiếu thu."

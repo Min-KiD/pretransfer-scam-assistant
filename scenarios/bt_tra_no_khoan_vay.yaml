@@ -7,12 +7,13 @@ nguon:
 mo_ta: >
   Người dùng có khoản vay, thẻ tín dụng hoặc hợp đồng trả góp thật và tự trả kỳ hạn theo hợp đồng. Số tài khoản
   thu nợ lấy từ hợp đồng, app chính thức hoặc tin nhắn nhắc nợ định kỳ. Tài khoản nhận là tài khoản tổ chức,
-  tên khớp. Tiền vay đã nhận từ trước; đây không phải khoản phí nộp để được vay.
+  tên khớp. Tiền vay đã nhận từ trước; đây là kỳ trả đã định sẵn, không phải khoản phí nộp để được vay
+  và không phải khoản bị đòi thêm.
 cac_buoc:
   - Đến kỳ trả nợ, người dùng xem số tiền trên app hoặc tin nhắn nhắc nợ
   - Tự chuyển khoản vào tài khoản thu nợ ghi trong hợp đồng
 truong:
-  nguoi_lien_lac: {tu_tim_den: 0.6, nguoi_quen: 0.3}
+  nguoi_lien_lac: {tu_tim_den: 0.85, nguoi_quen: 0.05}
   kenh: {sms: 0.35, truc_tiep: 0.3, cuoc_goi: 0.15, zalo: 0.1}
   tu_xung: {ngan_hang: 0.97}
   ai_bat_dau: {minh_truoc: 0.6, ho_truoc: 0.4}
@@ -31,6 +32,7 @@ dau_hieu:
   - Số tiền đúng bằng kỳ trả góp
 viec_can_kiem_tra:
   - Đối chiếu số tài khoản thu nợ với hợp đồng hoặc app chính thức
+  - Nếu được báo đổi số tài khoản thu nợ qua tin nhắn hoặc Zalo thì gọi lại tổng đài ghi trong hợp đồng
   - Nếu được báo phải nộp phí để "giải ngân" hay "mở khóa khoản vay" thì đó là chuyện khác, cần dừng lại
 cau_noi_mau:
   - "Tháng này đến hạn trả góp xe máy 1.850.000đ, mình chuyển vào tài khoản công ty tài chính ghi trong hợp đồng."
