@@ -7,7 +7,11 @@ seed), a persona (rushed / trusting / suspicious / rambling; "coached" is kept f
 Cases 0-4 of each scenario are the E2 set (`v1`, seed 20261121). E5 adds cases 5-19 with a new seed (20261122), drawn
 the same way. These 300 cases are an evaluation set only: never train on them (E6 makes its own training cases).
 
-  python -m sim.cases            # writes missing files only
+The 300 files are the frozen v1 record (15 scenarios). Since catalogue v2 (T4), `make_case` draws the account label by
+group and redraws ordinary tables with a scam-type detail, so it no longer reproduces these files; `main` skips the
+scenarios that have no file here, so the 10 v2 scenarios never enter this set.
+
+  python -m sim.cases            # writes missing files of the v1 scenarios only
 """
 from __future__ import annotations
 
@@ -58,10 +62,42 @@ Tính cách: {persona}
 Chỉ trả về câu trả lời."""
 
 
+# Catalogue v2 (T4): the account label is drawn by group, not from the scenario table (the computed core must not
+# start scoring it), and only from labels that open the chat.
+ACCOUNT_LABEL = {"binh_thuong": {"moi": 0.9, "dang_bi_bao_cao": 0.1},
+                 "lua_dao": {"moi": 0.6, "dang_bi_bao_cao": 0.25, "da_xac_nhan": 0.15}}
+# Scam-type details an ordinary story must not carry (data plan v2, section 3.7).
+SCAM_DETAIL = {"yeu_cau": {"cai_app", "doc_otp", "nap_them_de_rut"},
+               "ly_do_tien": {"nhiem_vu", "dau_tu", "tai_khoan_an_toan", "khac_phuc_loi", "hoan_tien",
+                              "tien_vay_chuyen_di"},
+               "duoc_dan_cach_tra_loi": {"co"},
+               "ap_luc": {"doa", "giu_bi_mat"}}
+MAX_REDRAW = 1000
+
+
+def scam_details(table: dict) -> list[str]:
+    """`field=value` for every scam-type detail in a story table; an ordinary table must have none."""
+    out = []
+    for name, bad in SCAM_DETAIL.items():
+        v = table.get(name)
+        out += [f"{name}={x}" for x in (v if isinstance(v, list) else [v]) if x in bad]
+    return out
+
+
 def make_case(sid: str, i: int, scen, rng: random.Random) -> dict:
+    """Ordinary scenarios: the table is redrawn while it carries a scam-type detail. Scam scenarios: no redraw."""
+    nhom = scen[sid].nhom
     truth = sample_table(scen[sid], rng)
+    for _ in range(MAX_REDRAW):
+        if nhom != "binh_thuong" or not scam_details(truth):
+            break
+        truth = sample_table(scen[sid], rng)
+    else:
+        raise RuntimeError(f"{sid}: no ordinary table without a scam-type detail in {MAX_REDRAW} draws")
+    labels = ACCOUNT_LABEL[nhom]
+    truth["nhan_tai_khoan"] = rng.choices(list(labels), weights=list(labels.values()))[0]
     persona = list(PERSONAS)[i % len(PERSONAS)]
-    return {"id": f"{sid}__{i}", "kich_ban": sid, "nhom": scen[sid].nhom, "tinh_cach": persona,
+    return {"id": f"{sid}__{i}", "kich_ban": sid, "nhom": nhom, "tinh_cach": persona,
             "bang_that": truth, "tai_khoan": {k: truth[k] for k in KNOWN_AT_START}, "tin_mo_dau": None}
 
 
@@ -79,7 +115,7 @@ def main():
     scen, issues = load()
     CASE_DIR.mkdir(parents=True, exist_ok=True)
     todo = []
-    for sid in sorted(scen):
+    for sid in sorted(s for s in scen if any(CASE_DIR.glob(f"{s}__*.json"))):
         rng = random.Random(f"{SEED}:{sid}:cases")
         rng5 = random.Random(f"{SEED_E5}:{sid}:cases")
         for i in range(PER_SCENARIO_E5):

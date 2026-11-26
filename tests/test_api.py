@@ -11,10 +11,12 @@ def fake(text="", output=None):
     return llm.Result(output, text, 1, 1, 0.0, 0.0, "stub")
 
 
+# Catalogue v2 adds the ordinary look-alike `bt_tra_shipper_khi_nhan_hang`, so "money for the goods" alone no longer
+# points to the scam; an "order error to fix" does.
 SHIP = [{"truong": "tu_xung", "gia_tri": ["shipper"], "trich": "shipper"},
         {"truong": "nguoi_lien_lac", "gia_tri": ["nguoi_la"], "trich": "lạ"},
         {"truong": "ai_bat_dau", "gia_tri": ["ho_truoc"], "trich": "nhắn trước"},
-        {"truong": "ly_do_tien", "gia_tri": ["tra_hang"], "trich": "tiền hàng"}]
+        {"truong": "ly_do_tien", "gia_tri": ["khac_phuc_loi"], "trich": "đơn lỗi"}]
 
 
 @pytest.fixture
@@ -46,7 +48,7 @@ def test_report_turns_label_and_staff_confirms_and_removes(client):
     s = client.post("/sessions", json={"so_tk": acc, "so_tien": 30000}).json()
     assert s["kind"] == "cau_hoi" and s["vi_sao"]["truong"] and s["phan_phoi"]
     assert client.post(f"/sessions/{s['session_id']}/decision", json={"nut": "dung_lai"}).status_code == 409
-    t = client.post(f"/sessions/{s['session_id']}/messages", data={"text": "shipper lạ nhắn trước đòi tiền hàng"}).json()
+    t = client.post(f"/sessions/{s['session_id']}/messages", data={"text": "shipper lạ nhắn trước bảo đơn lỗi"}).json()
     assert t["done"] and t["ket_luan"]["muc"] == "giong_chieu_lua" and t["ket_luan"]["top"] == "gia_shipper"
     d = client.post(f"/sessions/{s['session_id']}/decision", json={"nut": "kiem_tra_them"}).json()
     assert d["nhan_tai_khoan"] == "dang_bi_bao_cao"

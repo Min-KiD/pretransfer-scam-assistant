@@ -131,3 +131,23 @@ def test_real_library_loads():
     sc, _ = load()
     assert len(sc) >= 10
     assert {s.nhom for s in sc.values()} == {"lua_dao", "binh_thuong"}
+
+
+def test_generated_cases_follow_v2_rules():
+    """Ordinary stories carry no scam-type detail and never a confirmed-scam or known account; every label opens the
+    chat. The detail list is the one the M3 training filter uses."""
+    import random
+
+    from sim.cases import ACCOUNT_LABEL, make_case, scam_details
+    sc, _ = load()
+    rng = random.Random(1)
+    for sid, s in sc.items():
+        for i in range(40):
+            t = make_case(sid, i, sc, rng)["bang_that"]
+            assert t["nhan_tai_khoan"] in ACCOUNT_LABEL[s.nhom]
+            if s.nhom == "binh_thuong":
+                assert not scam_details(t), (sid, scam_details(t))
+    assert scam_details({"yeu_cau": ["chuyen_tien", "doc_otp"], "ly_do_tien": "tien_vay_chuyen_di", "ap_luc": ["doa"],
+                         "duoc_dan_cach_tra_loi": "co"}) == ["yeu_cau=doc_otp", "ly_do_tien=tien_vay_chuyen_di",
+                                                             "duoc_dan_cach_tra_loi=co", "ap_luc=doa"]
+    assert set(ACCOUNT_LABEL["binh_thuong"]) == {"moi", "dang_bi_bao_cao"}

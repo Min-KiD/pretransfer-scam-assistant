@@ -32,17 +32,24 @@ FIELDS: dict[str, Field] = {f.name: f for f in (
     _f("kenh", ("cuoc_goi", "sms", "zalo", "messenger", "telegram", "truc_tiep"),
        "liên lạc qua kênh nào", image=True),
     _f("tu_xung", ("shipper", "cong_an", "ngan_hang", "co_quan_nha_nuoc", "nguoi_than", "nguoi_ban", "nha_tuyen_dung",
-                   "san_dau_tu", "giao_vien_y_te", "dich_vu_thu_hoi_tien", "nguoi_chuyen_nham"),
+                   "san_dau_tu", "giao_vien_y_te", "dich_vu_thu_hoi_tien", "nguoi_chuyen_nham", "nguoi_quen_qua_mang",
+                   "khach_dat_hang", "to_chuc_dich_vu", "chinh_minh"),
        "người kia tự xưng là ai (cong_an gồm viện kiểm sát, tòa án; co_quan_nha_nuoc gồm thuế, điện lực, VNeID; "
-       "nguoi_than gồm bạn bè, cấp trên)", image=True),
+       "nguoi_than gồm bạn bè, cấp trên; nguoi_quen_qua_mang là người chỉ quen qua mạng, chưa gặp bao giờ; "
+       "khach_dat_hang là người đặt mua hàng của mình; to_chuc_dich_vu gồm trường học, bệnh viện, điện nước, công ty "
+       "du lịch, trung tâm đào tạo; chinh_minh là tài khoản của chính mình)", image=True),
     _f("ai_bat_dau", ("ho_truoc", "minh_truoc"), "ai liên lạc trước", image=True),
     _f("ap_luc", ("hoi_thuc", "doa", "hua_loi", "giu_bi_mat", "khong_co"),
        "người kia có hối thúc, dọa, hứa lợi, bảo giữ bí mật không", multi=True, image=True),
     _f("yeu_cau", ("chuyen_tien", "cai_app", "doc_otp", "bam_link", "nap_them_de_rut", "lien_he_so_ho_dua"),
        "người kia yêu cầu làm gì", multi=True, image=True),
     _f("ly_do_tien", ("phi", "dat_coc", "tai_khoan_an_toan", "hoan_tien", "dau_tu", "tra_hang", "muon_tien",
-                      "vien_phi", "nhiem_vu", "khac_phuc_loi"),
-       "lý do phải chuyển tiền (khac_phuc_loi gồm hủy đăng ký, sửa lỗi giao dịch, mở khóa, xác minh)", image=True),
+                      "vien_phi", "nhiem_vu", "khac_phuc_loi", "hoa_don", "tra_no", "mung_gop_quy", "chuyen_noi_bo",
+                      "tien_vay_chuyen_di"),
+       "lý do phải chuyển tiền (khac_phuc_loi gồm hủy đăng ký, sửa lỗi giao dịch, mở khóa, xác minh; hoa_don gồm học "
+       "phí, tiền điện nước, lệ phí theo thông báo chính thức; tra_no là trả góp, trả thẻ, trả khoản vay đã nhận; "
+       "mung_gop_quy gồm tiền mừng cưới, phúng viếng, quỹ chung; chuyen_noi_bo là chuyển giữa các tài khoản của chính "
+       "mình; tien_vay_chuyen_di là tiền vừa vay hoặc được ứng, chuyển tiếp cho người khác theo lời họ)", image=True),
     _f("loai_tai_khoan", ("ca_nhan", "to_chuc"), "tài khoản nhận là cá nhân hay tổ chức", code=True),
     _f("ten_khop_tu_xung", CO_KHONG, "tên chủ tài khoản có khớp với người/tổ chức họ tự xưng không", code=True),
     _f("da_gap_truc_tiep", CO_KHONG, "đã gặp trực tiếp người nhận tiền chưa"),

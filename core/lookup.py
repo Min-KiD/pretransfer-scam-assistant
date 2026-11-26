@@ -22,7 +22,7 @@ SEED_ACCOUNTS = [
 
 # Self-styled identities that are organisations: money for them should go to an organisation account.
 ORG_ROLES = {"shipper", "cong_an", "ngan_hang", "co_quan_nha_nuoc", "nha_tuyen_dung", "san_dau_tu",
-             "dich_vu_thu_hoi_tien"}
+             "dich_vu_thu_hoi_tien", "to_chuc_dich_vu"}
 
 WARNING = {"da_xac_nhan": "do", "dang_bi_bao_cao": "vang", "moi": None, "quen": None}
 CHAT = {"da_xac_nhan": "bat_luon", "dang_bi_bao_cao": "bat_luon", "moi": "moi_kiem_tra", "quen": "khong"}
