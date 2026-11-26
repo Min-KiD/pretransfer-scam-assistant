@@ -23,6 +23,11 @@ PY = str(REPO / ".venv/bin/python")
 # Account label draw of T4 (`sim.cases.ACCOUNT_LABEL`), repeated here only for the E6 rows that have no `tai_khoan`.
 ACCOUNT_LABEL = {"binh_thuong": {"moi": 0.9, "dang_bi_bao_cao": 0.1},
                  "lua_dao": {"moi": 0.6, "dang_bi_bao_cao": 0.25, "da_xac_nhan": 0.15}}
+# Part 6: the tier to call (None = default tier) and the suffix the resolved model id must end with (None = no check,
+# Parts 2-5). A call that resolves to another id is retried and counted in WRONG_MODEL, never kept.
+TEACHER_TIER = None
+REQUIRE_MODEL = None
+WRONG_MODEL = []
 
 
 class Helper:
@@ -79,16 +84,24 @@ def with_account(row):
     return case
 
 
-def ask_teacher(prompt, schema, ids, retries=3):
+def ask_teacher(prompt, schema, ids, retries=5):
     """One `completion()` call; returns (parsed_json, seconds, attempts, model). Retries on an error or an invalid
     answer. `model` is the id the call resolved to (`handle.attempts`), e.g. "anthropic/claude-opus-5-5"."""
     last = ""
     for attempt in range(1, retries + 1):
         t0 = time.perf_counter()
         try:
-            hd = completion(prompt, schema=schema)  # kernel helper, subscription model (the session's default tier)
+            hd = completion(prompt, schema=schema, model=TEACHER_TIER) if TEACHER_TIER else \
+                completion(prompt, schema=schema)  # kernel helper, subscription model
             o = hd.wait()
-            model = (getattr(hd, "attempts", None) or [{}])[-1].get("model")
+            last_attempt = (getattr(hd, "attempts", None) or [{}])[-1]
+            model = last_attempt.get("model")
+            if last_attempt.get("effort"):
+                model = f"{model}:{last_attempt['effort']}"  # effort kept with the id, e.g. "...opus-5-5:medium"
+            if REQUIRE_MODEL and not (model or "").split(":")[0].endswith(REQUIRE_MODEL):
+                WRONG_MODEL.append(model)
+                last = f"wrong model: {model}"
+                continue
             dt = time.perf_counter() - t0
             if isinstance(o, str):
                 o = json.loads(o)
