@@ -127,6 +127,31 @@ for validation (250).
   before filtering; longest prompt in tokens (Qwen3 tokenizer if available locally, else characters); hours taken;
   Gemini spend.
 
+## Part 5 - The teacher on test set v2 (added 2026-11-26, go on the planner's message)
+
+Minh's question: was the teacher measured before the student learns from it? It was measured on train-type stories
+only (Part 4: 1,895/2,050 correct, 0/1,050 scams called ordinary), never on the same cases as
+`gemini-3.5-flash-lite` (T6: 419/475, 18/225, 2/250). This part gives the teacher's row on test set v2.
+
+- **The rule "never read `sim/cases_v2/`" is lifted for this part only**, because `data/T5/` is finished and
+  frozen. From now on this tab writes no training story, purpose line or teacher dialogue for any model; if the
+  planner ever asks for more training data, remind it of this line.
+- Run the teacher (`teacher/run.py`, same prompts, at most 3 questions) on the 475 cases of `sim/cases_v2/`
+  (`<scenario>__<i>.json`; skip `_*.json` and `_replaced/`), in the order `sim.e5` gives with `--order-seed
+  20261128`; simulated user `gemini-3.5-flash-lite` through `victim_reply` (`VICTIM_PROMPT_VIEC`). One run, no rerun
+  to pick a number. Gemini cap for this part: 0.3 USD (expected about 0.2); stop and report at the cap.
+- Output `data/T5/test_v2_sessions.jsonl` and `experiments/T5/test_v2.md` with, next to the flash-lite row computed
+  from `experiments/T6/sessions.jsonl` (same cases, pair them by case id):
+  - correct scenario after 0, 1, 2, 3 questions; scam called ordinary (k/225); ordinary flagged as scam (k/250);
+    `chua_du_can_cu` (k/475, split scam / ordinary); questions per session; all k/n with 95% Wilson intervals;
+  - the same rows split by group and by account label, and on the 430 cases outside `chuyen_nham_tien`,
+    `gia_don_hang_lon_mua_ho`, `mo_vi_tra_sau_nhan_hoa_hong` (those 45 were rewritten and are easy);
+  - paired against flash-lite: 2x2 right/wrong table and McNemar for correct scenario and for scam called ordinary;
+  - of flash-lite's 18 scams called ordinary: what the teacher answered on each (case id, answer, questions);
+  - every scam the teacher called ordinary or `chua_du_can_cu`, with the full dialogue;
+  - does asking help: sessions wrong at turn 0 and right at the end, and the reverse.
+- One line to the planner when done.
+
 ## Later jobs for this tab (not a go, listed so you know)
 
 - Reading generated test images against the strings they were asked to contain.
