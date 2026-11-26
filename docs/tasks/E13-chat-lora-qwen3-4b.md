@@ -14,9 +14,9 @@ Method fixed by Minh: LoRA only, base weights frozen, full-precision (bf16) base
 
 ## Data (ready, local, gitignored: copy it to the server)
 
-- `data/T5/train.jsonl`: 3,692 rows, one per assistant turn of 1,689 kept teacher sessions (25 scenarios; half of
-  the stories and users by Gemini flash-lite, half by Claude). `data/T5/val.jsonl`: 501 rows of 250 sessions' kept
-  part. Each row: `messages` = [user: the exact `tu_do` prompt of that turn, assistant: compact JSON
+- `data/T5/train.jsonl`: 3,692 rows, one per assistant turn of 1,702 kept teacher sessions (25 scenarios; half of
+  the stories and users by Gemini flash-lite, half by Claude). `data/T5/val.jsonl`: 501 rows of 237 kept sessions.
+  Each row: `messages` = [user: the exact `tu_do` prompt of that turn, assistant: compact JSON
   `{"du_doan","cau_hoi"}`], plus `story_id`, `scenario`, `turn`.
 - Prompts are 11.2k to 12.7k characters (about 3,300 tokens on the first turn by the planner's earlier count).
   Measure the longest row with the model's tokenizer, set the maximum length from it, report it. No truncation: if a
