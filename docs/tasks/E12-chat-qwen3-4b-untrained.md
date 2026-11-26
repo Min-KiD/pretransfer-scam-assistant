@@ -13,7 +13,7 @@ untrained, on test set v2, next to `gemini-3.5-flash-lite` (T6: correct scenario
 ## Run
 
 - Model `Qwen/Qwen3-4B-Instruct-2507` (8.0 GB, Apache-2.0, revision `cdbee75f17` or the current one; write down which),
-  unquantised, served by vLLM on `intern-remote.ownego.com` as in E10 part A. No thinking mode in this build; still
+  unquantised, served by vLLM on the company server as in E10 part A. No thinking mode in this build; still
   check that no turn contains `<think>`.
 - Protocol identical to T6 Part C, so the rows pair case by case: `python -m sim.e5 --cases sim/cases_v2 --order-seed
   20261128`, `tu_do` prompt and 25-scenario catalogue unchanged, at most 3 questions, simulated user
