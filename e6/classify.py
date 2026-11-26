@@ -3,6 +3,7 @@
   python -m e6.classify train --model c0|c1|c2|c3     # fit on data/E6/cases.jsonl (train), pick on val
   python -m e6.classify predict --model c0|c1|c2|c3   # every test input -> data/E6/preds/<model>.jsonl
   python -m e6.classify train|predict --model c0 --catalogue v2   # T4: C0 on the 25 scenarios of catalogue v2
+  python -m e6.classify train|predict --model c0 --catalogue v3   # T4b: same, trained on data/E6/cases_v2.jsonl
 
 Models
   c0  TF-IDF (word 1-2 grams + char 2-5 grams) + logistic regression (scikit-learn); C picked on val.
@@ -22,6 +23,8 @@ Catalogue v2 (T4, C0 only): label space the 25 scenarios (SCEN_V2), train/val = 
 ordinary rows whose story table carries a scam-type detail (`sim.cases.scam_details`, the rule the generator now
 applies). Weights .cache/e6/v2/c0/, predictions data/E6/v2/preds/c0.jsonl (probs in SCEN_V2 order), meta
 data/E6/v2/models.json. The v1 models keep the 15 scenarios (SCEN) and the rows of those 15 only.
+"v3" (T4b, C0 only): the same 25 labels and rule, rows from data/E6/cases_v2.jsonl (listed values only, purpose line);
+weights .cache/e6/v3/c0/, predictions data/E6/v3/preds/c0.jsonl, meta data/E6/v3/models.json.
 """
 from __future__ import annotations
 
@@ -56,20 +59,21 @@ SCEN = ["bao_nguoi_than_cap_cuu", "bt_chuyen_cho_nguoi_than", "bt_dat_coc_da_xem
         "mao_danh_nguoi_quen"]
 SCEN_V2 = sorted(scenarios())
 assert set(SCEN) <= set(SCEN_V2) and len(SCEN_V2) == 25
-LABELS = {"v1": SCEN, "v2": SCEN_V2}
+LABELS = {"v1": SCEN, "v2": SCEN_V2, "v3": SCEN_V2}
+CASES = {"v1": "cases.jsonl", "v2": "cases.jsonl", "v3": "cases_v2.jsonl"}
 
 
 def train_val(catalogue="v1"):
     """(train, val, dropped): v1 = rows of the 15 v1 scenarios, as E6 trained; v2 = every row except ordinary rows
-    with a scam-type detail (dropped: those row ids by split)."""
+    with a scam-type detail (dropped: those row ids by split); v3 = v2's rule on cases_v2.jsonl."""
     from sim.cases import scam_details
     labels = LABELS[catalogue]
-    rows = [json.loads(l) for l in open(DATA / "cases.jsonl", encoding="utf-8")]
+    rows = [json.loads(l) for l in open(DATA / CASES[catalogue], encoding="utf-8")]
     out, dropped = {"train": [], "val": []}, {"train": [], "val": []}
     for r in rows:
         if r["kich_ban"] not in labels:
             continue
-        if catalogue == "v2" and r["nhom"] == "binh_thuong" and scam_details(r["bang_that"]):
+        if catalogue != "v1" and r["nhom"] == "binh_thuong" and scam_details(r["bang_that"]):
             dropped[r["split"]].append(r["id"])
             continue
         y = labels.index(r["kich_ban"])
@@ -293,16 +297,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["train", "predict"])
     ap.add_argument("--model", required=True, choices=["c0", "c1", "c2", "c3"])
-    ap.add_argument("--catalogue", default="v1", choices=["v1", "v2"])
+    ap.add_argument("--catalogue", default="v1", choices=list(LABELS))
     ap.add_argument("--device", default=None)
     ap.add_argument("--cpu-threads", type=int, default=4)
     a = ap.parse_args()
-    if a.catalogue == "v2" and a.model != "c0":
-        ap.error("catalogue v2 is C0 only")
+    if a.catalogue != "v1" and a.model != "c0":
+        ap.error(f"catalogue {a.catalogue} is C0 only")
     import torch
     device = a.device or ("cuda" if torch.cuda.is_available() else "cpu")
     labels = LABELS[a.catalogue]
-    data, c0dir = (DATA, WDIR / "c0") if a.catalogue == "v1" else (DATA / "v2", WDIR / "v2/c0")
+    data, c0dir = (DATA, WDIR / "c0") if a.catalogue == "v1" else (DATA / a.catalogue, WDIR / a.catalogue / "c0")
     data.mkdir(parents=True, exist_ok=True)
     meta_p = data / "models.json"
     meta = json.loads(meta_p.read_text()) if meta_p.exists() else {}
@@ -316,7 +320,7 @@ def main():
                 "c1": lambda: c1_train(train, val, device)}.get(a.model, lambda: ft_train(a.model, train, val, device))()
         meta[a.model] = {**meta.get(a.model, {}), "train": info, "train_device": device,
                          "train_n": len(train), "val_n": len(val)}
-        if a.catalogue == "v2":
+        if a.catalogue != "v1":
             meta[a.model]["dropped"] = dropped
         meta_p.write_text(json.dumps(meta, indent=1))
         print(json.dumps(info)[:500])

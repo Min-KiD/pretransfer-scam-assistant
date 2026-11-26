@@ -107,6 +107,22 @@ def write_batch(sid, cases, scen):
     return rows, r
 
 
+WHO_Q = "Họ tự giới thiệu là ai?"
+FRIEND_WORDS = ("bạn bè", "người bạn", "người quen")
+
+
+def friend_answers(rows) -> tuple[int, int]:
+    """T4b check: (k, n) over rows with `tu_xung: nguoi_ban` that were asked WHO_Q; k = answers to it that call the
+    other side a friend or acquaintance (the raw id `nguoi_ban`, a seller, was read as "người bạn")."""
+    k = n = 0
+    for r in rows:
+        if r["bang_that"]["tu_xung"] == "nguoi_ban" and WHO_Q in r["cau_hoi"]:
+            n += 1
+            ans = r["tra_loi"][r["cau_hoi"].index(WHO_Q)].lower() if len(r["tra_loi"]) == 3 else ""
+            k += any(w in ans for w in FRIEND_WORDS)
+    return k, n
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--per-scenario", type=int, default=220, help="cases per scenario, train and val")
@@ -114,6 +130,8 @@ def main():
     ap.add_argument("--cap-usd", type=float, default=2.0)
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--out", default="cases_v2.jsonl", help="file under data/E6/; cost goes to cost<suffix>.json")
+    ap.add_argument("--check-after", type=int, default=0,
+                    help="T4b: once this run has written N stories, stop if friend_answers() >= 10%%")
     a = ap.parse_args()
     scen, issues = load()
     assert not issues, issues
@@ -127,7 +145,7 @@ def main():
             if not all(c["id"] in done for c in cs)]
     print(f"{len(todo)} batches to write; spent so far {cost['usd']:.3f} USD (earlier runs); cap for this run "
           f"{a.cap_usd} USD", flush=True)
-    lock, failed = threading.Lock(), []
+    lock, failed, written, state = threading.Lock(), [], [], {"stop": False, "checked": False}
     base = dict(cost)  # earlier runs; every call of this run (retries and failed batches included) is in llm.USAGE
 
     def save():
@@ -139,7 +157,7 @@ def main():
     def one(item):
         sid, cs = item
         u = llm.USAGE
-        if u.usd + a.workers * (u.usd / u.calls if u.calls else 0) >= a.cap_usd:
+        if state["stop"] or u.usd + a.workers * (u.usd / u.calls if u.calls else 0) >= a.cap_usd:
             return
         try:
             rows, _ = write_batch(sid, cs, scen)
@@ -153,12 +171,19 @@ def main():
                 for row in rows:
                     f.write(json.dumps(row, ensure_ascii=False) + "\n")
             save()
+            written.extend(rows)
+            if a.check_after and not state["checked"] and len(written) >= a.check_after:
+                state["checked"] = True
+                k, n = friend_answers(written)
+                state["stop"] = n > 0 and k / n >= 0.10
+                print(f"check after {len(written)} stories: nguoi_ban asked '{WHO_Q}' answered as a friend {k}/{n}"
+                      f" -> {'STOP' if state['stop'] else 'continue'}", flush=True)
 
     with ThreadPoolExecutor(a.workers) as ex:
         list(ex.map(one, todo))
     n = sum(1 for _ in open(path, encoding="utf-8")) if path.exists() else 0
     print(f"{n} cases in {path.relative_to(ROOT)}; this run {llm.USAGE.calls} calls, {llm.USAGE.usd:.4f} USD "
-          f"(all runs {cost['usd']:.3f}); failed {len(failed)}")
+          f"(all runs {cost['usd']:.3f}); failed {len(failed)}" + ("; STOPPED by the check" if state["stop"] else ""))
     for f in failed[:10]:
         print("  ", f)
 

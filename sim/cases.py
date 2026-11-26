@@ -42,6 +42,10 @@ KNOWN_AT_START = ("nhan_tai_khoan", "loai_tai_khoan", "ten_khop_tu_xung")  # fro
 # T4b: what the user believes the transfer is for, 3-4 lines per scenario (simulation input only, never shown to the
 # assistant). make_case draws one per case.
 VIEC = yaml.safe_load((ROOT / "sim/viec_dang_lam.yaml").read_text(encoding="utf-8"))
+# T4b: every value of the story fields in plain Vietnamese (the id `nguoi_ban` read as "người bạn"). `khac` is not
+# mapped: the prompts explain it by that name. Used only for cases that carry `viec`.
+PLAIN = yaml.safe_load((ROOT / "sim/gia_tri_bang_loi.yaml").read_text(encoding="utf-8"))
+STORY_FIELDS = tuple(n for n in FIELDS if n not in KNOWN_AT_START and n != "mau_thuan_loi_ke_va_anh")
 
 
 def sample_table(s, rng: random.Random) -> dict:
@@ -61,16 +65,22 @@ def sample_table(s, rng: random.Random) -> dict:
 
 
 def story_text(table: dict, viec: str | None = None) -> str:
-    """The true story as plain lines for the simulated user (not shown to the assistant). `viec` (T4b) is the first
-    line; cases without it (v1) give the same text as before."""
-    lines = [f"- Việc bạn đang làm: {viec}"] if viec else []
-    for n, f in FIELDS.items():
-        if n in KNOWN_AT_START or n == "mau_thuan_loi_ke_va_anh":
-            continue
-        v = table[n]
-        if f.multi:
-            v = ", ".join(v) if v else "không có / không rõ"
-        lines.append(f"- {f.label}: {v}")
+    """The true story as plain lines for the simulated user (not shown to the assistant). Cases without `viec` (v1)
+    give the same text as before: field labels and raw value ids. With `viec` (T4b): the purpose is the first line,
+    values are in plain words (`PLAIN`), and the label drops its id glossary in brackets (no ids are left to explain)."""
+    if not viec:
+        lines = []
+        for n in STORY_FIELDS:
+            f, v = FIELDS[n], table[n]
+            if f.multi:
+                v = ", ".join(v) if v else "không có / không rõ"
+            lines.append(f"- {f.label}: {v}")
+        return "\n".join(lines)
+    lines = [f"- Việc bạn đang làm: {viec}"]
+    for n in STORY_FIELDS:
+        f, v = FIELDS[n], table[n]
+        plain = [PLAIN[n].get(x, x) for x in (v if f.multi else [v])]
+        lines.append(f"- {f.label.split(' (')[0]}: {'; '.join(plain) if plain else 'không có / không rõ'}")
     return "\n".join(lines)
 
 

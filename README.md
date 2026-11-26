@@ -81,15 +81,16 @@ Since 26/11 the scenario library has 25 scenarios: 15 scam and 10 ordinary, six 
 
 | Set | Size | What it is | Where |
 |---|---|---|---|
-| Scenarios | 15 | Scam and ordinary-transfer scenarios written from public police/news warnings | git, `scenarios/` |
-| Simulated cases | 300 (15 x 20) | One simulated user each: true scenario, story table, persona, opening message | git, `sim/cases/` |
+| Scenarios | 25 | Scam and ordinary-transfer scenarios written from public police/news warnings: 15 scam, 10 ordinary (catalogue v2; v1 had 15) | git, `scenarios/` |
+| Simulated cases | 300 (15 x 20) | One simulated user each: true scenario, story table, persona, opening message. Catalogue v1 record (15 scenarios), not regenerated | git, `sim/cases/` |
 | `E1` screenshots | 180 | 30 HTML-rendered chats (Zalo, Messenger, SMS look) x 6 variants, exact labels | Drive, `data/E1/` |
 | `E1b` hard screenshots | 100 | Downscaled, double-JPEG, re-photographed, long chats | Drive, `data/E1b/` |
 | `gen` screenshots | 40 | Made by an image model, labels reviewed by eye | Drive, `data/E1b/gen/` |
 | `web` real screenshots | 56 | Real scam chats/SMS published by police and news sites, with source URLs and string labels (all 56 labelled; experiment numbers so far cover the first 20). Evaluation only: never train on them, never republish | Drive, `data/E1b/real/` |
 | Real reported cases | 89 | Scam cases from news/police reports: verbatim quote, summary, a first-person retelling from just before the transfer, scenario label | Drive, `data/narr/real/` |
 | `E4` training screenshots | 4000 + 300 + 300 | Synthetic chat screenshots for the image-to-JSON model (M1), made by `e1/gen_train.py`: 7 app templates, 13 scenarios, random damage. `val_la` is held out (WhatsApp template, 2 unseen scenarios). Each image has labels and the exact JSON the model must output | Drive, `data/E4/` |
-| `E6` stories | 3300 | Simulated user stories with the true scenario, for the small text classifier (M3) | Drive, `data/E6/cases.jsonl` |
+| `E6` stories | 5500 | Simulated user stories with the true scenario, for the small text classifier (M3), old generator: 3300 for the 15 v1 scenarios (E6) + 2200 for the 10 new ones (T4). Frozen record | Drive, `data/E6/cases.jsonl` |
+| `T4b` stories | 5250 (25 x 210) | Same kind, new generator: only values the scenario lists, a purpose line the opening states, values in plain words. 190 train + 20 val per scenario | Drive, `data/E6/cases_v2.jsonl` |
 | App recording notes | 35 frames | Layout notes of a wallet's transfer flow, used to design the sample UI | Not shared by default; ask Minh |
 
 No real user data. All account numbers, phone numbers and names in generated sets are made up.

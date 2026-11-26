@@ -162,3 +162,18 @@ def test_generated_cases_follow_v2_rules():
                          "duoc_dan_cach_tra_loi": "co"}) == ["yeu_cau=doc_otp", "ly_do_tien=tien_vay_chuyen_di",
                                                              "duoc_dan_cach_tra_loi=co", "ap_luc=doa"]
     assert set(ACCOUNT_LABEL["binh_thuong"]) == {"moi", "dang_bi_bao_cao"}
+
+
+def test_story_text_plain_words_for_t4b_cases():
+    """Every value of the story fields (except `khac`) has a plain-Vietnamese entry; a T4b case (with `viec`) shows
+    no raw id to the writer, a v1 case (no `viec`) keeps the raw ids."""
+    from core.schema import FIELDS
+    from sim.cases import PLAIN, STORY_FIELDS, story_text
+    missing = [(n, v) for n in STORY_FIELDS for v in FIELDS[n].values if v != "khac" and v not in PLAIN.get(n, {})]
+    assert not missing, missing
+    t = {n: [] if FIELDS[n].multi else "khac" for n in STORY_FIELDS}
+    t.update(tu_xung="nguoi_ban", kenh="zalo", ap_luc=["hoi_thuc", "hua_loi"], yeu_cau=[], ly_do_tien="khac")
+    new, old = story_text(t, "mua áo"), story_text(t)
+    assert "người bán hàng" in new and "nguoi_ban" not in new and "hoi_thuc" not in new and "cong_an" not in new
+    assert new.splitlines()[0] == "- Việc bạn đang làm: mua áo" and ": khac" in new
+    assert "nguoi_ban" in old and "hoi_thuc, hua_loi" in old

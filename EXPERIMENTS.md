@@ -18,6 +18,7 @@ Most numbers come from data we built ourselves and from simulated users. They ar
 | E10 | Do larger open chat models, more thinking, or Claude Haiku 5.5 close the gap? Should the chat model see the screenshot itself (merged) or the JSON read from it (split)? | Done | `gemma-4-e4b-qat` (open, 16 GB GPU) is the first open model to pass M2: 77.0% vs 81.3%, fewer ordinary transfers flagged. More thinking for `gemini-3.5-flash-lite` adds nothing. Haiku 5.5 chats as well as `gemini-3.5-flash-lite` and reads clean screenshots like `gemini-4-carbon`. With an image, split beats merged by 6.7 points; the app stays split |
 | E11 | Does `gemini-3.8-flash` at high thinking call fewer scams ordinary, and at what cost? | Stopped by the cost projection after 30 of 75 sessions | 0.052 USD and 113 s per session, 14x the cost of low thinking. On the 30 sessions it ran, it is not more accurate (63.3% vs 76.7% at low, 83.3% for `gemini-3.5-flash-lite`) and ends 5 of 30 at "not enough evidence". The 30 hold only 10 scam cases, none called ordinary by any model, so the scam question is unanswered |
 | T4 | Catalogue v2: 25 scenarios, a cleaner case generator, C0 (M3) retrained | Done | C0 on 25 scenarios: 73.1% / 77.7% correct on val (opening / full). The 10 new scenarios cost 2.8-4.2 points on the old 15. On real scams it calls 10 of 84 ordinary (v1 C0: 6 of the 75 old ones), 7 of them through the new ordinary look-alikes. The chat prompt grows by 1,439 tokens per call |
+| T4b | Coherent stories: the generator draws only values the scenario lists, and every story states what the transfer is for. C0 retrained (v3) | Done | 5,250 new stories (`data/E6/cases_v2.jsonl`); 96% of openings name the purpose (old file: 56%). C0 v3 scores 99% on its own val, but every val story shares one of 78 purpose lines with train, so that score measures little. On real scams it is level with C0 v2 (63 vs 61 of 84 correct) and calls 12 of 84 ordinary (v2: 10), mostly a scam taken for its ordinary look-alike |
 | E7 | Label propagation on the account graph (model M4) | Not started | |
 | E8 | A user who was coached by the scammer on what to answer | Not started | |
 | E9 | Time and cost per session | Not started | |
@@ -240,6 +241,25 @@ Why: too few scenarios, too large a scam share, and ordinary test cases that rea
 - **Real scams (84 labelled narratives):** 72.6% correct scenario; 7 of the 9 relabelled ones get their new label first. But C0 v2 calls 10 of 84 ordinary, against 6 of the 75 old ones for C0 v1 (C0 v2: 10 of those 75). 7 of the 10 go to new ordinary scenarios: loan repayment 3, bill to an organisation 2, paying the courier on delivery 1, own account 1.
 - **Hardest new scenario:** the advance-fee loan scam (`vay_online_dong_phi_truoc`), 40% and 35% correct on val, mostly taken for fake bank, money-recovery service or fake authority.
 - **Chat prompt:** the scenario list in the `tu_do` prompt grows from 1,582 to 3,021 tokens (Qwen3-4B tokenizer); the first-turn prompt from 1,876 to 3,315 tokens (+77%), paid on every call.
+
+## Coherent stories (T4b): listed values only, a purpose for every story, C0 v3
+
+Why: the T4 generator drew from the smoothed scenario table, so 35-55% of stories carried values the scenario does not list, and most stories never said what the money was for (23 of 220 advance-fee loan stories mentioned a loan).
+
+- **Generator (`sim/cases.py`):** a listed field only takes listed values. Each case gets one of 3-4 purpose lines per scenario (`sim/viec_dang_lam.yaml`), and the opening must state it, rephrased. The writer sees every value in plain Vietnamese (`sim/gia_tri_bang_loi.yaml`). v1 cases and their text are unchanged.
+- **Two pilots discarded.** In the first, 197 of 250 openings copied the purpose line word for word. In the second, users whose counterpart was a seller (`nguoi_ban`) called them a friend 13 times out of 17, because the raw id reads as "người bạn". After both fixes: 0 of 278 in the full file.
+- **Stories:** 5,250 (190 train and 20 val per scenario). All of them hold listed values only, and 96% of openings name the purpose (keyword check; old file 56%, advance-fee loan 208/210 vs 22/220). Spend 2.27 USD of a 2.75 USD cap, pilots included.
+- **C0 v3** (TF-IDF + logistic regression on the new file):
+
+| Scored on | C0 v2 (old stories) | C0 v3 (new stories) |
+|---|---|---|
+| Old val, opening only | 73.1% | 59.9% |
+| New val, opening only | 84.8% | 99.4% |
+| 300 v1 openings | 77.3% | 77.3% |
+| 84 real scams, correct scenario | 72.6% | 75.0% |
+| 84 real scams, called ordinary | 10 | 12 |
+
+- **What it means:** the new val shares its purpose lines with train, so 99% measures recall of 78 purposes. It does not measure stories told in other words. On real scams the two models are level (+2.4 points, -9.5 to +14.3). C0 v3 errs where a scam and its ordinary look-alike share a purpose: a deposit to a fanpage (homestay, villa, car) taken for a deposit after a viewing (4), an impersonated relative for a transfer to family (3), a fake courier for paying the courier on delivery (2).
 
 ## Known gaps
 
