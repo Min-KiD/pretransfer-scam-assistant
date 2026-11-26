@@ -3,7 +3,8 @@
 # test set v2 (part C). Brief: docs/tasks/E13-chat-lora-qwen3-4b.md; plan of 2026-11-26 (planner): one run at a time,
 # each started on the planner's word.
 #
-#   RUN=runA RANK=16 EPOCHS=1 bash scripts/e13_run.sh --detach      # setsid + nohup
+#   RUN=runA RANK=16 EPOCHS=1 bash scripts/e13_run.sh --detach      # setsid + nohup; Sonnet teacher data (default)
+#   RUN=runB TRAIN=data/T5/opus/train.jsonl VAL=data/T5/opus/val.jsonl bash scripts/e13_run.sh --detach  # Opus teacher
 #   STAGE=C RUN=runA bash scripts/e13_run.sh --detach                # part C only (adapter already trained)
 #
 # Gradient checkpointing stays on: without it the first example ran out of memory (16 GB card, 2026-11-26 test).
@@ -18,9 +19,12 @@ RUN=${RUN:?RUN name, e.g. runA}
 RANK=${RANK:-16}
 EPOCHS=${EPOCHS:-1}
 STAGE=${STAGE:-BC}
+TRAIN=${TRAIN:-data/T5/train.jsonl}
+VAL=${VAL:-data/T5/val.jsonl}
 mkdir -p "$LOGS"
 if [[ "${1:-}" == "--detach" ]]; then
-  setsid nohup env RUN="$RUN" RANK="$RANK" EPOCHS="$EPOCHS" STAGE="$STAGE" bash "$0" > "$LOGS/run_$RUN.log" 2>&1 < /dev/null &
+  setsid nohup env RUN="$RUN" RANK="$RANK" EPOCHS="$EPOCHS" STAGE="$STAGE" TRAIN="$TRAIN" VAL="$VAL" bash "$0" \
+    > "$LOGS/run_$RUN.log" 2>&1 < /dev/null &
   echo "started detached pid=$! log=$LOGS/run_$RUN.log"
   exit 0
 fi
@@ -40,10 +44,14 @@ gpu_busy() { [[ -n "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader 
 
 if [[ $STAGE == *B* ]]; then
   gpu_busy && { say "STOPPED: GPU in use by another process"; nvidia-smi --query-compute-apps=pid,used_memory --format=csv; exit 1; }
-  say "train $RUN: rank $RANK, $EPOCHS epoch(s), gradient checkpointing on"
-  # longest row 3,743 tokens with the model's tokenizer (check, 2026-11-26): 4096 fits every row, no truncation
-  "$VPY" -m e1.chat_lora train --base "$BASE" --rank "$RANK" --epochs "$EPOCHS" --out "$OUT" --max-len 4096 \
-    --gate-steps 0 > "$LOGS/train_$RUN.log" 2>&1
+  "$VPY" -m e1.chat_lora check --base "$BASE" --train "$TRAIN" --val "$VAL" > "$LOGS/check_$RUN.log" 2>&1 \
+    || { say "check FAILED: $(tail -n 3 "$LOGS/check_$RUN.log" | tr '\n' ' ')"; exit 1; }
+  say "check $RUN: $(grep -h '^{' "$LOGS/check_$RUN.log" | tr '\n' ' ')"
+  rows=$(wc -l < "$ROOT/$TRAIN")
+  say "train $RUN: $TRAIN ($rows rows, $(( (rows + 15) / 16 * EPOCHS )) steps), val $VAL, rank $RANK, $EPOCHS epoch(s), gradient checkpointing on"
+  # 4096: longest row 3,743 tokens on the Sonnet data (2026-11-26); a longer row stops the run (no truncation)
+  "$VPY" -m e1.chat_lora train --base "$BASE" --train "$TRAIN" --val "$VAL" --rank "$RANK" --epochs "$EPOCHS" \
+    --out "$OUT" --max-len 4096 --gate-steps 0 > "$LOGS/train_$RUN.log" 2>&1
   rc=$?
   if (( rc != 0 )); then
     say "train $RUN FAILED rc=$rc: $(grep -h -i -E 'out of memory|error|STOPPED' "$LOGS/train_$RUN.log" | tail -n 3 | tr '\n' ' ')"

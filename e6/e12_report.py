@@ -32,9 +32,11 @@ HEAD = ("| Model | Set | Sessions | Scam called ordinary | Ordinary flagged as s
 
 
 def main_row(name, sub, S, n):
+    """Rows without turn records (the teacher's sessions) show "-" in the turn columns."""
+    tc = (f"{S['retries']} of {S['turns']} | {fmt(S['bad_format'])} | {S['sec_mean']:.2f} | {S['sec_p90']:.2f}"
+          if S["turns"] else "- | - | - | -")
     return (f"| {name} | {sub} | {n} | {fmt(S['miss'])} | {fmt(S['fp'])} | {fmt(S['kb0'])} | {fmt(S['kb1'])} | "
-            f"{fmt(S['kb2'])} | {fmt(S['kb3'])} | {fmt(S['chua_du'])} | {S['q']:.2f} | "
-            f"{S['retries']} of {S['turns']} | {fmt(S['bad_format'])} | {S['sec_mean']:.2f} | {S['sec_p90']:.2f} |")
+            f"{fmt(S['kb2'])} | {fmt(S['kb3'])} | {fmt(S['chua_du'])} | {S['q']:.2f} | {tc} |")
 
 
 def is_ordinary(ans, nhom):

@@ -1,6 +1,6 @@
-"""E13 part B: LoRA fine-tune of the text-only chat model Qwen3-4B-Instruct-2507 on the T5 teacher turns
-(data/T5/train.jsonl, val.jsonl; never sim/cases or sim/cases_v2). Runs on the server in .venv-e4 (torch,
-transformers, peft); `check` needs only the tokenizer (CPU).
+"""E13 part B: LoRA fine-tune of the text-only chat model Qwen3-4B-Instruct-2507 on teacher turns (--train, --val;
+default data/T5/train.jsonl and val.jsonl, the Sonnet teacher; data/T5/opus/ holds the Opus teacher's; never sim/cases
+or sim/cases_v2). Runs on the server in .venv-e4 (torch, transformers, peft); `check` needs only the tokenizer (CPU).
 
   python -m e1.chat_lora check [--base Qwen/Qwen3-4B-Instruct-2507]
   python -m e1.chat_lora train --rank 16 --epochs 1 --out .cache/e13/lora/runA [--no-grad-ckpt] [--gate-steps 0]
@@ -41,14 +41,14 @@ from pathlib import Path
 from e1.open_models import snapshot
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "data/T5"
+DEFAULT_TRAIN, DEFAULT_VAL = "data/T5/train.jsonl", "data/T5/val.jsonl"
 TARGET_MODULES = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
 TMPL_KWARGS = {"enable_thinking": False}  # what core.llm sends to the local server
 IGNORE = -100
 
 
-def rows(split: str) -> list[dict]:
-    return [json.loads(l) for l in open(DATA / f"{split}.jsonl", encoding="utf-8")]
+def rows(path: str) -> list[dict]:
+    return [json.loads(l) for l in open(ROOT / path, encoding="utf-8")]
 
 
 def resolve(base: str) -> Path:
@@ -78,10 +78,10 @@ class Builder:
         return {"input_ids": ids[None], "labels": labels[None], "prompt_len": len(p)}
 
 
-def data_hash() -> str:
+def data_hash(*paths: str) -> str:
     h = hashlib.sha256()
-    for split in ("train", "val"):
-        h.update((DATA / f"{split}.jsonl").read_bytes())
+    for p in paths:
+        h.update((ROOT / p).read_bytes())
     return h.hexdigest()
 
 
@@ -100,7 +100,8 @@ def cmd_check(a):
     base = resolve(a.base)
     tok = AutoTokenizer.from_pretrained(base, local_files_only=True)
     b = Builder(tok)
-    tr, va = rows("train"), rows("val")
+    tr, va = rows(a.train), rows(a.val)
+    print("data:", a.train, a.val)
     print("template tail:", repr(b.prompt(tr[0])[-80:]))
     for name, rs in (("train", tr), ("val", va)):
         ls = lengths(tok, rs)
@@ -123,7 +124,7 @@ def cmd_train(a):
     base = resolve(a.base)
     tok = AutoTokenizer.from_pretrained(base, local_files_only=True)
     build = Builder(tok)
-    train_rows, val_rows = rows("train"), rows("val")
+    train_rows, val_rows = rows(a.train), rows(a.val)
     ls = lengths(tok, train_rows + val_rows)
     longest = max(p + x for p, x in ls)
     if longest > a.max_len:
@@ -178,7 +179,8 @@ def cmd_train(a):
     import transformers
     log = open(out / "log.jsonl", "w", encoding="utf-8")
     meta = {"base": a.base, "base_path": str(base), "revision": base.name, "run": out.name,
-            "train_rows": len(train_rows), "val_rows": len(val_rows), "data_hash": data_hash(),
+            "train": a.train, "val": a.val, "train_rows": len(train_rows), "val_rows": len(val_rows),
+            "data_hash": data_hash(a.train, a.val),
             "longest_row_tokens": longest, "max_len": a.max_len, "rank": a.rank, "alpha": a.rank, "dropout": 0.0,
             "lr": a.lr, "weight_decay": a.weight_decay, "warmup": a.warmup, "schedule": "linear warmup + linear decay",
             "epochs": a.epochs, "batch": 1, "grad_accum": a.grad_accum, "steps": total,
@@ -271,6 +273,8 @@ def main():
     for name in ("check", "train"):
         p = sub.add_parser(name)
         p.add_argument("--base", default="Qwen/Qwen3-4B-Instruct-2507", help="HF repo id (offline snapshot) or a dir")
+        p.add_argument("--train", default=DEFAULT_TRAIN, help="path relative to the repo root")
+        p.add_argument("--val", default=DEFAULT_VAL, help="path relative to the repo root")
     t = sub.choices["train"]
     t.add_argument("--out", required=True)
     t.add_argument("--rank", type=int, required=True)
