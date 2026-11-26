@@ -80,17 +80,20 @@ def with_account(row):
 
 
 def ask_teacher(prompt, schema, ids, retries=3):
-    """One `completion()` call; returns (parsed_json, seconds, attempts). Retries on an error or an invalid answer."""
+    """One `completion()` call; returns (parsed_json, seconds, attempts, model). Retries on an error or an invalid
+    answer. `model` is the id the call resolved to (`handle.attempts`), e.g. "anthropic/claude-opus-5-5"."""
     last = ""
     for attempt in range(1, retries + 1):
         t0 = time.perf_counter()
         try:
-            o = completion(prompt, schema=schema).wait()  # kernel helper, subscription model
+            hd = completion(prompt, schema=schema)  # kernel helper, subscription model (the session's default tier)
+            o = hd.wait()
+            model = (getattr(hd, "attempts", None) or [{}])[-1].get("model")
             dt = time.perf_counter() - t0
             if isinstance(o, str):
                 o = json.loads(o)
             if o.get("du_doan") in ids and isinstance(o.get("cau_hoi"), str):
-                return {"du_doan": o["du_doan"], "cau_hoi": o["cau_hoi"].strip()}, round(dt, 2), attempt
+                return {"du_doan": o["du_doan"], "cau_hoi": o["cau_hoi"].strip()}, round(dt, 2), attempt, model
             last = f"invalid answer: {str(o)[:200]}"
         except Exception as e:
             last = f"{type(e).__name__}: {str(e)[:200]}"
@@ -127,9 +130,9 @@ def run_session(h, case, user_family="gemini", split=None):
     turns, asked = [], 0
     while True:
         p = h.call("prompt", case=case, history=history, asked=asked)
-        out, secs, attempts = ask_teacher(p["prompt"], p["schema"], ids)
+        out, secs, attempts, model = ask_teacher(p["prompt"], p["schema"], ids)
         turn = {"turn": asked, "prompt": p["prompt"], "account_line": p["account_line"], "response": out,
-                "seconds": secs, "attempts": attempts}
+                "seconds": secs, "attempts": attempts, "model": model}
         turns.append(turn)
         if asked >= k or not out["cau_hoi"]:
             break
