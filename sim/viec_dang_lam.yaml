@@ -1,0 +1,108 @@
+# What the user believes the transfer is for, in the user's own words, per scenario. Simulation input only:
+# the case generator draws one line per case and gives it to the story writer and the simulated user.
+# Never shown to the assistant and not part of the catalogue line (`id: ten - mo_ta`).
+# Written by the planner tab 2026-11-26 from each scenario's `mo_ta` and `cac_buoc`. A scam and its ordinary
+# look-alike share some wording on purpose: the signals must separate them, not the purpose line.
+bao_nguoi_than_cap_cuu:
+  - chuyển viện phí gấp vì vừa được báo con đang cấp cứu ở bệnh viện
+  - chuyển tiền mổ cho người nhà vừa bị tai nạn, bác sĩ gọi báo
+  - đóng tiền tạm ứng viện phí cho con, cô giáo gọi báo con bị ngã ở trường
+bt_chuyen_cho_nguoi_than:
+  - gửi tiền sinh hoạt tháng này cho bố mẹ ở quê
+  - trả lại tiền hôm trước mượn của đứa bạn
+  - chuyển tiền cho em gái đóng tiền nhà
+bt_dat_coc_da_xem:
+  - đặt cọc phòng trọ vừa đi xem
+  - cọc tiền cho thợ đến sửa nhà, đã gặp và thống nhất giá
+  - đặt cọc mua lại chiếc xe máy cũ vừa xem tận nơi
+bt_dat_dich_vu_co_xac_nhan:
+  - chuyển cọc tour du lịch cho công ty lữ hành, đã có hợp đồng
+  - thanh toán vé máy bay cho đại lý, đã tra mã đặt chỗ trên web của hãng
+  - đóng tiền khóa học tiếng Anh cho trung tâm theo hợp đồng
+  - trả tiền phòng khách sạn đã đặt, có mã đặt phòng
+bt_hoa_don_to_chuc:
+  - đóng học phí học kỳ này cho con theo thông báo của trường
+  - đóng viện phí tại bệnh viện theo phiếu thu
+  - trả tiền điện tháng này theo hóa đơn
+  - đóng phí quản lý chung cư theo thông báo của ban quản lý
+bt_mua_online_nguoi_ban_moi:
+  - chuyển khoản trước để mua cái áo ở một shop trên Facebook
+  - trả tiền đặt mua đồ gia dụng của một shop mới thấy trên mạng
+  - chuyển tiền mua mỹ phẩm ở một shop Zalo lần đầu mua
+bt_mung_cuoi_gop_quy:
+  - gửi tiền mừng cưới bạn vì không về dự được
+  - góp quỹ lớp cho buổi họp lớp
+  - gửi tiền phúng viếng nhà đồng nghiệp
+  - góp quỹ liên hoan của phòng
+bt_tai_khoan_cua_minh:
+  - chuyển tiền từ ví sang tài khoản ngân hàng của chính mình
+  - chuyển tiền sang tài khoản tiết kiệm của mình
+  - nạp tiền vào tài khoản chứng khoán đứng tên mình
+bt_tra_no_khoan_vay:
+  - trả góp kỳ này cho công ty tài chính theo hợp đồng mua xe
+  - trả nợ thẻ tín dụng đến hạn
+  - đóng tiền gốc lãi tháng này cho khoản vay ngân hàng
+bt_tra_shipper_khi_nhan_hang:
+  - trả tiền hàng cho shipper vừa giao tới
+  - chuyển khoản tiền thu hộ đơn hàng cho anh giao hàng
+  - trả phí ship cho shipper
+bt_tra_tien_nguoi_ban_quen:
+  - trả tiền hàng ở tiệm tạp hóa quen
+  - chuyển khoản tiền ăn ở quán hay ăn
+  - trả tiền cho chị bán hàng đã mua nhiều lần
+chuyen_nham_tien:
+  - chuyển trả lại tiền cho một người nói là chuyển nhầm vào tài khoản mình
+  - hoàn lại khoản tiền lạ vừa nhận được, người ta nhắn xin lại
+  - trả lại tiền chuyển nhầm theo số tài khoản người ta gửi
+ctv_online:
+  - nạp tiền làm nhiệm vụ cộng tác viên online để nhận hoa hồng
+  - chuyển tiền đặt đơn nhiệm vụ trong nhóm việc làm thêm
+  - nạp thêm tiền để rút được tiền hoa hồng nhiệm vụ
+dat_coc_gia_re:
+  - đặt cọc combo du lịch giá rẻ thấy trên một trang Facebook
+  - chuyển tiền giữ chỗ vé máy bay khuyến mãi sắp hết suất
+  - cọc tiền mua điện thoại giá rẻ trên một trang bán hàng
+dau_tu_san_gia:
+  - nạp tiền vào sàn đầu tư theo hướng dẫn của chuyên gia trong nhóm
+  - chuyển tiền đầu tư tiền ảo cùng một người quen qua mạng
+  - đóng phí để rút tiền lãi đầu tư về
+dich_vu_lay_lai_tien:
+  - đóng phí cho luật sư trên mạng để lấy lại số tiền đã bị mất
+  - chuyển tiền cọc cho dịch vụ thu hồi tiền
+  - nộp phí hồ sơ cho bên cam kết lấy lại tiền giúp
+gia_co_quan_nha_nuoc:
+  - nộp lệ phí cập nhật định danh điện tử theo hướng dẫn của cán bộ
+  - đóng tiền điện còn nợ vì được báo sắp bị cắt điện
+  - nộp lệ phí để được hoàn thuế, cán bộ thuế gọi hướng dẫn
+gia_cong_an:
+  - chuyển tiền vào tài khoản của cơ quan điều tra để xác minh
+  - chuyển tiền theo yêu cầu của cán bộ công an để chứng minh mình không liên quan vụ án
+  - chuyển tiền sang tài khoản tạm giữ theo hướng dẫn của cán bộ
+gia_don_hang_lon_mua_ho:
+  - chuyển tiền cọc lấy hàng hộ một khách đặt đơn lớn cho đơn vị của họ
+  - cọc tiền cho nhà cung cấp mà khách giới thiệu để kịp giao đơn hàng lớn
+  - chuyển tiền mua giúp khách một lô hàng, khách hẹn thanh toán sau
+gia_ngan_hang:
+  - chuyển tiền để xác minh tài khoản theo hướng dẫn của nhân viên ngân hàng
+  - chuyển một khoản để được nâng hạn mức thẻ
+  - chuyển tiền để tài khoản không bị khóa, nhân viên ngân hàng gọi báo
+gia_shipper:
+  - trả tiền hàng cho shipper, mình không có nhà nên chuyển khoản trước
+  - chuyển lại tiền cho shipper vì lần trước báo giao dịch lỗi
+  - chuyển tiền để hủy đăng ký nhầm theo hướng dẫn của tổng đài giao hàng
+mao_danh_nguoi_quen:
+  - cho bạn mượn tiền gấp, bạn vừa nhắn tin hỏi
+  - chuyển khoản hộ sếp một khoản, sếp nhắn nhờ
+  - gửi tiền cho người nhà đang cần gấp, nhắn qua Facebook
+mo_vi_tra_sau_nhan_hoa_hong:
+  - chuyển số tiền vừa được ứng từ ví trả sau cho bên hướng dẫn để nhận hoa hồng
+  - chuyển khoản vay nhanh vừa giải ngân vào dịch vụ trả góp có hoa hồng
+  - chuyển tiền vừa vay trên ví cho người rủ làm thêm, họ hứa sẽ hủy khoản vay
+tinh_cam_qua_mang_gui_qua:
+  - đóng phí hải quan để nhận thùng quà bạn trai ở nước ngoài gửi về
+  - nộp phí thông quan cho kiện hàng người yêu quen qua mạng gửi tặng
+  - chuyển tiền đóng thuế cho người bạn nước ngoài đang bị giữ ở sân bay
+vay_online_dong_phi_truoc:
+  - nộp phí hồ sơ để được giải ngân khoản vay online
+  - đóng phí bảo hiểm khoản vay trước khi nhận tiền vay
+  - chuyển tiền để chỉnh sửa thông tin hồ sơ thì mới được giải ngân khoản vay
