@@ -1,0 +1,42 @@
+{
+ "id": "dau_tu_san_gia__13",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "trả tiền thuê tài khoản giao dịch ngoại hối trong một tuần",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "dau_tu",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình chuyển tiền để dùng tài khoản trade forex thuê trong bảy ngày. Anh ấy bảo chuyển sớm để kịp đợt có lời, mình thấy anh ấy nhiệt tình nên cũng tin.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 547,
+  "tokens_out": 45,
+  "usd": 0.001544
+ },
+ "vong": 0
+}

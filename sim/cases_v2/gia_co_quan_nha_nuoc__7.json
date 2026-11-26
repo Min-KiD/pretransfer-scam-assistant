@@ -1,0 +1,41 @@
+{
+ "id": "gia_co_quan_nha_nuoc__7",
+ "kich_ban": "gia_co_quan_nha_nuoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Tôi đặt cọc lịch lắp công tơ riêng cho phòng trọ tầng hai",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "cai_app",
+   "doc_otp"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, nãy có người gọi giục mình chuyển nhanh, đúng lúc mình đang hâm cơm. Mình chuyển tiền cọc để giữ lịch gắn công tơ riêng cho phòng trọ trên tầng hai ấy.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 564,
+  "tokens_out": 49,
+  "usd": 0.001618
+ },
+ "vong": 0
+}

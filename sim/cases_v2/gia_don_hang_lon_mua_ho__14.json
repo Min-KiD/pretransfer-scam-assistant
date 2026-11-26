@@ -1,0 +1,41 @@
+{
+ "id": "gia_don_hang_lon_mua_ho__14",
+ "kich_ban": "gia_don_hang_lon_mua_ho",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Tôi trả tiền cho thợ sửa khóa tủ đồ trước khi giao về doanh trại.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "khach_dat_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang định chuyển tiền cho thợ sửa khóa tủ đồ để sửa xong rồi mới giao tủ về doanh trại. Khoản này là tiền cọc mà mình chưa gặp thợ bao giờ, nên cũng hơi nghi — có khi nào là lừa đảo không bạn?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 607,
+  "tokens_out": 62,
+  "usd": 0.001834
+ },
+ "vong": 0
+}

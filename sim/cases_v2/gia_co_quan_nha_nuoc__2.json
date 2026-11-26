@@ -1,0 +1,40 @@
+{
+ "id": "gia_co_quan_nha_nuoc__2",
+ "kich_ban": "gia_co_quan_nha_nuoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Mình đóng phí xin bản sao biên lai thuế đất của căn nhà cũ",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "cai_app",
+   "bam_link",
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang chuyển tiền để xin cấp lại bản sao biên lai thuế đất của căn nhà cũ. Có người lạ nhắn Zalo tự xưng là cán bộ thuế, mình thấy hơi cấn, liệu có phải lừa đảo không bạn?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 559,
+  "tokens_out": 58,
+  "usd": 0.001698
+ },
+ "vong": 0
+}

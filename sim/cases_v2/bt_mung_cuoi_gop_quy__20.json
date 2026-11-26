@@ -1,0 +1,48 @@
+{
+ "id": "bt_mung_cuoi_gop_quy__20",
+ "kich_ban": "bt_mung_cuoi_gop_quy",
+ "nhom": "binh_thuong",
+ "tinh_cach": "voi",
+ "viec": "gửi chị nhóm trưởng tiền in số áo cho buổi chạy tiếp sức chủ nhật",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "mung_gop_quy",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình gửi chị trưởng nhóm tiền in số lên áo chạy tiếp sức Chủ nhật. Chị ấy nói lúc gặp nhau, giờ mình đang vội, chuyển cho xong thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 553,
+  "tokens_out": 40,
+  "usd": 0.001506
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Chị trưởng nhóm đã trao đổi trực tiếp về tiền in áo, không có dấu hiệu tài khoản bị mạo danh.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0007595200000000001
+ }
+}

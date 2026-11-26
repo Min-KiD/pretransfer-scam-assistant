@@ -1,0 +1,48 @@
+{
+ "id": "bt_tai_khoan_cua_minh__2",
+ "kich_ban": "bt_tai_khoan_cua_minh",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Gom khoản hoàn thuế vào tài khoản mình dành để sửa mái nhà",
+ "bang_that": {
+  "nguoi_lien_lac": "khac",
+  "kenh": "khac",
+  "tu_xung": "chinh_minh",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "chuyen_noi_bo",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang chuyển tiền thuế được hoàn sang tài khoản mình để riêng lo sửa mái nhà, tài khoản nhận cũng đứng tên mình. Không ai bảo mình chuyển cả, mà bạn hỏi vậy là thấy có dấu hiệu lừa đảo gì à?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 529,
+  "tokens_out": 53,
+  "usd": 0.001588
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người dùng tự chuyển tiền hoàn thuế giữa hai tài khoản của mình, không có ai xưng cán bộ yêu cầu nộp phí hay cài ứng dụng.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0012986
+ }
+}

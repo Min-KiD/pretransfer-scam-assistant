@@ -1,0 +1,51 @@
+[
+ {
+  "id": "bt_chuyen_cho_nguoi_than__2",
+  "kich_ban": "bt_chuyen_cho_nguoi_than",
+  "nhom": "binh_thuong",
+  "tinh_cach": "nghi_ngo",
+  "viec": "gửi chị Hai phần tiền bó hoa mừng thọ bà",
+  "bang_that": {
+   "nguoi_lien_lac": "nguoi_quen",
+   "kenh": "zalo",
+   "tu_xung": "nguoi_than",
+   "ai_bat_dau": "ho_truoc",
+   "ap_luc": [
+    "khong_co",
+    "hoi_thuc"
+   ],
+   "yeu_cau": [
+    "chuyen_tien"
+   ],
+   "ly_do_tien": "khac",
+   "loai_tai_khoan": "ca_nhan",
+   "ten_khop_tu_xung": "co",
+   "da_gap_truc_tiep": "co",
+   "duoc_dan_cach_tra_loi": "khong",
+   "da_chuyen_truoc_do": "co",
+   "mau_thuan_loi_ke_va_anh": "khong",
+   "nhan_tai_khoan": "moi"
+  },
+  "tai_khoan": {
+   "nhan_tai_khoan": "moi",
+   "loai_tai_khoan": "ca_nhan",
+   "ten_khop_tu_xung": "co"
+  },
+  "tin_mo_dau": "Mình đang tính chuyển cho chị Hai phần mình góp mua hoa mừng thọ bà. Chị nhắn Zalo giục chuyển thêm dù mình đã gửi một lần rồi, nên mình hơi nghi, không biết có phải lừa đảo không?",
+  "sinh_boi": {
+   "model": "openai:gpt-6.2-sol",
+   "tokens_in": 531,
+   "tokens_out": 54,
+   "usd": 0.001602
+  },
+  "vong": 0,
+  "doc_lai": {
+   "mau_thuan": true,
+   "kich_ban": "mao_danh_nguoi_quen",
+   "ly_do": "Tin nhắn Zalo mang danh chị Hai giục chuyển thêm dù đã gửi một lần, khớp với dấu hiệu người quen bị mạo danh để nhờ chuyển tiền gấp.",
+   "model": "openai:gpt-6.2-sol",
+   "batch": 10,
+   "usd_share": 0.0012986
+  }
+ }
+]

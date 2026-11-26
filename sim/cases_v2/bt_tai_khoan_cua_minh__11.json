@@ -1,0 +1,48 @@
+{
+ "id": "bt_tai_khoan_cua_minh__11",
+ "kich_ban": "bt_tai_khoan_cua_minh",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Gom tiền làm thêm vào tài khoản riêng để mua máy ảnh cũ",
+ "bang_that": {
+  "nguoi_lien_lac": "khac",
+  "kenh": "khac",
+  "tu_xung": "chinh_minh",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "chuyen_noi_bo",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, mình mới ngó được con máy ảnh cũ màu bạc, mà mình lại thích màu đen hơn. Nói chung là mình đang dồn mấy khoản tiền làm thêm vào một tài khoản khác cũng đứng tên mình, để dành mua máy.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 536,
+  "tokens_out": 56,
+  "usd": 0.001632
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người gửi chuyển tiền tiết kiệm sang một tài khoản khác cũng đứng tên mình.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001219
+ }
+}

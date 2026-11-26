@@ -1,0 +1,42 @@
+{
+ "id": "dau_tu_san_gia__2",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "gửi chị tư vấn năm triệu để mua chứng chỉ quỹ tháng này",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "giu_bi_mat"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "dau_tu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình định chuyển 5 triệu cho chị tư vấn để mua chứng chỉ quỹ kỳ tháng này. Chị ấy chủ động nhắn mình qua Zalo, mình cũng đã chuyển một lần rồi mà giờ chị ấy lại bảo chuyển thêm, nghe hơi lấn cấn, có khi nào là lừa đảo không?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 532,
+  "tokens_out": 68,
+  "usd": 0.001744
+ },
+ "vong": 0
+}

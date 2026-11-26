@@ -1,0 +1,40 @@
+{
+ "id": "vay_online_dong_phi_truoc__8",
+ "kich_ban": "vay_online_dong_phi_truoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "viec": "Đặt cọc cho anh môi giới để giữ mức lãi ưu đãi đến thứ Hai",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "messenger",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình chuyển cọc cho anh môi giới để giữ lãi suất ưu đãi tới thứ Hai. Đã chuyển một lần rồi, giờ họ bảo chuyển thêm, mình đang vội nên muốn làm cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 591,
+  "tokens_out": 48,
+  "usd": 0.001662
+ },
+ "vong": 0
+}

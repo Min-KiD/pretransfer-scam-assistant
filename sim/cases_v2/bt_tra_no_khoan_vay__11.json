@@ -1,0 +1,48 @@
+{
+ "id": "bt_tra_no_khoan_vay__11",
+ "kich_ban": "bt_tra_no_khoan_vay",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình đóng kỳ đầu cho khoản vay học phí cao đẳng.",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_no",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, mình đang chuyển tiền trả kỳ thứ nhất của khoản vay đóng học phí hồi học cao đẳng ấy. Bên tài chính vừa giục mình chuyển sớm, mà nãy giờ mình còn loay hoay tìm cái sạc điện thoại.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 575,
+  "tokens_out": 55,
+  "usd": 0.0017
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Đây là khoản trả góp cho khoản vay đã có, không phải phí nộp trước để được giải ngân.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001219
+ }
+}

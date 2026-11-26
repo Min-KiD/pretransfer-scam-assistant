@@ -1,0 +1,49 @@
+{
+ "id": "bt_dat_dich_vu_co_xac_nhan__24",
+ "kich_ban": "bt_dat_dich_vu_co_xac_nhan",
+ "nhom": "binh_thuong",
+ "tinh_cach": "voi",
+ "viec": "Mình trả tiền lớp sơ cứu cuối tuần theo xác nhận của trung tâm ở Hà Nội",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "to_chuc_dich_vu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đóng học phí lớp sơ cứu cuối tuần theo xác nhận của trung tâm ngoài Hà Nội. Mình tự tìm chỗ này, giờ đang vội nên chuyển cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 586,
+  "tokens_out": 41,
+  "usd": 0.001582
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người dùng đóng học phí theo xác nhận của trung tâm do mình tự tìm, không có chi tiết khớp kịch bản nào.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0008560800000000001
+ }
+}

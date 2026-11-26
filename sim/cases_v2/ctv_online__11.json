@@ -1,0 +1,41 @@
+{
+ "id": "ctv_online__11",
+ "kich_ban": "ctv_online",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Em chuyển 290 nghìn cho shop Nha Trang để lấy mẫu son quay clip",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "telegram",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "nhiem_vu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, nãy em để quên ly cà phê ngoài bàn, suýt nữa quên luôn là em đang gửi 290k cho một shop ở Nha Trang để lấy thỏi son mẫu về quay clip. Bên đó nhắn trên Telegram, em cũng chuyển cho họ một lần rồi ấy.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 543,
+  "tokens_out": 66,
+  "usd": 0.001746
+ },
+ "vong": 0
+}

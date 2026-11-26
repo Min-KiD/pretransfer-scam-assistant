@@ -1,0 +1,46 @@
+{
+ "id": "bt_tra_tien_nguoi_ban_quen__14",
+ "kich_ban": "bt_tra_tien_nguoi_ban_quen",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Trả chị Vân tiền rửa bộ ảnh vừa nhận ở hiệu.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang chuyển tiền cho chị Vân để thanh toán bộ ảnh mới lấy ở tiệm. Mình quen chị ấy, lúc lấy ảnh cũng gặp chị ấy trực tiếp, mà số tài khoản này mình chưa chuyển bao giờ nên hơi lăn tăn, liệu có phải lừa đảo không?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 501,
+  "tokens_out": 64,
+  "usd": 0.001642
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Lần đầu chuyển vào số tài khoản này không phải là dấu hiệu mạo danh khi người dùng đã gặp chị Vân trực tiếp lúc nhận ảnh.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0013026
+ }
+}

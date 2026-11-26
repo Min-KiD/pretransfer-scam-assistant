@@ -1,0 +1,46 @@
+{
+ "id": "bt_tra_shipper_khi_nhan_hang__14",
+ "kich_ban": "bt_tra_shipper_khi_nhan_hang",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Chị gửi 30 nghìn phí mang thùng tã lên tầng năm, tiền tã đã trả",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "truc_tiep",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Tiền tã chị trả rồi, giờ chị chuyển 30 nghìn công anh giao hàng bê thùng tã lên tầng 5. Chị có gặp anh ấy tận mặt rồi nhưng không quen, liệu có phải lừa đảo không em?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 515,
+  "tokens_out": 54,
+  "usd": 0.00157
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Khoản tiền là công bê hàng đã thực hiện, không có chuyện giả shipper đòi tiền hàng rồi báo chuyển nhầm để đòi thêm.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0013026
+ }
+}

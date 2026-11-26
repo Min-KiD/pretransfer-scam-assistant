@@ -1,0 +1,39 @@
+{
+ "id": "ctv_online__5",
+ "kich_ban": "ctv_online",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Em ứng 680 nghìn cho gian hàng Cần Thơ để chạy thử mã giảm giá nồi cơm",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "telegram",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "nhiem_vu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em gửi trước 680 nghìn cho shop ở Cần Thơ để thử áp mã giảm giá cho nồi cơm. Bên tuyển cộng tác viên bảo làm xong có hoa hồng, em thấy họ nói chuyện đàng hoàng nên cũng tin.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 555,
+  "tokens_out": 57,
+  "usd": 0.00168
+ },
+ "vong": 0
+}

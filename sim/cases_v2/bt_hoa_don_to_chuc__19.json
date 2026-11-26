@@ -1,0 +1,48 @@
+{
+ "id": "bt_hoa_don_to_chuc__19",
+ "kich_ban": "bt_hoa_don_to_chuc",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "đóng tiền gửi xe máy tháng sau theo bảng thu ở hầm chung cư",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "to_chuc_dich_vu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "hoa_don",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, nãy mình xuống hầm còn quên mang áo mưa, tiện nhìn bảng thu luôn — mình đang chuyển phí gửi xe máy ở chung cư cho tháng tới ấy. Mình nhắn Zalo hỏi trước thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 605,
+  "tokens_out": 50,
+  "usd": 0.00171
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Khoản chuyển là phí gửi xe tháng tới theo bảng thu của chung cư, không có dấu hiệu mạo danh.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0008384800000000001
+ }
+}

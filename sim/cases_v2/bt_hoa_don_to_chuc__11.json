@@ -1,0 +1,49 @@
+{
+ "id": "bt_hoa_don_to_chuc__11",
+ "kich_ban": "bt_hoa_don_to_chuc",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "thanh toán tiền kính thuốc đã đặt tại quầy của bệnh viện mắt",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "to_chuc_dich_vu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "hoa_don",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, mình nhắn Zalo trước ấy, mà nãy còn loay hoay tìm cái ví, hóa ra để ngay trên bàn. Mình đang chuyển tiền trả cho cặp kính cận hôm trước đặt ở quầy bệnh viện mắt.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 613,
+  "tokens_out": 54,
+  "usd": 0.001766
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Đây là tiền trả cho cặp kính đã đặt tại quầy bệnh viện mắt; việc nhắn Zalo trước không cho thấy dấu hiệu lừa đảo.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001219
+ }
+}

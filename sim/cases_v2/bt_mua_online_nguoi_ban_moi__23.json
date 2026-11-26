@@ -1,0 +1,48 @@
+{
+ "id": "bt_mua_online_nguoi_ban_moi__23",
+ "kich_ban": "bt_mua_online_nguoi_ban_moi",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình chuyển cọc để chị nhận đan móc làm con thỏ tặng cháu.",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, cháu mình mê thỏ lắm, gối nó nằm cũng hình thỏ cơ, nên mình đang gửi trước ít tiền để chị ấy móc cho mình một con đem tặng cháu. Chị này là mình tự tìm rồi nhắn qua Messenger ấy.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 583,
+  "tokens_out": 60,
+  "usd": 0.001766
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Đây là khoản trả trước để đặt làm thú móc, không có chi tiết về trang giả hay giá rẻ bất thường.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0008560800000000001
+ }
+}

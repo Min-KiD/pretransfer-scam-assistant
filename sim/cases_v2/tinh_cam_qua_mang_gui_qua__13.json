@@ -1,0 +1,40 @@
+{
+ "id": "tinh_cam_qua_mang_gui_qua__13",
+ "kich_ban": "tinh_cam_qua_mang_gui_qua",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Mình đóng tiền quá cước để anh ấy lấy vali ở sân bay Phú Quốc",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_quen_qua_mang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình chuyển tiền trả phí hành lý quá ký để anh ấy lấy được vali ở sân bay Phú Quốc. Mình mới quen anh ấy qua Zalo, chưa gặp ngoài đời, nhưng mình tin anh ấy nói thật, chắc đang kẹt nên mới nhờ mình thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 600,
+  "tokens_out": 61,
+  "usd": 0.00181
+ },
+ "vong": 0
+}

@@ -1,0 +1,48 @@
+{
+ "id": "bt_tra_tien_nguoi_ban_quen__20",
+ "kich_ban": "bt_tra_tien_nguoi_ban_quen",
+ "nhom": "binh_thuong",
+ "tinh_cach": "voi",
+ "viec": "Gửi chị bán đậu phụ 30 nghìn cho sáu miếng vừa rán.",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Em chuyển 30 nghìn trả chị bán đậu, sáu miếng mới rán em vừa mua tại quầy. Em đang vội, chuyển cho xong thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 535,
+  "tokens_out": 40,
+  "usd": 0.00147
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Đây là tiền trả cho món hàng vừa mua trực tiếp tại quầy.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0007595200000000001
+ }
+}

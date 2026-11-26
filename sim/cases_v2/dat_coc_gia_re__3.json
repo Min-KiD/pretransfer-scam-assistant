@@ -1,0 +1,41 @@
+{
+ "id": "dat_coc_gia_re__3",
+ "kich_ban": "dat_coc_gia_re",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Em chuyển 450 nghìn giữ vé Đà Nẵng chuyến sáng thứ Bảy theo mã họ gửi",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Ờ, sáng thứ Bảy ấy anh, em đang cọc 450 nghìn theo cái mã bên bán gửi để giữ vé đi Đà Nẵng. Mà em tự tìm rồi nhắn họ qua Zalo trước, nãy còn vừa nhắn vừa hâm tô canh.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 565,
+  "tokens_out": 63,
+  "usd": 0.00176
+ },
+ "vong": 0
+}

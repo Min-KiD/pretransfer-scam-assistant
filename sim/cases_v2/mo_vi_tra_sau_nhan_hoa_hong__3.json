@@ -1,0 +1,40 @@
+{
+ "id": "mo_vi_tra_sau_nhan_hoa_hong__3",
+ "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình chuyển sáu trăm nghìn cho chị kế toán để lấy thưởng đơn nồi chiên trả góp",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tien_vay_chuyen_di",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, cái nồi chiên ấy, bếp nhà mình cũng chật chứ có rộng gì đâu, mà mình đang gửi chị kế toán 600 nghìn để nhận tiền thưởng của đơn mua trả góp. Bữa trước mình gửi một lần rồi, giờ chị ấy nhắn Messenger bảo gửi thêm.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 625,
+  "tokens_out": 66,
+  "usd": 0.00191
+ },
+ "vong": 0
+}

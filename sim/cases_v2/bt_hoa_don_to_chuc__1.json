@@ -1,0 +1,48 @@
+{
+ "id": "bt_hoa_don_to_chuc__1",
+ "kich_ban": "bt_hoa_don_to_chuc",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "nộp tiền phòng ký túc xá theo thông báo đầu năm của trường",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "vien_phi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình chuyển tiền phòng ký túc xá, khoản trường báo phải đóng hồi đầu năm ấy. Mình tự ra quầy hỏi, gặp anh phụ trách thấy anh ấy nói chuyện đàng hoàng nên mình tin thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 591,
+  "tokens_out": 50,
+  "usd": 0.001682
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người gửi hỏi trực tiếp tại quầy về khoản phí ký túc xá trường đã thông báo, không có yêu cầu cài app lạ hay đóng phí kích hoạt.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0012336
+ }
+}

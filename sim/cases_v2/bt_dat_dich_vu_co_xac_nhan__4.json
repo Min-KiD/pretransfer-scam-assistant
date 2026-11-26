@@ -1,0 +1,46 @@
+{
+ "id": "bt_dat_dich_vu_co_xac_nhan__4",
+ "kich_ban": "bt_dat_dich_vu_co_xac_nhan",
+ "nhom": "binh_thuong",
+ "tinh_cach": "voi",
+ "viec": "Mình đóng thêm suất ăn chay cho mẹ theo phiếu xác nhận tour miền Tây",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "cuoc_goi",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình chuyển cọc để thêm phần chay cho mẹ theo phiếu xác nhận tour miền Tây. Đang vội, mình muốn chuyển cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 552,
+  "tokens_out": 36,
+  "usd": 0.001464
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Khoản cọc dùng để thêm suất chay theo phiếu xác nhận tour, không có dấu hiệu tour giá rẻ bất thường hay trang bán tour giả.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0012574
+ }
+}

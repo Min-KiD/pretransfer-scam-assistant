@@ -1,0 +1,48 @@
+{
+ "id": "bt_tai_khoan_cua_minh__1",
+ "kich_ban": "bt_tai_khoan_cua_minh",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "Chuyển tiền sang tài khoản lương để mai ngân hàng trừ góp xe",
+ "bang_that": {
+  "nguoi_lien_lac": "khac",
+  "kenh": "khac",
+  "tu_xung": "chinh_minh",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "chuyen_noi_bo",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang chuyển ít tiền qua tài khoản nhận lương để mai ngân hàng tự trừ tiền trả góp xe ấy mà. Tài khoản đó đứng tên mình, app báo đúng tên là mình yên tâm rồi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 540,
+  "tokens_out": 48,
+  "usd": 0.00156
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người gửi chuyển vào tài khoản đứng tên mình để ngân hàng tự trừ kỳ góp xe, không phải để xác minh hay nhận hoa hồng.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0012336
+ }
+}

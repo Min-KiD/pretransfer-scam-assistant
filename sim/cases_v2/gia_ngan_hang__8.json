@@ -1,0 +1,42 @@
+{
+ "id": "gia_ngan_hang__8",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "viec": "Mình chuyển phí xử lý để lấy lại khoản tiền thuê nhà gửi nhầm",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "sms",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "doc_otp",
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tai_khoan_an_toan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đóng phí để lấy lại tiền thuê nhà lỡ gửi nhầm. Họ nhắn SMS giục chuyển nhanh, mình đang vội nên muốn làm cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 559,
+  "tokens_out": 40,
+  "usd": 0.001518
+ },
+ "vong": 0
+}

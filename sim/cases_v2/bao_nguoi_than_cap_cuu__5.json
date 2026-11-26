@@ -1,0 +1,40 @@
+{
+ "id": "bao_nguoi_than_cap_cuu__5",
+ "kich_ban": "bao_nguoi_than_cap_cuu",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Chuyển tiền cho khoa bỏng thay băng cho em trai bị bỏng dầu",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "vien_phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang gửi tiền để bên khoa bỏng thay băng cho em trai mình, nó bị bỏng dầu. Có người gọi bảo là nhân viên y tế, mình tin họ, chắc họ giục chỉ vì lo em mình phải chờ thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 510,
+  "tokens_out": 55,
+  "usd": 0.00157
+ },
+ "vong": 0
+}

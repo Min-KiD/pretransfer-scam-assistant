@@ -1,0 +1,46 @@
+{
+ "id": "bt_tra_no_khoan_vay__24",
+ "kich_ban": "bt_tra_no_khoan_vay",
+ "nhom": "binh_thuong",
+ "tinh_cach": "voi",
+ "viec": "Mình chuyển tiền trả kỳ thứ hai khoản vay mua đàn piano cho bé.",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "sms",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_no",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang đóng kỳ góp thứ hai tiền mua piano cho bé. Bên tài chính nhắc qua SMS, mình đang vội, muốn chuyển cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 573,
+  "tokens_out": 37,
+  "usd": 0.001516
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Tin nhắn nhắc kỳ trả góp thứ hai, không yêu cầu nộp phí trước để giải ngân hay chuyển tiền để nhận hoa hồng.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0008560800000000001
+ }
+}

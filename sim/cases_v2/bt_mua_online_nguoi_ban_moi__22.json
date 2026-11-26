@@ -1,0 +1,48 @@
+{
+ "id": "bt_mua_online_nguoi_ban_moi__22",
+ "kich_ban": "bt_mua_online_nguoi_ban_moi",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Mình gửi trước 290 nghìn mua bộ xếp hình từ shop mới thấy trên Facebook.",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình định chuyển trước 290 nghìn để mua bộ xếp hình ở một shop mới thấy trên Facebook. Mình chủ động nhắn shop qua Messenger, chưa gặp người bán bao giờ nên cũng hơi lăn tăn, liệu có phải lừa đảo không?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 575,
+  "tokens_out": 58,
+  "usd": 0.00173
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Trả trước cho shop chưa từng gặp là lý do để thận trọng, nhưng câu không nêu giá rẻ bất thường hay dấu hiệu shop giả mạo.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0007595200000000001
+ }
+}

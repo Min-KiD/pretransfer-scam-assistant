@@ -1,0 +1,48 @@
+{
+ "id": "bt_hoa_don_to_chuc__13",
+ "kich_ban": "bt_hoa_don_to_chuc",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "đóng tiền khám ngoại trú theo số tiền trên cổng bệnh viện",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "to_chuc_dich_vu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "hoa_don",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang chuyển tiền thanh toán phí khám ngoại trú, đúng số tiền ghi trên cổng bệnh viện. Chị nhân viên hướng dẫn là người mình quen, chị ấy nhiệt tình lắm nên mình tin thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 592,
+  "tokens_out": 47,
+  "usd": 0.001654
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Khoản tiền là phí khám ngoại trú ghi trên cổng bệnh viện, không phải viện phí khẩn cấp do người lạ yêu cầu.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001209
+ }
+}

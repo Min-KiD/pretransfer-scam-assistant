@@ -1,0 +1,42 @@
+{
+ "id": "gia_shipper__14",
+ "kich_ban": "gia_shipper",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Mình gửi 60 nghìn phí giữ bưu kiện đến chiều ở bưu cục.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang định chuyển 60 nghìn để bưu cục giữ hộ gói hàng tới chiều. Người nhắn Zalo tự xưng là shipper, mình đã chuyển cho họ một lần rồi mà giờ họ lại đòi thêm, vậy có phải lừa đảo không?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 556,
+  "tokens_out": 62,
+  "usd": 0.001732
+ },
+ "vong": 0
+}

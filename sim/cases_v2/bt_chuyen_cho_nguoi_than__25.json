@@ -1,0 +1,48 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__25",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "chuyển bạn Mai phần tiền bánh mì sáng trước giờ lên xe",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình gửi Mai phần mình góp mua bánh mì ăn sáng, tranh thủ gửi trước lúc lên xe ấy mà. Mình vừa gặp Mai, bạn ấy còn chẳng giục gì, mình tin bạn ấy chứ.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 531,
+  "tokens_out": 47,
+  "usd": 0.001532
+ },
+ "vong": 1,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người nói vừa gặp Mai và chỉ chuyển phần tiền góp mua bánh mì, không có dấu hiệu mạo danh hay thúc ép.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 1,
+  "usd_share": 0.005328
+ }
+}

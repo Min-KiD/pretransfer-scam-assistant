@@ -1,0 +1,48 @@
+{
+ "id": "bt_mung_cuoi_gop_quy__13",
+ "kich_ban": "bt_mung_cuoi_gop_quy",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "gửi cô thủ quỹ lớp tiền mua giấy màu làm báo tường",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "mung_gop_quy",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang gửi cô giữ quỹ lớp phần tiền góp mua giấy màu để làm báo tường. Cô nhắn mình qua Messenger, mình gặp cô ngoài đời rồi nên cô nói là mình tin thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 553,
+  "tokens_out": 46,
+  "usd": 0.001566
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Tin nhắn chỉ nhắc khoản góp mua giấy màu, không có dấu hiệu tài khoản bị mạo danh hay yêu cầu chuyển tiền gấp.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001209
+ }
+}

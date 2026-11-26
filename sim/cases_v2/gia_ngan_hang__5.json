@@ -1,0 +1,43 @@
+{
+ "id": "gia_ngan_hang__5",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Mình gửi năm mươi nghìn để cấp lại mã kích hoạt ví trên máy mới",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "sms",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "doc_otp",
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tai_khoan_an_toan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình chuyển 50 nghìn để lấy lại mã kích hoạt ví cho điện thoại mới ấy. Anh nhắn SMS bảo là bên ví, mình thấy anh ấy nhiệt tình nên cũng tin, chắc chỉ là thủ tục thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 570,
+  "tokens_out": 49,
+  "usd": 0.00163
+ },
+ "vong": 0
+}

@@ -1,0 +1,48 @@
+{
+ "id": "bt_tai_khoan_cua_minh__3",
+ "kich_ban": "bt_tai_khoan_cua_minh",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Để tiền học lái xe trong tài khoản có thẻ mình mang theo",
+ "bang_that": {
+  "nguoi_lien_lac": "khac",
+  "kenh": "khac",
+  "tu_xung": "chinh_minh",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "chuyen_noi_bo",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, cái thẻ mình hay nhét sau bằng lái xe máy ấy, mình đang chuyển tiền học lái ô tô vào tài khoản gắn với thẻ đó để lúc đóng học phí có sẵn tiền. Tài khoản đó cũng đứng tên mình, nãy giờ mình cứ nói vòng vòng.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 538,
+  "tokens_out": 66,
+  "usd": 0.001736
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người dùng chuyển tiền vào tài khoản đứng tên mình để chuẩn bị đóng học phí, không phải chuyển khoản vay cho người khác để nhận hoa hồng.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0011704
+ }
+}

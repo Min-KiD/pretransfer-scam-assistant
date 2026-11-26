@@ -1,0 +1,49 @@
+{
+ "id": "bt_dat_dich_vu_co_xac_nhan__15",
+ "kich_ban": "bt_dat_dich_vu_co_xac_nhan",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình thanh toán thêm một đêm ở Hội An đã hiện trên web khách sạn",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "to_chuc_dich_vu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, mình đang chuyển tiền cọc để ở thêm một đêm ở Hội An, cái đêm đó trên web khách sạn hiện rồi ấy. Nãy mình còn mải kiếm cục sạc, à mà khách sạn này là mình tự tìm nha.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 584,
+  "tokens_out": 58,
+  "usd": 0.001748
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Đây là tiền cọc cho một đêm ở thêm, không có dấu hiệu trang khách sạn giả hay ưu đãi bất thường.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0008031199999999999
+ }
+}

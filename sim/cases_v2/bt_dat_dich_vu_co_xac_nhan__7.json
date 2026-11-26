@@ -1,0 +1,48 @@
+{
+ "id": "bt_dat_dich_vu_co_xac_nhan__7",
+ "kich_ban": "bt_dat_dich_vu_co_xac_nhan",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình mua thêm hành lý ký gửi cho chuyến đi Osaka đã hiện trên app hãng",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "to_chuc_dich_vu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, mình ghé thẳng văn phòng bên du lịch, tiện đường đi mua cà phê ấy. Chuyến Osaka mình thấy trên app hãng rồi, giờ mình chuyển tiền cọc để mua thêm hành lý ký gửi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 576,
+  "tokens_out": 49,
+  "usd": 0.001642
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người dùng đến văn phòng để mua thêm hành lý ký gửi, không có chi tiết về ưu đãi giá rẻ hay trang giả.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001194
+ }
+}

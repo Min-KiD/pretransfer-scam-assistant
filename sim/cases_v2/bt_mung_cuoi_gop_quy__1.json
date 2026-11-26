@@ -1,0 +1,48 @@
+{
+ "id": "bt_mung_cuoi_gop_quy__1",
+ "kich_ban": "bt_mung_cuoi_gop_quy",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "chuyển tiền mừng cưới cho em trai theo số tài khoản in trên thiệp",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "mung_gop_quy",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình gửi chút tiền mừng đám cưới em trai, lấy số tài khoản ngay trên thiệp cưới ấy. Em mình nhắn Zalo trước, mình tin nó chứ, nó cũng có giục gì đâu.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 556,
+  "tokens_out": 51,
+  "usd": 0.001622
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người gửi chuyển tiền mừng cưới vào số tài khoản trên thiệp, không có lời mượn tiền gấp hay nhờ chuyển hộ.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0012336
+ }
+}

@@ -1,0 +1,40 @@
+{
+ "id": "dau_tu_san_gia__8",
+ "kich_ban": "dau_tu_san_gia",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "viec": "mua thêm cổ phiếu thép lúc giá đang xuống",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "telegram",
+  "tu_xung": "san_dau_tu",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "cai_app"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Cổ phiếu thép đang rớt giá nên tôi mua thêm. Tôi chuyển thêm tiền phí cho người quen, đang vội, muốn chuyển cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 528,
+  "tokens_out": 38,
+  "usd": 0.001436
+ },
+ "vong": 0
+}

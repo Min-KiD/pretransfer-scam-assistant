@@ -1,0 +1,48 @@
+{
+ "id": "bt_tra_shipper_khi_nhan_hang__7",
+ "kich_ban": "bt_tra_shipper_khi_nhan_hang",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Em chuyển 22 nghìn tiền giao túi cà phê đã thanh toán trên app",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "truc_tiep",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, em đang gửi anh giao hàng 22 nghìn tiền ship thôi, túi cà phê em trả trên app rồi. Nãy anh ấy đứng ngay cửa, em còn đang mang dép lệch đôi cơ.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 529,
+  "tokens_out": 48,
+  "usd": 0.001538
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người dùng trả phí giao hàng cho người vừa đến tận cửa, không có chuyện báo chuyển nhầm hay đòi chuyển thêm.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001194
+ }
+}

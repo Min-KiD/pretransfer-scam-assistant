@@ -1,0 +1,41 @@
+{
+ "id": "gia_don_hang_lon_mua_ho__13",
+ "kich_ban": "gia_don_hang_lon_mua_ho",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Tôi chuyển tiền lấy bộ mẫu áo blouse để khoa duyệt màu.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "khach_dat_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang gửi tiền cọc để lấy mấy mẫu áo blouse cho bên khoa chọn màu. Khách gọi đặt hàng nghe đàng hoàng lắm, chắc họ giục chuyển sớm vì cần mẫu gấp thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 612,
+  "tokens_out": 50,
+  "usd": 0.001724
+ },
+ "vong": 0
+}

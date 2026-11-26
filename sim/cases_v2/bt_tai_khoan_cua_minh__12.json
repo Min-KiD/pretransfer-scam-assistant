@@ -1,0 +1,48 @@
+{
+ "id": "bt_tai_khoan_cua_minh__12",
+ "kich_ban": "bt_tai_khoan_cua_minh",
+ "nhom": "binh_thuong",
+ "tinh_cach": "voi",
+ "viec": "Chuyển tiền sang tài khoản mình dùng đóng học phí cho con",
+ "bang_that": {
+  "nguoi_lien_lac": "khac",
+  "kenh": "khac",
+  "tu_xung": "chinh_minh",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "chuyen_noi_bo",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình chuyển qua tài khoản để dành đóng tiền học cho con. Cũng tài khoản của mình thôi, đang vội nên muốn chuyển cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 534,
+  "tokens_out": 35,
+  "usd": 0.001418
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người chuyển chỉ chuyển tiền sang tài khoản của chính mình để dành đóng học phí.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0011668
+ }
+}

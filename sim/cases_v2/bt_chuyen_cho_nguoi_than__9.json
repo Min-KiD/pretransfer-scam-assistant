@@ -1,0 +1,48 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__9",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "chuyển anh họ tiền mua tấm lưới mới cho sân cầu lông",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "cuoc_goi",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "muon_tien",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình gửi anh họ ít tiền để anh mua lưới mới thay cho sân cầu lông ấy mà. Anh gọi nhờ mình, cũng chẳng giục gì, mình tin anh chứ.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 542,
+  "tokens_out": 44,
+  "usd": 0.001524
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Anh họ gọi nhờ gửi tiền mua lưới, không có chi tiết cho thấy người gọi mạo danh anh.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001173
+ }
+}

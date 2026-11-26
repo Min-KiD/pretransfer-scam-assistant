@@ -1,0 +1,48 @@
+{
+ "id": "bt_dat_dich_vu_co_xac_nhan__1",
+ "kich_ban": "bt_dat_dich_vu_co_xac_nhan",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "Mình đóng tiền thuê hướng dẫn viên riêng ở Huế theo phụ lục hợp đồng",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "to_chuc_dich_vu",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình chuyển tiền cọc thuê hướng dẫn viên riêng ở Huế, khoản này có ghi trong phụ lục hợp đồng. Công ty du lịch là do mình tự tìm đến, nói chuyện thấy họ dễ mến nên mình tin thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 577,
+  "tokens_out": 52,
+  "usd": 0.001674
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Tiền cọc thuê hướng dẫn viên có ghi trong phụ lục hợp đồng, không có chi tiết về trang giả hay giá rẻ bất thường.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0012336
+ }
+}

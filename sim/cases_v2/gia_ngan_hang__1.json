@@ -1,0 +1,39 @@
+{
+ "id": "gia_ngan_hang__1",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Mình nộp phí để nhận lại khoản thường niên vừa bị trừ trên thẻ",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "sms",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "bam_link",
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang chuyển tiền đóng phí để lấy lại khoản phí thường niên mới bị trừ trên thẻ. Bạn ấy nhắn SMS, bảo là nhân viên ngân hàng, mình thấy nói chuyện dễ mến nên cũng tin.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 558,
+  "tokens_out": 50,
+  "usd": 0.001616
+ },
+ "vong": 0
+}

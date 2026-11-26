@@ -1,0 +1,48 @@
+{
+ "id": "bt_tra_no_khoan_vay__1",
+ "kich_ban": "bt_tra_no_khoan_vay",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "Mình chuyển 820 nghìn trả góp máy giặt theo số trên app.",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_no",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang đóng kỳ góp máy giặt, 820 nghìn vào số tài khoản ghi trên app ấy. Hồi trước mình tự đến gặp bạn nhân viên bên tài chính, bạn ấy tư vấn dễ thương nên mình tin thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 587,
+  "tokens_out": 51,
+  "usd": 0.001684
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Đây là khoản trả góp máy giặt đến kỳ, không phải phí trước giải ngân hay khoản chuyển để nhận hoa hồng.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0012336
+ }
+}

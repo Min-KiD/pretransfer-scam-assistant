@@ -1,0 +1,39 @@
+{
+ "id": "gia_co_quan_nha_nuoc__9",
+ "kich_ban": "gia_co_quan_nha_nuoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Tôi nộp tiền dời công tơ ra cổng để sửa mặt tiền nhà",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "cai_app",
+   "bam_link"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em chuyển tiền phí để dời cái công tơ điện ra cổng, nhà em đang sửa mặt tiền ấy. Anh bên điện lực nhắn qua Zalo, em thấy anh ấy nói chuyện đàng hoàng nên tin là đúng người bên điện lực thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 563,
+  "tokens_out": 57,
+  "usd": 0.001696
+ },
+ "vong": 0
+}

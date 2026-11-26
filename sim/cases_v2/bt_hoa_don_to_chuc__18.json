@@ -1,0 +1,48 @@
+{
+ "id": "bt_hoa_don_to_chuc__18",
+ "kich_ban": "bt_hoa_don_to_chuc",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "viec": "thanh toán tiền gas trung tâm theo hóa đơn của tòa nhà",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "hoa_don",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang chuyển tiền gas dùng chung của tòa nhà theo hóa đơn kỳ này, số tài khoản thì mình lấy ngay trên hóa đơn. Mình vẫn hơi lăn tăn, bạn xem giúp có dấu hiệu lừa đảo gì không?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 584,
+  "tokens_out": 53,
+  "usd": 0.001698
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người chuyển trả tiền gas định kỳ vào tài khoản ghi trên hóa đơn, không có yêu cầu cài app hay nộp lệ phí kích hoạt.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0008384800000000001
+ }
+}

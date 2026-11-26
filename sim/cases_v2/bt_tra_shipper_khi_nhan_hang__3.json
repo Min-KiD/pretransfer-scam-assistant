@@ -1,0 +1,48 @@
+{
+ "id": "bt_tra_shipper_khi_nhan_hang__3",
+ "kich_ban": "bt_tra_shipper_khi_nhan_hang",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Em chuyển 89 nghìn tiền ốp điện thoại vừa lắp thử ngay tại quầy lễ tân",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "truc_tiep",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em đang chuyển 89 nghìn trả tiền cái ốp điện thoại, nãy em vừa ướm vào máy ngay chỗ lễ tân ấy. Anh giao hàng đang đứng đây, à mà cái ốp mới màu xanh, nhìn ngoài sáng hơn trên hình.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 534,
+  "tokens_out": 60,
+  "usd": 0.001668
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người dùng đã ướm thử món hàng khi người giao còn có mặt, không có tình tiết báo chuyển nhầm rồi đòi chuyển thêm.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0011704
+ }
+}

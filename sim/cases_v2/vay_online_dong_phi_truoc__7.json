@@ -1,0 +1,41 @@
+{
+ "id": "vay_online_dong_phi_truoc__7",
+ "kich_ban": "vay_online_dong_phi_truoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Chuyển năm trăm nghìn để xác thực tài khoản nhận tiền vay",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, cái người nhắn mình trên Messenger ấy, mình có quen đâu, lúc đó mình còn đang loay hoay kiếm cái sạc. Mình đang gửi họ 500 nghìn để xác minh cái tài khoản dùng để nhận tiền vay ấy.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 584,
+  "tokens_out": 55,
+  "usd": 0.001718
+ },
+ "vong": 0
+}

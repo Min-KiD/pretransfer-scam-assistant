@@ -1,0 +1,48 @@
+{
+ "id": "bt_tra_shipper_khi_nhan_hang__6",
+ "kich_ban": "bt_tra_shipper_khi_nhan_hang",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Tôi gửi 450 nghìn cho chị giao bộ ấm trà, kiểm đủ sáu chén rồi",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "truc_tiep",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang chuyển 450 nghìn tiền bộ ấm trà cho chị giao hàng, mình mở ra đếm đủ sáu cái chén rồi. Mình gặp chị ấy lúc nhận hàng, trước đó không quen, nên vẫn hơi lăn tăn, có khi nào là lừa đảo không bạn?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 525,
+  "tokens_out": 66,
+  "usd": 0.00171
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người mua đã nhận và kiểm tra hàng, không có yêu cầu chuyển trước hay báo chuyển nhầm để đòi thêm.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001208
+ }
+}

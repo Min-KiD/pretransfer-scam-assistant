@@ -1,0 +1,46 @@
+{
+ "id": "bt_tra_no_khoan_vay__15",
+ "kich_ban": "bt_tra_no_khoan_vay",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình đóng kỳ thứ tám tiền máy may mua để nhận đồ sửa.",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_no",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, mình chuyển tiền trả góp cái máy may, tới tháng thứ tám rồi, hồi đó mua để nhận sửa quần áo. Chỗ bán là mình tự tìm tới, ngay gần quán bún mình hay ăn ấy.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 573,
+  "tokens_out": 50,
+  "usd": 0.001646
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Đây là kỳ trả góp thứ tám của chiếc máy may, không có lời dụ vay hay chuyển tiền để nhận hoa hồng.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0008031199999999999
+ }
+}

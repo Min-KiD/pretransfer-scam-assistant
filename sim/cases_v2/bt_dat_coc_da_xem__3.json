@@ -1,0 +1,49 @@
+{
+ "id": "bt_dat_coc_da_xem__3",
+ "kich_ban": "bt_dat_coc_da_xem",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Cọc 400 nghìn cho anh chủ quán giữ sân thượng mình vừa lên xem để đãi sinh nhật",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À sinh nhật mình ấy, mình đang gửi anh chủ quán 400 nghìn tiền cọc để giữ chỗ trên sân thượng, mình vừa lên xem xong. Quán này mình tự tìm, mà nãy đi lên còn suýt làm rơi cái nón nữa.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 560,
+  "tokens_out": 62,
+  "usd": 0.00174
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người dùng vừa đến xem chỗ tại quán rồi đặt cọc, không có dấu hiệu trang giả hoặc giá rẻ bất thường.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0011704
+ }
+}

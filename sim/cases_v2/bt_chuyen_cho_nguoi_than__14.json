@@ -1,0 +1,48 @@
+{
+ "id": "bt_chuyen_cho_nguoi_than__14",
+ "kich_ban": "bt_chuyen_cho_nguoi_than",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "viec": "gửi bạn Minh phần tiền lẩu tối qua ở quán ven hồ",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình định chuyển cho Minh phần tiền mình ăn lẩu tối qua ở quán cạnh hồ. Mình gặp Minh ngoài đời rồi, mà trước đó mình cũng đã chuyển một lần, giờ Minh nhắn Zalo bảo gửi thêm nên mình hơi lăn tăn, liệu có phải lừa đảo không nhỉ?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 524,
+  "tokens_out": 68,
+  "usd": 0.001728
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Minh nhắn xin thêm tiền chia bữa ăn, nhưng không có chi tiết cho thấy tài khoản Zalo bị giả mạo hoặc chiếm quyền.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.0013026
+ }
+}

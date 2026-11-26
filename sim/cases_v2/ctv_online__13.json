@@ -1,0 +1,42 @@
+{
+ "id": "ctv_online__13",
+ "kich_ban": "ctv_online",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Em gửi 740 nghìn cho bên kho Bình Dương để ghép đủ bộ mã tai nghe",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "telegram",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "nap_them_de_rut",
+   "bam_link"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em chuyển 740 nghìn cho bên kho ở Bình Dương để gom cho đủ bộ mã tai nghe ạ. Em có chuyển cho họ một lần rồi, giờ họ bảo nạp thêm mới rút được tiền, em nghĩ họ chỉ đang giúp em làm cho xong thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 571,
+  "tokens_out": 61,
+  "usd": 0.001752
+ },
+ "vong": 0
+}

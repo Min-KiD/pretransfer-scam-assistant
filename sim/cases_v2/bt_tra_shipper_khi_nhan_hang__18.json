@@ -1,0 +1,49 @@
+{
+ "id": "bt_tra_shipper_khi_nhan_hang__18",
+ "kich_ban": "bt_tra_shipper_khi_nhan_hang",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Em trả 240 nghìn tiền hai cuốn truyện em gái đặt, em nhận ở ký túc",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em đang chuyển 240 nghìn cho anh giao hàng để trả tiền hai cuốn truyện em gái đặt, em nhận với kiểm hàng ở ký túc rồi. Mà ảnh cứ giục em chuyển nhanh nên em hơi nghi, vậy có phải lừa đảo không ạ?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 535,
+  "tokens_out": 61,
+  "usd": 0.00168
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Dù người giao hàng giục, người mua đã nhận và kiểm hàng, không có yêu cầu chuyển thêm vì chuyển nhầm.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0008384800000000001
+ }
+}

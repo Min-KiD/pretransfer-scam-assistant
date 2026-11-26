@@ -1,0 +1,42 @@
+{
+ "id": "mo_vi_tra_sau_nhan_hoa_hong__7",
+ "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình gửi tiền ứng cho anh chủ tiệm kính để giữ giá ưu đãi gọng mới",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "tien_vay_chuyen_di",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang chuyển trước cho anh chủ tiệm kính một khoản để giữ giá ưu đãi cho cái gọng mới, chứ kính cũ cứ tuột xuống mũi hoài. À mà nãy anh ấy có nhắn Zalo giục chuyển sớm, mình cũng từng gửi một lần rồi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 649,
+  "tokens_out": 68,
+  "usd": 0.001978
+ },
+ "vong": 0
+}

@@ -1,0 +1,42 @@
+{
+ "id": "gia_shipper__1",
+ "kich_ban": "gia_shipper",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Em thanh toán bó hoa để anh giao tới phòng bệnh của mẹ.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em chuyển tiền mua bó hoa nhờ anh ấy mang lên phòng bệnh của mẹ em. Anh ấy nhắn Zalo bảo là shipper rồi giục em chuyển nhanh, chắc anh ấy đang vội giao cho kịp thôi ạ.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 544,
+  "tokens_out": 53,
+  "usd": 0.001618
+ },
+ "vong": 0
+}

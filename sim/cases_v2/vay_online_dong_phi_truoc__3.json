@@ -1,0 +1,40 @@
+{
+ "id": "vay_online_dong_phi_truoc__3",
+ "kich_ban": "vay_online_dong_phi_truoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Chuyển một triệu làm tiền đối ứng để bên tài chính giải ngân",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "messenger",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, mình đang gửi một triệu làm khoản đối ứng để bên tài chính họ giải ngân ấy. Nãy đang ăn dở tô mì thì Messenger báo tin, mà mình gửi cho bên đó một lần rồi, giờ họ bảo gửi thêm.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 590,
+  "tokens_out": 52,
+  "usd": 0.0017
+ },
+ "vong": 0
+}

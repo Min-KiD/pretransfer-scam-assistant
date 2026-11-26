@@ -1,0 +1,48 @@
+{
+ "id": "bt_mung_cuoi_gop_quy__6",
+ "kich_ban": "bt_mung_cuoi_gop_quy",
+ "nhom": "binh_thuong",
+ "tinh_cach": "nghi_ngo",
+ "viec": "chuyển cho bác trưởng họ phần tiền mình góp mua vòng hoa viếng cụ",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "mung_gop_quy",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang gửi bác trưởng họ phần tiền góp chung để mua vòng hoa đến viếng cụ. Mình quen bác, cũng gặp bác nói chuyện trực tiếp rồi, mà vẫn hơi lăn tăn, liệu có phải lừa đảo không nhỉ?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 547,
+  "tokens_out": 55,
+  "usd": 0.001644
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người chuyển quen bác trưởng họ và đã trực tiếp trao đổi về khoản góp, không có chi tiết mạo danh.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001208
+ }
+}

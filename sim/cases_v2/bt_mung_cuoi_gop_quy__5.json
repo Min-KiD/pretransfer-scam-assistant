@@ -1,0 +1,48 @@
+{
+ "id": "bt_mung_cuoi_gop_quy__5",
+ "kich_ban": "bt_mung_cuoi_gop_quy",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "gửi tiền viếng bà ngoại của bạn thân cùng mấy đứa trong nhóm",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "mung_gop_quy",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình đang góp với mấy đứa trong nhóm chút tiền thắp hương cho bà ngoại của bạn thân mình. Người nhận là chỗ quen biết, mình gặp ngoài đời rồi nên họ nhắn qua Zalo là mình tin thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 555,
+  "tokens_out": 53,
+  "usd": 0.00164
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Đây là khoản góp chung gửi người quen, không có dấu hiệu tài khoản Zalo bị chiếm hoặc giả mạo.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001106
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "id": "mo_vi_tra_sau_nhan_hoa_hong__10",
+ "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Em chuyển tiền góp máy lọc nước qua mã kỹ thuật viên để được hoàn phí lắp",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_than",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "cai_app"
+  ],
+  "ly_do_tien": "tien_vay_chuyen_di",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em đang quét mã của kỹ thuật viên để đóng tiền trả góp máy lọc nước, bên đó bảo làm vậy thì được hoàn phí lắp đặt. Mà em thấy hơi cấn vì họ bảo chuyển luôn số tiền ví vừa ứng cho em, vậy có phải lừa đảo không ạ?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 632,
+  "tokens_out": 65,
+  "usd": 0.001914
+ },
+ "vong": 0
+}

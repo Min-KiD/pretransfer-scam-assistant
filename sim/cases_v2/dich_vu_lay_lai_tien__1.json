@@ -1,0 +1,41 @@
+{
+ "id": "dich_vu_lay_lai_tien__1",
+ "kich_ban": "dich_vu_lay_lai_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Trả tiền cho chuyên gia trên Facebook lần theo khoản mua vé concert",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "dich_vu_thu_hoi_tien",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang chuyển phí cho một anh chuyên gia mình tìm thấy trên Facebook để anh ấy dò lại khoản tiền mình đã gửi mua vé concert. Nói chuyện qua Zalo thấy anh ấy nhiệt tình lắm, mình tin anh ấy làm được.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 539,
+  "tokens_out": 53,
+  "usd": 0.001608
+ },
+ "vong": 0
+}

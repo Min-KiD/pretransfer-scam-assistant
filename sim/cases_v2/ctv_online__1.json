@@ -1,0 +1,42 @@
+{
+ "id": "ctv_online__1",
+ "kich_ban": "ctv_online",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Em chuyển 320 nghìn cho kho Đà Nẵng để ứng tiền đóng gói áo mưa",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "nap_them_de_rut"
+  ],
+  "ly_do_tien": "nhiem_vu",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em gửi 320 nghìn cho bên kho ở Đà Nẵng để ứng trước phí đóng gói áo mưa ạ. Chị tuyển cộng tác viên nhắn em qua Zalo, em thấy chị ấy nói chuyện đàng hoàng nên cũng tin.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 564,
+  "tokens_out": 58,
+  "usd": 0.001708
+ },
+ "vong": 0
+}

@@ -1,0 +1,41 @@
+{
+ "id": "gia_don_hang_lon_mua_ho__1",
+ "kich_ban": "gia_don_hang_lon_mua_ho",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Tôi gửi tiền cho xưởng in thẻ tên theo danh sách bên doanh trại.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang đặt cọc cho xưởng in bảng tên theo danh sách doanh trại gửi. Anh bên doanh trại nhắn qua Zalo, nói chuyện đàng hoàng lắm nên mình tin là anh ấy làm bên đó thật.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 628,
+  "tokens_out": 53,
+  "usd": 0.001786
+ },
+ "vong": 0
+}

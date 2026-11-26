@@ -1,0 +1,42 @@
+{
+ "id": "vay_online_dong_phi_truoc__6",
+ "kich_ban": "vay_online_dong_phi_truoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Nộp phí cấp chữ ký điện tử để ký hợp đồng vay từ xa",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang chuyển tiền để họ cấp chữ ký điện tử, rồi mình dùng chữ ký đó ký hợp đồng vay online. Họ nhắn qua Zalo, cứ giục mình chuyển ngay nên mình thấy hơi nghi, liệu có phải lừa đảo không?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 598,
+  "tokens_out": 56,
+  "usd": 0.001756
+ },
+ "vong": 0
+}

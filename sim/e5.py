@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 import threading
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -46,11 +47,28 @@ def is_open(model: str) -> bool:
     return model.startswith("local:")
 
 
-def load_cases():
-    cases = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(CASE_DIR.glob("*.json"))]
+def load_cases(case_dir=CASE_DIR):
+    """Case files `<scenario>__<i>.json` (files starting with `_` are metadata). `v1` marks the 75 E2 cases of
+    sim/cases/ only; no case of another directory is `v1`."""
+    cases = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(case_dir.glob("*__*.json"))]
     for c in cases:
-        c["v1"] = int(c["id"].rsplit("__", 1)[1]) < PER_SCENARIO
+        c["v1"] = case_dir == CASE_DIR and int(c["id"].rsplit("__", 1)[1]) < PER_SCENARIO
     return cases
+
+
+def stratified(jobs, seed):
+    """Seeded round-robin over scenarios (T6): cases shuffled within each scenario, scenario order shuffled, then one
+    case of every scenario per round, so a stop after N sessions covers the scenarios evenly."""
+    rng = random.Random(seed)
+    by = defaultdict(list)
+    for j in jobs:
+        by[j[0]["kich_ban"]].append(j)
+    order = sorted(by)
+    rng.shuffle(order)
+    for sid in order:
+        rng.shuffle(by[sid])
+    depth = max((len(v) for v in by.values()), default=0)
+    return [by[sid][i] for i in range(depth) for sid in order if i < len(by[sid])]
 
 
 def load_rows(path):
@@ -248,14 +266,22 @@ def main():
                     help="run N sessions, then project the cost of all jobs before starting more: above --cap-usd "
                          "run only the v1 cases (queued first); if the v1 cases alone are still above the cap, stop "
                          "at those N sessions (E10 part B, E11)")
+    ap.add_argument("--cases", default=str(CASE_DIR.relative_to(ROOT)),
+                    help="case directory under the repo (T6: sim/cases_v2); E5's report is written only for sim/cases")
+    ap.add_argument("--out", default=str(OUT.relative_to(ROOT)), help="sessions.jsonl goes here (T6: experiments/T6)")
+    ap.add_argument("--order-seed", type=int, default=None,
+                    help="seeded round-robin order over scenarios instead of v1 cases first (T6)")
     a = ap.parse_args()
     scen, issues = load()
     assert not issues, issues
-    OUT.mkdir(parents=True, exist_ok=True)
-    path = OUT / "sessions.jsonl"
+    case_dir, out = ROOT / a.cases, ROOT / a.out
+    e5 = case_dir == CASE_DIR and out == OUT
+    assert e5 or (case_dir != CASE_DIR and out != OUT), "a new case set writes outside experiments/E5, and E5 only there"
+    out.mkdir(parents=True, exist_ok=True)
+    path = out / "sessions.jsonl"
     rows = [r for r in load_rows(path) if "preds" in r]
-    cases = load_cases()
-    opening_usd = sum(c.get("sinh_boi", {}).get("usd", 0) for c in cases if not c["v1"])
+    cases = load_cases(case_dir)
+    opening_usd = sum(c.get("sinh_boi", {}).get("usd", 0) for c in cases if not c["v1"]) if e5 else 0.0
     if not a.report_only:
         done = {(r["case"], r["model"]) for r in rows}
         spent = sum(r["usd"] + r.get("victim_usd", 0) for r in rows) + opening_usd
@@ -268,8 +294,11 @@ def main():
         subset = cases[: a.limit] if a.limit else cases
         jobs = [(c, m) for m in models for c in subset
                 if (c["id"], m) not in done and (a.full or full_set(m) or c["v1"])]
-        jobs.sort(key=lambda j: not j[0]["v1"])  # stable: v1 cases first, so a projection stop still covers v1
-        print(f"{len(jobs)} sessions to run; E5 spent so far {spent:.3f} USD", flush=True)
+        if a.order_seed is None:
+            jobs.sort(key=lambda j: not j[0]["v1"])  # stable: v1 cases first, so a projection stop still covers v1
+        else:
+            jobs = stratified(jobs, a.order_seed)
+        print(f"{len(jobs)} sessions to run; spent so far in {path.relative_to(ROOT)} {spent:.3f} USD", flush=True)
         lock = threading.Lock()
         v1_only = threading.Event()
         halt = threading.Event()  # projection over the cap even for the v1 cases: no new session starts
@@ -317,7 +346,7 @@ def main():
                     print(f"PROJECTION after {len(finished)} sessions ({settled - len(finished)} errors or not "
                           f"run): {proj:.3f} USD for {len(jobs)} (cap {a.cap_usd})", flush=True)
                     if proj > a.cap_usd:
-                        if n_v1 < len(jobs) and mean * n_v1 <= a.cap_usd:
+                        if n_v1 and n_v1 < len(jobs) and mean * n_v1 <= a.cap_usd:
                             v1_only.set()
                             print("PROJECTION over the cap: running the v1 cases only", flush=True)
                         else:
@@ -329,6 +358,13 @@ def main():
                     print(f"  {i}/{len(jobs)} sessions, {budget.spent():.3f} USD", flush=True)
         if budget.stop.is_set():
             print(f"STOPPED at the cost cap: {budget.spent():.3f} USD")
+    if not e5:  # T6: the report is e6/t6_report.py
+        for m in sorted({r["model"] for r in rows}):
+            s = score([r for r in rows if r["model"] == m], scen)
+            print(f"{m:32s} n={s['n']:3d} kb3={100 * s['kb3']['p']:.1f}% fp={100 * s['fp']['p']:.1f}% "
+                  f"miss={100 * s['miss']['p']:.1f}% chua_du={100 * s['chua_du']['p']:.1f}% q={s['q']:.2f} "
+                  f"usd/session={s['usd'] + s['victim_usd'] / s['n']:.4f}")
+        return
     S, bc, bo = report(rows, scen, cases, a.cap_usd, opening_usd)
     for m, s in S.items():
         print(f"{m:32s} n={s['n']:3d} kb3={100 * s['kb3']['p']:.1f}% fp={100 * s['fp']['p']:.1f}% "

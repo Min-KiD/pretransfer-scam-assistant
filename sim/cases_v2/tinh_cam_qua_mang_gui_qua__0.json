@@ -1,0 +1,42 @@
+{
+ "id": "tinh_cam_qua_mang_gui_qua__0",
+ "kich_ban": "tinh_cam_qua_mang_gui_qua",
+ "nhom": "lua_dao",
+ "tinh_cach": "voi",
+ "viec": "Mình trả tiền lưu kho chiếc đồng hồ anh người Hàn gửi tới Nội Bài",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_quen_qua_mang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình chuyển phí giữ cái đồng hồ anh người Hàn gửi tới Nội Bài. Người nhận tiền mình không quen, họ giục quá nên mình muốn chuyển cho xong.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 614,
+  "tokens_out": 40,
+  "usd": 0.001628
+ },
+ "vong": 0
+}

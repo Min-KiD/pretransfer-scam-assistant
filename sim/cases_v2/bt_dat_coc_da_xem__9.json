@@ -1,0 +1,48 @@
+{
+ "id": "bt_dat_coc_da_xem__9",
+ "kich_ban": "bt_dat_coc_da_xem",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "Gửi chú bán 900 nghìn giữ tủ đông cũ chú vừa cắm điện cho mình xem",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "Mình chuyển 900 nghìn cho chú bán để cọc cái tủ đông cũ, chú vừa cắm điện chạy thử cho mình coi đó. Mình tự ghé chỗ chú, chú cũng chẳng giục gì, thấy chú thật thà nên mình yên tâm.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 550,
+  "tokens_out": 62,
+  "usd": 0.00172
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người mua đã xem tủ chạy thử tại chỗ, không có dấu hiệu trang bán giả hay ép cọc giữ hàng.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001173
+ }
+}

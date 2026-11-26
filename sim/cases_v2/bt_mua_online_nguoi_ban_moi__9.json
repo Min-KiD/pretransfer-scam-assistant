@@ -1,0 +1,46 @@
+{
+ "id": "bt_mua_online_nguoi_ban_moi__9",
+ "kich_ban": "bt_mua_online_nguoi_ban_moi",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ca_tin",
+ "viec": "Mình gửi trước 150 nghìn để cô bán hoa ở Hội An giao bó cúc.",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình chuyển trước 150 nghìn tiền bó cúc để cô bán hoa ở Hội An giao cho mình. Mình tự tìm rồi nhắn cô qua Messenger, thấy cô nói chuyện dễ thương nên mình tin cô bán thật mà.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 572,
+  "tokens_out": 51,
+  "usd": 0.001654
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Trả trước tiền hoa qua Messenger không đủ để xác định lừa đảo khi không có dấu hiệu trang giả, giá rẻ bất thường hay ép cọc.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001173
+ }
+}

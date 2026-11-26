@@ -1,0 +1,43 @@
+{
+ "id": "ctv_online__14",
+ "kich_ban": "ctv_online",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Mình chuyển 410 nghìn cho cửa hàng Vũng Tàu để thử mã thuê xe đạp",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "nap_them_de_rut",
+   "bam_link"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang định gửi 410 nghìn cho một tiệm ở Vũng Tàu để thử xem mã thuê xe đạp có dùng được không. Mà mình đã chuyển cho họ một lần rồi, giờ họ lại bảo phải nạp thêm mới rút được tiền, nghe vậy có phải lừa đảo không nhỉ?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 569,
+  "tokens_out": 71,
+  "usd": 0.001848
+ },
+ "vong": 0
+}

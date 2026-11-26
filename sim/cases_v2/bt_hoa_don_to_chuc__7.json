@@ -1,0 +1,48 @@
+{
+ "id": "bt_hoa_don_to_chuc__7",
+ "kich_ban": "bt_hoa_don_to_chuc",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "nộp tiền bộ đồng phục thực hành theo bảng thu của trường nghề",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "sms",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "hoa_don",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, sáng nay mình còn quên mang áo mưa, mà thôi, mình đang chuyển tiền mua bộ đồ mặc khi thực hành, đóng đúng khoản trường nghề ghi trong bảng thu ấy. Cô giáo có nhắn SMS báo mình trước.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 594,
+  "tokens_out": 53,
+  "usd": 0.001718
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Khoản tiền mua đồ thực hành khớp với bảng thu của trường, không phải yêu cầu chuyển tiền vì cấp cứu.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001194
+ }
+}

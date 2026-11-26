@@ -1,0 +1,40 @@
+{
+ "id": "dich_vu_lay_lai_tien__13",
+ "kich_ban": "dich_vu_lay_lai_tien",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Nộp phí xác thực căn cước để nhận lại tiền mua điện thoại cũ",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "messenger",
+  "tu_xung": "dich_vu_thu_hoi_tien",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình chuyển khoản để trả tiền xác minh căn cước, họ bảo xong thì mình lấy lại được tiền mua cái điện thoại cũ. Mình có chuyển cho bên đó một lần rồi, nhưng mình tin họ làm thật, chắc khoản này chỉ là thủ tục thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 533,
+  "tokens_out": 60,
+  "usd": 0.001666
+ },
+ "vong": 0
+}

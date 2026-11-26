@@ -1,0 +1,46 @@
+{
+ "id": "bt_hoa_don_to_chuc__23",
+ "kich_ban": "bt_hoa_don_to_chuc",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "đóng lệ phí cấp phiếu lý lịch tư pháp theo mã hồ sơ",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "truc_tiep",
+  "tu_xung": "giao_vien_y_te",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [],
+  "ly_do_tien": "vien_phi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "co",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "to_chuc",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, mình đang chuyển tiền để xin cấp phiếu lý lịch tư pháp, đóng theo cái mã hồ sơ ấy. Nãy mình tự ra quầy hỏi trực tiếp, à mà lúc đi còn quên mang áo mưa.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 580,
+  "tokens_out": 50,
+  "usd": 0.00166
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Người dùng đã hỏi trực tiếp tại quầy và đóng phí theo mã hồ sơ, không phải do người lạ tự xưng cán bộ yêu cầu.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 25,
+  "usd_share": 0.0008560800000000001
+ }
+}

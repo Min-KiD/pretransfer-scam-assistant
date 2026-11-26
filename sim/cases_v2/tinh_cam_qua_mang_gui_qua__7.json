@@ -1,0 +1,41 @@
+{
+ "id": "tinh_cam_qua_mang_gui_qua__7",
+ "kich_ban": "tinh_cam_qua_mang_gui_qua",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình nộp phí giám định đôi bông tai vàng cô ấy gửi từ Dubai",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_quen_qua_mang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, cô ấy đang giục mình chuyển lẹ, mà khoan, mình chuyển là để trả tiền kiểm định cặp bông tai vàng cô ấy gửi từ Dubai về. Nãy mình còn đang pha cà phê dở nữa.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 610,
+  "tokens_out": 52,
+  "usd": 0.00174
+ },
+ "vong": 0
+}

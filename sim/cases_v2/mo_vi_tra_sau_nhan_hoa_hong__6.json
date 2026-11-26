@@ -1,0 +1,40 @@
+{
+ "id": "mo_vi_tra_sau_nhan_hoa_hong__6",
+ "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Em chuyển một triệu rưỡi cho điều phối viên để hoàn tất đơn góp xe đạp",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tien_vay_chuyen_di",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Em đang gửi 1 triệu rưỡi cho người phụ trách để chốt đơn mua xe đạp trả góp, mà số tiền này là bên ví vừa ứng cho em. Em đã chuyển cho họ một lần rồi, giờ họ lại bảo chuyển thêm nên em thấy hơi lo, có khi nào là lừa đảo không ạ?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 615,
+  "tokens_out": 72,
+  "usd": 0.00195
+ },
+ "vong": 0
+}

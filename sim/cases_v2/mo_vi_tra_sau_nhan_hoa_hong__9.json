@@ -1,0 +1,40 @@
+{
+ "id": "mo_vi_tra_sau_nhan_hoa_hong__9",
+ "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Mình chuyển ba triệu cho đại lý Bình Dương để chốt bộ bàn ăn trả góp",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "telegram",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tien_vay_chuyen_di",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình gửi ba triệu qua đại lý ở Bình Dương để chốt mua trả góp bộ bàn ăn á. Bên đó nhắn mình qua Telegram, bảo cứ chuyển khoản tiền vừa được ứng qua là có ưu đãi, mình thấy họ tư vấn nhiệt tình nên cũng tin.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 621,
+  "tokens_out": 61,
+  "usd": 0.001852
+ },
+ "vong": 0
+}

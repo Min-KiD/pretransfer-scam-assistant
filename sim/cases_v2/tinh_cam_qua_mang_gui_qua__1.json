@@ -1,0 +1,41 @@
+{
+ "id": "tinh_cam_qua_mang_gui_qua__1",
+ "kich_ban": "tinh_cam_qua_mang_gui_qua",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Chuyển phí soi chiếu hộp vòng ngọc cô ấy gửi từ Đài Bắc",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "messenger",
+  "tu_xung": "co_quan_nha_nuoc",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi",
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang gửi tiền để bên đó quét kiểm tra hộp vòng ngọc cô ấy gửi từ Đài Bắc về. Mình tin cô ấy nói thật, cô ấy giục mình chuyển lẹ cũng chỉ để mình sớm nhận được quà thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 620,
+  "tokens_out": 56,
+  "usd": 0.0018
+ },
+ "vong": 0
+}

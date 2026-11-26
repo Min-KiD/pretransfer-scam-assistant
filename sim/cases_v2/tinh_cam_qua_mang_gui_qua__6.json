@@ -1,0 +1,40 @@
+{
+ "id": "tinh_cam_qua_mang_gui_qua__6",
+ "kich_ban": "tinh_cam_qua_mang_gui_qua",
+ "nhom": "lua_dao",
+ "tinh_cach": "nghi_ngo",
+ "viec": "Chuyển tiền mua bảo hiểm vận chuyển cho chiếc nhẫn đính hôn từ Ý",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_quen_qua_mang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang định chuyển tiền đóng phí bảo hiểm cho cái nhẫn đính hôn gửi từ Ý về. Mình đã chuyển cho họ một lần rồi, giờ họ lại giục chuyển thêm ngay, nghe hơi đáng ngờ, có khi nào mình bị lừa không?",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 597,
+  "tokens_out": 60,
+  "usd": 0.001794
+ },
+ "vong": 0
+}

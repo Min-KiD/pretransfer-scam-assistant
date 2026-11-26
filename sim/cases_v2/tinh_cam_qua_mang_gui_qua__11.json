@@ -1,0 +1,40 @@
+{
+ "id": "tinh_cam_qua_mang_gui_qua__11",
+ "kich_ban": "tinh_cam_qua_mang_gui_qua",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình trả tiền đếm và kiểm tra bó euro cô ấy gửi từ Bỉ",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_quen",
+  "kenh": "messenger",
+  "tu_xung": "nguoi_quen_qua_mang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "phi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À mình chuyển khoản để họ đếm với kiểm tra xấp tiền euro cô ấy gửi từ Bỉ ấy. Cô ấy dặn nếu có ai hỏi thì cứ nói vậy, mà tụi mình mới chat trên Messenger thôi, à nãy mình còn suýt làm đổ ly cà phê.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 598,
+  "tokens_out": 65,
+  "usd": 0.001846
+ },
+ "vong": 0
+}

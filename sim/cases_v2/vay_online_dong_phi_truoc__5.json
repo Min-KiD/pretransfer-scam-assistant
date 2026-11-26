@@ -1,0 +1,39 @@
+{
+ "id": "vay_online_dong_phi_truoc__5",
+ "kich_ban": "vay_online_dong_phi_truoc",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Gửi bạn tư vấn trên Facebook tiền công chứng hợp đồng vay",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "co",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang chuyển khoản để trả phí công chứng hợp đồng vay cho bạn tư vấn bên Facebook. Bạn ấy nói làm ở ngân hàng, tư vấn cũng nhiệt tình nên mình tin.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 589,
+  "tokens_out": 40,
+  "usd": 0.001578
+ },
+ "vong": 0
+}

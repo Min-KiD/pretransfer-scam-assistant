@@ -1,0 +1,48 @@
+{
+ "id": "bt_mua_online_nguoi_ban_moi__11",
+ "kich_ban": "bt_mua_online_nguoi_ban_moi",
+ "nhom": "binh_thuong",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình trả trước 240 nghìn cho chỗ rang cà phê mới thấy trên Facebook.",
+ "bang_that": {
+  "nguoi_lien_lac": "tu_tim_den",
+  "kenh": "zalo",
+  "tu_xung": "nguoi_ban",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "khong_co"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "dat_coc",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khong",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "co"
+ },
+ "tin_mo_dau": "À, cà phê ấy, mình đang chuyển trước 240 ngàn để cọc cho một chỗ rang cà phê mới lướt Facebook thấy. Mình nhắn họ qua Zalo, mà nãy giờ ly cà phê sáng còn chưa uống hết nữa.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 578,
+  "tokens_out": 60,
+  "usd": 0.001756
+ },
+ "vong": 0,
+ "doc_lai": {
+  "mau_thuan": false,
+  "kich_ban": "",
+  "ly_do": "Tìm chỗ rang cà phê trên Facebook rồi đặt cọc qua trao đổi trên Zalo chưa đủ để nhận diện lừa đảo khi không có chi tiết về giá rẻ bất thường, giả mạo hay thúc ép.",
+  "model": "openai:gpt-6.2-sol",
+  "batch": 10,
+  "usd_share": 0.001219
+ }
+}

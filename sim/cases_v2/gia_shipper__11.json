@@ -1,0 +1,42 @@
+{
+ "id": "gia_shipper__11",
+ "kich_ban": "gia_shipper",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Em gửi phí giao qua cầu để anh mang bàn gấp sang nhà mới.",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "shipper",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "doa"
+  ],
+  "yeu_cau": [
+   "chuyen_tien",
+   "bam_link",
+   "lien_he_so_ho_dua"
+  ],
+  "ly_do_tien": "tra_hang",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "co",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, em đang chuyển tiền phí qua cầu cho anh giao hàng chở cái bàn gấp qua nhà mới, cái bàn em hay ngồi ăn mì ấy. Mà khoan, em gửi anh đó một lần rồi, giờ anh ấy lại bảo gửi thêm.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 547,
+  "tokens_out": 57,
+  "usd": 0.001664
+ },
+ "vong": 0
+}

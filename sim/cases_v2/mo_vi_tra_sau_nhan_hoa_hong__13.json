@@ -1,0 +1,40 @@
+{
+ "id": "mo_vi_tra_sau_nhan_hoa_hong__13",
+ "kich_ban": "mo_vi_tra_sau_nhan_hoa_hong",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Mình gửi bốn triệu cho kho Đồng Nai để mua máy sấy theo suất góp nội bộ",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "messenger",
+  "tu_xung": "nha_tuyen_dung",
+  "ai_bat_dau": "minh_truoc",
+  "ap_luc": [
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "tien_vay_chuyen_di",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khong",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "da_xac_nhan"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "da_xac_nhan",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang chuyển 4 triệu cho kho ở Đồng Nai để lấy một suất mua góp máy sấy dành cho người nội bộ. Chị hướng dẫn mình mới quen qua Messenger thôi, nhưng chị ấy nói chuyện dễ mến lắm, mình nghĩ chị ấy giúp thật.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 623,
+  "tokens_out": 59,
+  "usd": 0.001836
+ },
+ "vong": 0
+}

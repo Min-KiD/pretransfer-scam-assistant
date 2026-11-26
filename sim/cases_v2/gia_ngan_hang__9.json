@@ -1,0 +1,43 @@
+{
+ "id": "gia_ngan_hang__9",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "ca_tin",
+ "viec": "Mình đóng tám mươi nghìn để nhận sao kê có dấu nộp hồ sơ du học",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "sms",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa"
+  ],
+  "yeu_cau": [
+   "doc_otp",
+   "bam_link",
+   "chuyen_tien"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "co",
+  "nhan_tai_khoan": "moi"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "moi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "Mình đang chuyển 80 nghìn để lấy bản sao kê có đóng dấu cho bộ hồ sơ đi du học. Anh ấy nhắn SMS bảo là bên ngân hàng, mình nghĩ chắc đúng rồi, ảnh giục cũng chỉ để mình có giấy sớm thôi.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 572,
+  "tokens_out": 57,
+  "usd": 0.001714
+ },
+ "vong": 0
+}

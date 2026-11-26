@@ -1,0 +1,43 @@
+{
+ "id": "gia_ngan_hang__7",
+ "kich_ban": "gia_ngan_hang",
+ "nhom": "lua_dao",
+ "tinh_cach": "ke_lon_xon",
+ "viec": "Mình nộp tiền để gỡ liên kết ví khỏi chiếc điện thoại bị mất",
+ "bang_that": {
+  "nguoi_lien_lac": "nguoi_la",
+  "kenh": "cuoc_goi",
+  "tu_xung": "ngan_hang",
+  "ai_bat_dau": "ho_truoc",
+  "ap_luc": [
+   "hoi_thuc",
+   "doa",
+   "hua_loi"
+  ],
+  "yeu_cau": [
+   "bam_link",
+   "cai_app"
+  ],
+  "ly_do_tien": "khac_phuc_loi",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong",
+  "da_gap_truc_tiep": "khong",
+  "duoc_dan_cach_tra_loi": "khac",
+  "da_chuyen_truoc_do": "khong",
+  "mau_thuan_loi_ke_va_anh": "khac",
+  "nhan_tai_khoan": "dang_bi_bao_cao"
+ },
+ "tai_khoan": {
+  "nhan_tai_khoan": "dang_bi_bao_cao",
+  "loai_tai_khoan": "ca_nhan",
+  "ten_khop_tu_xung": "khong"
+ },
+ "tin_mo_dau": "À, nãy có người gọi giục mình chuyển lẹ, đúng lúc mình đang hâm lại tô canh, suýt quên tắt bếp. Mà bạn hỏi chuyển để làm gì nhỉ, à, mình gửi khoản này để ngắt kết nối ví với cái điện thoại mình làm mất ấy.",
+ "sinh_boi": {
+  "model": "openai:gpt-6.2-sol",
+  "tokens_in": 573,
+  "tokens_out": 68,
+  "usd": 0.001826
+ },
+ "vong": 0
+}
