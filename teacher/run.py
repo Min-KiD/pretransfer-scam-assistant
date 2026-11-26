@@ -98,9 +98,31 @@ def ask_teacher(prompt, schema, ids, retries=3):
     raise RuntimeError(last)
 
 
-def run_session(h, case, user_family="gemini"):
-    """The `run_tu_do` loop. Saves every prompt exactly as sent, the JSON returned and the user's replies."""
+def ask_text(prompt, retries=3):
+    """One free-text `completion()` call (Claude as the simulated user); returns (text, seconds)."""
+    last = ""
+    for attempt in range(1, retries + 1):
+        t0 = time.perf_counter()
+        try:
+            o = completion(prompt).wait()
+            text = " ".join(str(o).strip().strip('"').split())  # same cleaning as victim_reply / write_opening
+            if text:
+                return text, round(time.perf_counter() - t0, 2)
+            last = "empty answer"
+        except Exception as e:
+            last = f"{type(e).__name__}: {str(e)[:200]}"
+        time.sleep(min(30, 2 ** attempt))
+    raise RuntimeError(last)
+
+
+def run_session(h, case, user_family="gemini", split=None):
+    """The `run_tu_do` loop. Saves every prompt exactly as sent, the JSON returned and the user's replies.
+    user_family "gemini": `victim_reply` (flash-lite) plays the user. "claude": the opening is written with the
+    `write_opening` prompt and the replies with the `victim_reply` prompt, both through `completion()`."""
     ids, k = h.info["ids"] + [h.info["chua_du"]], h.info["k"]
+    case = dict(case)
+    if user_family == "claude" and not case.get("tin_mo_dau"):
+        case["tin_mo_dau"], _ = ask_text(h.call("opening_prompt", case=case)["prompt"])
     history = [{"role": "user", "text": case["tin_mo_dau"]}]
     turns, asked = [], 0
     while True:
@@ -113,27 +135,36 @@ def run_session(h, case, user_family="gemini"):
             break
         history.append({"role": "assistant", "text": out["cau_hoi"]})
         asked += 1
-        v = h.call("victim", case=case, history=history)
-        turn["user_reply"] = {"text": v["text"], "seconds": v["seconds"], "usd": v["usd"], "model": v["model"]}
-        history.append({"role": "user", "text": v["text"]})
-    return {"story_id": case["id"], "scenario": case["kich_ban"], "group": case["nhom"], "persona": case["tinh_cach"],
-            "user_family": user_family, "account_line": turns[0]["account_line"], "tai_khoan": case["tai_khoan"],
-            "opening": case["tin_mo_dau"], "turns": turns, "n_asked": asked,
-            "final": turns[-1]["response"]["du_doan"], "correct": turns[-1]["response"]["du_doan"] == case["kich_ban"],
-            "teacher_seconds": round(sum(t["seconds"] for t in turns), 2)}
+        if user_family == "claude":
+            text, vs = ask_text(h.call("victim_prompt", case=case, history=history)["prompt"])
+            turn["user_reply"] = {"text": text, "seconds": vs, "usd": 0.0, "model": "claude-sonnet-5-5"}
+        else:
+            v = h.call("victim", case=case, history=history)
+            turn["user_reply"] = {"text": v["text"], "seconds": v["seconds"], "usd": v["usd"], "model": v["model"]}
+        history.append({"role": "user", "text": turn["user_reply"]["text"]})
+    final = turns[-1]["response"]["du_doan"]
+    return {"story_id": case["id"], "scenario": case["kich_ban"], "group": case["nhom"], "split": split,
+            "persona": case["tinh_cach"], "viec": case.get("viec"), "user_family": user_family,
+            "account_line": turns[0]["account_line"], "tai_khoan": case["tai_khoan"], "bang_that": case["bang_that"],
+            "opening": case["tin_mo_dau"], "turns": turns, "n_asked": asked, "final": final,
+            "correct": final == case["kich_ban"], "teacher_seconds": round(sum(t["seconds"] for t in turns), 2)}
 
 
-def run_sessions(h, cases, out_path, workers=4):
-    """Resumable: story ids already in `out_path` are skipped. Errors go to `<out_path>.errors`."""
+def run_sessions(h, items, out_path, workers=4, limit=None):
+    """Resumable: story ids already in `out_path` are skipped. Errors go to `<out_path>.errors`.
+    `items` are case dicts (Gemini user) or plan entries {"case", "split", "user_family"} from the helper's "plan".
+    `limit` caps how many new sessions are started (the plan order is round-robin, so any prefix is balanced)."""
     out = Path(out_path)
     out.parent.mkdir(parents=True, exist_ok=True)
+    items = [i if "case" in i else {"case": i, "split": None, "user_family": "gemini"} for i in items]
     done = {json.loads(l)["story_id"] for l in out.read_text().splitlines()} if out.exists() else set()
-    todo = [c for c in cases if c["id"] not in done]
+    todo = [i for i in items if i["case"]["id"] not in done][:limit]
     wlock, results, errors = threading.Lock(), [], []
 
-    def one(c):
+    def one(i):
+        c = i["case"]
         try:
-            s = run_session(h, c)
+            s = run_session(h, c, i["user_family"], i["split"])
         except Exception as e:
             with wlock:
                 errors.append((c["id"], str(e)))
@@ -148,5 +179,40 @@ def run_sessions(h, cases, out_path, workers=4):
     t0 = time.perf_counter()
     with ThreadPoolExecutor(workers) as pool:
         list(pool.map(one, todo))
-    return {"skipped": len(done), "ran": len(results), "errors": errors, "wall_seconds": round(time.perf_counter() - t0, 1),
-            "sessions": results}
+    return {"skipped": len(done), "ran": len(results), "errors": errors,
+            "wall_seconds": round(time.perf_counter() - t0, 1), "sessions": results}
+
+
+CHUA_DU_OK = {"bt_mua_online_nguoi_ban_moi"}  # the scenario whose expected answer may also be chua_du_can_cu
+
+
+def keep_reason(s):
+    """None if the session is kept, else why it is dropped."""
+    if s["correct"] or (s["scenario"] in CHUA_DU_OK and s["final"] == "chua_du_can_cu"):
+        return None
+    return f"final={s['final']}"
+
+
+def write_training_files(sessions_path, out_dir):
+    """`sessions.jsonl` (everything, with `kept` and `drop_reason`), `train.jsonl`, `val.jsonl`: one row per
+    assistant turn of every kept session, answer JSON compact with keys in the order du_doan, cau_hoi."""
+    out_dir = Path(out_dir)
+    sessions = [json.loads(l) for l in open(sessions_path)]
+    rows = {"train": [], "val": []}
+    for s in sessions:
+        s["drop_reason"] = keep_reason(s)
+        s["kept"] = s["drop_reason"] is None
+        if s["kept"]:
+            for t in s["turns"]:
+                a = json.dumps({"du_doan": t["response"]["du_doan"], "cau_hoi": t["response"]["cau_hoi"]},
+                               ensure_ascii=False, separators=(",", ":"))
+                rows[s["split"]].append({"messages": [{"role": "user", "content": t["prompt"]},
+                                                      {"role": "assistant", "content": a}],
+                                         "story_id": s["story_id"], "scenario": s["scenario"], "turn": t["turn"]})
+    with open(out_dir / "sessions.jsonl", "w") as f:
+        f.writelines(json.dumps(s, ensure_ascii=False) + "\n" for s in sessions)
+    for split, rs in rows.items():
+        with open(out_dir / f"{split}.jsonl", "w") as f:
+            f.writelines(json.dumps(r, ensure_ascii=False) + "\n" for r in rs)
+    return {"sessions": len(sessions), "kept": sum(s["kept"] for s in sessions),
+            "train_rows": len(rows["train"]), "val_rows": len(rows["val"])}

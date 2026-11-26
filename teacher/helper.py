@@ -48,6 +48,74 @@ def build_prompt(case: dict, history: list, asked: int, scen=None) -> tuple[str,
     return prompt, R.free_schema(list(scen))
 
 
+import random  # noqa: E402
+
+from core import llm  # noqa: E402
+from sim import cases as C  # noqa: E402
+
+_tl = threading.local()
+_orig_generate = llm.generate
+
+
+def _generate(prompt, *a, **k):
+    """Passes through, except on a thread that is capturing: then the prompt is recorded and nothing is sent."""
+    if getattr(_tl, "cap", None) is not None:
+        _tl.cap.append(prompt)
+        return llm.Result(None, "x", 0, 0, 0.0, 0.0, "capture")
+    return _orig_generate(prompt, *a, **k)
+
+
+llm.generate = _generate
+
+
+def capture(fn, *a):
+    """The prompt `fn(*a)` (a sim function that calls llm.generate once) would send, without sending it."""
+    _tl.cap = []
+    try:
+        fn(*a)
+        return _tl.cap[0]
+    finally:
+        _tl.cap = None
+
+
+CASE_KEYS = ("id", "kich_ban", "nhom", "tinh_cach", "viec", "bang_that", "tai_khoan", "tin_mo_dau")
+TARGET = {"lua_dao": {"train": 60, "val": 10}, "binh_thuong": {"train": 90, "val": 10}}  # sessions per scenario
+FLASH_SEED, CLAUDE_SEED = 20261128, 20261127  # flash-lite stories draw / make_case (T5 Part 4)
+
+
+def plan(viec_path: str) -> list[dict]:
+    """All Part 4 sessions in run order: round-robin over the scenarios, a seeded mix inside each scenario.
+    Half of every (scenario, split) quota starts from flash-lite stories of cases_v2, half from tables drawn here."""
+    viec = json.loads(Path(viec_path).read_text(encoding="utf-8"))
+    rows = [json.loads(l) for l in open(ROOT / "data/E6/cases_v2.jsonl", encoding="utf-8")]
+    per = {}
+    for sid in sorted(SCEN):
+        nhom, mine = SCEN[sid].nhom, []
+        crng = random.Random(f"{CLAUDE_SEED}:{sid}")
+        i = 0
+        for split in ("train", "val"):
+            n = TARGET[nhom][split]
+            n_claude = n // 2
+            pool = [r for r in rows if r["kich_ban"] == sid and r["split"] == split]
+            for r in random.Random(f"{FLASH_SEED}:{sid}:{split}").sample(pool, n - n_claude):
+                c = {k: r[k] for k in CASE_KEYS if k in r}
+                c["tai_khoan"] = {k: r["bang_that"][k] for k in C.KNOWN_AT_START}
+                mine.append({"case": c, "split": split, "user_family": "gemini"})
+            for _ in range(n_claude):
+                c = C.make_case(sid, i, SCEN, crng, viec=viec[sid][i % len(viec[sid])])
+                c["id"] = f"t5c_{sid}__{i}"
+                mine.append({"case": c, "split": split, "user_family": "claude"})
+                i += 1
+        random.Random(f"{CLAUDE_SEED}:{sid}:order").shuffle(mine)
+        per[sid] = mine
+    order = sorted(per)
+    random.Random(CLAUDE_SEED).shuffle(order)
+    out = []
+    for k in range(max(map(len, per.values()))):
+        out += [per[s][k] for s in order if k < len(per[s])]
+    return out
+
+
 def handle(req: dict) -> dict:
     global SCEN
     op = req["op"]
@@ -65,6 +133,12 @@ def handle(req: dict) -> dict:
         return {"text": r.text, "seconds": r.seconds, "usd": r.usd, "model": r.model, "spend": tot}
     if op == "spend":
         return {"usd": spend_total()}
+    if op == "plan":
+        return {"sessions": plan(req["viec_path"])}
+    if op == "opening_prompt":  # the prompt `sim.cases.write_opening` would send
+        return {"prompt": capture(C.write_opening, dict(req["case"]), SCEN)}
+    if op == "victim_prompt":  # the prompt `victim_reply` would send; the user model is then Sonnet, not Gemini
+        return {"prompt": capture(R.victim_reply, req["case"], SCEN, req["history"])}
     raise ValueError(op)
 
 
