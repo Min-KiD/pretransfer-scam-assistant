@@ -126,13 +126,18 @@ def handle(req: dict) -> dict:
         p, schema = build_prompt(req["case"], req["history"], req["asked"])
         return {"prompt": p, "schema": schema, "account_line": R.account_line(req["case"])}
     if op == "victim":
-        if spend_total() > CAP_USD * 0.95:
-            raise RuntimeError(f"Gemini cap: {spend_total():.4f} of {CAP_USD} USD")
+        cap = req.get("cap_total") or CAP_USD * 0.95  # Part 5 passes its own ceiling on the running total
+        if spend_total() > cap:
+            raise RuntimeError(f"Gemini cap: {spend_total():.4f} of {cap:.4f} USD")
         r = R.victim_reply(req["case"], SCEN, req["history"])
         tot = add_spend(r.usd)
         return {"text": r.text, "seconds": r.seconds, "usd": r.usd, "model": r.model, "spend": tot}
     if op == "spend":
         return {"usd": spend_total()}
+    if op == "test_order":  # Part 5: the 475 cases of sim/cases_v2/ in the order `sim.e5 --order-seed` gives
+        from sim import e5
+        cases = e5.load_cases(ROOT / "sim/cases_v2")
+        return {"cases": [j[0] for j in e5.stratified([(c, None) for c in cases], req["seed"])]}
     if op == "plan":
         return {"sessions": plan(req["viec_path"])}
     if op == "opening_prompt":  # the prompt `sim.cases.write_opening` would send

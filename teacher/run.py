@@ -139,7 +139,7 @@ def run_session(h, case, user_family="gemini", split=None):
             text, vs = ask_text(h.call("victim_prompt", case=case, history=history)["prompt"])
             turn["user_reply"] = {"text": text, "seconds": vs, "usd": 0.0, "model": "claude-sonnet-5-5"}
         else:
-            v = h.call("victim", case=case, history=history)
+            v = h.call("victim", case=case, history=history, cap_total=VICTIM_CAP_TOTAL)
             turn["user_reply"] = {"text": v["text"], "seconds": v["seconds"], "usd": v["usd"], "model": v["model"]}
         history.append({"role": "user", "text": turn["user_reply"]["text"]})
     final = turns[-1]["response"]["du_doan"]
@@ -183,6 +183,7 @@ def run_sessions(h, items, out_path, workers=4, limit=None):
             "wall_seconds": round(time.perf_counter() - t0, 1), "sessions": results}
 
 
+VICTIM_CAP_TOTAL = None  # Part 5 sets a ceiling on the running Gemini total (helper op "victim" cap_total)
 CHUA_DU_OK = {"bt_mua_online_nguoi_ban_moi"}  # the scenario whose expected answer may also be chua_du_can_cu
 
 
