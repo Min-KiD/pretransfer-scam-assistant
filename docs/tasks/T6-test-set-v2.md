@@ -51,6 +51,38 @@ to `make_case`, `OPENING_PROMPT` and `VICTIM_PROMPT`. Test set v2 is built with 
   flag). Results of this task go to `experiments/T6/`, never into `experiments/E5/`.
 - Protocol unchanged: `tu_do` prompt, at most 3 questions, simulated user `gemini-3.5-flash-lite`.
 
+## Part B2 - Simulated user must not invent details (added 2026-11-26; do this before Part C)
+
+Found in the Sonnet teacher trial (`data/T5/trial.jsonl`): the assistant asks things the story table does not hold
+("where did you get this account number", "whose name shows as the account holder"), and the simulated user
+invents an answer, often a warning sign, on ordinary stories. Three examples: `e6_bt_hoa_don_to_chuc__75` ("the
+number the teacher sent by SMS differs from the school's notice, and the name is her personal name", while the
+account line says organisation, name matches); `e6_bt_tra_no_khoan_vay__94` ("the number came over Zalo, I do not
+know whose name"); `e6_bt_tra_no_khoan_vay__177` ("a staff member sent the number by SMS"). The teacher then
+answers `chua_du_can_cu`, correctly for that dialogue. In the trial 7 of the 27 ordinary sessions outside
+`bt_mua_online_nguoi_ban_moi` ended in `chua_du_can_cu`; the planner read these three, not all seven. Every chat
+measurement uses this simulated user, so fix it first.
+
+Change, for cases that carry `viec` only (v1 cases keep the old prompt byte for byte):
+
+- The story block of `VICTIM_PROMPT` also gets the two account facts the user can see on the confirmation screen,
+  in plain words: account type (personal or organisation) and whether the holder's name matches who the other
+  side says they are.
+- Replace the rule "only tell what is in the true story; otherwise say you do not know" with three steps: asked
+  about something in the true story, answer from it; not in the true story but stated in the general situation
+  (`mo_ta`: where the account number came from, what was already checked, whether goods were received), answer
+  as the general situation says, in your own words; in neither, say you do not know or have not checked. Never
+  invent a new detail (another account number, another name, an extra fee, a contract). The rules on persona,
+  length and not saying "lừa đảo" stay.
+- Check before Part C, about 0.05 USD: 40 ordinary and 20 scam `val` rows of `data/E6/cases_v2.jsonl` (seeded,
+  round-robin), one fixed question after the opening: "Bạn lấy số tài khoản này từ đâu, và tên chủ tài khoản hiện
+  lên là tên ai?", answered with the old and the new prompt. Write all 120 answers with the account facts and
+  `mo_ta` to `experiments/T6/victim_check.md`, count by eye the answers that contradict the account facts or
+  `mo_ta`, and send the planner the two counts in one line. Continue to Part C without waiting unless the new
+  prompt contradicts in more than 5 of 60.
+- The `sonnet` tab imports `victim_reply` and `VICTIM_PROMPT`; tell the planner the commit so it can re-run its
+  trial.
+
 ## Part C - Baseline
 
 - `gemini-3.5-flash-lite` on the 475 cases, one run.
