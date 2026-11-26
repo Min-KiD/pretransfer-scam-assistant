@@ -135,10 +135,12 @@ def ask_text(prompt, retries=3):
     raise RuntimeError(last)
 
 
-def run_session(h, case, user_family="gemini", split=None):
+def run_session(h, case, user_family="gemini", split=None, note=None):
     """The `run_tu_do` loop. Saves every prompt exactly as sent, the JSON returned and the user's replies.
     user_family "gemini": `victim_reply` (flash-lite) plays the user. "claude": the opening is written with the
-    `write_opening` prompt and the replies with the `victim_reply` prompt, both through `completion()`."""
+    `write_opening` prompt and the replies with the `victim_reply` prompt, both through `completion()`.
+    `note` (Part 8): text appended to the standard prompt for a second, informed call made only when the blind call
+    asks; its `cau_hoi` replaces the blind one. The stored prompt stays the standard one, `du_doan` the blind one."""
     ids, k = h.info["ids"] + [h.info["chua_du"]], h.info["k"]
     case = dict(case)
     if user_family == "claude" and not case.get("tin_mo_dau"):
@@ -153,6 +155,16 @@ def run_session(h, case, user_family="gemini", split=None):
         turns.append(turn)
         if asked >= k or not out["cau_hoi"]:
             break
+        if note:
+            turn["blind_cau_hoi"] = out["cau_hoi"]
+            for _ in range(3):  # the informed call must ask; an empty question is retried
+                inf, isecs, iatt, imodel = ask_teacher(p["prompt"] + note, p["schema"], ids)
+                if inf["cau_hoi"]:
+                    break
+            turn["informed"] = {"du_doan": inf["du_doan"], "seconds": isecs, "attempts": iatt, "model": imodel}
+            if not inf["cau_hoi"]:
+                raise RuntimeError("informed call returned no question 3 times")
+            out["cau_hoi"] = inf["cau_hoi"]
         history.append({"role": "assistant", "text": out["cau_hoi"]})
         asked += 1
         if user_family == "claude":
@@ -184,7 +196,7 @@ def run_sessions(h, items, out_path, workers=4, limit=None):
     def one(i):
         c = i["case"]
         try:
-            s = run_session(h, c, i["user_family"], i["split"])
+            s = run_session(h, c, i["user_family"], i["split"], i.get("note"))
         except Exception as e:
             with wlock:
                 errors.append((c["id"], str(e)))
