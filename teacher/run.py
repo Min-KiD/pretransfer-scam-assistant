@@ -195,24 +195,32 @@ def keep_reason(s):
 
 def write_training_files(sessions_path, out_dir):
     """`sessions.jsonl` (everything, with `kept` and `drop_reason`), `train.jsonl`, `val.jsonl`: one row per
-    assistant turn of every kept session, answer JSON compact with keys in the order du_doan, cau_hoi."""
+    assistant turn of every kept session, answer JSON compact with keys in the order du_doan, cau_hoi.
+    Ordinary sessions dropped because the final answer is `chua_du_can_cu` go to `train_chua_du.jsonl` /
+    `val_chua_du.jsonl` in the same row format (the planner decides later whether the student sees them)."""
     out_dir = Path(out_dir)
     sessions = [json.loads(l) for l in open(sessions_path)]
-    rows = {"train": [], "val": []}
+    names = ("train", "val", "train_chua_du", "val_chua_du")
+    rows = {n: [] for n in names}
     for s in sessions:
         s["drop_reason"] = keep_reason(s)
         s["kept"] = s["drop_reason"] is None
         if s["kept"]:
-            for t in s["turns"]:
-                a = json.dumps({"du_doan": t["response"]["du_doan"], "cau_hoi": t["response"]["cau_hoi"]},
-                               ensure_ascii=False, separators=(",", ":"))
-                rows[s["split"]].append({"messages": [{"role": "user", "content": t["prompt"]},
-                                                      {"role": "assistant", "content": a}],
-                                         "story_id": s["story_id"], "scenario": s["scenario"], "turn": t["turn"]})
+            bucket = s["split"]
+        elif s["group"] == "binh_thuong" and s["final"] == "chua_du_can_cu":
+            bucket = s["split"] + "_chua_du"
+        else:
+            continue
+        for t in s["turns"]:
+            a = json.dumps({"du_doan": t["response"]["du_doan"], "cau_hoi": t["response"]["cau_hoi"]},
+                           ensure_ascii=False, separators=(",", ":"))
+            rows[bucket].append({"messages": [{"role": "user", "content": t["prompt"]},
+                                              {"role": "assistant", "content": a}],
+                                 "story_id": s["story_id"], "scenario": s["scenario"], "turn": t["turn"]})
     with open(out_dir / "sessions.jsonl", "w") as f:
         f.writelines(json.dumps(s, ensure_ascii=False) + "\n" for s in sessions)
-    for split, rs in rows.items():
-        with open(out_dir / f"{split}.jsonl", "w") as f:
+    for n, rs in rows.items():
+        with open(out_dir / f"{n}.jsonl", "w") as f:
             f.writelines(json.dumps(r, ensure_ascii=False) + "\n" for r in rs)
     return {"sessions": len(sessions), "kept": sum(s["kept"] for s in sessions),
-            "train_rows": len(rows["train"]), "val_rows": len(rows["val"])}
+            **{f"{n}_rows": len(rs) for n, rs in rows.items()}}
