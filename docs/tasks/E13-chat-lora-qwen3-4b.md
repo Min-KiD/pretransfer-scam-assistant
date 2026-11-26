@@ -1,49 +1,69 @@
 # E13 - LoRA fine-tune of `Qwen3-4B-Instruct-2507` as the chat model
 
-From: planner tab `Momo_TechContest`. For: `code` tab. Written 2026-11-26.
-
-**Status: out of date, do not run as written.** Since 2026-11-26: the teacher is Claude Sonnet 5.5 in the
-`sonnet` tab on Minh's subscription, not Haiku over the API (brief T5, output `data/T5/train.jsonl` and
-`val.jsonl`); the catalogue has 25 scenarios (T4); evaluation is on test set v2 (T6). Part A below is replaced by
-T5. The planner will rewrite Parts B and C and then send "E13 go". Minh approved the step itself on 2026-11-26; it
-runs on the company server. E12 (untrained baseline of the same model) runs first.
+From: planner tab `Momo_TechContest`. For: `code` tab. Rewritten 2026-11-26 (the earlier version is replaced: its
+Part A, teacher dialogues, was done by the `sonnet` tab as T5). Minh approved the step; it runs on the company
+server, after E12 has freed the GPU. Starts on "E13 go".
 
 ## Question
 
-Minh decided on 2026-11-26 to fine-tune one open chat model only: `Qwen/Qwen3-4B-Instruct-2507` (no Gemma for now). Does a LoRA adapter trained on teacher dialogues bring it to the level of `gemini-3.5-flash-lite` (81.3% correct scenario, 10 of 220 scams called ordinary) on the 300 test sessions?
+Does a LoRA adapter trained on Claude Sonnet 5.5 teacher dialogues bring `Qwen/Qwen3-4B-Instruct-2507` to the level
+of `gemini-3.5-flash-lite` on test set v2 (T6: correct scenario 419/475, scam called ordinary 18/225, ordinary
+flagged 2/250)?
 
-Method fixed by Minh: LoRA only. The base weights stay frozen; only the adapter matrices are trained. No full fine-tune, no unfreezing of layers.
+Method fixed by Minh: LoRA only, base weights frozen, full-precision (bf16) base, no quantised base, no rented GPU.
 
-## Part A - Teacher dialogues (API cost)
+## Data (ready, local, gitignored: copy it to the server)
 
-- Stories: the 3000 `train` stories of `data/E6/cases.jsonl` (200 per scenario; none of their opening messages is in the 300 test cases, checked 2026-11-26). The 300 `val` stories are the validation set. **Never use `sim/cases/` for training or validation.**
-- E6 stories have no `tai_khoan` field. Build the account line from `bang_that.nhan_tai_khoan` the same way the test cases do; check on 5 stories by eye and say in the report what was done.
-- Teacher: `anthropic:claude-haiku-5-5` as the assistant, same `tu_do` prompt, same JSON schema, simulated user `gemini-3.5-flash-lite`. Reason: on the 300 test sessions it asks 1.30 questions and calls 4 of 220 scams ordinary; `gemini-3.5-flash-lite` asks 0.65 and misses 10.
-- Run 1500 train stories (100 per scenario) and 150 val stories (10 per scenario). Keep only sessions whose final `du_doan` equals the story's scenario. Report how many are kept per scenario; if a scenario keeps fewer than 60, say so and do not top up without asking.
-- **Order:** seeded stratified (seed `20261126`, round-robin over the 15 scenarios), so that a stop at any point leaves a balanced set.
-- Caps (proposal): Anthropic 2.8 USD, Gemini 0.7 USD for this part. Planner's estimate from E10 part C: 0.0015 USD Anthropic and 0.0004 USD Gemini per session. `--project-after 60` (4 per scenario); if the projection exceeds a cap, lower the number of stories per scenario to fit and report; do not raise a cap.
-- One training example per assistant turn: the exact prompt of that turn (catalogue, account line, history so far, question count, instruction) as the user message, the teacher's JSON as the assistant message. Use the model's own chat template.
+- `data/T5/train.jsonl`: 3,692 rows, one per assistant turn of 1,689 kept teacher sessions (25 scenarios; half of
+  the stories and users by Gemini flash-lite, half by Claude). `data/T5/val.jsonl`: 501 rows of 250 sessions' kept
+  part. Each row: `messages` = [user: the exact `tu_do` prompt of that turn, assistant: compact JSON
+  `{"du_doan","cau_hoi"}`], plus `story_id`, `scenario`, `turn`.
+- Prompts are 11.2k to 12.7k characters (about 3,300 tokens on the first turn by the planner's earlier count).
+  Measure the longest row with the model's tokenizer, set the maximum length from it, report it. No truncation: if a
+  row does not fit, stop and tell the planner.
+- **Not** in the main runs: `data/T5/train_chua_du.jsonl` and `val_chua_du.jsonl` (ordinary stories the teacher
+  ended with `chua_du_can_cu`). Leave them alone.
+- Never train or validate on `sim/cases_v2/` or `sim/cases/`. Planner's check on 2026-11-26: 0 of the 2,050 teacher
+  openings equal a test opening, 0 pairs above 0.6 word overlap, 0 shared purpose lines.
 
 ## Part B - Training
 
-- LoRA on the full-precision base (bf16 weights, not quantised: Minh, 2026-11-26), the same setup as `e1/lora_train.py` (plain `peft`, gradient checkpointing; that run peaked at 11.4 GiB on a 4B model). Adapters on all attention and MLP projections (`q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj`). Training and serving then use the same weights.
-- Fixed: learning rate 2e-4, linear schedule, warmup 5% of steps, effective batch 16, dropout 0, weight decay 0.01, alpha = rank, loss on the assistant message only, seed 3407, 3 epochs with a checkpoint after each. Set the maximum length from the measured longest training example; report it.
-- Two runs only: rank 16 and rank 64.
-- Pick one checkpoint per rank by validation loss on the kept val sessions. Report train and validation loss per epoch.
-- Where: the company server first (16 GB card; `nvidia-smi` before, never kill another job). Prompts are about 2000 tokens per turn; start with batch 1 x 16 accumulation. If it runs out of memory at rank 64, or the card is busy, stop and tell the planner tab: do not switch to a 4-bit base and do not rent a GPU without asking. Reuse the existing environment (`peft` 0.22 is installed); install nothing new into it.
-- Report: trainable parameters, peak VRAM, minutes per epoch, adapter size.
+- Same setup as `e1/lora_train.py` (plain `peft`, gradient checkpointing). Adapters on all attention and MLP
+  projections (`q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj`). The model's own chat template.
+- Fixed: learning rate 2e-4, linear schedule, warmup 5% of steps, effective batch 16 (start with batch 1 x 16
+  accumulation), dropout 0, weight decay 0.01, alpha = rank, loss on the assistant message only, seed 3407,
+  3 epochs with a checkpoint and a validation loss after each.
+- Two runs only: rank 16, then rank 64.
+- **Timing gate.** After the first 50 optimiser steps of rank 16, project the time of the full run and send the
+  planner one line (seconds per step, projected hours, peak VRAM). Go on without waiting if the projection is under
+  8 hours per run; otherwise stop and wait.
+- Out of memory, or the card taken by another user: stop and tell the planner. Do not switch to a 4-bit base, do
+  not shorten the prompt, do not kill anyone's job.
+- Pick one checkpoint per rank by validation loss. Report train and validation loss per epoch, trainable
+  parameters, peak VRAM, minutes per epoch, adapter size.
 
 ## Part C - Evaluation
 
-- Serve the full-precision base with each chosen adapter through vLLM. Same protocol as E12: the 300 test cases, `tu_do` prompt unchanged, simulated user `gemini-3.5-flash-lite`, greedy, JSON schema enforced, the seeded stratified order added in E12, one run per adapter.
-- Cap (proposal): Gemini 0.25 USD per adapter, 0.5 USD in total.
-- Rows: untrained (E12), rank 16, rank 64, next to `gemini-3.5-flash-lite`, `claude-haiku-5-5` (the teacher) and `gemma-4-e4b-qat`. Columns and pairing as in E12: scam called ordinary (k/220), ordinary flagged as scam (k/80), correct scenario after 0-3 questions, `chua_du_can_cu`, questions asked, malformed turns, seconds per turn; every rate with a 95% Wilson interval; paired against the untrained model and against `gemini-3.5-flash-lite` (2x2 table, McNemar, paired bootstrap); the E6 second opinion (C0) rows; the scam cases still called ordinary.
-- Rule, declared now: the fine-tuned model is "as good as the closed model" if it is no more than 5 points behind `gemini-3.5-flash-lite` on correct scenario (81.3%), calls no more scams ordinary than it does (10 of 220), and flags ordinary transfers no more than 5 points more often (7 of 80). It decides nothing about the live build by itself: Minh decides.
-- Known limit to state in the report: teacher, training stories and simulated user are all LLM-written; the test sessions come from the same generator as the training stories.
+- Serve the bf16 base with each chosen adapter through vLLM. Protocol identical to E12 and T6 Part C (`--cases
+  sim/cases_v2 --order-seed 20261128`, `tu_do` prompt unchanged, simulated user `gemini-3.5-flash-lite`, greedy,
+  JSON schema enforced, one run per adapter, no rerun to pick a number).
+- Gemini: `--cap-usd 0.35` per adapter, `--project-after 50`; stop at the 50 if the projection exceeds the cap.
+- Rows: untrained (E12), rank 16, rank 64, next to `gemini-3.5-flash-lite` (T6). Columns, splits, the 430-case
+  rows, the account-rule reference row and the list of scam cases called ordinary exactly as in the E12 brief.
+  Paired against the untrained model and against flash-lite (2x2 table, McNemar, paired bootstrap interval) for
+  correct scenario and for scam called ordinary.
+- Rule, declared now: the fine-tuned model is "as good as the closed model" if on the 475 cases it is no more than
+  5 points behind flash-lite on correct scenario (88.2%), calls no more scams ordinary (18/225), and flags no more
+  than 14/250 ordinary transfers (flash-lite 2/250 plus 5 points). It decides nothing about the live build by
+  itself: Minh decides.
+- Limits to state in the report: stories, teacher and simulated users are all LLM-written; the teacher asks about
+  1.2 questions per session where flash-lite asks 0.36, so the student is expected to ask more; the 45 cases
+  rewritten in T6 Part A2 are easy by construction.
 
 ## Deliverables
 
-- `experiments/E13/report.md` (English), real spend per provider at the top.
-- Teacher dialogues under `data/E13/` (kept and dropped, with the reason), adapters kept on the server, not in git.
+- `experiments/E13/report.md` (English), real spend at the top; sessions per adapter in `experiments/E13/`.
+- Adapters kept on the server (not in git); report their path and size, `du -sh .cache/hf`, `df -h`.
 - A short E13 section in `EXPERIMENTS.md` and a row in its overview table. Commit and push.
-- One line to the planner tab after each part, and at once when a projection rule or a cap stops a part.
+- One line to the planner tab: at the timing gate, after Part B, after Part C, and at once when anything stops a
+  part.
