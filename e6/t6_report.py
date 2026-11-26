@@ -174,6 +174,8 @@ def main():
     vc = re.search(r"(\d+) calls, ([\d.]+) USD", (OUT / "victim_check.md").read_text(encoding="utf-8"))
     vc_usd = float(vc.group(2)) if vc else 0.0
     gem = sum(r["usd"] + r.get("victim_usd", 0) for r in sess + old_sess)
+    img_p = ROOT / "data/E1b/gen_gpt/calls.jsonl"
+    img = [json.loads(l) for l in open(img_p, encoding="utf-8")] if img_p.exists() else []
 
     L = ["# T6 - Test set v2 (written by GPT) and the flash-lite baseline\n",
          "Brief: `docs/tasks/T6-test-set-v2.md`. Report: `python3 -m e6.t6_report`. Rates as k/n [Wilson 95%]; one run per "
@@ -185,6 +187,8 @@ def main():
          f"| Gemini (`gemini-3.5-flash-lite`) | B2: simulated-user check (120 calls) | {vc_usd:.4f} | - |",
          f"| Gemini (`gemini-3.5-flash-lite`) | C: {len(sess)} sessions + {len(old_sess)} on the cases replaced by A2, "
          f"assistant + simulated user | {gem:.4f} | 1.0 |",
+         f"| OpenAI (`gpt-image-2.6-sunburst`) | D: image trial, {len(img)} calls (`data/E1b/gen_gpt/`, "
+         f"`python -m e1.gen_gpt`) | {sum(c['usd'] for c in img):.4f} | 0.5 |",
          "\nNo server, no GPU.\n"]
 
     # ---------------------------------------------------------------- part A

@@ -285,6 +285,7 @@ Why: every chat number so far came from cases written by Gemini, the same family
 - **The 45 rewritten cases:** before A2, 28 of 45 got the right scenario and 7 were called ordinary; after A2, 45 of 45 and none. The new openings state the scam's mechanism outright (the core required it), so these 45 cases are now easy. [inference]
 - **Second opinion (M3) is not met on v2.** At any confidence, C0 v2 disagrees with 68% of flash-lite's wrong conclusions, but also with 36% of its right ones; C0 v3 with 73% and 29%. Turning a disagreement into "not enough evidence" cuts the scams called ordinary to 3 (v2) or 7 (v3) of 225. But it does the same to 35-40% of all sessions. With the val-set threshold, C0 v2 (tau 0.8) never disagrees, because only 2 of 475 sessions reach 0.8. C0 v3 (tau 0.3) catches 4 of 56 wrong conclusions.
 - **Classifiers alone on the openings:** C0 v2 54.9% correct, 28/225 scams called ordinary, 61/250 ordinary called scam; C0 v3 58.1%, 66/225 and 14/250. Report, split by group and account label: `experiments/T6/report.md` (`python3 -m e6.t6_report`).
+- **Part D (image trial):** `gpt-image-2.6-sunburst` drew the first 5 `gen_moi` conversations of E1b with the same prompts and intended files (`data/E1b/gen_gpt/`, `python -m e1.gen_gpt`). Settings: 1024x1536, quality high, 1,372 output tokens and 0.043 USD per image, 27-43 s each; 0.21 USD of a 0.5 USD cap. Not yet read against the intended strings; the sonnet tab does that before any larger batch.
 
 ## Known gaps
 
