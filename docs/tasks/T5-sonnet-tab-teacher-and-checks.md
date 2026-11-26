@@ -176,6 +176,56 @@ ordinary flagged 9/250, `chua_du_can_cu` 40/475 (36 ordinary). Is Opus 5.5 clear
   stories and openings of `data/T5/sessions.jsonl` (no new story or purpose line, so the test set this tab has
   read cannot leak): not a go yet.
 
+## Part 7 - Teacher dialogues again with Opus 5.5 (added 2026-11-27; pilot is a go, full run waits)
+
+Part 6 result: Opus 5.5 439/475 correct against Sonnet 410/475 (paired p = 8e-5), 0/225 scams called ordinary,
+6/250 ordinary flagged, `chua_du_can_cu` 17 against 40. By the rule declared in Part 6, Opus is the teacher.
+
+- **Same 2,050 stories.** Take every row of `data/T5/sessions.jsonl` and reuse, unchanged: `story_id`, `scenario`,
+  `group`, `split`, `persona`, `viec`, `tai_khoan`, `bang_that`, `account_line`, `opening`, `user_family`. Write no
+  new story, opening or purpose line (this tab has read the test set; the calls see only the prompts).
+- **Teacher**: as in the resumed half of Part 6: default tier, a call is kept only if its model id ends with
+  `claude-opus-5-5` (either provider), anything else is retried and counted. **No `modelRoles` write.** Store the
+  model id per call.
+- **Simulated user**: the same family as stored. `gemini` rows: `gemini-3.5-flash-lite` through `victim_reply` as
+  before. `claude` rows: `completion(model="smol")` if a probe shows it resolves to a Sonnet 5.5 id (so the user is
+  the model it was in Part 4), else the default tier; write which one was used.
+- Same order as Part 4 (seeded, round-robin over the 25 scenarios), same prompts, at most 3 questions, same keep
+  rule, same row format. The run must be resumable (skip finished `story_id`s).
+- **Pilot first, then stop**: the first 100 sessions of that order (4 per scenario). Write
+  `experiments/T5/opus_pilot.md`: correct k/100, scam called ordinary, ordinary called scam, `chua_du_can_cu`,
+  questions per session, kept k/100, each next to Sonnet's numbers on the same 100 stories; seconds per call, calls
+  per minute, any rate-limit or quota message; and 10 sessions printed in full, seeded draw, at least 5 of them
+  ordinary. One line to the planner, then wait for "T5 Part 7 full go".
+- Full run: stop and tell the planner at the first rate-limit or quota message (what is finished stays).
+- Output in a new folder, the Sonnet files stay untouched: `data/T5/opus/sessions.jsonl`, `train.jsonl`,
+  `val.jsonl`, `train_chua_du.jsonl`, `val_chua_du.jsonl`. Report `experiments/T5/report_opus.md`: the tables of
+  `report.md` with Sonnet's column beside Opus's; kept and dropped per scenario; rows that ask and rows that stop;
+  calls per provider; longest prompt in tokens; Gemini spend.
+- Gemini: this part may spend up to 0.65 USD (expected 0.55); the brief's total cap is now 1.6 USD.
+
+## Part 8 - Recover the dropped sessions (not a go; it follows Part 7)
+
+Sessions dropped by the keep rule are the hard cases, so the student sees fewest examples where the teacher is
+weakest. Idea (Minh's): a teacher that knows the answer picks the questions; a teacher that does not know it
+decides. The answer is used for nothing else.
+
+- Input: the `train`-split sessions Part 7 dropped. The story and the opening stay; the dialogue is played again.
+- Each turn has two teacher calls on the same history:
+  1. **Blind** call: the standard prompt. It gives `du_doan` and decides whether to stop (`cau_hoi` empty). If it
+     stops, the session ends with its `du_doan`.
+  2. **Informed** call, only if the blind call asked: the standard prompt plus a fixed note saying which scenario
+     is the true one and which one it is being confused with (the dropped session's wrong final answer if that is
+     a scenario id, else the scenario's `doi_chieu_voi`), asking for one short question whose answer separates
+     the two, without naming a scenario or hinting at the answer. Only its `cau_hoi` is used.
+  The question put to the simulated user is the informed one. The stored assistant turn is `{"du_doan": <blind>,
+  "cau_hoi": <informed>}` and the stored prompt is the standard prompt, byte-equal as always. After 3 questions
+  the last blind call is the forced conclusion, as in the normal runner.
+- Keep a session only if the blind conclusion passes the Part 4 keep rule. Print the note's text in the report.
+- Pilot: 20 sessions (seeded, spread over scenarios) printed in full for the planner; wait for the go.
+- Output: `data/T5/opus/recovered_sessions.jsonl`, `data/T5/opus/train_recovered.jsonl` (rows of the kept
+  recovered sessions only; `val` is not touched, so validation loss stays comparable between runs).
+
 ## Later jobs for this tab (not a go, listed so you know)
 
 - Reading generated test images against the strings they were asked to contain.
