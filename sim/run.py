@@ -55,7 +55,7 @@ def victim_reply(case, scen, history) -> llm.Result:
     s = scen[case["kich_ban"]]
     rule = ('Được nói ra nghi ngờ, kể cả từ "lừa đảo".' if case["tinh_cach"] == "nghi_ngo" else
             'Không nói tên gọi của tình huống, không dùng từ "lừa đảo".')
-    r = llm.generate(VICTIM_PROMPT.format(no_scam=rule, mo_ta=s.mo_ta, story=story_text(case["bang_that"]),
+    r = llm.generate(VICTIM_PROMPT.format(no_scam=rule, mo_ta=s.mo_ta, story=story_text(case["bang_that"], case.get("viec")),
                                           persona=PERSONAS[case["tinh_cach"]], history=history_text(OPENING_Q + history)),
                      model=VICTIM_MODEL)
     r.text = " ".join(r.text.strip().strip('"').split())

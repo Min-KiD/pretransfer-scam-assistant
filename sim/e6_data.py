@@ -6,12 +6,17 @@ new seeds, so nothing overlaps the 300 E5 evaluation cases. One model call write
 fixed list of plain follow-up questions (the questions are not part of the classifier input). Batching keeps the prompt
 cost low; the output tokens are what costs money.
 
-  python -m sim.e6_data [--per-scenario 220] [--cap-usd 2]
-    -> data/E6/cases.jsonl (one row per case: id, split train|val, kich_ban, nhom, tinh_cach, bang_that, tin_mo_dau,
-       cau_hoi, tra_loi), data/E6/cost.json (all runs added up). Resumable: batches already written are skipped.
-Cases 0-199 of each scenario are `train`, 200-219 `val`; labels are the scenario chosen at generation time.
+  python -m sim.e6_data [--per-scenario 220] [--cap-usd 2] [--out cases_v2.jsonl]
+    -> data/E6/<out> (one row per case: id, split train|val, kich_ban, nhom, tinh_cach, viec, bang_that, tin_mo_dau,
+       cau_hoi, tra_loi), data/E6/cost<suffix>.json (all runs into that file added up). Resumable: batches already
+       written are skipped. Cases are drawn in order from one rng per scenario, so a smaller --per-scenario run (the T4b
+       pilot) writes the first cases of the full run.
+Cases 0..n_train-1 of each scenario are `train` (default 200 of 220), the rest `val`; labels are the scenario chosen at
+generation time.
 `--cap-usd` caps the calls of this run (since T4; E6 capped the running total): no batch starts once this run's spend
 plus the batches in flight could pass it.
+Files: `cases.jsonl` (E6 and T4, 5,500 rows, old generator: smoothed tables, no purpose line) is the frozen record;
+`cases_v2.jsonl` (T4b on) uses listed values only and the purpose line `viec`, which the opening must state.
 """
 from __future__ import annotations
 
@@ -44,13 +49,14 @@ QUESTIONS = [
 ]
 PROMPT = """Bạn viết dữ liệu mô phỏng: {n} người dùng ví điện tử khác nhau, mỗi người sắp chuyển tiền và đang trả lời \
 một trợ lý. Mỗi người có câu chuyện thật và tính cách riêng (bên dưới). Với mỗi người, viết:
-- tin_mo_dau: câu trả lời cho câu hỏi "Bạn đang chuyển khoản này vì việc gì?" (1-2 câu, giọng nói thường ngày, chỉ kể 1-3 \
-chi tiết, không kể hết);
+- tin_mo_dau: câu trả lời cho câu hỏi "Bạn đang chuyển khoản này vì việc gì?" (1-2 câu, giọng nói thường ngày): phải nói rõ \
+việc người đó đang làm (dòng "Việc bạn đang làm" của câu chuyện) nhưng bằng lời của chính họ: đổi cách nói, không chép \
+nguyên văn dòng đó; tính cách có thể nói ngắn lại nhưng không được bỏ; ngoài việc đó chỉ kể 1-3 chi tiết khác, không kể hết;
 - tra_loi: lần lượt trả lời ba câu hỏi được ghi cho người đó (mỗi câu 1-2 câu). Điều câu chuyện không nói thì bảo không \
 biết, không rõ.
 Quy tắc: chỉ kể những điều có trong câu chuyện; giá trị "khac" nghĩa là chuyện khác hẳn các lựa chọn, tự nghĩ một chi tiết \
-hợp lý; không dùng tên gọi của tình huống; chỉ người có tính cách "nghi ngờ" mới được nói từ "lừa đảo". Mỗi người viết một \
-giọng khác nhau, không lặp câu chữ giữa các người. Câu chuyện có thể là chuyện bình thường.
+hợp lý; không dùng tên gọi của tình huống; chỉ người có tính cách "nghi ngờ" mới được nói từ "lừa đảo". Viết tiếng Việt có \
+dấu. Mỗi người viết một giọng khác nhau, không lặp câu chữ giữa các người. Câu chuyện có thể là chuyện bình thường.
 
 Tình huống chung (để hiểu bối cảnh, không chép lại): {mo_ta}
 {people}
@@ -61,8 +67,10 @@ SCHEMA = {"type": "object", "properties": {"nguoi": {"type": "array", "items": {
     "required": ["tin_mo_dau", "tra_loi"]}}}, "required": ["nguoi"]}
 
 
-def batches(scen, per_scenario):
-    """Batch k of every scenario before batch k+1, so a stop at the cap leaves every scenario with the same count."""
+def batches(scen, per_scenario, n_train=N_TRAIN):
+    """Batch k of every scenario before batch k+1, so a stop at the cap leaves every scenario with the same count.
+    Val batches (cases n_train and up) are written first (since T4b), so a stop costs train rows, not val rows. Cases
+    are drawn in index order whatever the write order, so the content of case i does not depend on it."""
     per = {}
     for sid in sorted(scen):
         rng = random.Random(f"{SEED_E6}:{sid}:e6")
@@ -71,18 +79,20 @@ def batches(scen, per_scenario):
         for i in range(per_scenario):
             c = make_case(sid, i, scen, rng)
             c["id"] = f"e6_{sid}__{i}"
-            c["split"] = "train" if i < N_TRAIN else "val"
+            c["split"] = "train" if i < n_train else "val"
             c["cau_hoi"] = qrng.sample(QUESTIONS, 3)
             cases.append(c)
         per[sid] = cases
-    for k in range(0, per_scenario, BATCH):
+    starts = list(range(n_train, per_scenario, BATCH)) + list(range(0, min(n_train, per_scenario), BATCH))
+    for k in starts:
         for sid, cases in per.items():
-            yield sid, cases[k:k + BATCH]
+            yield sid, cases[k:min(k + BATCH, n_train) if k < n_train else k + BATCH]
 
 
 def write_batch(sid, cases, scen):
     people = "\n".join(
-        f"\nNgười {j + 1}:\nCâu chuyện thật:\n{story_text(c['bang_that'])}\nTính cách: {PERSONAS[c['tinh_cach']]}\n"
+        f"\nNgười {j + 1}:\nCâu chuyện thật:\n{story_text(c['bang_that'], c['viec'])}\nTính cách: "
+        f"{PERSONAS[c['tinh_cach']]}\n"
         f"Ba câu hỏi: " + " | ".join(c["cau_hoi"]) for j, c in enumerate(cases))
     r = llm.generate(PROMPT.format(n=len(cases), mo_ta=scen[sid].mo_ta, people=people), schema=SCHEMA, retries=3)
     got = r.output["nguoi"]
@@ -90,7 +100,8 @@ def write_batch(sid, cases, scen):
         raise ValueError(f"{sid}: asked {len(cases)} people, got {len(got)}")
     rows = []
     for c, g in zip(cases, got):
-        rows.append({**{k: c[k] for k in ("id", "split", "kich_ban", "nhom", "tinh_cach", "bang_that", "cau_hoi")},
+        rows.append({**{k: c[k] for k in ("id", "split", "kich_ban", "nhom", "tinh_cach", "viec", "bang_that",
+                                          "cau_hoi")},
                      "tin_mo_dau": " ".join(g["tin_mo_dau"].split()),
                      "tra_loi": [" ".join(a.split()) for a in g["tra_loi"][:3]]})
     return rows, r
@@ -98,18 +109,22 @@ def write_batch(sid, cases, scen):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--per-scenario", type=int, default=220)
+    ap.add_argument("--per-scenario", type=int, default=220, help="cases per scenario, train and val")
+    ap.add_argument("--n-train", type=int, default=N_TRAIN, help="cases 0..n-1 are train, the rest val")
     ap.add_argument("--cap-usd", type=float, default=2.0)
     ap.add_argument("--workers", type=int, default=6)
+    ap.add_argument("--out", default="cases_v2.jsonl", help="file under data/E6/; cost goes to cost<suffix>.json")
     a = ap.parse_args()
     scen, issues = load()
     assert not issues, issues
     OUT.mkdir(parents=True, exist_ok=True)
-    path, cost_path = OUT / "cases.jsonl", OUT / "cost.json"
+    path = OUT / a.out
+    cost_path = OUT / (path.stem.replace("cases", "cost", 1) + ".json")
     done = {json.loads(l)["id"] for l in open(path, encoding="utf-8")} if path.exists() else set()
     cost = json.loads(cost_path.read_text()) if cost_path.exists() else {"model": llm.DEFAULT_MODEL, "calls": 0,
                                                                           "tokens_in": 0, "tokens_out": 0, "usd": 0.0}
-    todo = [(sid, cs) for sid, cs in batches(scen, a.per_scenario) if not all(c["id"] in done for c in cs)]
+    todo = [(sid, cs) for sid, cs in batches(scen, a.per_scenario, a.n_train)
+            if not all(c["id"] in done for c in cs)]
     print(f"{len(todo)} batches to write; spent so far {cost['usd']:.3f} USD (earlier runs); cap for this run "
           f"{a.cap_usd} USD", flush=True)
     lock, failed = threading.Lock(), []

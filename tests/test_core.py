@@ -135,16 +135,27 @@ def test_real_library_loads():
 
 def test_generated_cases_follow_v2_rules():
     """Ordinary stories carry no scam-type detail and never a confirmed-scam or known account; every label opens the
-    chat. The detail list is the one the M3 training filter uses."""
+    chat. The detail list is the one the M3 training filter uses. T4b: a listed field only takes listed values, and
+    every scenario has purpose lines, one of which the case carries."""
     import random
 
-    from sim.cases import ACCOUNT_LABEL, make_case, scam_details
+    from core.schema import FIELDS
+    from sim.cases import ACCOUNT_LABEL, VIEC, make_case, scam_details
     sc, _ = load()
+    assert set(VIEC) == set(sc), set(VIEC) ^ set(sc)
+    assert all(VIEC[sid] and all(isinstance(v, str) and v.strip() for v in VIEC[sid]) for sid in sc)
     rng = random.Random(1)
     for sid, s in sc.items():
         for i in range(40):
-            t = make_case(sid, i, sc, rng)["bang_that"]
+            c = make_case(sid, i, sc, rng)
+            t = c["bang_that"]
+            assert c["viec"] in VIEC[sid]
             assert t["nhan_tai_khoan"] in ACCOUNT_LABEL[s.nhom]
+            for name, listed in s.truong.items():
+                if name == "nhan_tai_khoan":
+                    continue
+                got = t[name] if FIELDS[name].multi else [t[name]]
+                assert set(got) <= set(listed), (sid, name, got)
             if s.nhom == "binh_thuong":
                 assert not scam_details(t), (sid, scam_details(t))
     assert scam_details({"yeu_cau": ["chuyen_tien", "doc_otp"], "ly_do_tien": "tien_vay_chuyen_di", "ap_luc": ["doa"],
