@@ -1,47 +1,61 @@
-# E12 - Untrained `Qwen3-4B-Instruct-2507` as the chat model
+# E12 - Untrained `Qwen3-4B-Instruct-2507` as the chat model, on test set v2
 
-From: planner tab `Momo_TechContest`. For: `code` tab. Written 2026-11-26.
-
-**Status: out of date, do not run as written.** Since 2026-11-26 the catalogue is moving to 25 scenarios (T4)
-and chat numbers are measured on test set v2 (T6). The planner will rewrite this brief for the v2 catalogue and
-`sim/cases_v2/` and then send "E12 go". Minh approved the step itself on 2026-11-26; it runs on the company server.
+From: planner tab `Momo_TechContest`. For: `code` tab. Rewritten 2026-11-26 for the 25-scenario catalogue and test
+set v2 (the version of the morning of 2026-11-26 is replaced). Minh approved the step; it runs on the company
+server. Starts on "E12 go".
 
 ## Question
 
-Minh wants to fine-tune one open text-only chat model and asked for a quick untrained baseline of Qwen3-4B first, to see which base is worth the fine-tune. The two 4B Qwen models measured so far (`qwen3-vl-4b` 73.7%, `qwen3.5-4b` 69.3%) are vision models. How does the text-only `Qwen/Qwen3-4B-Instruct-2507` do on the same 300 sessions, next to `gemma-4-e4b-qat` (77.0%, 18 of 220 scams called ordinary)?
-
-Why this build and not `Qwen/Qwen3-4B`: it is the newer release of the same size (Hugging Face, checked 2026-11-26: both 8.0 GB, Apache-2.0, not gated; `Instruct-2507` revision `cdbee75f17`), it has no thinking mode, and it ranked first after fine-tuning in a public 12-model benchmark (distil labs, 2025-12-10).
+Minh will fine-tune one open text-only chat model, `Qwen/Qwen3-4B-Instruct-2507` (E13). Where does it start,
+untrained, on test set v2, next to `gemini-3.5-flash-lite` (T6: correct scenario 419/475, scam called ordinary
+18/225, ordinary flagged 2/250, 0.36 questions per session)?
 
 ## Run
 
-- Same protocol as E5 and E10 part A: the 300 cases, the `tu_do` prompt unchanged, simulated user `gemini-3.5-flash-lite`, greedy decoding, JSON schema enforced, one run, no reruns to pick a number.
-- Model `Qwen/Qwen3-4B-Instruct-2507`, unquantised, served by vLLM on the server as in E10 part A. Keep `enable_thinking: false` in the request as for the other Qwen models; check that no turn contains `<think>`.
-- Server rules as always: `nvidia-smi` first, never kill another user's job, never restart a download in progress, delete nothing outside `~/pretransfer-scam-assistant`.
-- **Case order.** `sim.e5` runs cases in id order, which made the first 30 sessions of E11 useless. Before this run, add a seeded stratified order to `sim.e5` (flag, default off so old runs reproduce): seed `20261126`, round-robin over the 15 scenarios, so that **the first 60 sessions hold exactly 4 cases of each scenario (44 scam, 16 ordinary)**. Write the seed and the first 60 case ids into the report.
-- **Money.** Only the simulated user costs money (E10 part A: 0.16-0.22 USD per open model for 300 sessions). `--cap-usd 0.35`, `--project-after 60`. If the projection after 60 sessions exceeds the cap, stop at those 60 and report them. Gemini cap scope (E4 to E12): 24.27 of 25 USD spent before this run. Never raise a cap yourself.
-- No other model, no prompt change, no training.
+- Model `Qwen/Qwen3-4B-Instruct-2507` (8.0 GB, Apache-2.0, revision `cdbee75f17` or the current one; write down which),
+  unquantised, served by vLLM on `intern-remote.ownego.com` as in E10 part A. No thinking mode in this build; still
+  check that no turn contains `<think>`.
+- Protocol identical to T6 Part C, so the rows pair case by case: `python -m sim.e5 --cases sim/cases_v2 --order-seed
+  20261128`, `tu_do` prompt and 25-scenario catalogue unchanged, at most 3 questions, simulated user
+  `gemini-3.5-flash-lite` with `VICTIM_PROMPT_VIEC`, greedy decoding, JSON schema enforced, one run, no rerun to
+  pick a number.
+- The first-turn prompt is about 3,300 tokens (Qwen3 tokenizer, planner's count on 2026-11-26) and grows with the
+  dialogue: set the vLLM context length to at least 8,192 and report the longest prompt seen.
+- Server rules: `nvidia-smi` and `df -h` first. The disk is nearly full: if fewer than 12 GB are free before the
+  download, stop and tell the planner (delete nothing to make room). Never kill another user's job, never restart a
+  download in progress, delete nothing outside `~/pretransfer-scam-assistant`.
+- Money: only the simulated user costs money (T6 Part C: 0.052 USD for 169 questions). `--cap-usd 0.35`,
+  `--project-after 50` (the seeded order puts 2 cases of each scenario in the first 50). If the projection exceeds
+  the cap, stop at those 50 and report them. Never raise a cap yourself.
+- No other model, no prompt change, no training, no C0 second opinion (dropped after T6).
 
 ## Report
 
-One row for `qwen3-4b-instruct-2507` next to the existing 300-session rows (`gemini-3.5-flash-lite`, `claude-haiku-5-5`, `gemma-4-e4b-qat`, `qwen3-14b-awq`, `qwen3-8b-fp8`, `qwen3-vl-4b`, `qwen3.5-4b`), columns in Minh's order of priority:
+One row for `qwen3-4b-instruct-2507` next to the T6 flash-lite row, columns in Minh's order of priority:
 
-1. scam called ordinary (k/220);
-2. ordinary flagged as scam (k/80);
-3. correct scenario after 0-3 questions;
+1. scam called ordinary (k/225);
+2. ordinary flagged as scam (k/250);
+3. correct scenario after 0 to 3 questions;
 4. `chua_du_can_cu`, questions asked, malformed turns, seconds per turn (mean, p90).
 
-Every rate as `k/n` with a 95% Wilson interval. Also:
+Every rate as k/n with a 95% Wilson interval; the same rows split by group, by account label and by group x label,
+and per scenario. Also:
 
-- paired against `gemma-4-e4b-qat` and against `gemini-3.5-flash-lite` on the same cases: 2x2 right/wrong table, McNemar, paired bootstrap interval, for correct scenario and for scam called ordinary;
-- the E6 second opinion (C0) on the sessions: LLM alone vs LLM + C0, share downgraded (CPU, free);
-- the list of scam cases still called ordinary (case id, scenario);
+- paired against `gemini-3.5-flash-lite` on the same 475 cases: 2x2 right/wrong table, McNemar, paired bootstrap
+  interval, for correct scenario and for scam called ordinary;
+- the same main rows on the 430 cases not rewritten by T6 Part A2 (the 45 rewritten ones are easy by construction);
+- one reference row per model with the account rule applied after the model: an ordinary conclusion becomes
+  "caution" when the account label is not `moi`, or when the name does not match and the conclusion is not
+  `bt_tra_shipper_khi_nhan_hang`. Mark it "rule chosen by the planner on this test set" (flash-lite: 2/225 scams
+  still called ordinary, 41/250 ordinary moved to caution);
+- every scam case called ordinary: case id, scenario, account label, answer, number of questions, opening;
 - peak VRAM, weight size, load time, licence, revision.
 
-No rule is declared: this run describes the untrained starting point of a fine-tune base. It does not decide the live chat model. Report the usual M2 comparison (5 points behind `gemini-3.5-flash-lite`, 81.3%) for reference only.
+No rule is declared: this run describes the untrained starting point. It does not decide the live chat model.
 
 ## Deliverables
 
-- `experiments/E12/report.md` (English), real spend at the top.
+- `experiments/E12/report.md` (English), real spend at the top; sessions in `experiments/E12/sessions.jsonl`.
 - A short E12 section in `EXPERIMENTS.md` and a row in its overview table. Commit and push.
-- Free the GPU, keep the weights, report `du -sh .cache/hf`.
-- One line to the planner tab when done, or when stopped by the projection rule.
+- Free the GPU, keep the weights (E13 trains on them), report `du -sh .cache/hf` and `df -h`.
+- One line to the planner tab when done, or at once when the disk check or the projection rule stops the run.
