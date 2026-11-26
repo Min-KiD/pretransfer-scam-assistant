@@ -2,6 +2,7 @@
 
   python -m e6.classify train --model c0|c1|c2|c3     # fit on data/E6/cases.jsonl (train), pick on val
   python -m e6.classify predict --model c0|c1|c2|c3   # every test input -> data/E6/preds/<model>.jsonl
+  python -m e6.classify train|predict --model c0 --catalogue v2   # T4: C0 on the 25 scenarios of catalogue v2
 
 Models
   c0  TF-IDF (word 1-2 grams + char 2-5 grams) + logistic regression (scikit-learn); C picked on val.
@@ -16,6 +17,11 @@ on): the 300 E5 cases (`sim`: opening; `sim:<model>`: opening + the user turns o
 classifier sees what that LLM saw) and the real narratives `data/narr/real/*.json` (`loi_ke`, label `kich_ban`, one
 kind). Prediction rows: {set, kind, id, label, probs (15, in SCEN order), ms}. ms = CPU time for that one text, batch 1.
 Weights go to .cache/e6/<model>/ (not committed).
+
+Catalogue v2 (T4, C0 only): label space the 25 scenarios (SCEN_V2), train/val = every row of cases.jsonl except the
+ordinary rows whose story table carries a scam-type detail (`sim.cases.scam_details`, the rule the generator now
+applies). Weights .cache/e6/v2/c0/, predictions data/E6/v2/preds/c0.jsonl (probs in SCEN_V2 order), meta
+data/E6/v2/models.json. The v1 models keep the 15 scenarios (SCEN) and the rows of those 15 only.
 """
 from __future__ import annotations
 
@@ -43,18 +49,34 @@ def scenarios():
     return scen
 
 
-SCEN = sorted(scenarios())
+# The 15 scenarios of catalogue v1: the label space of the E6 models and of data/E6/preds/*.jsonl.
+SCEN = ["bao_nguoi_than_cap_cuu", "bt_chuyen_cho_nguoi_than", "bt_dat_coc_da_xem", "bt_mua_online_nguoi_ban_moi",
+        "bt_tra_tien_nguoi_ban_quen", "chuyen_nham_tien", "ctv_online", "dat_coc_gia_re", "dau_tu_san_gia",
+        "dich_vu_lay_lai_tien", "gia_co_quan_nha_nuoc", "gia_cong_an", "gia_ngan_hang", "gia_shipper",
+        "mao_danh_nguoi_quen"]
+SCEN_V2 = sorted(scenarios())
+assert set(SCEN) <= set(SCEN_V2) and len(SCEN_V2) == 25
+LABELS = {"v1": SCEN, "v2": SCEN_V2}
 
 
-def train_val():
+def train_val(catalogue="v1"):
+    """(train, val, dropped): v1 = rows of the 15 v1 scenarios, as E6 trained; v2 = every row except ordinary rows
+    with a scam-type detail (dropped: those row ids by split)."""
+    from sim.cases import scam_details
+    labels = LABELS[catalogue]
     rows = [json.loads(l) for l in open(DATA / "cases.jsonl", encoding="utf-8")]
-    out = {"train": [], "val": []}
+    out, dropped = {"train": [], "val": []}, {"train": [], "val": []}
     for r in rows:
-        y = SCEN.index(r["kich_ban"])
+        if r["kich_ban"] not in labels:
+            continue
+        if catalogue == "v2" and r["nhom"] == "binh_thuong" and scam_details(r["bang_that"]):
+            dropped[r["split"]].append(r["id"])
+            continue
+        y = labels.index(r["kich_ban"])
         out[r["split"]].append({"id": r["id"], "kind": "mo_dau", "text": r["tin_mo_dau"], "y": y})
         out[r["split"]].append({"id": r["id"], "kind": "day_du", "text": " ".join([r["tin_mo_dau"], *r["tra_loi"]]),
                                 "y": y})
-    return out["train"], out["val"]
+    return out["train"], out["val"], dropped
 
 
 def test_inputs():
@@ -105,7 +127,7 @@ def macro_f1(pred, y, k=None):
 
 
 # ---------------------------------------------------------------- c0
-def c0_train(train, val):
+def c0_train(train, val, wdir=WDIR / "c0", k=None):
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.linear_model import LogisticRegression
     from sklearn.pipeline import make_pipeline, make_union
@@ -116,17 +138,17 @@ def c0_train(train, val):
         pipe = make_pipeline(vec, LogisticRegression(C=C, max_iter=3000))
         pipe.fit([r["text"] for r in train], [r["y"] for r in train])
         pv = pipe.predict_proba([r["text"] for r in val])
-        f1 = macro_f1(pv.argmax(1), np.array([r["y"] for r in val]))
+        f1 = macro_f1(pv.argmax(1), np.array([r["y"] for r in val]), k)
         print(f"c0 C={C}: val macro-F1 {f1:.4f}", flush=True)
         if not best or f1 > best[0]:
             best = (f1, C, pipe)
-    (WDIR / "c0").mkdir(parents=True, exist_ok=True)
-    pickle.dump(best[2], open(WDIR / "c0/model.pkl", "wb"))
+    wdir.mkdir(parents=True, exist_ok=True)
+    pickle.dump(best[2], open(wdir / "model.pkl", "wb"))
     return {"C": best[1], "val_macro_f1": round(best[0], 4)}
 
 
-def c0_predict(texts):
-    pipe = pickle.load(open(WDIR / "c0/model.pkl", "rb"))
+def c0_predict(texts, wdir=WDIR / "c0"):
+    pipe = pickle.load(open(wdir / "model.pkl", "rb"))
     return pipe.predict_proba(texts), (lambda t: pipe.predict_proba([t]))
 
 
@@ -271,28 +293,37 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["train", "predict"])
     ap.add_argument("--model", required=True, choices=["c0", "c1", "c2", "c3"])
+    ap.add_argument("--catalogue", default="v1", choices=["v1", "v2"])
     ap.add_argument("--device", default=None)
     ap.add_argument("--cpu-threads", type=int, default=4)
     a = ap.parse_args()
+    if a.catalogue == "v2" and a.model != "c0":
+        ap.error("catalogue v2 is C0 only")
     import torch
     device = a.device or ("cuda" if torch.cuda.is_available() else "cpu")
-    meta_p = DATA / "models.json"
+    labels = LABELS[a.catalogue]
+    data, c0dir = (DATA, WDIR / "c0") if a.catalogue == "v1" else (DATA / "v2", WDIR / "v2/c0")
+    data.mkdir(parents=True, exist_ok=True)
+    meta_p = data / "models.json"
     meta = json.loads(meta_p.read_text()) if meta_p.exists() else {}
+    train, val, dropped = train_val(a.catalogue)
     if a.cmd == "train":
-        train, val = train_val()
-        print(f"{a.model}: train {len(train)}, val {len(val)}, device {device}", flush=True)
+        print(f"{a.model} ({a.catalogue}, {len(labels)} scenarios): train {len(train)}, val {len(val)} inputs; "
+              f"ordinary rows dropped by the rule: train {len(dropped['train'])}, val {len(dropped['val'])}; "
+              f"device {device}", flush=True)
         WDIR.mkdir(parents=True, exist_ok=True)
-        info = {"c0": lambda: c0_train(train, val), "c1": lambda: c1_train(train, val, device)}.get(
-            a.model, lambda: ft_train(a.model, train, val, device))()
+        info = {"c0": lambda: c0_train(train, val, c0dir, len(labels)),
+                "c1": lambda: c1_train(train, val, device)}.get(a.model, lambda: ft_train(a.model, train, val, device))()
         meta[a.model] = {**meta.get(a.model, {}), "train": info, "train_device": device,
                          "train_n": len(train), "val_n": len(val)}
+        if a.catalogue == "v2":
+            meta[a.model]["dropped"] = dropped
         meta_p.write_text(json.dumps(meta, indent=1))
         print(json.dumps(info)[:500])
         return
     items = test_inputs()
-    _, val = train_val()
     allx = [r["text"] for r in val] + [r["text"] for r in items]
-    fn = {"c0": lambda: c0_predict(allx), "c1": lambda: c1_predict(allx, device),
+    fn = {"c0": lambda: c0_predict(allx, c0dir), "c1": lambda: c1_predict(allx, device),
           "c2": lambda: ft_predict("c2", allx, device), "c3": lambda: ft_predict("c3", allx, device)}[a.model]
     probs, one = fn()
     # CPU latency, one text at a time, on 200 test texts
@@ -305,12 +336,12 @@ def main():
         t0 = time.perf_counter()
         one(t)
         ms.append(1000 * (time.perf_counter() - t0))
-    (DATA / "preds").mkdir(parents=True, exist_ok=True)
-    with open(DATA / "preds" / f"{a.model}.jsonl", "w", encoding="utf-8") as f:
-        for r, p in zip([{"set": "val", "kind": r["kind"], "id": r["id"], "label": SCEN[r["y"]]} for r in val] +
+    (data / "preds").mkdir(parents=True, exist_ok=True)
+    with open(data / "preds" / f"{a.model}.jsonl", "w", encoding="utf-8") as f:
+        for r, p in zip([{"set": "val", "kind": r["kind"], "id": r["id"], "label": labels[r["y"]]} for r in val] +
                         [{k: v for k, v in it.items() if k != "text"} for it in items], probs):
             f.write(json.dumps({**r, "probs": [round(float(x), 5) for x in p.ravel()]}, ensure_ascii=False) + "\n")
-    size = os.path.getsize(WDIR / "c0/model.pkl") / 1e6 if a.model == "c0" else (
+    size = os.path.getsize(c0dir / "model.pkl") / 1e6 if a.model == "c0" else (
         dir_mb(WDIR / a.model) if a.model != "c1" else None)
     meta[a.model] = {**meta.get(a.model, {}), "cpu_ms_p50": round(float(np.median(ms)), 1),
                      "cpu_ms_mean": round(float(np.mean(ms)), 1), "cpu_threads": a.cpu_threads,

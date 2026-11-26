@@ -17,6 +17,7 @@ Most numbers come from data we built ourselves and from simulated users. They ar
 | E6 | Does a small CPU text classifier work as a second opinion on the scenario? (model M3) | Done | TF-IDF + logistic regression (1.3 ms on CPU) catches 66-88% of the LLM's wrong conclusions and flags 4-8% of its correct ones, behind all four LLMs tested: M3 kept |
 | E10 | Do larger open chat models, more thinking, or Claude Haiku 5.5 close the gap? Should the chat model see the screenshot itself (merged) or the JSON read from it (split)? | Done | `gemma-4-e4b-qat` (open, 16 GB GPU) is the first open model to pass M2: 77.0% vs 81.3%, fewer ordinary transfers flagged. More thinking for `gemini-3.5-flash-lite` adds nothing. Haiku 5.5 chats as well as `gemini-3.5-flash-lite` and reads clean screenshots like `gemini-4-carbon`. With an image, split beats merged by 6.7 points; the app stays split |
 | E11 | Does `gemini-3.8-flash` at high thinking call fewer scams ordinary, and at what cost? | Stopped by the cost projection after 30 of 75 sessions | 0.052 USD and 113 s per session, 14x the cost of low thinking. On the 30 sessions it ran, it is not more accurate (63.3% vs 76.7% at low, 83.3% for `gemini-3.5-flash-lite`) and ends 5 of 30 at "not enough evidence". The 30 hold only 10 scam cases, none called ordinary by any model, so the scam question is unanswered |
+| T4 | Catalogue v2: 25 scenarios, a cleaner case generator, C0 (M3) retrained | Done | C0 on 25 scenarios: 73.1% / 77.7% correct on val (opening / full). The 10 new scenarios cost 2.8-4.2 points on the old 15. On real scams it calls 10 of 84 ordinary (v1 C0: 6 of the 75 old ones), 7 of them through the new ordinary look-alikes. The chat prompt grows by 1,439 tokens per call |
 | E7 | Label propagation on the account graph (model M4) | Not started | |
 | E8 | A user who was coached by the scammer on what to answer | Not started | |
 | E9 | Time and cost per session | Not started | |
@@ -220,6 +221,25 @@ Question: Minh weighs "few scams called ordinary" above "few ordinary transfers 
 - **More thinking does not help on these cases.** High vs low: -13.3 points (paired interval -30.0 to 0.0, McNemar p=0.22). High vs `gemini-3.5-flash-lite`: -20.0 points (-36.7 to -6.7, p=0.03). Of its 11 wrong conclusions, 5 are "not enough evidence" (3 on the ordinary `bt_mua_online_nguoi_ban_moi`, 2 on the scam `bao_nguoi_than_cap_cuu`). No rule was declared in advance: on 30 cases this shows a direction; it decides nothing.
 - **It is slow:** 60 s per call that asks a question, 43 s per call that concludes (p90 120 s and 71 s), so a user would wait minutes.
 - **Spend:** the Gemini cap for E4-E11 now stands at 24.27 of 25 USD.
+
+## Catalogue v2 (T4): 25 scenarios, cleaner case generator, C0 retrained
+
+Why: too few scenarios, too large a scam share, and ordinary test cases that read like scams (data plan v2, `docs/specs/2026-11-26-data-plan-v2.md`, sections 3 and 3.7). Everything above was measured on catalogue v1 (15 scenarios) and stays as that record: the 300 cases in `sim/cases/` and the 3,300 E6 stories are unchanged.
+
+- **Catalogue:** 15 to 25 scenarios (15 scam, 10 ordinary). 4 new scam types cover 9 of the 14 real narratives that matched no scenario (relabelled; 5 stay `khac`). 6 new ordinary scenarios are look-alikes of a scam, named in their `doi_chieu_voi` key. Schema: 4 new `tu_xung` values, 5 new `ly_do_tien` values, still 14 fields.
+- **Generator (every case from now on, `sim/cases.py`):** the account label is drawn by group (ordinary: new 90%, reported 10%; scam: new 60%, reported 25%, confirmed 15%), no longer at random from five labels. An ordinary story table is redrawn while it carries a scam-type detail (install an app, read an OTP, top up to withdraw; money for a task, an investment, a "safe account", an error fix, a refund, a forwarded loan; told how to answer; threats or secrecy).
+- **Stories:** 2,200 for the 10 new scenarios (220 each), written by `gemini-3.5-flash-lite` for 0.93 USD.
+- **C0 v2** (TF-IDF + logistic regression, 25 labels; 157 of the 880 old ordinary stories dropped by the rule above):
+
+| Input (val) | Correct scenario | Scam called ordinary | Ordinary called scam |
+|---|---|---|---|
+| Opening only | 73.1% (354/484) | 18 of 300 | 18 of 184 |
+| Opening and answers | 77.7% (376/484) | 11 of 300 | 19 of 184 |
+
+- **Cost of the 10 new scenarios on the old 15:** on the same val inputs, -4.2 points with the opening only (paired interval -7.0 to -1.4) and -2.8 with the answers (-5.3 to -0.4); 7% of those answers name a new scenario. On the openings of the 300 v1 cases: 77.3% vs 80.0% (-2.7, -5.3 to 0.0).
+- **Real scams (84 labelled narratives):** 72.6% correct scenario; 7 of the 9 relabelled ones get their new label first. But C0 v2 calls 10 of 84 ordinary, against 6 of the 75 old ones for C0 v1 (C0 v2: 10 of those 75). 7 of the 10 go to new ordinary scenarios: loan repayment 3, bill to an organisation 2, paying the courier on delivery 1, own account 1.
+- **Hardest new scenario:** the advance-fee loan scam (`vay_online_dong_phi_truoc`), 40% and 35% correct on val, mostly taken for fake bank, money-recovery service or fake authority.
+- **Chat prompt:** the scenario list in the `tu_do` prompt grows from 1,582 to 3,021 tokens (Qwen3-4B tokenizer); the first-turn prompt from 1,876 to 3,315 tokens (+77%), paid on every call.
 
 ## Known gaps
 

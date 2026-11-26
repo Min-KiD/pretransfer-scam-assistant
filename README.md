@@ -62,11 +62,15 @@ All on small sets; they guide choices and are not quality claims. Details in [`E
 - **Second opinion (E6, E10):** the CPU classifier catches 53-88% of the LLM's wrong conclusions, depending on the chat model, and flags 4-8% of the correct ones.
 - **Not measured yet:** anything with real users. Sessions with a screenshot use synthetic images only.
 
+## Catalogue v2
+
+Since 26/11 the scenario library has 25 scenarios: 15 scam and 10 ordinary, six of them look-alikes of a scam (paying the courier on delivery, a bill from a school or hospital, moving money to one's own account, a loan repayment, a wedding gift or shared fund, a checked booking). The case generator now draws the account label by group and never gives an ordinary story a scam-type detail. The results above were measured on the 15 scenarios of catalogue v1 and stay as that record; the 300 simulated cases are unchanged. First numbers on v2 (T4, details in [`EXPERIMENTS.md`](EXPERIMENTS.md)): the CPU classifier retrained on 25 scenarios is right on 73-78% of held-out stories and 2.8-4.2 points worse on the old 15; it calls 10 of 84 real scam stories ordinary, 7 of them through a new look-alike; the scenario list in the chat prompt grows by about 1,400 tokens per call.
+
 ## What exists today
 
 | Part | State |
 |---|---|
-| Scenario library, `scenarios/*.yaml` | 15 scenarios with sources, signs, what to check, the scammer's next steps |
+| Scenario library, `scenarios/*.yaml` | 25 scenarios (catalogue v2) with sources, signs, what to check, the scammer's next steps |
 | Core, `core/` | Session, scenario matching, image reading, account lookup on sample data. Calls Gemini today |
 | Sample app, `app/` + `web/` | FastAPI + SQLite: transfer page with a chat panel, staff page that reviews reports and changes account labels. Plain HTML, local only |
 | Simulator, `sim/` | An LLM plays the user from a fixed story; code scores the assistant. 300 cases in `sim/cases/` |

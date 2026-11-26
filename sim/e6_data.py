@@ -8,8 +8,10 @@ cost low; the output tokens are what costs money.
 
   python -m sim.e6_data [--per-scenario 220] [--cap-usd 2]
     -> data/E6/cases.jsonl (one row per case: id, split train|val, kich_ban, nhom, tinh_cach, bang_that, tin_mo_dau,
-       cau_hoi, tra_loi), data/E6/cost.json. Resumable: scenarios/batches already written are skipped.
+       cau_hoi, tra_loi), data/E6/cost.json (all runs added up). Resumable: batches already written are skipped.
 Cases 0-199 of each scenario are `train`, 200-219 `val`; labels are the scenario chosen at generation time.
+`--cap-usd` caps the calls of this run (since T4; E6 capped the running total): no batch starts once this run's spend
+plus the batches in flight could pass it.
 """
 from __future__ import annotations
 
@@ -60,6 +62,8 @@ SCHEMA = {"type": "object", "properties": {"nguoi": {"type": "array", "items": {
 
 
 def batches(scen, per_scenario):
+    """Batch k of every scenario before batch k+1, so a stop at the cap leaves every scenario with the same count."""
+    per = {}
     for sid in sorted(scen):
         rng = random.Random(f"{SEED_E6}:{sid}:e6")
         qrng = random.Random(f"{SEED_E6}:{sid}:questions")
@@ -70,7 +74,9 @@ def batches(scen, per_scenario):
             c["split"] = "train" if i < N_TRAIN else "val"
             c["cau_hoi"] = qrng.sample(QUESTIONS, 3)
             cases.append(c)
-        for k in range(0, per_scenario, BATCH):
+        per[sid] = cases
+    for k in range(0, per_scenario, BATCH):
+        for sid, cases in per.items():
             yield sid, cases[k:k + BATCH]
 
 
@@ -104,7 +110,8 @@ def main():
     cost = json.loads(cost_path.read_text()) if cost_path.exists() else {"model": llm.DEFAULT_MODEL, "calls": 0,
                                                                           "tokens_in": 0, "tokens_out": 0, "usd": 0.0}
     todo = [(sid, cs) for sid, cs in batches(scen, a.per_scenario) if not all(c["id"] in done for c in cs)]
-    print(f"{len(todo)} batches to write; spent so far {cost['usd']:.3f} USD", flush=True)
+    print(f"{len(todo)} batches to write; spent so far {cost['usd']:.3f} USD (earlier runs); cap for this run "
+          f"{a.cap_usd} USD", flush=True)
     lock, failed = threading.Lock(), []
     base = dict(cost)  # earlier runs; every call of this run (retries and failed batches included) is in llm.USAGE
 
@@ -116,7 +123,8 @@ def main():
 
     def one(item):
         sid, cs = item
-        if base["usd"] + llm.USAGE.usd >= a.cap_usd:
+        u = llm.USAGE
+        if u.usd + a.workers * (u.usd / u.calls if u.calls else 0) >= a.cap_usd:
             return
         try:
             rows, _ = write_batch(sid, cs, scen)
@@ -134,7 +142,8 @@ def main():
     with ThreadPoolExecutor(a.workers) as ex:
         list(ex.map(one, todo))
     n = sum(1 for _ in open(path, encoding="utf-8")) if path.exists() else 0
-    print(f"{n} cases in {path.relative_to(ROOT)}; {cost['calls']} calls, {cost['usd']:.3f} USD; failed {len(failed)}")
+    print(f"{n} cases in {path.relative_to(ROOT)}; this run {llm.USAGE.calls} calls, {llm.USAGE.usd:.4f} USD "
+          f"(all runs {cost['usd']:.3f}); failed {len(failed)}")
     for f in failed[:10]:
         print("  ", f)
 
