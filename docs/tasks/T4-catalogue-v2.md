@@ -1,7 +1,7 @@
 # T4 - Catalogue v2: 25 scenarios, cleaner case generator, M3 retrained
 
 From: planner tab `Momo_TechContest`. For: `code` tab. Written 2026-11-26.
-**Not dispatched.** Needs Minh's explicit go and his approval of extra Gemini budget (see Spend).
+Minh gave the go on 2026-11-26 ("go T4 và cứ nâng trần thoải mái đi"): **this brief is a go.**
 
 Background and evidence: `docs/specs/2026-11-26-data-plan-v2.md` (sections 3 and 3.7).
 
@@ -74,6 +74,11 @@ Applies to every case generated from now on.
 
 ### 4. Stories for the 10 new scenarios (`sim/e6_data.py`)
 
+- **Gate before spending.** After steps 1 to 3 and green tests, send the planner tab one line ("T4 ready for
+  stories") and wait for "T4 stories go". A second reader is checking the 10 scenario files meanwhile; the planner
+  may change wording or numbers in `scenarios/` before the stories are written from them. Do steps 5 and 6 code
+  while waiting.
+
 - 220 per new scenario (200 train, 20 val), appended to `data/E6/cases.jsonl`. Existing rows are skipped by the
   resume logic; check that before spending.
 - Order: interleave the batches across scenarios (batch k of every scenario before batch k+1), so a stop at the
@@ -96,8 +101,9 @@ Applies to every case generated from now on.
 
 - Gemini only (`gemini-3.5-flash-lite`), step 4. Planner's estimate 0.8 USD (1.23 USD was measured for 3,300
   stories). Cap for this task: **1.0 USD**.
-- Gemini budget left under the 25 USD cap is 0.73 USD, so this task needs Minh to raise it. Never raise a cap
-  yourself.
+- Minh lifted the Gemini cap on 2026-11-26 without a fixed number; the planner's working ceiling is now 30 USD
+  for the scope E4 onward (24.27 USD spent before this task). The 1.0 USD cap of this task stands. Never raise a
+  cap yourself.
 - No server, no GPU, no other provider.
 
 ## Report
