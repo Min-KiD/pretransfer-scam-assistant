@@ -43,6 +43,44 @@ Tính cách: {persona}
 </lich_su>
 Chỉ trả về câu trả lời của bạn."""
 
+# T6 part B2: cases that carry `viec` (T4b stories, test set v2). The simulated user also sees the two account facts of
+# the confirmation screen, answers off-table questions from the general situation, and never invents a detail. In the
+# Sonnet trial (T5) the old rule made it invent warning signs on ordinary stories (an SMS number, a personal name).
+VICTIM_PROMPT_VIEC = """Bạn đóng vai một người dùng ví điện tử đang trò chuyện với trợ lý kiểm tra trước khi chuyển \
+tiền. Trả lời câu hỏi cuối cùng của trợ lý như người thật: 1-2 câu, giọng nói thường ngày, theo tính cách bên dưới.
+Quy tắc:
+- Được hỏi điều có trong câu chuyện thật của bạn (kể cả thông tin tài khoản nhận): trả lời theo câu chuyện thật.
+- Điều câu chuyện thật không nói nhưng tình huống chung có nói (ví dụ số tài khoản lấy từ đâu, đã kiểm tra gì, đã nhận \
+hàng chưa): trả lời theo tình huống chung, bằng lời của bạn.
+- Cả hai đều không nói: bảo là không rõ hoặc chưa kiểm tra.
+- Không bao giờ bịa thêm chi tiết mới: không thêm số tài khoản khác, tên người khác, khoản phí thêm, hợp đồng hay \
+giấy tờ mà hai phần trên không nói.
+- Giá trị "khac" nghĩa là chuyện khác hẳn các lựa chọn: tự nghĩ một chi tiết hợp lý nhưng không thuộc các lựa chọn kia.
+- Trả lời đúng câu được hỏi, có thể thêm tối đa một chi tiết khác có trong câu chuyện thật.
+- {no_scam}
+Tình huống chung (để hiểu bối cảnh, không chép lại): {mo_ta}
+Câu chuyện thật của bạn:
+{story}
+{account}
+Tính cách: {persona}
+<lich_su>
+{history}
+</lich_su>
+Chỉ trả về câu trả lời của bạn."""
+ACCOUNT_PLAIN = {
+    "loai_tai_khoan": ("- Tài khoản nhận (bạn thấy trên màn hình xác nhận chuyển tiền): ",
+                       {"ca_nhan": "tài khoản cá nhân", "to_chuc": "tài khoản của tổ chức, cửa hàng hoặc công ty",
+                        "khac": "không rõ là cá nhân hay tổ chức"}),
+    "ten_khop_tu_xung": ("- Tên chủ tài khoản hiện lên: ",
+                         {"co": "khớp với người hoặc nơi mà bên kia nói họ là",
+                          "khong": "không khớp với người hoặc nơi mà bên kia nói họ là",
+                          "khac": "bạn chưa để ý có khớp hay không"})}
+
+
+def account_facts(table: dict) -> str:
+    """The two account facts the user sees on the confirmation screen, in plain words (T6 part B2)."""
+    return "\n".join(head + words[table[f]] for f, (head, words) in ACCOUNT_PLAIN.items())
+
 
 def history_text(h):
     return "\n".join(f"{'Trợ lý' if m['role'] == 'assistant' else 'Bạn'}: {m['text']}" for m in h)
@@ -51,13 +89,21 @@ def history_text(h):
 VICTIM_MODEL = "gemini-3.5-flash-lite"  # fixed for every assistant model (E5), so only the assistant changes
 
 
-def victim_reply(case, scen, history) -> llm.Result:
+def victim_prompt(case, scen, history, old: bool = False) -> str:
+    """Cases with `viec` get VICTIM_PROMPT_VIEC (T6 part B2); v1 cases, or old=True (the B2 check), get VICTIM_PROMPT."""
     s = scen[case["kich_ban"]]
     rule = ('Được nói ra nghi ngờ, kể cả từ "lừa đảo".' if case["tinh_cach"] == "nghi_ngo" else
             'Không nói tên gọi của tình huống, không dùng từ "lừa đảo".')
-    r = llm.generate(VICTIM_PROMPT.format(no_scam=rule, mo_ta=s.mo_ta, story=story_text(case["bang_that"], case.get("viec")),
-                                          persona=PERSONAS[case["tinh_cach"]], history=history_text(OPENING_Q + history)),
-                     model=VICTIM_MODEL)
+    viec = case.get("viec")
+    args = dict(no_scam=rule, mo_ta=s.mo_ta, story=story_text(case["bang_that"], viec),
+                persona=PERSONAS[case["tinh_cach"]], history=history_text(OPENING_Q + history))
+    if viec and not old:
+        return VICTIM_PROMPT_VIEC.format(account=account_facts(case["bang_that"]), **args)
+    return VICTIM_PROMPT.format(**args)
+
+
+def victim_reply(case, scen, history, old: bool = False) -> llm.Result:
+    r = llm.generate(victim_prompt(case, scen, history, old), model=VICTIM_MODEL)
     r.text = " ".join(r.text.strip().strip('"').split())
     return r
 

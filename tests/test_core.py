@@ -177,3 +177,22 @@ def test_story_text_plain_words_for_t4b_cases():
     assert "người bán hàng" in new and "nguoi_ban" not in new and "hoi_thuc" not in new and "cong_an" not in new
     assert new.splitlines()[0] == "- Việc bạn đang làm: mua áo" and ": khac" in new
     assert "nguoi_ban" in old and "hoi_thuc, hua_loi" in old
+
+
+def test_victim_prompt_account_facts_only_for_viec_cases():
+    """T6 part B2: a case with `viec` gets the account facts in plain words and the no-invention rules; a v1 case (no
+    `viec`) keeps VICTIM_PROMPT byte for byte."""
+    from core.schema import FIELDS
+    from sim.run import VICTIM_PROMPT, VICTIM_PROMPT_VIEC, victim_prompt
+    from sim.cases import STORY_FIELDS
+    sc, _ = load()
+    t = {n: [] if FIELDS[n].multi else "khac" for n in STORY_FIELDS}
+    t.update(loai_tai_khoan="to_chuc", ten_khop_tu_xung="khong", nhan_tai_khoan="moi")
+    v1 = {"kich_ban": "gia_shipper", "tinh_cach": "voi", "bang_that": t}
+    h = [{"role": "user", "text": "x"}]
+    old = victim_prompt(v1, sc, h)
+    assert old.startswith(VICTIM_PROMPT.split("{")[0]) and "tài khoản của tổ chức" not in old
+    new = victim_prompt({**v1, "viec": "trả tiền hàng"}, sc, h)
+    assert new.startswith(VICTIM_PROMPT_VIEC.split("{")[0])
+    assert "tài khoản của tổ chức" in new and "không khớp với người hoặc nơi" in new
+    assert victim_prompt({**v1, "viec": "trả tiền hàng"}, sc, h, old=True).startswith(VICTIM_PROMPT.split("{")[0])

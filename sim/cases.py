@@ -121,9 +121,9 @@ def scam_details(table: dict) -> list[str]:
     return out
 
 
-def make_case(sid: str, i: int, scen, rng: random.Random) -> dict:
+def make_case(sid: str, i: int, scen, rng: random.Random, viec: str | None = None) -> dict:
     """Table from the listed values; ordinary scenarios: redrawn while it carries a scam-type detail (scam scenarios:
-    no redraw); account label by group; purpose line `viec` from sim/viec_dang_lam.yaml."""
+    no redraw); account label by group; purpose line `viec` from sim/viec_dang_lam.yaml unless given (T6: GPT lines)."""
     nhom = scen[sid].nhom
     truth = sample_table(scen[sid], rng)
     for _ in range(MAX_REDRAW):
@@ -134,19 +134,19 @@ def make_case(sid: str, i: int, scen, rng: random.Random) -> dict:
         raise RuntimeError(f"{sid}: no ordinary table without a scam-type detail in {MAX_REDRAW} draws")
     labels = ACCOUNT_LABEL[nhom]
     truth["nhan_tai_khoan"] = rng.choices(list(labels), weights=list(labels.values()))[0]
-    viec = rng.choice(VIEC[sid])
+    viec = viec or rng.choice(VIEC[sid])
     persona = list(PERSONAS)[i % len(PERSONAS)]
     return {"id": f"{sid}__{i}", "kich_ban": sid, "nhom": nhom, "tinh_cach": persona, "viec": viec,
             "bang_that": truth, "tai_khoan": {k: truth[k] for k in KNOWN_AT_START}, "tin_mo_dau": None}
 
 
-def write_opening(case: dict, scen) -> dict:
+def write_opening(case: dict, scen, model: str | None = None) -> dict:
     s = scen[case["kich_ban"]]
     viec = case.get("viec")
     p = OPENING_PROMPT.format(mo_ta=s.mo_ta, story=story_text(case["bang_that"], viec),
                               persona=PERSONAS[case["tinh_cach"]], purpose=PURPOSE_RULE if viec else "",
                               no_scam="" if case["tinh_cach"] == "nghi_ngo" else ' và từ "lừa đảo"')
-    r = llm.generate(p)
+    r = llm.generate(p, model=model)
     case["tin_mo_dau"] = " ".join(r.text.strip().strip('"').split())
     case["sinh_boi"] = {"model": r.model, "tokens_in": r.tokens_in, "tokens_out": r.tokens_out, "usd": r.usd}
     return case
