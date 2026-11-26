@@ -152,6 +152,30 @@ only (Part 4: 1,895/2,050 correct, 0/1,050 scams called ordinary), never on the 
   - does asking help: sessions wrong at turn 0 and right at the end, and the reverse.
 - One line to the planner when done.
 
+## Part 6 - Opus 5.5 as a teacher candidate, on test set v2 (added 2026-11-27, Minh's request)
+
+Minh wants the best available teacher. Part 5 gave Sonnet 5.5: correct 410/475, scam called ordinary 0/225,
+ordinary flagged 9/250, `chua_du_can_cu` 40/475 (36 ordinary). Is Opus 5.5 clearly better on the same 475 cases?
+
+- Model: Claude Opus 5.5 **on the subscription**, through `completion()`: find which tier or pinned model
+  (`model="slow"` or `m<N>`, see `cfg://modelRoles`) is Opus 5.5 and pass it; do not change settings and do not use
+  an API key. If no tier maps to Opus 5.5, stop and tell the planner. Write the model id returned by the calls
+  into the report.
+- Only the assistant changes. Prompts, cases, order (`--order-seed 20261128`), simulated user
+  (`gemini-3.5-flash-lite`, `VICTIM_PROMPT_VIEC`), at most 3 questions: identical to Part 5. One run, no rerun.
+- Pilot first: the first 50 sessions of the seeded order (2 per scenario). Send the planner one line (seconds per
+  call, calls per minute, any rate limit or quota message) and go on without waiting unless a limit was hit.
+  Gemini cap 0.3 USD.
+- Report `experiments/T5/test_v2_opus.md` (sessions `data/T5/test_v2_opus_sessions.jsonl`): the Part 5 tables with
+  three columns (Opus, Sonnet, flash-lite), paired Opus vs Sonnet (2x2 table, McNemar) for correct scenario, for
+  correct on the 250 ordinary cases, and for scam called ordinary; `bt_tra_shipper_khi_nhan_hang` and
+  `bt_mua_online_nguoi_ban_moi` shown apart; every scam Opus called ordinary or `chua_du_can_cu` with the dialogue.
+- Rule, declared now: Opus replaces Sonnet as teacher only if it calls at most 1 of 225 scams ordinary **and** is
+  better than Sonnet on correct scenario (all 475, or the 250 ordinary) with paired p < 0.05. Otherwise Sonnet's
+  data stands. If Opus wins, the planner will ask for the teacher turns to be regenerated on the **same** 2,050
+  stories and openings of `data/T5/sessions.jsonl` (no new story or purpose line, so the test set this tab has
+  read cannot leak): not a go yet.
+
 ## Later jobs for this tab (not a go, listed so you know)
 
 - Reading generated test images against the strings they were asked to contain.
