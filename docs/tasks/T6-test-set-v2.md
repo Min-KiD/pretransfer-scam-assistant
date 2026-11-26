@@ -24,6 +24,15 @@ to `make_case`, `OPENING_PROMPT` and `VICTIM_PROMPT`. Test set v2 is built with 
   cases.
 - Tables: `sim.cases.make_case` as left by T4 (account label by group, redraw rule for ordinary tables), seed
   `20261128`, a seed used nowhere else. Personas in rotation as in v1.
+- **Purpose lines written by GPT, not the train lines.** T4b showed that all stories of `data/E6/cases_v2.jsonl`
+  share 78 purpose lines (`sim/viec_dang_lam.yaml`) and that a classifier learns them (C0 v3: 99% on its own val,
+  60% on the older val). The test set must not reuse them. Per scenario, one `openai:gpt-6.2-sol` call writes as
+  many purpose lines as the scenario has cases (15 or 25, plus 10 spare for replacements), given the scenario's
+  `ten`, `mo_ta`, `cac_buoc` and the train lines as "do not reuse or paraphrase these; cover other concrete
+  situations of the same kind". Same form as the train lines: what the user believes the transfer is for, in the
+  user's words, no scenario name, no "lừa đảo". Each case gets a different line as its `viec`. Save them in
+  `sim/cases_v2/_viec.json`; reject a line that equals a train line after lower-casing and stripping, and report
+  the number rejected. The report prints all lines of five scenarios (seeded draw) for the planner to read.
 - Opening message: `openai:gpt-6.2-sol` with `OPENING_PROMPT` unchanged.
 - Order: round-robin over the 25 scenarios, so a stop at the cap leaves a balanced set.
 - Re-read, ordinary cases only: `openai:gpt-6.2-sol` gets the opening message and the catalogue lines of the 15
@@ -45,7 +54,8 @@ to `make_case`, `OPENING_PROMPT` and `VICTIM_PROMPT`. Test set v2 is built with 
 ## Part C - Baseline
 
 - `gemini-3.5-flash-lite` on the 475 cases, one run.
-- The same sessions with C0 v2 (from T4) as second opinion, scored as in the v1 report.
+- The same sessions with C0 v2 (T4) and with C0 v3 (T4b) as second opinion, scored as in the v1 report; and both
+  classifiers alone on the 475 openings. The planner picks the classifier from these rows.
 
 ## Part D - Image trial (lowest priority; skip if A to C are not finished by the evening of 28/11)
 

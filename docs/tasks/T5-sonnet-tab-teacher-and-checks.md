@@ -106,6 +106,12 @@ for validation (250).
 
 - Half of each scenario's sessions start from flash-lite stories (`data/E6/cases.jsonl`, `train` rows for
   training, `val` rows for validation; the simulated user is `gemini-3.5-flash-lite`).
+- **Your own purpose lines for your half.** The flash-lite stories share 78 purpose lines
+  (`sim/viec_dang_lam.yaml`), which is narrow. Before writing stories, write 20 purpose lines per scenario through
+  `completion()` (given `ten`, `mo_ta`, `cac_buoc` and the existing lines as "do not reuse or paraphrase"; same
+  form: what the user believes the transfer is for, in the user's words, no scenario name, no "lừa đảo"). Save them
+  as `data/T5/viec_sonnet.json` and use them, in rotation, as `viec` of the cases you draw. Never read
+  `sim/cases_v2/` (it will hold GPT's lines for the test set).
 - The other half start from stories you write: draw fresh tables with `sim.cases.make_case` (seed `20261127`,
   never a seed used elsewhere), write the opening with `OPENING_PROMPT` through `completion()`, and play the
   simulated user with `VICTIM_PROMPT` through `completion()` in a separate call that sees only what
