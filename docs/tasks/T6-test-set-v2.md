@@ -11,6 +11,13 @@ A new test set on the 25-scenario catalogue that no training-side model family h
 wording by GPT. From here on every chat number is measured on it. The 300 cases in `sim/cases/` stay as the v1
 record.
 
+## Change of 2026-11-26: T4b comes first
+
+`docs/tasks/T4b-coherent-stories.md` changes `sample_table` (listed values only) and adds the purpose line `viec`
+to `make_case`, `OPENING_PROMPT` and `VICTIM_PROMPT`. Test set v2 is built with that generator and those prompts;
+"`OPENING_PROMPT` unchanged" below means unchanged from T4b. The check for identical openings runs against
+`data/E6/cases_v2.jsonl` as well.
+
 ## Part A - Cases
 
 - 475 cases in `sim/cases_v2/`: 15 per scam scenario (225), 25 per ordinary scenario (250). Same keys as the v1

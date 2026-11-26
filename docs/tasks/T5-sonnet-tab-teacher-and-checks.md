@@ -19,6 +19,14 @@ Background: `docs/specs/2026-11-26-data-plan-v2.md`, `README.md`.
   You are that strong model: the teacher.
 - The test set will be written by GPT. Your family must take no part in it.
 
+## Change of 2026-11-26 (after T4): stories come from `data/E6/cases_v2.jsonl`
+
+The T4 stories turned out incoherent (off-scenario values in 35-55% of rows; most loan-scam stories never mention
+a loan). Brief `docs/tasks/T4b-coherent-stories.md` regenerates all stories into `data/E6/cases_v2.jsonl`. Wherever
+Parts 3 and 4 below say `data/E6/cases.jsonl`, read `data/E6/cases_v2.jsonl`; no row filter is needed for ordinary
+scenarios any more. Stories you write yourself in Part 4 use `make_case` and `OPENING_PROMPT` as left by T4b (they
+carry the purpose line `viec`). "T5 trial go" comes after T4b is finished.
+
 ## Rules
 
 - **No Claude API.** Every Claude call goes through this tab's subscription: the `completion(prompt, schema=...)`
