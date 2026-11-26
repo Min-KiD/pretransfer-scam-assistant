@@ -45,6 +45,44 @@ to `make_case`, `OPENING_PROMPT` and `VICTIM_PROMPT`. Test set v2 is built with 
 - Check that no opening is identical to any opening in `data/E6/cases.jsonl` or `sim/cases/`.
 - Nobody trains on `sim/cases_v2/`. The `sonnet` tab must not read it.
 
+## Part A2 - Purpose lines of three scam scenarios rewritten (added 2026-11-26 after the planner read Part A)
+
+The planner read all 225 scam purpose lines and the openings of five scenarios, before seeing any Part C result.
+Twelve scam scenarios are on their subject. Three drifted, because the planner's instruction "do not paraphrase the
+train lines, cover other situations" cannot be met where the scam has one purpose only:
+
+- `chuyen_nham_tien`: most lines are another payment ("Trả tiền cọc phòng theo mã QR của cô chủ trọ", "Gửi 180 nghìn
+  tiền cơm trưa vào tài khoản của chị thu ngân"). Openings 0, 9 and 14 never mention money sent by mistake; most of
+  the others join two unrelated stories.
+- `gia_don_hang_lon_mua_ho`: the lines lost "buying on behalf of a customer, from the supplier the customer named"
+  ("Tôi trả tiền cho thợ sửa khóa tủ đồ", "Tôi trả tiền thuê xe nâng").
+- `mo_vi_tra_sau_nhan_hoa_hong`: several lines lost "the money sent is the money just borrowed or advanced"
+  (cases 0, 3, 7, 13).
+
+Redo for these three scenarios only (45 cases, about 0.15 USD OpenAI; the Part A cap becomes 1.6 USD):
+
+- Same tables, personas and ids (same `make_case` seed); only `viec` and `tin_mo_dau` are new. Move the 45 old
+  files to `sim/cases_v2/_replaced/` and keep their Part C sessions.
+- `VIEC_PROMPT` for these three: drop "không viết lại chúng theo cách khác; hãy nghĩ ra những hoàn cảnh cụ thể khác
+  cùng loại"; say instead "không chép nguyên văn" and add the line "Mỗi dòng phải giữ đúng việc cốt lõi sau, chỉ đổi
+  hoàn cảnh cụ thể: <core>", with these cores (use them verbatim):
+  - `chuyen_nham_tien`: "Người dùng đang trả lại một khoản tiền lạ vừa vào tài khoản của mình, vì có người liên lạc
+    nói là họ chuyển nhầm. Dòng nào cũng phải nói rõ đây là trả lại tiền người ta chuyển nhầm. Đổi số tiền, cách
+    người kia liên lạc, nơi được bảo trả về (một số tài khoản khác, mã QR, đường link), hoặc việc khoản tiền bị gọi
+    là tiền vay và bị đòi thêm lãi."
+  - `gia_don_hang_lon_mua_ho`: "Người dùng là người bán hàng hoặc làm dịch vụ, đang chuyển tiền cọc hoặc tiền hàng
+    cho một nhà cung cấp do chính vị khách đặt đơn lớn giới thiệu, để lấy hộ khách món hàng mình không có sẵn.
+    Dòng nào cũng phải nói rõ là mua hộ hoặc lấy hàng hộ khách đặt đơn, và bên nhận tiền là chỗ khách giới thiệu.
+    Đổi loại cửa hàng, món hàng, đơn vị của khách (doanh trại, bệnh viện, trường học), khoản tiền."
+  - `mo_vi_tra_sau_nhan_hoa_hong`: "Người dùng đang chuyển chính số tiền vừa vay hoặc vừa được ứng (ví trả sau, vay
+    nhanh trên ví, hạn mức mua trả góp) cho người hoặc 'dịch vụ' đã hướng dẫn mình, để nhận hoa hồng, ưu đãi, hoặc
+    vì được hứa sẽ hủy khoản vay. Dòng nào cũng phải nói rõ tiền chuyển đi là tiền vừa vay hoặc vừa được ứng. Đổi
+    nguồn tiền, người hướng dẫn, lời hứa, khoản tiền."
+- Write the 45 new lines and openings (next to the old ones) to `experiments/T6/a2.md`, send the planner one line
+  and **wait for "A2 ok"** before running Part C on them. Part C on the other 430 cases goes on meanwhile.
+- Report: the main Part C tables use the 475 cases with the 45 new ones. One extra table gives the same rows on the
+  45 replaced cases, so the effect of the rewrite is visible.
+
 ## Part B - Runner
 
 - `sim/e5.py`: a flag for the case directory and a seeded stratified order (round-robin over scenarios, seed
