@@ -114,16 +114,20 @@ def ask_teacher(prompt, schema, ids, retries=5):
     raise RuntimeError(last)
 
 
+USER_TIER = None  # Part 7: tier for the Claude simulated user ("smol" when it resolves to Sonnet 5.5)
+
+
 def ask_text(prompt, retries=3):
-    """One free-text `completion()` call (Claude as the simulated user); returns (text, seconds)."""
+    """One free-text `completion()` call (Claude as the simulated user); returns (text, seconds, model id)."""
     last = ""
     for attempt in range(1, retries + 1):
         t0 = time.perf_counter()
         try:
-            o = completion(prompt).wait()
+            hd = completion(prompt, model=USER_TIER) if USER_TIER else completion(prompt)
+            o = hd.wait()
             text = " ".join(str(o).strip().strip('"').split())  # same cleaning as victim_reply / write_opening
             if text:
-                return text, round(time.perf_counter() - t0, 2)
+                return text, round(time.perf_counter() - t0, 2), (getattr(hd, "attempts", None) or [{}])[-1].get("model")
             last = "empty answer"
         except Exception as e:
             last = f"{type(e).__name__}: {str(e)[:200]}"
@@ -138,7 +142,7 @@ def run_session(h, case, user_family="gemini", split=None):
     ids, k = h.info["ids"] + [h.info["chua_du"]], h.info["k"]
     case = dict(case)
     if user_family == "claude" and not case.get("tin_mo_dau"):
-        case["tin_mo_dau"], _ = ask_text(h.call("opening_prompt", case=case)["prompt"])
+        case["tin_mo_dau"], _, _ = ask_text(h.call("opening_prompt", case=case)["prompt"])
     history = [{"role": "user", "text": case["tin_mo_dau"]}]
     turns, asked = [], 0
     while True:
@@ -152,8 +156,8 @@ def run_session(h, case, user_family="gemini", split=None):
         history.append({"role": "assistant", "text": out["cau_hoi"]})
         asked += 1
         if user_family == "claude":
-            text, vs = ask_text(h.call("victim_prompt", case=case, history=history)["prompt"])
-            turn["user_reply"] = {"text": text, "seconds": vs, "usd": 0.0, "model": "claude-sonnet-5-5"}
+            text, vs, um = ask_text(h.call("victim_prompt", case=case, history=history)["prompt"])
+            turn["user_reply"] = {"text": text, "seconds": vs, "usd": 0.0, "model": um}
         else:
             v = h.call("victim", case=case, history=history, cap_total=VICTIM_CAP_TOTAL)
             turn["user_reply"] = {"text": v["text"], "seconds": v["seconds"], "usd": v["usd"], "model": v["model"]}
