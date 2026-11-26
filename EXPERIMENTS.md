@@ -20,6 +20,7 @@ Most numbers come from data we built ourselves and from simulated users. They ar
 | T4 | Catalogue v2: 25 scenarios, a cleaner case generator, C0 (M3) retrained | Done | C0 on 25 scenarios: 73.1% / 77.7% correct on val (opening / full). The 10 new scenarios cost 2.8-4.2 points on the old 15. On real scams it calls 10 of 84 ordinary (v1 C0: 6 of the 75 old ones), 7 of them through the new ordinary look-alikes. The chat prompt grows by 1,439 tokens per call |
 | T4b | Coherent stories: the generator draws only values the scenario lists, and every story states what the transfer is for. C0 retrained (v3) | Done | 5,250 new stories (`data/E6/cases_v2.jsonl`); 96% of openings name the purpose (old file: 56%). C0 v3 scores 99% on its own val, but every val story shares one of 78 purpose lines with train, so that score measures little. On real scams it is level with C0 v2 (63 vs 61 of 84 correct) and calls 12 of 84 ordinary (v2: 10), mostly a scam taken for its ordinary look-alike |
 | T6 | Test set v2: 475 cases on the 25-scenario catalogue, written by GPT, and the first baseline on it | Done | `gemini-3.5-flash-lite`: 88.2% correct scenario after 3 questions. It calls 18 of 225 scams ordinary (8.0%) and flags 2 of 250 ordinary transfers (0.8%); 68% of sessions end without a question. Neither C0 v2 nor C0 v3 passes M3 as a second opinion behind it: at any confidence they disagree with 29-36% of the right conclusions |
+| E12 | Untrained `Qwen3-4B-Instruct-2507` (bf16, own GPU) as the chat model on test set v2: the starting point for E13 | Done | 69.1% correct scenario after 3 questions (flash-lite 88.2%; paired -19.2 points, -23.4 to -15.2). Calls 32 of 225 scams ordinary (flash-lite 18) and flags 6 of 250 ordinary transfers (flash-lite 2). Asks 1.70 questions per session (flash-lite 0.36). No malformed reply in 1,284 turns |
 | E7 | Label propagation on the account graph (model M4) | Not started | |
 | E8 | A user who was coached by the scammer on what to answer | Not started | |
 | E9 | Time and cost per session | Not started | |
@@ -286,6 +287,35 @@ Why: every chat number so far came from cases written by Gemini, the same family
 - **Second opinion (M3) is not met on v2.** At any confidence, C0 v2 disagrees with 68% of flash-lite's wrong conclusions, but also with 36% of its right ones; C0 v3 with 73% and 29%. Turning a disagreement into "not enough evidence" cuts the scams called ordinary to 3 (v2) or 7 (v3) of 225. But it does the same to 35-40% of all sessions. With the val-set threshold, C0 v2 (tau 0.8) never disagrees, because only 2 of 475 sessions reach 0.8. C0 v3 (tau 0.3) catches 4 of 56 wrong conclusions.
 - **Classifiers alone on the openings:** C0 v2 54.9% correct, 28/225 scams called ordinary, 61/250 ordinary called scam; C0 v3 58.1%, 66/225 and 14/250. Report, split by group and account label: `experiments/T6/report.md` (`python3 -m e6.t6_report`).
 - **Part D (image trial):** `gpt-image-2.6-sunburst` drew the first 5 `gen_moi` conversations of E1b with the same prompts and intended files (`data/E1b/gen_gpt/`, `python -m e1.gen_gpt`). Settings: 1024x1536, quality high, 1,372 output tokens and 0.043 USD per image, 27-43 s each; 0.21 USD of a 0.5 USD cap. Not yet read against the intended strings; the sonnet tab does that before any larger batch.
+
+## E12: untrained Qwen3-4B-Instruct-2507 as the chat model, on test set v2
+
+Why: Minh will fine-tune this open model in E13; this is where it starts. `Qwen/Qwen3-4B-Instruct-2507`, revision `cdbee75f17`, Apache-2.0, bf16 (8.06 GB). Served by vLLM 0.34 on the company server's RTX 4060 Ti 16 GB. Protocol identical to T6 part C (same 475 cases, same seeded order, same prompt and simulated user, greedy, JSON schema enforced, one run), so rows pair case by case. Gemini spend for the simulated user: 0.26 USD of a 0.35 USD cap.
+
+| | Qwen3-4B, untrained | `gemini-3.5-flash-lite` (T6) |
+|---|---|---|
+| Scam called ordinary | 14.2% (32/225) [10-19] | 8.0% (18/225) [5-12] |
+| Ordinary flagged as scam | 2.4% (6/250) [1-5] | 0.8% (2/250) [0-3] |
+| Correct scenario before any question | 60.4% (287/475) [56-65] | 85.1% (404/475) [82-88] |
+| Correct scenario after 3 questions | 69.1% (328/475) [65-73] | 88.2% (419/475) [85-91] |
+| Same, on the 430 cases not rewritten by A2 | 70.7% (304/430) [66-75] | 87.0% (374/430) [83-90] |
+| `chua_du_can_cu` | 2/475 | 0/475 |
+| Questions per session | 1.70 | 0.36 |
+| Seconds per turn, mean / p90 | 1.74 / 2.24 (8 sessions in parallel) | 0.86 / 1.02 |
+
+- **Paired on the same 475 cases:** correct scenario -19.2 points [-23.4, -15.2], McNemar p < 1e-17 (Qwen alone right 15, flash-lite alone right 106). Scams not called ordinary: -6.2 points [-10.7, -1.3], p = 0.016.
+- **Asking helps it:** +8.7 points from the opening to the third question (flash-lite +3.1). It still ends far behind.
+- **Weakest scenarios:**
+  - `dich_vu_lay_lai_tien` 1/15, `chuyen_nham_tien` 4/15, `ctv_online` 4/15, `dat_coc_gia_re` 5/15 and `mao_danh_nguoi_quen` 7/15.
+  - Ordinary side: `bt_dat_dich_vu_co_xac_nhan` 12/25 (10 taken for a deposit after a viewing).
+  - Of the 32 scams called ordinary, 15 are taken for an online purchase from a new seller and 5 for a deposit after a viewing. Some are scams that flash-lite gets right: in `gia_don_hang_lon_mua_ho`, flash-lite has 15/15 and Qwen misses 6.
+- **Account rule (planner's, chosen on this test set; reference only):** after the rule, 1 of 225 scams is still called ordinary (flash-lite 2), at the cost of 40 of 250 ordinary transfers moved to "caution" (flash-lite 41).
+- **Run facts:**
+  - No malformed reply and no answer outside the catalogue in 1,284 turns.
+  - No `<think>` in any session.
+  - Longest prompt 3,581 tokens.
+  - Peak VRAM 13.7 GB of 16 (vLLM reserves 88%); server start 70 s.
+- Report with every split, per scenario and the 32 missed scams: `experiments/E12/report.md` (`python3 -m e6.e12_report`).
 
 ## Known gaps
 

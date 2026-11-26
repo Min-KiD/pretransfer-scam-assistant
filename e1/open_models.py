@@ -49,6 +49,9 @@ MODELS = {
     "qwen3-8b-fp8": {"repos": ["Qwen/Qwen3-8B-FP8"], "modes": [], "quant": "fp8 (official)", "text_only": True},
     "gemma-4-e4b-qat": {"repos": ["google/gemma-4-E4B-it-qat-w4a16-ct"], "modes": ["J"],
                         "quant": "w4a16 QAT, compressed-tensors (official)"},
+    # E12 (2026-11-26): the open text-only chat model Minh will fine-tune in E13; unquantised bf16, Apache-2.0, 8.0 GB.
+    "qwen3-4b-instruct-2507": {"repos": ["Qwen/Qwen3-4B-Instruct-2507"], "modes": [], "quant": "bf16 (unquantised)",
+                               "text_only": True},
 }
 JSON_SUFFIX = ("\n\nTrả về đúng một đối tượng JSON hợp lệ theo JSON Schema dưới đây, không thêm chữ nào khác "
                "ngoài JSON:\n" + json.dumps(SCHEMA, ensure_ascii=False))
