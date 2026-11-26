@@ -79,7 +79,36 @@ HEAD = ("| Set | Sessions | Correct after 0 q | after 1 | after 2 | after 3 | Sc
         "|---|---|---|---|---|---|---|---|---|---|---|---|")
 
 
-def second_opinion(L, name, labels, model_dir, val_path, sess, scen):
+def subsets(ids, by_id):
+    """(title, ids): all, the new scenarios, each group, each account label, each group x label (non-empty only)."""
+    ids, groups = set(ids), ("lua_dao", "binh_thuong")
+    labs = sorted({account(by_id[i]) for i in ids})
+    out = [("all", ids), ("new scenarios", {i for i in ids if by_id[i]["kich_ban"] in NEW})]
+    out += [(g, {i for i in ids if by_id[i]["nhom"] == g}) for g in groups]
+    out += [(f"`{lab}`", {i for i in ids if account(by_id[i]) == lab}) for lab in labs]
+    out += [(f"{g}, `{lab}`", {i for i in ids if by_id[i]["nhom"] == g and account(by_id[i]) == lab})
+            for g in groups for lab in labs]
+    return [(t, s) for t, s in out if s]
+
+
+OUTCOME_HEAD = ("| {first} | Subset | Correct scenario | Correct among those still concluded | Scam called ordinary | "
+                f"Ordinary flagged as scam | `{CHUA_DU}` |", "|---|---|---|---|---|---|---|")
+
+
+def outcome_rows(L, title, ans, by_id, nhom):
+    """ans: {case id: final answer, a scenario id or chua_du_can_cu}; one row per subset."""
+    for sub, ids in subsets(ans, by_id):
+        scam = [i for i in ids if by_id[i]["nhom"] == "lua_dao"]
+        ordi = [i for i in ids if by_id[i]["nhom"] == "binh_thuong"]
+        kept = [i for i in ids if ans[i] != CHUA_DU]
+        L.append(f"| {title} | {sub} | {fmt(rate(sum(ans[i] == by_id[i]['kich_ban'] for i in ids), len(ids)))} | "
+                 f"{fmt(rate(sum(ans[i] == by_id[i]['kich_ban'] for i in kept), len(kept)))} | "
+                 f"{fmt(rate(sum(ans[i] != CHUA_DU and nhom[ans[i]] == 'binh_thuong' for i in scam), len(scam)))} | "
+                 f"{fmt(rate(sum(ans[i] != CHUA_DU and nhom[ans[i]] == 'lua_dao' for i in ordi), len(ordi)))} | "
+                 f"{fmt(rate(sum(ans[i] == CHUA_DU for i in ids), len(ids)))} |")
+
+
+def second_opinion(L, name, labels, model_dir, val_path, sess, scen, by_id):
     nhom = {s: scen[s].nhom for s in SCEN_V2}
     val = [json.loads(l) for l in open(val_path, encoding="utf-8")]
     val = [r for r in val if r["set"] == "val"]
@@ -114,35 +143,20 @@ def second_opinion(L, name, labels, model_dir, val_path, sess, scen):
                  f"**{'met' if ok else 'not met'}** |")
         outcomes.append((f"Disagree ({rule.split(' ', 2)[2] if ' > ' in rule else 'any confidence'}) -> "
                          f"`{CHUA_DU}`", dis))
-    L += ["\nThe rows of the main table with the rule applied (a demoted session counts as `chua_du_can_cu`: not "
-          "correct, not a false alarm, not a miss):\n",
-          f"| Rule | Correct after 3 q | Correct among sessions still concluded | Scam called ordinary | Ordinary "
-          f"flagged as scam | `{CHUA_DU}` |", "|---|---|---|---|---|---|"]
-    scam = [r for r in sess if r["nhom"] == "lua_dao"]
-    normal = [r for r in sess if r["nhom"] == "binh_thuong"]
+    L += ["\nThe main rows with the rule applied (a demoted session counts as `chua_du_can_cu`: not correct, not a "
+          "false alarm, not a miss), split by group and by account label:\n", OUTCOME_HEAD[0].format(first="Rule"),
+          OUTCOME_HEAD[1]]
     for title, dis in outcomes:
-        final = {r["case"]: (CHUA_DU if dis and r["preds"][K] != CHUA_DU and dis(cl[r["case"]], r["preds"][K])
-                             else r["preds"][K]) for r in sess}
-        kept = [r for r in sess if final[r["case"]] != CHUA_DU]
-        L.append(f"| {title} | {fmt(rate(sum(final[r['case']] == r['kich_ban'] for r in sess), n_all))} | "
-                 f"{fmt(rate(sum(final[r['case']] == r['kich_ban'] for r in kept), len(kept)))} | "
-                 f"{fmt(rate(sum(final[r['case']] != CHUA_DU and nhom[final[r['case']]] == 'binh_thuong' for r in scam), len(scam)))} | "
-                 f"{fmt(rate(sum(final[r['case']] != CHUA_DU and nhom[final[r['case']]] == 'lua_dao' for r in normal), len(normal)))} | "
-                 f"{fmt(rate(n_all - len(kept), n_all))} |")
+        ans = {r["case"]: (CHUA_DU if dis and r["preds"][K] != CHUA_DU and dis(cl[r["case"]], r["preds"][K])
+                           else r["preds"][K]) for r in sess}
+        outcome_rows(L, title, ans, by_id, nhom)
     L.append("")
 
 
-def alone(name, labels, model_dir, cases, scen):
-    nhom = {s: scen[s].nhom for s in SCEN_V2}
+def alone(L, name, labels, model_dir, cases, scen, by_id):
     probs, _ = c0_predict([c["tin_mo_dau"] for c in cases], model_dir)
-    top = [labels[int(p.argmax())] for p in probs]
-    scam = [(c, t) for c, t in zip(cases, top) if c["nhom"] == "lua_dao"]
-    normal = [(c, t) for c, t in zip(cases, top) if c["nhom"] == "binh_thuong"]
-    newc = [(c, t) for c, t in zip(cases, top) if c["kich_ban"] in NEW]
-    return (f"| {name} | {fmt(rate(sum(t == c['kich_ban'] for c, t in zip(cases, top)), len(cases)))} | "
-            f"{fmt(rate(sum(nhom[t] == 'binh_thuong' for _, t in scam), len(scam)))} | "
-            f"{fmt(rate(sum(nhom[t] == 'lua_dao' for _, t in normal), len(normal)))} | "
-            f"{fmt(rate(sum(t == c['kich_ban'] for c, t in newc), len(newc)))} |")
+    outcome_rows(L, name, {c["id"]: labels[int(p.argmax())] for c, p in zip(cases, probs)}, by_id,
+                 {s: scen[s].nhom for s in SCEN_V2})
 
 
 def main():
@@ -200,7 +214,9 @@ def main():
           "drifted off their subject (the prompt forbade paraphrasing the train lines, and these scams have one purpose "
           f"only). Their {len(a2_ids)} cases got new purpose lines (`VIEC_PROMPT_A2`: \"do not copy\" plus a core purpose "
           "given verbatim by the brief) and new openings; tables, personas and ids unchanged. Old files in "
-          "`sim/cases_v2/_replaced/`, old and new side by side in `experiments/T6/a2.md`.",
+          "`sim/cases_v2/_replaced/`, old and new side by side in `experiments/T6/a2.md`. Known limit (planner, after "
+          "reading the 45): the `gia_don_hang_lon_mua_ho` lines are formulaic, \"khách đặt đơn lớn giới thiệu\" in "
+          "every line; not rewritten further.",
           f"- Identical openings (lower-case, spaces collapsed) against {n_old} openings of `data/E6/cases.jsonl`, "
           f"`data/E6/cases_v2.jsonl` and `sim/cases/`, and within the set: **{len(hits)}**"
           + (": " + ", ".join(f"`{a}` = `{b}`" for a, b in hits) if hits else "") + ".\n",
@@ -266,32 +282,20 @@ def main():
               "\n**The two sets are not comparable**: v1 has 15 scenarios and the E5 run used the 15-scenario catalogue "
               "and the old simulated-user prompt; v2 has 25 scenarios, new purpose lines and openings by another model "
               "family, and the B2 simulated user. The v1 row is context, not a before/after.\n",
-              "### Split by account label (`nhan_tai_khoan`, shown to the assistant)\n", *HEAD]
-        labs = defaultdict(set)
-        for r in sess:
-            labs[account(by_id[r["case"]])].add(r["case"])
-        for lab in sorted(labs):
-            s = score(sess, scen, labs[lab])
-            L.append(f"| `{lab}` | {s['n']} | {metric_rows(s)} |")
-        L += ["\nBy group and label:\n", "| Group | Label | Sessions | Correct after 3 q | Scam called ordinary / ordinary "
-              f"flagged | `{CHUA_DU}` |", "|---|---|---|---|---|---|"]
-        for g, key in (("lua_dao", "miss"), ("binh_thuong", "fp")):
-            for lab in sorted(labs):
-                ids = {i for i in labs[lab] if by_id[i]["nhom"] == g}
-                if ids:
-                    s = score(sess, scen, ids)
-                    L.append(f"| {g} | `{lab}` | {s['n']} | {fmt(s['kb3'])} | {fmt(s[key])} | {fmt(s['chua_du'])} |")
+              "### Split by group and by account label (`nhan_tai_khoan`, shown to the assistant)\n", *HEAD]
+        for sub, ids in subsets({r["case"] for r in sess}, by_id)[1:]:
+            L.append(f"| {sub} | {len(ids)} | {metric_rows(score(sess, scen, ids))} |")
         L += ["\n## Second opinion: C0 v2 and C0 v3 behind flash-lite\n",
               "Scored as in the E6 report: the classifier reads the user's words of the same session; see the docstring "
               "of `e6/t6_report.py`. C0 v3's val shares its purpose lines with its train set (T4b), so its tau is set "
               "on an optimistic val.\n"]
         for name, (ver, mdir) in CLS.items():
-            second_opinion(L, name, SCEN_V2, mdir, ROOT / f"data/E6/{ver}/preds/c0.jsonl", sess, scen)
-        L += ["## The classifiers alone on the 475 openings\n",
-              "| Classifier | Correct scenario | Scam called ordinary | Ordinary called scam | Correct on the new scenarios |",
-              "|---|---|---|---|---|"]
+            second_opinion(L, name, SCEN_V2, mdir, ROOT / f"data/E6/{ver}/preds/c0.jsonl", sess, scen, by_id)
+        L += [f"## The classifiers alone on the {len(cases)} openings\n",
+              "Opening message only (`mo_dau`), no dialogue; the answer is the top scenario.\n",
+              OUTCOME_HEAD[0].format(first="Classifier"), OUTCOME_HEAD[1]]
         for name, (ver, mdir) in CLS.items():
-            L.append(alone(name, SCEN_V2, mdir, cases, scen))
+            alone(L, name, SCEN_V2, mdir, cases, scen, by_id)
         ps, p1 = per_scenario(sess, scen), per_scenario(v1rows, scen)
         L += ["\n## Per scenario (flash-lite, correct after 3 questions)\n",
               "| Scenario | Group | v2 | v1 (E5, not comparable) |", "|---|---|---|---|"]

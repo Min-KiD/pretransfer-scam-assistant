@@ -19,6 +19,7 @@ Most numbers come from data we built ourselves and from simulated users. They ar
 | E11 | Does `gemini-3.8-flash` at high thinking call fewer scams ordinary, and at what cost? | Stopped by the cost projection after 30 of 75 sessions | 0.052 USD and 113 s per session, 14x the cost of low thinking. On the 30 sessions it ran, it is not more accurate (63.3% vs 76.7% at low, 83.3% for `gemini-3.5-flash-lite`) and ends 5 of 30 at "not enough evidence". The 30 hold only 10 scam cases, none called ordinary by any model, so the scam question is unanswered |
 | T4 | Catalogue v2: 25 scenarios, a cleaner case generator, C0 (M3) retrained | Done | C0 on 25 scenarios: 73.1% / 77.7% correct on val (opening / full). The 10 new scenarios cost 2.8-4.2 points on the old 15. On real scams it calls 10 of 84 ordinary (v1 C0: 6 of the 75 old ones), 7 of them through the new ordinary look-alikes. The chat prompt grows by 1,439 tokens per call |
 | T4b | Coherent stories: the generator draws only values the scenario lists, and every story states what the transfer is for. C0 retrained (v3) | Done | 5,250 new stories (`data/E6/cases_v2.jsonl`); 96% of openings name the purpose (old file: 56%). C0 v3 scores 99% on its own val, but every val story shares one of 78 purpose lines with train, so that score measures little. On real scams it is level with C0 v2 (63 vs 61 of 84 correct) and calls 12 of 84 ordinary (v2: 10), mostly a scam taken for its ordinary look-alike |
+| T6 | Test set v2: 475 cases on the 25-scenario catalogue, written by GPT, and the first baseline on it | Done | `gemini-3.5-flash-lite`: 88.2% correct scenario after 3 questions. It calls 18 of 225 scams ordinary (8.0%) and flags 2 of 250 ordinary transfers (0.8%); 68% of sessions end without a question. Neither C0 v2 nor C0 v3 passes M3 as a second opinion behind it: at any confidence they disagree with 29-36% of the right conclusions |
 | E7 | Label propagation on the account graph (model M4) | Not started | |
 | E8 | A user who was coached by the scammer on what to answer | Not started | |
 | E9 | Time and cost per session | Not started | |
@@ -260,6 +261,30 @@ Why: the T4 generator drew from the smoothed scenario table, so 35-55% of storie
 | 84 real scams, called ordinary | 10 | 12 |
 
 - **What it means:** the new val shares its purpose lines with train, so 99% measures recall of 78 purposes. It does not measure stories told in other words. On real scams the two models are level (+2.4 points, -9.5 to +14.3). C0 v3 errs where a scam and its ordinary look-alike share a purpose: a deposit to a fanpage (homestay, villa, car) taken for a deposit after a viewing (4), an impersonated relative for a transfer to family (3), a fake courier for paying the courier on delivery (2).
+
+## Test set v2 (T6): written by GPT, first baseline
+
+Why: every chat number so far came from cases written by Gemini, the same family as the chat model, on the 15-scenario catalogue. From T6 on, chat numbers are measured on `sim/cases_v2/`. Nobody trains on it. The 300 v1 cases stay as the record.
+
+- **Cases:** 475 (15 per scam scenario, 25 per ordinary scenario). Tables come from `sim.cases.make_case` (seed 20261128). `gpt-6.2-sol` wrote new purpose lines (none equal to a train line) and the openings. A batched `gpt-6.2-sol` re-read checked the ordinary openings against the scam catalogue. It dropped 1 of 250, which was replaced. No opening is identical to one in the train files, in v1, or elsewhere in the set.
+- **Part A2:** the planner read the purpose lines. Three scam scenarios (`chuyen_nham_tien`, `gia_don_hang_lon_mua_ho`, `mo_vi_tra_sau_nhan_hoa_hong`) had drifted off their subject, because the prompt forbade paraphrasing the train lines. Their 45 cases were rewritten around a core purpose fixed by the planner; tables and ids are unchanged. Known limit: the `gia_don_hang_lon_mua_ho` lines are formulaic. OpenAI spend for A and A2: 1.33 USD of a 1.6 USD cap.
+- **Simulated user (part B2):** stories with a purpose line now show the user the two account facts on the confirmation screen. Questions outside the table are answered from the scenario's `mo_ta`, else "not sure". Checked by eye on 60 fixed-question answers: 10 contradicted the facts or `mo_ta` with the old prompt, 3 with the new one.
+- **Baseline**, `gemini-3.5-flash-lite`, `tu_do`, at most 3 questions, one run (Gemini 0.85 USD with the 45 pre-A2 sessions; cap 1.0):
+
+| | Test set v2 (475) | v1 (E5, 300; not comparable) |
+|---|---|---|
+| Correct scenario after 3 questions | 88.2% (419) [85-91] | 81.3% (244) [77-85] |
+| Scam called ordinary | 8.0% (18/225) [5-12] | 4.5% (10/220) [2-8] |
+| Ordinary flagged as scam | 0.8% (2/250) [0-3] | 8.8% (7/80) [4-17] |
+| Concluded without asking | 68.0% (323) [64-72] | 53.7% (161) [48-59] |
+| Questions per session | 0.36 | 0.65 |
+| USD per session (with simulated user) | 0.0016 | 0.0013 |
+
+- **The two sets are not comparable.** v2 has 10 more scenarios, other writers and another simulated-user prompt. The 18 scams called ordinary are mostly scams taken for their ordinary look-alike: a cheap deposit for an online purchase from a new seller (6), a fake official for an organisation bill (3), and a fake courier for paying the courier on delivery (3). Weakest scenarios: `dich_vu_lay_lai_tien` 6/15 and `dat_coc_gia_re` 9/15.
+- **Account label:** for scams labelled `da_xac_nhan`, 4 of 24 are called ordinary and only 16 of 24 get the right scenario (`moi`: 9 of 150 called ordinary, 131 of 150 right).
+- **The 45 rewritten cases:** before A2, 28 of 45 got the right scenario and 7 were called ordinary; after A2, 45 of 45 and none. The new openings state the scam's mechanism outright (the core required it), so these 45 cases are now easy. [inference]
+- **Second opinion (M3) is not met on v2.** At any confidence, C0 v2 disagrees with 68% of flash-lite's wrong conclusions, but also with 36% of its right ones; C0 v3 with 73% and 29%. Turning a disagreement into "not enough evidence" cuts the scams called ordinary to 3 (v2) or 7 (v3) of 225. But it does the same to 35-40% of all sessions. With the val-set threshold, C0 v2 (tau 0.8) never disagrees, because only 2 of 475 sessions reach 0.8. C0 v3 (tau 0.3) catches 4 of 56 wrong conclusions.
+- **Classifiers alone on the openings:** C0 v2 54.9% correct, 28/225 scams called ordinary, 61/250 ordinary called scam; C0 v3 58.1%, 66/225 and 14/250. Report, split by group and account label: `experiments/T6/report.md` (`python3 -m e6.t6_report`).
 
 ## Known gaps
 
