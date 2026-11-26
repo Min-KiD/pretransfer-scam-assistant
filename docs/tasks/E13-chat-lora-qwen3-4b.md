@@ -2,7 +2,11 @@
 
 From: planner tab `Momo_TechContest`. For: `code` tab. Written 2026-11-26.
 
-**Status: not a go yet.** The budgets below are the planner's proposal and are not approved by Minh. Do not start until the planner tab sends "E13 go" with the approved caps. E12 (untrained baseline of the same model) runs first and is the "before" row of this experiment.
+**Status: out of date, do not run as written.** Since 2026-11-26: the teacher is Claude Sonnet 5.5 in the
+`sonnet` tab on Minh's subscription, not Haiku over the API (brief T5, output `data/T5/train.jsonl` and
+`val.jsonl`); the catalogue has 25 scenarios (T4); evaluation is on test set v2 (T6). Part A below is replaced by
+T5. The planner will rewrite Parts B and C and then send "E13 go". Minh approved the step itself on 2026-11-26; it
+runs on the company server. E12 (untrained baseline of the same model) runs first.
 
 ## Question
 
