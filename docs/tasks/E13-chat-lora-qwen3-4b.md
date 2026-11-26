@@ -22,11 +22,11 @@ Method fixed by Minh: LoRA only. The base weights stay frozen; only the adapter 
 
 ## Part B - Training
 
-- QLoRA: base loaded in 4-bit, adapters on all attention and MLP projections (`q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj`).
+- LoRA on the full-precision base (bf16 weights, not quantised: Minh, 2026-11-26), the same setup as `e1/lora_train.py` (plain `peft`, gradient checkpointing; that run peaked at 11.4 GiB on a 4B model). Adapters on all attention and MLP projections (`q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj`). Training and serving then use the same weights.
 - Fixed: learning rate 2e-4, linear schedule, warmup 5% of steps, effective batch 16, dropout 0, weight decay 0.01, alpha = rank, loss on the assistant message only, seed 3407, 3 epochs with a checkpoint after each. Set the maximum length from the measured longest training example; report it.
 - Two runs only: rank 16 and rank 64.
 - Pick one checkpoint per rank by validation loss on the kept val sessions. Report train and validation loss per epoch.
-- Where: the company server first (16 GB card; `nvidia-smi` before, never kill another job). If it does not fit or the card is busy, stop and tell the planner tab; renting a GPU needs Minh's approval. Unsloth or plain `peft` + `bitsandbytes`, whichever installs cleanly; install into a separate environment, do not change the packages of the existing one.
+- Where: the company server first (16 GB card; `nvidia-smi` before, never kill another job). Prompts are about 2000 tokens per turn; start with batch 1 x 16 accumulation. If it runs out of memory at rank 64, or the card is busy, stop and tell the planner tab: do not switch to a 4-bit base and do not rent a GPU without asking. Reuse the existing environment (`peft` 0.22 is installed); install nothing new into it.
 - Report: trainable parameters, peak VRAM, minutes per epoch, adapter size.
 
 ## Part C - Evaluation
