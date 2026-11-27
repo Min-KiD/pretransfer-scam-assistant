@@ -226,6 +226,30 @@ def keep_reason(s):
     return f"final={s['final']}"
 
 
+# Part 8 note (appended to the standard prompt for the informed call). The confused scenario is the dropped session's
+# wrong final answer when that is a scenario id, else the true scenario's `doi_chieu_voi`.
+RECOVER_NOTE = ("\nGhi chú riêng cho lượt này, chỉ để chọn câu hỏi: kịch bản đúng là \"{true}\" ({true_ten}); "
+                "nó dễ bị nhầm với \"{conf}\" ({conf_ten}). Hãy đặt một câu hỏi ngắn cho người dùng mà câu trả lời "
+                "phân biệt được hai kịch bản này. Không nêu tên hay id kịch bản nào, không gợi ý câu trả lời, không "
+                "để lộ bạn đang nghĩ là kịch bản nào. \"cau_hoi\" phải là câu hỏi đó, không được rỗng.")
+
+
+def recover_note(s, scen):
+    """The note for dropped session `s`; `scen` maps scenario id to its yaml dict (`ten`, `doi_chieu_voi`)."""
+    conf = s["final"] if s["final"] in scen else scen[s["scenario"]]["doi_chieu_voi"]
+    return RECOVER_NOTE.format(true=s["scenario"], true_ten=scen[s["scenario"]]["ten"], conf=conf,
+                               conf_ten=scen[conf]["ten"])
+
+
+def session_rows(s):
+    """Training rows of one session: one per assistant turn, answer JSON compact (du_doan, cau_hoi)."""
+    return [{"messages": [{"role": "user", "content": t["prompt"]},
+                          {"role": "assistant", "content": json.dumps(
+                              {"du_doan": t["response"]["du_doan"], "cau_hoi": t["response"]["cau_hoi"]},
+                              ensure_ascii=False, separators=(",", ":"))}],
+             "story_id": s["story_id"], "scenario": s["scenario"], "turn": t["turn"]} for t in s["turns"]]
+
+
 def write_training_files(sessions_path, out_dir):
     """`sessions.jsonl` (everything, with `kept` and `drop_reason`), `train.jsonl`, `val.jsonl`: one row per
     assistant turn of every kept session, answer JSON compact with keys in the order du_doan, cau_hoi.
