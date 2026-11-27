@@ -1,5 +1,7 @@
 # Chiến lược, Phương pháp, Mô hình & Cách đánh giá (E7)
 
+> **Data v1.** This page describes data version 1 (commit `2940796`). The data is now version 2 (`data.md`): the method and its numbers have to be rerun on it.
+
 Tài liệu này giải thích ngắn gọn **bài toán cần giải**, **các phương pháp thử nghiệm**, **đầu vào/đầu ra của mô hình tốt nhất**, và **cách train/đánh giá chống gian lận dữ liệu tương lai** trong [`e7/graph_engine.py`](../../e7/graph_engine.py), [`e7/models.py`](../../e7/models.py) và [`e7/eval.py`](../../e7/eval.py).
 
 ---

@@ -115,3 +115,32 @@ def test_solvers_and_wl_subtrees_and_end_to_end(tmp_path):
     assert _precision_at_k(y_dummy, np.zeros(10), 2) == pytest.approx(0.20)
     assert _recall_at_fpr(y_dummy, np.array([1.0, 0.9] + [0.1] * 8), 0.01) == pytest.approx(1.0)
     assert len(extract_louvain_communities(g)) == 2
+
+
+def test_staff_reviews_follow_calendar_delay_and_truth():
+    preset = GenPreset(name="tiny_staff", n_accounts=450, scam_rate=0.08,
+                       staff_capacity_per_day=2, staff_min_delay_days=2)
+    data = generate_dataset(preset, seed=7)
+    capacity = {c["day"]: c["capacity"] for c in data["staff_calendar"]}
+    truth = {a["so_tk"]: a for a in data["accounts"]}
+    scam_verdict_days: dict[str, list[int]] = {}
+    for r in data["reports"]:
+        if r["muc"] == "giong_chieu_lua":
+            scam_verdict_days.setdefault(r["so_tk"], []).append(r["day"])
+
+    reviews = [e for e in data["label_events"] if e["by"] == "nhan_vien"]
+    assert {e["label"] for e in reviews} == {"da_xac_nhan", "verified_normal"}
+    per_day: dict[int, int] = {}
+    for e in reviews:
+        per_day[e["day"]] = per_day.get(e["day"], 0) + 1
+        assert e["day"] - e["flagged_day"] >= preset.staff_min_delay_days
+        assert e["flagged_day"] in scam_verdict_days[e["so_tk"]]
+        acc = truth[e["so_tk"]]
+        is_scam_then = acc["gt_is_scam"] and e["day"] >= acc.get("gt_hijack_day", 0)
+        assert e["label"] == ("da_xac_nhan" if is_scam_then else "verified_normal")
+    assert all(n <= capacity[day] for day, n in per_day.items())
+    assert any(c["capacity"] == 0 for c in data["staff_calendar"])
+
+    assert [r["id"] for r in data["reports"]] == list(range(1, len(data["reports"]) + 1))
+    assert all(a["tao_luc"] <= b["tao_luc"] for a, b in zip(data["reports"], data["reports"][1:]))
+    assert all(r["day"] - 1 <= r["tao_luc"] < r["day"] for r in data["reports"])

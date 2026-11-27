@@ -1,123 +1,205 @@
-# Dữ liệu cho thí nghiệm Đồ thị rủi ro tài khoản (E7)
+# E7 mock data, version 2 (`e7-synth-v2`)
 
-Tài liệu này giải thích ngắn gọn, dễ hiểu về **dữ liệu hiện có của app**, **cấu trúc thư mục thí nghiệm E7**, **format từng file mock data**, và **logic sinh dữ liệu giả lập** trong [`e7/gen_graph.py`](../../e7/gen_graph.py).
+This is the data set for the account-graph work (M4). It replaces version 1 (commit `2940796`): every number
+measured on version 1 has to be measured again on this one.
 
----
+Everything here is generated. No real account, phone number or report is used. A result on this data shows that
+a mechanism works, not how it would perform on real traffic.
 
-## 1. Hiện trạng dữ liệu của app (4 bảng SQLite)
+## 1. The flow the data is built for
 
-File SQLite của app nằm mặc định ở `data/app/app.sqlite` (xem [`app/db.py`](../../app/db.py)), gồm **4 bảng**:
+- What the system works out by itself ends at **yellow** (a caution). **Red** comes only from a staff approval.
+- Staff are not always there (no staff in the demo, days off, a daily limit), so a suspected account waits in a
+  queue. Until someone approves it, every later customer who checks that account still gets yellow.
+- Customer-facing yellow from the graph: the account shares a phone number or link with a staff-confirmed (red)
+  account. It spreads from red only, never from yellow. Public phone numbers and links (marketplaces, carriers,
+  hotlines) do not count.
+- When staff clear an account it becomes "checked, normal" (`verified_normal`) and nothing spreads through it.
+- A trained model only orders the staff queue. It does not put a label in front of a customer.
 
-- **`account_labels`** — trạng thái hiện tại của từng số tài khoản nhận (`so_tk` là khóa chính, mỗi tài khoản 1 dòng, sửa là ghi đè):
-  - `so_tk`, `ngan_hang`, `chu_tk`, `loai` (`ca_nhan` hoặc `to_chuc`).
-  - `nhan`: 4 trạng thái — `quen`, `moi`, `dang_bi_bao_cao` (cảnh báo vàng), `da_xac_nhan` (cảnh báo đỏ).
-  - `dat_boi`: ai đặt nhãn lần cuối (`du_lieu_mau`, `bao_cao_tu_dong`, `nhan_vien`, `nhan_vien_go`).
-  - `cap_nhat`: mốc thời gian cập nhật gần nhất.
-- **`sessions`** — lưu trạng thái từng phiên chat (`id`, `so_tk`, `so_tien`, JSON `state`, `tao_luc`).
-- **`messages`** — lưu từng dòng tin nhắn người dùng và trợ lý (`session_id`, `role`, `text`, `co_anh`, `ts`).
-- **`reports`** *(bảng quan trọng nhất để dựng đồ thị)* — lưu 1 dòng sau khi phiên chat kết luận và người dùng bấm nút quyết định:
-  - `id`, `session_id`, `so_tk`, `tao_luc`.
-  - `muc`: `giong_chieu_lua`, `giong_binh_thuong`, hoặc `chua_du_can_cu`.
-  - `kich_ban`: mã kịch bản cao điểm nhất trong 25 kịch bản (`scenarios/*.yaml`).
-  - `nut`: lựa chọn của người dùng (`dung_lai`, `kiem_tra_them`, `van_chuyen`).
-  - `sdt`, `link`: mảng JSON các số điện thoại và tên miền trích từ ảnh chat.
-  - `noi_dung`: JSON chứa `bang_cau_chuyen`, `phan_phoi` (xác suất 25 kịch bản), `so_tien`, `hoi_thoai`.
+The data gives the world **as the app runs today, without M4**: reports arrive, the app raises yellow flags by
+itself, staff review flagged accounts when they are at work. M4 is what you add on top and compare against it.
 
-### 5 chỗ đang thiếu khi đưa dữ liệu app lên Đồ thị ("bảng ghim phá án")
-- **Chưa có lịch sử đổi nhãn theo thời gian:** `account_labels` ghi đè khi sửa nên không biết tài khoản nào được duyệt tem đỏ vào ngày nào.
-- **Chưa có nhãn "đã xác minh bình thường" (`verified_normal`):** nhân viên bấm **Gỡ** ở [`app/main.py`](../../app/main.py#L189-L190) chỉ đưa tài khoản về `moi`, nên hiện tại chỉ có tem đỏ (`da_xac_nhan`), chưa có tem xanh.
-- **Không biết SĐT/link trong ảnh là của ai:** máy đọc ảnh bốc tất cả SĐT/link trên màn hình, không phân biệt SIM rác của kẻ gian, SĐT của nạn nhân, hay tổng đài công ty.
-- **Dễ dính chùm oan vì đầu mối "cả làng cùng dùng":** cách gom cụm cũ ở `/staff/clusters` nối mọi báo cáo trùng SĐT/link, nên chỉ cần 1 link `shopee.vn` hay tổng đài giao hàng là hàng loạt shop bình thường bị gom chung với kẻ lừa đảo.
-- **Chưa có dữ liệu đồ thị tài khoản ngân hàng thật:** repo mới có kịch bản, ảnh chat và lời kể riêng lẻ; chưa có đồ thị tài khoản thật nên E7 cần bộ **mock data 90 ngày** để kiểm chứng cơ chế.
+## 2. Files in one set
 
----
+| File | One row is | Use |
+|---|---|---|
+| `accounts.jsonl` | a receiving account | input: `so_tk`, `loai`, `created_day`; answers: `gt_*` |
+| `reports.jsonl` | one finished chat session about an account | input; answers: `gt_is_scam`, `gt_kich_ban` |
+| `label_events.jsonl` | a label change of an account, in time order | input (what the system knew, and when) |
+| `staff_calendar.jsonl` | one day: staff at work or not, capacity, accounts reviewed | input, and for replaying the staff loop |
+| `public_entities.json` | a well-known public phone or link | input (the list used to drop public hubs) |
+| `entities.jsonl` | a phone or link, with who really owns it | answers only (`gt_*`) |
+| `graph_manifest.json` | settings, seed, summary counts, sha256 of every file | check |
+| `sample_preview.json` | a few rows of each kind | reading by eye |
 
-## 2. Cấu trúc thư mục của thí nghiệm E7
+**Every field that starts with `gt_` is an answer.** Use it for scoring only, never as an input or to pick a
+setting. `entities.jsonl` is answers as a whole.
 
-Toàn bộ phần E7 nằm gọn trong **3 thư mục**:
+### `accounts.jsonl`
 
-- **`e7/`** *(code thí nghiệm trên nhánh `e7`)*:
-  - [`e7/gen_graph.py`](../../e7/gen_graph.py): sinh dữ liệu mock 90 ngày.
-  - [`e7/graph_engine.py`](../../e7/graph_engine.py): dựng đồ thị `Tài khoản ↔ SĐT / Tên miền`, cắt siêu nút, chạy lan truyền, tách cụm và trích đường dẫn bằng chứng.
-  - [`e7/models.py`](../../e7/models.py): các phương pháp thử nghiệm (`G0` → `G4`).
-  - [`e7/eval.py`](../../e7/eval.py) & [`e7/report.py`](../../e7/report.py): chạy bài thi chia thời gian, chấm điểm và xuất báo cáo.
-- **`tests/test_e7.py`** ([`tests/test_e7.py`](../../tests/test_e7.py)): bộ unit test tự động kiểm tra logic E7.
-- **`data/E7/`** *(dữ liệu mock sinh ra trên máy local, `.gitignore` bỏ qua không commit)*:
-  - Gồm 7 thư mục con ứng với 1 bộ chuẩn (`base/`) và 6 bài stress-test (`s1_hub_explosion/` → `s6_cold_start_heavy/`).
-- **`experiments/E7/`** *(kết quả chạy thí nghiệm trên máy local, không commit)*:
-  - `report.md`: bảng so sánh kết quả dễ đọc.
-  - `results.json`: số liệu chi tiết từng lần chạy.
+| Field | Meaning |
+|---|---|
+| `so_tk` | account number (made-up prefix `0009`) |
+| `loai` | `ca_nhan` (person) or `to_chuc` (organisation) |
+| `created_day` | day the account first appears (1-90) |
+| `gt_is_scam` | 1 if the account is used by a ring at any time |
+| `gt_role` | `scam_organizer`, `scam_mule`, `hijacked_account`, `normal_merchant`, `normal_personal` |
+| `gt_ring_id` | ring, shop group or family the account belongs to (`null` for single users) |
+| `gt_is_heldout_ring` | 1 if its ring first appears after day 55 |
+| `gt_hijack_day` | taken-over accounts only: ordinary up to this day, used by the ring after it |
 
----
+### `reports.jsonl`
 
-## 3. Format chi tiết 6 file trong mỗi bộ dữ liệu (ví dụ `data/E7/base/`)
+Same fields as the app's `reports` table, plus `day` and two answers. Rows are in time order and `id` grows with
+time.
 
-Mỗi file `.jsonl` có format đơn giản: **mỗi dòng là 1 đối tượng JSON**. Các trường có tiền tố **`gt_`** là **đáp án bí mật chỉ dùng để chấm thi** — tuyệt đối không đưa vào model lúc train hay dự đoán.
+| Field | Meaning |
+|---|---|
+| `id`, `session_id` | report number (1 = earliest) and session name |
+| `so_tk` | the account the customer was about to pay |
+| `day`, `tao_luc` | day 1-90, and the time in days (`day - 1 <= tao_luc < day`) |
+| `muc` | chat verdict: `giong_chieu_lua` (looks like a scam), `giong_binh_thuong` (looks ordinary), `chua_du_can_cu` (not enough to tell) |
+| `kich_ban` | the scenario the chat named |
+| `phan_phoi` | probabilities over the 25 scenarios; `kich_ban` is the highest |
+| `nut` | what the customer pressed: `dung_lai` (stop), `kiem_tra_them` (check more), `van_chuyen` (transfer anyway) |
+| `sdt`, `link` | phone numbers and link domains read from the chat screenshot |
+| `so_tien` | amount in VND |
+| `ten_khop_tu_xung` | `co` / `khong` / `null`: does the account type fit the role the other side claims |
+| `gt_is_scam` | 1 if this session really was a scam |
+| `gt_kich_ban` | the true scenario of the session |
 
-- **1. `accounts.jsonl`** *(3.000 dòng — danh sách tài khoản ngân hàng)*:
-  - Trường quan sát: `so_tk` (mã giả `0009...`), `loai` (`ca_nhan` / `to_chuc`), `created_day`.
-  - Trường đáp án bí mật: `gt_is_scam` (`1` = lừa đảo, `0` = bình thường), `gt_role` (`scam_organizer`, `scam_mule`, `normal_merchant`, `normal_personal`, `hijacked_account`), `gt_ring_id`, `gt_is_heldout_ring`.
-  - Ví dụ 1 dòng thật:
-    ```json
-    {"so_tk": "000900000001", "loai": "ca_nhan", "created_day": 19, "gt_is_scam": 1, "gt_role": "scam_organizer", "gt_ring_id": "scam_ring_001", "gt_is_heldout_ring": 0}
-    ```
+### `label_events.jsonl`
 
-- **2. `entities.jsonl`** *(313 dòng — danh sách SĐT và tên miền)*:
-  - Trường quan sát: `entity_id`, `type` (`phone` hoặc `domain`), `value`.
-  - Trường đáp án bí mật: `gt_entity_role` (`popular_benign_domain`, `shared_hotline`, `victim_phone`, `scammer_burner_phone`, `phishing_domain`, `benign_shared_phone`), `gt_description`.
-  - Ví dụ 1 dòng thật:
-    ```json
-    {"entity_id": "domain_00001", "type": "domain", "value": "shopee.vn", "gt_entity_role": "popular_benign_domain", "gt_ring_id": null, "gt_description": "e-commerce platform (Shopee)"}
-    ```
+| `by` | `label` | Meaning | Extra field |
+|---|---|---|---|
+| `bao_cao_tu_dong` | `dang_bi_bao_cao` | yellow flag raised by the app after a report with `muc = giong_chieu_lua` | `report_id` |
+| `nhan_vien` | `da_xac_nhan` | staff approved: red | `flagged_day` |
+| `nhan_vien` | `verified_normal` | staff cleared: checked, normal | `flagged_day` |
 
-- **3. `reports.jsonl`** *(3.376 dòng — báo cáo chat sinh ra các sợi dây nối đồ thị)*:
-  - Khớp trực tiếp bảng `reports` của app: `id`, `session_id`, `so_tk`, `day`, `muc`, `kich_ban`, `nut`, `sdt`, `link`, `so_tien`, `m3_scam_prob`, `ten_khop_tu_xung`, `phan_phoi` (xác suất trên 25 kịch bản).
-  - Ví dụ rút gọn 1 dòng thật:
-    ```json
-    {"id": 644, "session_id": "e7s_000644", "so_tk": "000900000288", "day": 1, "muc": "chua_du_can_cu", "kich_ban": "bt_tra_shipper_khi_nhan_hang", "nut": "kiem_tra_them", "sdt": [], "link": [], "so_tien": 420000, "m3_scam_prob": 0.242}
-    ```
+A staff event of day `d` happens at the end of day `d`: customers see it from day `d + 1`. The label of an account
+on a given day is its latest event before that day. An account with no event has no label.
 
-- **4. `label_events.jsonl`** *(392 dòng — lịch sử gắn nhãn theo ngày)*:
-  - Lưu chính xác ngày nào nhân viên duyệt tem đỏ (`da_xac_nhan`, `by: "nhan_vien"`) hay app tự gắn tem vàng (`dang_bi_bao_cao`, `by: "bao_cao_tu_dong"`).
-  - Ví dụ 1 dòng thật:
-    ```json
-    {"so_tk": "000900000037", "label": "dang_bi_bao_cao", "by": "bao_cao_tu_dong", "day": 2}
-    ```
+### `staff_calendar.jsonl`
 
-- **5. `graph_manifest.json`**: thống kê tổng quan, tham số sinh, top 20 đầu mối nhiều tài khoản dùng nhất và mã SHA-256 để tái lập 100%.
-- **6. `sample_preview.json`**: bản rút gọn pretty-printed chứa vài mẫu đại diện mỗi loại để mở đọc nhanh bằng mắt.
+`{"day", "working", "capacity", "reviewed"}`. Day 1 is a Monday; days 6 and 7 of every week are off. On a working
+day nobody reviews with probability `staff_absence_prob`.
 
----
+## 3. How a set is generated
 
-## 4. Logic 5 bước sinh Mock Data trong [`e7/gen_graph.py`](../../e7/gen_graph.py)
+1. **Public hubs.** 10 public link domains and 10 hotlines. 8 + 8 are in `public_entities.json`. Two domains
+   (`tiktok.com`, `chotot.com`) and two hotlines (`19002345`, `18006789`) are public but **not in the list** and
+   less popular, so they touch about as many accounts as a large ring's phone does.
+2. **Scam rings.** Most rings have 6-13 accounts and 2-4 SIMs. About one ring in eight is large: 28-50 accounts,
+   4-8 SIMs and one master phone that most of its accounts point to. Half of the rings also use 1-2 fake sites.
+   About a quarter of the rings first appear after day 55. Rings that start earlier keep opening fresh accounts
+   after day 55.
+3. **Ordinary accounts.** Shop groups of 10-22 accounts around one shop phone (a third also have their own site);
+   a few large groups of 30-45 accounts behind one dispatch phone; families of 3-6; single users.
+4. **Taken-over accounts.** An ordinary personal account that a known ring starts using on `gt_hijack_day`.
+5. **Reports.** Each account gets a few sessions. The screenshot reader misses a share of the strings
+   (`m1_string_dropout`) and sometimes reads the customer's own number (`victim_phone_leak_prob`); those numbers
+   connect scam and ordinary accounts by accident. Scam sessions sometimes show a public link or hotline too.
+6. **Chat verdict.** For a session of true scenario S, the verdict (`muc`, `kich_ban`) is drawn from the endings
+   a real chat model gave on our 475-case test set for scenario S (`e7/chat_confusion.json`, built by
+   `e7/chat_confusion.py`). So the mock chat fails where the measured model fails. Example: with `flash_lite`, a
+   `dat_coc_gia_re` scam is read as an ordinary purchase in 6 of 15 cases.
+7. **Labels.** During the day, a report with `muc = giong_chieu_lua` puts a yellow flag on its account unless it
+   is already yellow or red. At the end of each working day staff take the flagged accounts that have waited at
+   least `staff_min_delay_days`, most scam verdicts first, then the oldest flag, and review up to
+   `staff_capacity_per_day` of them. Staff are always right: red if the account is a scam account at that
+   time, `verified_normal` otherwise. A cleared account gets a new yellow flag if a later report calls it a scam.
 
-Để thí nghiệm không tự đánh lừa mình (nếu dữ liệu quá sạch thì thuật toán nào cũng đạt 99%), bộ sinh mô phỏng một "thành phố 90 ngày" gồm **3.000 tài khoản** với đủ các bẫy ngoài đời:
+Phone numbers are random over the same prefixes for everyone: the digits say nothing about the owner.
 
-1. **Tạo đầu mối bẫy dùng chung:**
-   - **8 trang web phổ thông:** `shopee.vn`, `facebook.com`, `zalo.me`, `tiki.vn`, `lazada.vn`, `ghn.vn`, `viettelpost.vn`, `momo.vn` *(trong `base`, mỗi trang dính 67–119 tài khoản)*.
-   - **8 số tổng đài công cộng:** tổng đài Shopee (`19001221`), GHN (`1900636677`), Viettel Post (`19008095`), J&T (`19001088`), Tiki, MoMo và 2 tổng đài ngân hàng *(mỗi số dính 40–71 tài khoản)*.
-   - **~85 số điện thoại nạn nhân (`victim_phone`):** để trộn ngẫu nhiên vào cả báo cáo lừa đảo lẫn báo cáo thường, tạo cầu nối sai.
-2. **Đúc 12 băng nhóm lừa đảo (tổng 4,5% = 135 tài khoản lừa đảo):**
-   - Gồm 2 kiểu: **băng dùng chung SIM rác** (`gia_shipper`, `gia_cong_an`, `dat_coc_gia_re`...) và **chiến dịch web giả** (`dau_tu_san_gia`, `ctv_online`, `dich_vu_lay_lai_tien`...).
-   - **3/12 băng (25%) là băng mới tinh (`cold-start`):** chỉ xuất hiện sau ngày 55, hoàn toàn không có tem đỏ cũ.
-   - **9 băng còn lại xoay vòng STK:** ~55% STK hoạt động sớm (ngày 1–49), ~45% STK mới xuất hiện muộn hơn (ngày 56–86) nhưng xài lại SIM/web cũ.
-3. **Tạo 2.865 tài khoản bình thường (95,5%) + 18 tài khoản bị chiếm đoạt:**
-   - **~28% là cụm shop online đàng hoàng:** hay dính `shopee.vn`, `facebook.com`, `zalo.me` và tổng đài giao hàng → dùng để đo tỷ lệ **bắt oan shop thật**.
-   - **~18% là cụm gia đình/bạn bè:** dễ bị trợ lý chat báo nhầm thành `mao_danh_nguoi_quen` (đúng lỗi thực tế ở E2/E3).
-   - **18 tài khoản bị chiếm đoạt (`hijacked_account`):** trước ngày bị hack là người bình thường, sau đó bị kéo vào băng lừa đảo.
-4. **Mô phỏng 3.376 báo cáo kèm lỗi thật của AI (bám số liệu E4/E5/E6 trong `EXPERIMENTS.md`):**
-   - Máy đọc ảnh M1: rớt ~12% chuỗi, dính thừa 1 `victim_phone` ở ~14% báo cáo.
-   - Kẻ gian ngụy trang: ~28% báo cáo lừa đảo nhét thêm link phổ thông, ~20% nhét thêm tổng đài.
-   - Trợ lý chat M2/M3: ~7,5% giao dịch bình thường bị báo nhầm `giong_chieu_lua`; ~7% lừa đảo bị bỏ sót; ~16% rơi vào `chua_du_can_cu`.
-5. **Sinh lịch sử nhãn theo ngày:**
-   - Chỉ ~25% tài khoản lừa đảo xuất hiện sớm được nhân viên duyệt tem đỏ trước ngày 55 (**13 tem đỏ**, **0 tem xanh**).
-   - Trong khi đó có tới **379 tem vàng tự động (`dang_bi_bao_cao`)** — phần lớn là báo nhầm trên người bình thường.
+## 4. The ten sets
 
-### 7 bộ kịch bản đã sinh sẵn trong `data/E7/`
-- **`base`**: bộ chuẩn (4,5% lừa đảo, 13 tem đỏ, `shopee.vn` nối 119 tài khoản).
-- **`s1_hub_explosion`**: siêu nút phình gấp đôi (`shopee.vn` nối 237 tài khoản).
-- **`s2_high_heterophily`**: 32% báo cáo dính SĐT nạn nhân + tăng tài khoản bị chiếm đoạt.
-- **`s3_heavy_noise`**: AI lỗi nặng (rớt 24% chuỗi, tem vàng báo nhầm vọt lên 573).
-- **`s4_sparse_imbalance`**: lừa đảo siêu hiếm (2%, chỉ có đúng 4 tem đỏ).
-- **`s5_camouflage_drift`**: kẻ gian ngụy trang mạnh + đổi STK nhiều.
-- **`s6_cold_start_heavy`**: 50% (6/12) băng nhóm là đường dây mới tinh sau ngày 55.
+8,000 accounts and 90 days each. Seed 20261127, except `holdout_mixed` (seed 20261203).
+
+| Set | What differs from `base` | Scam accounts | Rings (large / first seen after day 55) | Reports | Yellow flags | Red | Checked normal | Still waiting on day 90 | Median days from flag to review |
+|---|---|---:|---|---:|---:|---:|---:|---:|---:|
+| `base` | - | 360 | 26 (3 / 6) | 9,051 | 428 | 153 | 12 | 263 | 6 |
+| `s1_hub_explosion` | public links and hotlines in far more sessions | 360 | 26 (3 / 6) | 8,953 | 411 | 155 | 9 | 247 | 5 |
+| `s2_high_heterophily` | more customer numbers read by accident, more taken-over accounts | 360 | 23 (3 / 6) | 9,057 | 422 | 160 | 2 | 260 | 6 |
+| `s3_heavy_noise` | reader misses more strings; chat = untrained Qwen | 360 | 26 (3 / 6) | 9,053 | 609 | 146 | 19 | 444 | 6 |
+| `s4_sparse_imbalance` | 2% scam accounts; staff review 1 a day | 160 | 11 (2 / 3) | 8,696 | 229 | 54 | 3 | 172 | 9 |
+| `s5_camouflage_drift` | scam sessions carry more public strings; more late rings | 360 | 26 (3 / 9) | 9,074 | 426 | 149 | 14 | 263 | 5 |
+| `s6_cold_start_heavy` | half of the rings first appear after day 55 | 360 | 26 (3 / 13) | 9,047 | 429 | 138 | 23 | 268 | 5 |
+| `s7_slow_staff` | same reports as `base`; staff 1 a day, absent 35% of days, 3-day minimum wait | 360 | 26 (3 / 6) | 9,051 | 428 | 41 | 0 | 387 | 22 |
+| `s8_chat_qwen_lora` | same accounts as `base`; chat = Qwen + LoRA (Run B) | 360 | 26 (3 / 6) | 9,051 | 584 | 153 | 15 | 416 | 6 |
+| `holdout_mixed` | other seed, several settings changed at once | 360 | 20 (4 / 7) | 8,991 | 419 | 111 | 1 | 307 | 7 |
+
+`holdout_mixed` is for the final score only. Do not look at it while choosing a method or a setting.
+
+Why staff review 3 accounts a day in `base`: about 4.8 new yellow flags arrive per calendar day, so the queue
+grows and the order of the queue matters (with 2 a day only 5 ordinary accounts are ever cleared and the median
+wait is 8 days; with 5 a day 44 are cleared and the median wait is 3 days).
+
+Sessions per chat table on `base`-sized sets: with `flash_lite` about 6% of scam sessions are called ordinary and
+0.9% of ordinary sessions are called scams; `qwen_untrained` 13% and 3.3%; `qwen_lora` 3% and 2.9%.
+`chua_du_can_cu` is rare in all three (0, 1 and 7 sessions).
+
+In every set, both sides have phones or links on more than 20 accounts (`base`: 9 ring entities up to 37
+accounts, 10 shop phones up to 36, unlisted public hubs on 15-45, listed public hubs on 117-301). A degree cap
+alone, or the public list alone, does not separate them.
+
+## 5. Scoring that fits the flow
+
+Score **customer sessions**, not accounts: each report of days 71-90 is one customer about to pay.
+
+For each such session, using only what was known before it (reports with a smaller `id`, label events of earlier
+days):
+
+1. What does the customer see when the account number is typed (red, yellow, nothing)?
+2. What does the customer see after the screenshot is read (the session's own `sdt` and `link` can be looked up)?
+
+Report, split by `gt_is_scam`, and for scams also by known ring / ring first seen after day 55:
+
+- share of scam sessions that got a warning (yellow or red) before the transfer;
+- share of ordinary sessions that got a warning.
+
+Compare four rows on the same sessions:
+
+1. no M4 (labels from `label_events.jsonl` only);
+2. the one-step rule (shares a non-public phone or link with a red account);
+3. the trained model ordering the staff queue;
+4. the same staff capacity with the default queue order (this is the data as given).
+
+Rows 3 and 4 need the staff loop replayed with a different order: walk the days of `staff_calendar.jsonl`, raise
+yellow flags from the reports yourself, pick up to `capacity` waiting accounts in your own order, and take the
+outcome from `e7.gen_graph.staff_outcome(account, day)`. `e7.gen_graph.simulate_labels` is the reference loop.
+Calling `staff_outcome` is the only allowed use of the answers before scoring.
+
+Rules:
+
+- Thresholds and settings are chosen with staff labels (`label_events.jsonl`) only, never with `gt_*`.
+- Choose on one set, report on others; give the `holdout_mixed` number last.
+- More than one seed for anything quoted (`python -m e7.gen_graph --preset base --seed N`).
+
+## 6. Known limits
+
+- Generated data: rings, shops and hubs behave the way the generator says they do.
+- Chat tables come from 15 scam or 25 ordinary test cases per scenario. They are coarse, and an ending that never
+  occurred in those cases never occurs here.
+- The chat verdict does not react to the account's label at the time (in the app the label is shown to the chat).
+- Staff are always right and always follow the same queue order.
+- Sessions do not react to warnings: a ring keeps using an account after it turns red.
+- The planner's quick check of the one-step rule on `base` (public list plus a cap of 60 accounts per phone or
+  link, days 71-90; a check that the data behaves, not a result): scam sessions warned after the screenshot 96%
+  against 65% from labels alone at account entry; ordinary sessions warned 7.7% against 0.3%. Most of the 7.7%
+  comes through customer numbers read by accident and unlisted public hubs.
+
+## 7. Commands
+
+```bash
+python -m e7.gen_graph --preset base --seed 20261127 --out data/E7/base
+python -m e7.gen_graph --preset holdout_mixed --seed 20261203 --out data/E7/holdout_mixed
+python -m pytest tests/test_e7.py -q
+```
+
+Changes against version 1: 8,000 accounts instead of 3,000; large rings and large shop groups; unlisted public
+hubs and `public_entities.json`; chat verdicts from measured tables instead of random rates; `m3_scam_prob`
+removed (that model is not in the app); `gt_is_scam` and `gt_kich_ban` on reports; report ids in time order;
+`hijack_day` renamed `gt_hijack_day`; staff reviews over all 90 days with `verified_normal`, replacing
+`confirmed_scam_frac` and `verified_normal_frac`; no role-specific phone prefixes; presets `s7_slow_staff`,
+`s8_chat_qwen_lora`, `holdout_mixed` added.

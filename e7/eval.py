@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import argparse
 import json
-from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -195,7 +194,7 @@ def run_single_seed(preset: GenPreset, seed: int) -> dict[str, Any]:
         sid = a["so_tk"]
         if sid not in first_rep_day:
             continue
-        eff_day = float(a["hijack_day"]) if a["gt_role"] == "hijacked_account" else first_rep_day[sid]
+        eff_day = float(a["gt_hijack_day"]) if a["gt_role"] == "hijacked_account" else first_rep_day[sid]
         if eff_day <= tr_end:
             train_ids.append(sid)
         elif eff_day <= va_end:
@@ -299,21 +298,14 @@ def aggregate_runs(runs: list[dict[str, Any]]) -> dict[str, Any]:
 def main() -> None:
     ap = argparse.ArgumentParser(description="Run E7 benchmark (Node + Cluster Graph Classification).")
     ap.add_argument("--preset", default="base", choices=sorted(PRESETS.keys()))
-    ap.add_argument("--sweep", action="store_true", help="Run base + S1..S6 + base_2class comparison.")
+    ap.add_argument("--sweep", action="store_true", help="Run every preset.")
     ap.add_argument("--seeds", type=int, nargs="+", default=[20261127, 20261128, 20261129])
     ap.add_argument("--out", type=Path, default=OUT_DIR)
     args = ap.parse_args()
 
-    jobs: list[tuple[str, GenPreset]] = []
-    if args.sweep:
-        for pname, p in PRESETS.items():
-            jobs.append((pname, p))
-        jobs.append((
-            "base_2class_10pct_neg",
-            GenPreset(**{**asdict(PRESETS["base"]), "name": "base_2class_10pct_neg", "verified_normal_frac": 0.10}),
-        ))
-    else:
-        jobs.append((args.preset, PRESETS[args.preset]))
+    jobs: list[tuple[str, GenPreset]] = (
+        list(PRESETS.items()) if args.sweep else [(args.preset, PRESETS[args.preset])]
+    )
 
     all_results: dict[str, Any] = {}
     for label, preset in jobs:

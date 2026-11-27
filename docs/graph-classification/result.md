@@ -1,5 +1,7 @@
 # Kết quả thí nghiệm E7 & Chốt phương pháp tốt nhất
 
+> **Data v1.** Every number below was measured on data version 1 (commit `2940796`). The data is now version 2 (`data.md`): rerun before quoting.
+
 Báo cáo tóm tắt từ 24 lượt chạy (8 kịch bản × 3 seed: `20261127`, `20261128`, `20261129`). Số liệu thô đầy đủ được xuất tại `experiments/E7/report.md` và `experiments/E7/results.json`.
 
 > **Ranh giới trung thực:** Toàn bộ số liệu dưới đây đo trên **bộ dữ liệu mock 90 ngày** (`data/E7/`). Kết quả chứng minh rõ **cơ chế, tốc độ CPU và khả năng chống các bẫy thực tế** (`shopee.vn`, SĐT nạn nhân, AI nhiễu, đường dây mới) giữa các thuật toán — **không phải** độ chính xác trên tài khoản ngân hàng thật.
