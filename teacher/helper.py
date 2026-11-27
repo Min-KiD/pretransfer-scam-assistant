@@ -116,6 +116,31 @@ def plan(viec_path: str) -> list[dict]:
     return out
 
 
+EXTRA_SEED = 20261129  # T5 Part 9
+EXTRA_N = {"lua_dao": 40, "binh_thuong": 20}  # extra sessions per scenario
+
+
+def plan_extra(used_ids: set) -> list[dict]:
+    """Part 9 sessions in run order: unused `train` flash-lite stories of cases_v2 (id not in `used_ids`), a seeded
+    draw per scenario, account line as Part 4 builds it for these stories; round-robin over the scenarios."""
+    rows = [json.loads(l) for l in open(ROOT / "data/E6/cases_v2.jsonl", encoding="utf-8")]
+    per = {}
+    for sid in sorted(SCEN):
+        pool = [r for r in rows if r["kich_ban"] == sid and r["split"] == "train" and r["id"] not in used_ids]
+        mine = []
+        for r in random.Random(f"{EXTRA_SEED}:{sid}").sample(pool, EXTRA_N[SCEN[sid].nhom]):
+            c = {k: r[k] for k in CASE_KEYS if k in r}
+            c["tai_khoan"] = {k: r["bang_that"][k] for k in C.KNOWN_AT_START}
+            mine.append({"case": c, "split": "train", "user_family": "gemini"})
+        per[sid] = mine
+    order = sorted(per)
+    random.Random(EXTRA_SEED).shuffle(order)
+    out = []
+    for k in range(max(map(len, per.values()))):
+        out += [per[s][k] for s in order if k < len(per[s])]
+    return out
+
+
 def handle(req: dict) -> dict:
     global SCEN
     op = req["op"]
@@ -140,6 +165,8 @@ def handle(req: dict) -> dict:
         return {"cases": [j[0] for j in e5.stratified([(c, None) for c in cases], req["seed"])]}
     if op == "plan":
         return {"sessions": plan(req["viec_path"])}
+    if op == "plan_extra":
+        return {"sessions": plan_extra(set(req["used_ids"]))}
     if op == "opening_prompt":  # the prompt `sim.cases.write_opening` would send
         return {"prompt": capture(C.write_opening, dict(req["case"]), SCEN)}
     if op == "victim_prompt":  # the prompt `victim_reply` would send; the user model is then Sonnet, not Gemini
