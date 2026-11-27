@@ -90,6 +90,51 @@ def asked_table(L, runs, names, tr):
     L.append("")
 
 
+def tf_table(L, path):
+    """The teacher-forced check (e1/chat_lora_tf.py): each val row's exact prompt, greedy, by teacher turn."""
+    rows = load_rows(path)
+    if not rows:
+        return
+    by = defaultdict(list)
+    for r in rows:
+        by[r["model"]].append(r)
+
+    def label(m):
+        dup = m.endswith("-dup")
+        run, _, ep = m[len(PREFIX):].removesuffix("-dup").rpartition("-e")
+        return f"{run} epoch {ep}" + (" (second name, same adapter)" if dup else "")
+    L += ["## Teacher-forced check on the val file (no Gemini)\n",
+          f"Every row of `{rows[0]['val']}` is one teacher turn: its prompt is exactly what the assistant saw at that "
+          "point of the teacher's dialogue (history so far, question count). Each adapter answers it greedily with the "
+          "JSON schema enforced and no retry. \"Asks when the teacher asks\" = the student's `cau_hoi` is non-empty on "
+          "the rows where the teacher's is; \"stops when the teacher stops\" likewise for empty. At turn 3 the prompt "
+          "says no question is left, so the teacher always stops there.\n",
+          "| Adapter | Teacher turn | Rows | Teacher asks | Asks when the teacher asks | Stops when the teacher stops "
+          "| Same `du_doan` as the teacher | Errors |", "|---|---|---|---|---|---|---|---|"]
+    for m in sorted(by, key=label):
+        for name, sel in (("0", lambda t: t == 0), ("1", lambda t: t == 1), ("2+", lambda t: t >= 2),
+                          ("all", lambda t: True)):
+            rs = [r for r in by[m] if sel(r["turn"])]
+            ok = [r for r in rs if "error" not in r]
+            ask = [r for r in ok if r["teacher_asks"]]
+            stop = [r for r in ok if not r["teacher_asks"]]
+            L.append(f"| {label(m)} | {name} | {len(rs)} | {sum(r['teacher_asks'] for r in rs)} | "
+                     f"{fmt(rate(sum(r['student_asks'] for r in ask), len(ask)))} | "
+                     f"{fmt(rate(sum(not r['student_asks'] for r in stop), len(stop)))} | "
+                     f"{fmt(rate(sum(r['student_du_doan'] == r['teacher_du_doan'] for r in ok), len(ok)))} | "
+                     f"{len(rs) - len(ok)} |")
+    L.append("")
+    for d in [m for m in by if m.endswith("-dup")]:
+        a = {(r["story_id"], r["turn"]): r for r in by[d.removesuffix("-dup")] if "error" not in r}
+        b = {(r["story_id"], r["turn"]): r for r in by[d] if "error" not in r}
+        both = a.keys() & b.keys()
+        diff = sum((a[k]["student_asks"], a[k]["student_du_doan"]) != (b[k]["student_asks"], b[k]["student_du_doan"])
+                   for k in both)
+        L.append(f"Noise floor: {label(d.removesuffix('-dup'))} served under two names in the same server gives a "
+                 f"different ask/stop or `du_doan` on {fmt(rate(diff, len(both)))} of the rows (greedy vLLM output "
+                 "depends on what a request is batched with). Differences between adapters of that size are noise.\n")
+
+
 def missed_dialogues(L, rs, name, by_id, nhom):
     """The full dialogue of every scam case rs called ordinary: the opening, then per turn the model's answer and
     question and the simulated user's reply."""
@@ -215,6 +260,7 @@ def main():
                          nhom)
             missed_dialogues(L, runs[m], SHORT[m], by_id, nhom)
     asked_table(L, runs, names, tr)
+    tf_table(L, OUT / "tf.jsonl")
     q = {m: sum(r["n_asked"] for r in rs) / len(rs) for m, rs in runs.items()}
     L += ["## Limits\n",
           "- Stories, the teachers (Claude Sonnet 5.5, Opus 5.5) and the simulated users are all LLM-written.",
