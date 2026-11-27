@@ -226,6 +226,32 @@ decides. The answer is used for nothing else.
 - Output: `data/T5/opus/recovered_sessions.jsonl`, `data/T5/opus/train_recovered.jsonl` (rows of the kept
   recovered sessions only; `val` is not touched, so validation loss stays comparable between runs).
 
+## Part 9 - More Opus dialogues on unused stories (added 2026-11-27, Minh's go; pilot first)
+
+Why: the student trained on Part 7 + 8 data (E13 Run B) reaches flash-lite's level (411/475, 12/225 scams called
+ordinary) but stays below the teacher (439/475, 0/225). Scam scenarios have 60 training sessions each against 90
+for ordinary ones. Minh wants the extra dialogues generated before the next, longer training run.
+
+- **Stories: only existing ones.** Take `train`-split rows of `data/E6/cases_v2.jsonl` whose `id` is not in
+  `data/T5/sessions.jsonl` (3,850 are unused, 145 to 160 per scenario). Seeded draw (seed `20261129`): 40 per scam
+  scenario (600) and 20 per ordinary scenario (200), 800 in all. Opening = the row's `tin_mo_dau`; account line
+  drawn as Part 4 did for E6 stories (same function, same seed rule). Write no story, opening or purpose line.
+- Teacher, prompts, at most 3 questions, simulated user (`gemini-3.5-flash-lite` through `victim_reply`), keep
+  rule, per-call model id, no `modelRoles` write, stop at a rate-limit or quota message: exactly as Part 7.
+  Order: seeded round-robin over the 25 scenarios. Resumable.
+- **Pilot, then stop**: the first 50 sessions. One line to the planner: correct k/50, scam called ordinary,
+  ordinary called scam, `chua_du_can_cu`, questions per session, sessions with 2 or 3 questions, calls per minute.
+  Wait for "T5 Part 9 full go".
+- After the full run: Part 8 replay on the `train` sessions with a wrong scenario id (same note, same rule), then
+  write under `data/T5/opus/`: `sessions_extra.jsonl`, `train_extra.jsonl` (kept sessions, ordinary
+  `chua_du_can_cu` sessions included, recovered ones included) and
+  `train_final2.jsonl` = `train_final.jsonl` + `train_extra.jsonl`. `val_all.jsonl` is not touched.
+- Report `experiments/T5/report_extra.md`: the Part 7 tables for the 800; kept and dropped per scenario; rows that
+  ask / stop by turn for `train_final2.jsonl`; sessions per scenario in `train_final2.jsonl`; Gemini spend.
+- Gemini: up to 0.35 USD for this part (expected 0.26); brief total cap is now 2.0 USD.
+- Known limit, to be written in the report: these stories share 3 to 4 purpose lines per scenario
+  (`sim/viec_dang_lam.yaml`), so they add less variety than their count suggests.
+
 ## Later jobs for this tab (not a go, listed so you know)
 
 - Reading generated test images against the strings they were asked to contain.

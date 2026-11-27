@@ -67,3 +67,26 @@ Method fixed by Minh: LoRA only, base weights frozen, full-precision (bf16) base
 - A short E13 section in `EXPERIMENTS.md` and a row in its overview table. Commit and push.
 - One line to the planner tab: at the timing gate, after Part B, after Part C, and at once when anything stops a
   part.
+
+## Run C (added 2026-11-27, wait for "E13 Run C go")
+
+Run B (rank 16, 1 epoch, `data/T5/opus/train_final.jsonl`) met the declared rule: 411/475 correct, 12/225 scams
+called ordinary, 5/250 ordinary flagged; flash-lite 419, 18, 2; the Opus teacher 439, 0, 6. It asks a second
+question in 1 of 164 sessions where its training file does so in 32%; all 12 missed scams stop right after the
+first answer. Run C tests whether longer training on more data closes the gap to the teacher.
+
+- Data: `TRAIN=data/T5/opus/train_final2.jsonl` (Run B's file plus about 1,300 rows from 800 more stories; the
+  planner sends the exact counts with the go), `VAL=data/T5/opus/val_all.jsonl` (unchanged, so validation loss
+  compares with Run B's 0.531).
+- Training: as Run B (rank 16, alpha 16, lr 2e-4, warmup 5%, linear decay, seed 3407, max length 4096, gradient
+  checkpointing) but **3 epochs**, adapter and validation loss saved after each epoch. Detached on the server as
+  before. No time gate; one line at start with rows, steps and projected end.
+- Chosen epoch: lowest validation loss (declared now). Part C on that adapter at once (475 cases, same seed and
+  protocol, cap 0.35 USD), report rows next to Run B, flash-lite, untrained Qwen and the Opus teacher, with the
+  paired tests and the `n_asked` distribution.
+- Extra check, no Gemini cost: for each of the three epoch adapters and for Run B's adapter, generate greedily on
+  the rows of `val_all.jsonl` (teacher-forced history) and report, by turn (0, 1, 2+): share of rows where the
+  student asks when the teacher asks, stops when the teacher stops, and gives the teacher's `du_doan`. This tells
+  whether "never asks again" is learned behaviour or an effect of the test stories.
+- If a `ctv_online`, `dich_vu_lay_lai_tien` or `dat_coc_gia_re` row of the report looks odd, say so; do not tune
+  anything on the test cases.
