@@ -117,9 +117,9 @@ def test_solvers_and_wl_subtrees_and_end_to_end(tmp_path):
     assert len(extract_louvain_communities(g)) == 2
 
 
-def test_staff_reviews_follow_calendar_delay_and_truth():
-    preset = GenPreset(name="tiny_staff", n_accounts=450, scam_rate=0.08,
-                       staff_capacity_per_day=2, staff_min_delay_days=2)
+def test_staff_reviews_follow_calendar_delay_and_staff_rule():
+    preset = GenPreset(name="tiny_staff", n_accounts=450, scam_rate=0.08, staff_capacity_per_day=2,
+                       staff_min_delay_days=2, staff_wrong_red_prob=0.5, staff_wrong_clear_prob=0.5)
     data = generate_dataset(preset, seed=7)
     capacity = {c["day"]: c["capacity"] for c in data["staff_calendar"]}
     truth = {a["so_tk"]: a for a in data["accounts"]}
@@ -129,7 +129,9 @@ def test_staff_reviews_follow_calendar_delay_and_truth():
             scam_verdict_days.setdefault(r["so_tk"], []).append(r["day"])
 
     reviews = [e for e in data["label_events"] if e["by"] == "nhan_vien"]
-    assert {e["label"] for e in reviews} == {"da_xac_nhan", "verified_normal"}
+    assert {(e["label"], e["gt_staff_correct"]) for e in reviews} == {
+        ("da_xac_nhan", 1), ("da_xac_nhan", 0), ("verified_normal", 1), ("verified_normal", 0)
+    }
     per_day: dict[int, int] = {}
     for e in reviews:
         per_day[e["day"]] = per_day.get(e["day"], 0) + 1
@@ -137,9 +139,14 @@ def test_staff_reviews_follow_calendar_delay_and_truth():
         assert e["flagged_day"] in scam_verdict_days[e["so_tk"]]
         acc = truth[e["so_tk"]]
         is_scam_then = acc["gt_is_scam"] and e["day"] >= acc.get("gt_hijack_day", 0)
-        assert e["label"] == ("da_xac_nhan" if is_scam_then else "verified_normal")
+        truth_label = "da_xac_nhan" if is_scam_then else "verified_normal"
+        assert (e["label"] == truth_label) == bool(e["gt_staff_correct"])
     assert all(n <= capacity[day] for day, n in per_day.items())
     assert any(c["capacity"] == 0 for c in data["staff_calendar"])
+
+    faultless = GenPreset(name="tiny_faultless", n_accounts=450, scam_rate=0.08,
+                          staff_wrong_red_prob=0.0, staff_wrong_clear_prob=0.0)
+    assert all(e["gt_staff_correct"] for e in generate_dataset(faultless, seed=7)["label_events"] if e["by"] == "nhan_vien")
 
     assert [r["id"] for r in data["reports"]] == list(range(1, len(data["reports"]) + 1))
     assert all(a["tao_luc"] <= b["tao_luc"] for a, b in zip(data["reports"], data["reports"][1:]))

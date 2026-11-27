@@ -71,11 +71,14 @@ time.
 
 ### `label_events.jsonl`
 
-| `by` | `label` | Meaning | Extra field |
+| `by` | `label` | Meaning | Extra fields |
 |---|---|---|---|
 | `bao_cao_tu_dong` | `dang_bi_bao_cao` | yellow flag raised by the app after a report with `muc = giong_chieu_lua` | `report_id` |
-| `nhan_vien` | `da_xac_nhan` | staff approved: red | `flagged_day` |
-| `nhan_vien` | `verified_normal` | staff cleared: checked, normal | `flagged_day` |
+| `nhan_vien` | `da_xac_nhan` | staff approved: red | `flagged_day`, `gt_staff_correct` |
+| `nhan_vien` | `verified_normal` | staff cleared: checked, normal | `flagged_day`, `gt_staff_correct` |
+
+Staff labels are what the system knows, and **they are sometimes wrong**. `gt_staff_correct` (1 or 0) says whether
+the review was right; like every `gt_` field it is for scoring only.
 
 A staff event of day `d` happens at the end of day `d`: customers see it from day `d + 1`. The label of an account
 on a given day is its latest event before that day. An account with no event has no label.
@@ -107,33 +110,42 @@ day nobody reviews with probability `staff_absence_prob`.
 7. **Labels.** During the day, a report with `muc = giong_chieu_lua` puts a yellow flag on its account unless it
    is already yellow or red. At the end of each working day staff take the flagged accounts that have waited at
    least `staff_min_delay_days`, most scam verdicts first, then the oldest flag, and review up to
-   `staff_capacity_per_day` of them. Staff are always right: red if the account is a scam account at that
-   time, `verified_normal` otherwise. A cleared account gets a new yellow flag if a later report calls it a scam.
+   `staff_capacity_per_day` of them. A faultless review gives red if the account is a scam account at that time
+   and `verified_normal` otherwise. **Staff are wrong some of the time**: a review of an ordinary account ends in
+   red with probability `staff_wrong_red_prob` (0.03 in `base`), a review of a scam account ends in
+   `verified_normal` with probability `staff_wrong_clear_prob` (0.08 in `base`). These two rates are assumed, not
+   measured. A cleared account gets a new yellow flag if a later report calls it a scam, and is then reviewed
+   again, so a wrong clearing can be corrected. A wrong red is never corrected here.
 
 Phone numbers are random over the same prefixes for everyone: the digits say nothing about the owner.
 
-## 4. The ten sets
+## 4. The eleven sets
 
 8,000 accounts and 90 days each. Seed 20261127, except `holdout_mixed` (seed 20261203).
 
-| Set | What differs from `base` | Scam accounts | Rings (large / first seen after day 55) | Reports | Yellow flags | Red | Checked normal | Still waiting on day 90 | Median days from flag to review |
+| Set | What differs from `base` | Scam accounts | Rings (large / first seen after day 55) | Reports | Yellow flags | Red (wrong) | Checked normal (wrong) | Still waiting on day 90 | Median days from flag to review |
 |---|---|---:|---|---:|---:|---:|---:|---:|---:|
-| `base` | - | 360 | 26 (3 / 6) | 9,051 | 428 | 153 | 12 | 263 | 6 |
-| `s1_hub_explosion` | public links and hotlines in far more sessions | 360 | 26 (3 / 6) | 8,953 | 411 | 155 | 9 | 247 | 5 |
-| `s2_high_heterophily` | more customer numbers read by accident, more taken-over accounts | 360 | 23 (3 / 6) | 9,057 | 422 | 160 | 2 | 260 | 6 |
-| `s3_heavy_noise` | reader misses more strings; chat = untrained Qwen | 360 | 26 (3 / 6) | 9,053 | 609 | 146 | 19 | 444 | 6 |
-| `s4_sparse_imbalance` | 2% scam accounts; staff review 1 a day | 160 | 11 (2 / 3) | 8,696 | 229 | 54 | 3 | 172 | 9 |
-| `s5_camouflage_drift` | scam sessions carry more public strings; more late rings | 360 | 26 (3 / 9) | 9,074 | 426 | 149 | 14 | 263 | 5 |
-| `s6_cold_start_heavy` | half of the rings first appear after day 55 | 360 | 26 (3 / 13) | 9,047 | 429 | 138 | 23 | 268 | 5 |
-| `s7_slow_staff` | same reports as `base`; staff 1 a day, absent 35% of days, 3-day minimum wait | 360 | 26 (3 / 6) | 9,051 | 428 | 41 | 0 | 387 | 22 |
-| `s8_chat_qwen_lora` | same accounts as `base`; chat = Qwen + LoRA (Run B) | 360 | 26 (3 / 6) | 9,051 | 584 | 153 | 15 | 416 | 6 |
-| `holdout_mixed` | other seed, several settings changed at once | 360 | 20 (4 / 7) | 8,991 | 419 | 111 | 1 | 307 | 7 |
+| `base` | - | 360 | 26 (3 / 6) | 9,051 | 432 | 141 (0) | 24 (14) | 267 | 6 |
+| `s1_hub_explosion` | public links and hotlines in far more sessions | 360 | 26 (3 / 6) | 8,953 | 416 | 143 (0) | 21 (14) | 252 | 5 |
+| `s2_high_heterophily` | more customer numbers read by accident, more taken-over accounts | 360 | 23 (3 / 6) | 9,057 | 426 | 149 (0) | 13 (11) | 264 | 6 |
+| `s3_heavy_noise` | reader misses more strings; chat = untrained Qwen | 360 | 26 (3 / 6) | 9,053 | 614 | 139 (2) | 26 (12) | 449 | 6 |
+| `s4_sparse_imbalance` | 2% scam accounts; staff review 1 a day | 160 | 11 (2 / 3) | 8,696 | 229 | 52 (0) | 5 (2) | 172 | 9 |
+| `s5_camouflage_drift` | scam sessions carry more public strings; more late rings | 360 | 26 (3 / 9) | 9,074 | 430 | 138 (0) | 25 (14) | 267 | 5 |
+| `s6_cold_start_heavy` | half of the rings first appear after day 55 | 360 | 26 (3 / 13) | 9,047 | 430 | 126 (0) | 35 (13) | 269 | 5 |
+| `s7_slow_staff` | same reports as `base`; staff 1 a day, absent 35% of days, 3-day minimum wait | 360 | 26 (3 / 6) | 9,051 | 428 | 39 (0) | 2 (2) | 387 | 22 |
+| `s8_chat_qwen_lora` | same accounts as `base`; chat = Qwen + LoRA (Run B) | 360 | 26 (3 / 6) | 9,051 | 588 | 141 (1) | 27 (14) | 420 | 6 |
+| `s9_staff_errors` | same reports as `base`; staff 5 a day, wrong red 15%, wrong clearing 20% | 360 | 26 (3 / 6) | 9,051 | 444 | 185 (11) | 78 (48) | 181 | 4 |
+| `holdout_mixed` | other seed, several settings changed at once (wrong red 5%, wrong clearing 12%) | 360 | 20 (4 / 7) | 8,991 | 425 | 98 (0) | 15 (15) | 312 | 7 |
+
+"Red (wrong)" = accounts approved as red, of which ordinary accounts. "Checked normal (wrong)" = accounts
+cleared, of which scam accounts. In `base`, 4 of the 14 wrongly cleared scam accounts turn red at a later review.
+Wrong reds are rare outside `s9_staff_errors` because the default queue reaches few ordinary accounts; a queue
+in another order will meet more of them.
 
 `holdout_mixed` is for the final score only. Do not look at it while choosing a method or a setting.
 
-Why staff review 3 accounts a day in `base`: about 4.8 new yellow flags arrive per calendar day, so the queue
-grows and the order of the queue matters (with 2 a day only 5 ordinary accounts are ever cleared and the median
-wait is 8 days; with 5 a day 44 are cleared and the median wait is 3 days).
+Why staff review 3 accounts a day in `base`: about 4.8 new yellow flags arrive per calendar day and staff work
+58 of the 90 days, so the queue grows and the order of the queue matters.
 
 Sessions per chat table on `base`-sized sets: with `flash_lite` about 6% of scam sessions are called ordinary and
 0.9% of ordinary sessions are called scams; `qwen_untrained` 13% and 3.3%; `qwen_lora` 3% and 2.9%.
@@ -167,12 +179,16 @@ Compare four rows on the same sessions:
 
 Rows 3 and 4 need the staff loop replayed with a different order: walk the days of `staff_calendar.jsonl`, raise
 yellow flags from the reports yourself, pick up to `capacity` waiting accounts in your own order, and take the
-outcome from `e7.gen_graph.staff_outcome(account, day)`. `e7.gen_graph.simulate_labels` is the reference loop.
-Calling `staff_outcome` is the only allowed use of the answers before scoring.
+outcome from `e7.gen_graph.staff_outcome(account, day, preset, seed, n_prior_reviews)` (`preset` and `seed` as in
+`graph_manifest.json`; `n_prior_reviews` = how many times you have already reviewed that account). The outcome
+includes the staff mistakes, and the same account meets the same mistake whatever the queue order.
+`e7.gen_graph.simulate_labels` is the reference loop. Calling `staff_outcome` is the only allowed use of the
+answers before scoring.
 
 Rules:
 
-- Thresholds and settings are chosen with staff labels (`label_events.jsonl`) only, never with `gt_*`.
+- Thresholds and settings are chosen with staff labels (`label_events.jsonl`) only, never with `gt_*`. Staff
+  labels contain mistakes: train on them as they are, score against `gt_is_scam`.
 - Choose on one set, report on others; give the `holdout_mixed` number last.
 - More than one seed for anything quoted (`python -m e7.gen_graph --preset base --seed N`).
 
@@ -182,12 +198,14 @@ Rules:
 - Chat tables come from 15 scam or 25 ordinary test cases per scenario. They are coarse, and an ending that never
   occurred in those cases never occurs here.
 - The chat verdict does not react to the account's label at the time (in the app the label is shown to the chat).
-- Staff are always right and always follow the same queue order.
+- The two staff error rates are assumed. Staff always follow the same queue order, and a wrong red is never
+  taken back.
 - Sessions do not react to warnings: a ring keeps using an account after it turns red.
 - The planner's quick check of the one-step rule on `base` (public list plus a cap of 60 accounts per phone or
   link, days 71-90; a check that the data behaves, not a result): scam sessions warned after the screenshot 96%
-  against 65% from labels alone at account entry; ordinary sessions warned 7.7% against 0.3%. Most of the 7.7%
-  comes through customer numbers read by accident and unlisted public hubs.
+  against 65% from labels alone at account entry; ordinary sessions warned 7.0% against 0.3%. Of the 152 ordinary
+  sessions the rule hits, 113 come through customer numbers read by accident and 43 through unlisted public hubs.
+  On `s9_staff_errors` the ordinary share is 7.9%; 5 sessions are hit only because of a wrong red.
 
 ## 7. Commands
 
@@ -200,6 +218,6 @@ python -m pytest tests/test_e7.py -q
 Changes against version 1: 8,000 accounts instead of 3,000; large rings and large shop groups; unlisted public
 hubs and `public_entities.json`; chat verdicts from measured tables instead of random rates; `m3_scam_prob`
 removed (that model is not in the app); `gt_is_scam` and `gt_kich_ban` on reports; report ids in time order;
-`hijack_day` renamed `gt_hijack_day`; staff reviews over all 90 days with `verified_normal`, replacing
-`confirmed_scam_frac` and `verified_normal_frac`; no role-specific phone prefixes; presets `s7_slow_staff`,
-`s8_chat_qwen_lora`, `holdout_mixed` added.
+`hijack_day` renamed `gt_hijack_day`; staff reviews over all 90 days with `verified_normal` and with mistakes,
+replacing `confirmed_scam_frac` and `verified_normal_frac`; no role-specific phone prefixes; presets
+`s7_slow_staff`, `s8_chat_qwen_lora`, `s9_staff_errors`, `holdout_mixed` added.

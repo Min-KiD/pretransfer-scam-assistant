@@ -105,6 +105,8 @@ class GenPreset:
     staff_capacity_per_day: int = 3      # accounts one working day of staff can review
     staff_absence_prob: float = 0.10     # chance that nobody reviews on a working day
     staff_min_delay_days: int = 1        # a flag is reviewed the next day at the earliest
+    staff_wrong_red_prob: float = 0.03   # a review of an ordinary account ends in red (assumed, not measured)
+    staff_wrong_clear_prob: float = 0.08  # a review of a scam account ends in "checked, normal" (assumed)
 
 
 PRESETS: dict[str, GenPreset] = {
@@ -152,6 +154,12 @@ PRESETS: dict[str, GenPreset] = {
         name="s8_chat_qwen_lora",
         chat_model="qwen_lora",
     ),
+    "s9_staff_errors": GenPreset(
+        name="s9_staff_errors",
+        staff_capacity_per_day=5,
+        staff_wrong_red_prob=0.15,
+        staff_wrong_clear_prob=0.20,
+    ),
     # Scoring only: another seed and other settings than every set above, never tuned on.
     "holdout_mixed": GenPreset(
         name="holdout_mixed",
@@ -163,6 +171,8 @@ PRESETS: dict[str, GenPreset] = {
         camouflage_edge_prob=0.28,
         m1_string_dropout=0.15,
         staff_capacity_per_day=2,
+        staff_wrong_red_prob=0.05,
+        staff_wrong_clear_prob=0.12,
     ),
 }
 
@@ -215,11 +225,25 @@ def staff_working_days(preset: GenPreset, seed: int) -> list[dict[str, Any]]:
     return days
 
 
-def staff_outcome(account: dict[str, Any], day: int) -> str:
-    """What a staff review of `account` on `day` finds. Staff are taken to be right every time."""
+def staff_truth(account: dict[str, Any], day: int) -> str:
+    """The label a faultless review of `account` on `day` would give."""
     if account["gt_role"] == "hijacked_account":
         return "da_xac_nhan" if day >= account["gt_hijack_day"] else "verified_normal"
     return "da_xac_nhan" if account["gt_is_scam"] else "verified_normal"
+
+
+def staff_outcome(account: dict[str, Any], day: int, preset: GenPreset, seed: int, n_prior_reviews: int = 0) -> str:
+    """The label staff give `account` when they review it on `day`. Staff are sometimes wrong.
+
+    Whether a review errs depends only on the data set, the account and how many times the account was reviewed
+    before, so replaying the loop with another queue order meets the same mistakes on the same accounts.
+    """
+    truth = staff_truth(account, day)
+    p_wrong = preset.staff_wrong_clear_prob if truth == "da_xac_nhan" else preset.staff_wrong_red_prob
+    wrong = random.Random(f"{seed}-staff-verdict-{account['so_tk']}-{n_prior_reviews}").random() < p_wrong
+    if not wrong:
+        return truth
+    return "verified_normal" if truth == "da_xac_nhan" else "da_xac_nhan"
 
 
 def simulate_labels(
@@ -227,13 +251,15 @@ def simulate_labels(
     accounts: list[dict[str, Any]],
     reports: list[dict[str, Any]],
     calendar: list[dict[str, Any]],
+    seed: int,
 ) -> list[dict[str, Any]]:
     """Label history of the app as it runs today, without M4.
 
     During the day every report that ends in `giong_chieu_lua` puts a yellow flag on its account, unless the
     account is already yellow or red (app/main.py). At the end of a working day staff review the flagged accounts
     that have waited `staff_min_delay_days`, most scam verdicts first, then oldest flag, up to the day's capacity.
-    A cleared account that gets a new scam verdict is flagged again.
+    The review follows `staff_outcome`, mistakes included: a wrongly cleared scam account gets a new yellow flag
+    at its next scam verdict and is reviewed again; a wrong red stays.
     """
     by_acc = {a["so_tk"]: a for a in accounts}
     by_day: dict[int, list[dict[str, Any]]] = {}
@@ -244,6 +270,7 @@ def simulate_labels(
     label: dict[str, str] = {}
     flagged_day: dict[str, int] = {}
     n_scam_verdicts: Counter[str] = Counter()
+    n_reviews: Counter[str] = Counter()
 
     for cal in calendar:
         day = cal["day"]
@@ -265,9 +292,11 @@ def simulate_labels(
             key=lambda s: (-n_scam_verdicts[s], flagged_day[s], s),
         )
         for sid in waiting[:cal["capacity"]]:
-            label[sid] = staff_outcome(by_acc[sid], day)
-            events.append({"so_tk": sid, "label": label[sid], "by": "nhan_vien",
-                           "day": day, "flagged_day": flagged_day[sid]})
+            label[sid] = staff_outcome(by_acc[sid], day, preset, seed, n_reviews[sid])
+            n_reviews[sid] += 1
+            events.append({"so_tk": sid, "label": label[sid], "by": "nhan_vien", "day": day,
+                           "flagged_day": flagged_day[sid],
+                           "gt_staff_correct": int(label[sid] == staff_truth(by_acc[sid], day))})
     return events
 
 
@@ -711,7 +740,7 @@ def generate_dataset(preset: GenPreset, seed: int = 20261127) -> dict[str, Any]:
     # Step 5: label history (automatic yellow flags + staff reviews over the whole horizon).
     # ------------------------------------------------------------------
     calendar = staff_working_days(preset, seed)
-    label_events = simulate_labels(preset, accounts, reports, calendar)
+    label_events = simulate_labels(preset, accounts, reports, calendar, seed)
     for cal in calendar:
         cal["reviewed"] = sum(1 for e in label_events if e["by"] == "nhan_vien" and e["day"] == cal["day"])
 
@@ -790,6 +819,12 @@ def generate_dataset(preset: GenPreset, seed: int = 20261127) -> dict[str, Any]:
                 "staff_reviews": len(staff_events),
                 "staff_confirmed_scam": sum(1 for e in staff_events if e["label"] == "da_xac_nhan"),
                 "staff_verified_normal": sum(1 for e in staff_events if e["label"] == "verified_normal"),
+                "staff_wrong_red": sum(
+                    1 for e in staff_events if e["label"] == "da_xac_nhan" and not e["gt_staff_correct"]
+                ),
+                "staff_wrong_clear": sum(
+                    1 for e in staff_events if e["label"] == "verified_normal" and not e["gt_staff_correct"]
+                ),
                 "confirmed_scam_by_train_end": sum(
                     1 for e in staff_events if e["label"] == "da_xac_nhan" and e["day"] <= preset.train_end_day
                 ),
