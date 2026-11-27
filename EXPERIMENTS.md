@@ -21,6 +21,7 @@ Most numbers come from data we built ourselves and from simulated users. They ar
 | T4b | Coherent stories: the generator draws only values the scenario lists, and every story states what the transfer is for. C0 retrained (v3) | Done | 5,250 new stories (`data/E6/cases_v2.jsonl`); 96% of openings name the purpose (old file: 56%). C0 v3 scores 99% on its own val, but every val story shares one of 78 purpose lines with train, so that score measures little. On real scams it is level with C0 v2 (63 vs 61 of 84 correct) and calls 12 of 84 ordinary (v2: 10), mostly a scam taken for its ordinary look-alike |
 | T6 | Test set v2: 475 cases on the 25-scenario catalogue, written by GPT, and the first baseline on it | Done | `gemini-3.5-flash-lite`: 88.2% correct scenario after 3 questions. It calls 18 of 225 scams ordinary (8.0%) and flags 2 of 250 ordinary transfers (0.8%); 68% of sessions end without a question. Neither C0 v2 nor C0 v3 passes M3 as a second opinion behind it: at any confidence they disagree with 29-36% of the right conclusions |
 | E12 | Untrained `Qwen3-4B-Instruct-2507` (bf16, own GPU) as the chat model on test set v2: the starting point for E13 | Done | 69.1% correct scenario after 3 questions (flash-lite 88.2%; paired -19.2 points, -23.4 to -15.2). Calls 32 of 225 scams ordinary (flash-lite 18) and flags 6 of 250 ordinary transfers (flash-lite 2). Asks 1.70 questions per session (flash-lite 0.36). No malformed reply in 1,284 turns |
+| E13 | LoRA fine-tune of `Qwen3-4B-Instruct-2507` (rank 16, 1 epoch, own GPU) on the Opus 5.5 teacher's dialogues, as the chat model on test set v2 (Run B) | Run B done | 86.5% correct scenario (flash-lite 88.2%, paired -1.7 points, -5.1 to +1.7; untrained 69.1%). Calls 12 of 225 scams ordinary (flash-lite 18, teacher 0) and flags 5 of 250 ordinary transfers (flash-lite 2). Meets the rule declared in the brief. Almost never asks a second question (1 of 164 sessions); the teacher's training data does in 32% |
 | E7 | Label propagation on the account graph (model M4) | Not started | |
 | E8 | A user who was coached by the scammer on what to answer | Not started | |
 | E9 | Time and cost per session | Not started | |
@@ -314,8 +315,56 @@ Why: Minh will fine-tune this open model in E13; this is where it starts. `Qwen/
   - No malformed reply and no answer outside the catalogue in 1,284 turns.
   - No `<think>` in any session.
   - Longest prompt 3,581 tokens.
-  - Peak VRAM 13.7 GB of 16 (vLLM reserves 88%); server start 70 s.
+  - Peak VRAM 13,708 MiB of the card's 15.6 GiB (vLLM reserves 88%); server start 70 s.
 - Report with every split, per scenario and the 32 missed scams: `experiments/E12/report.md` (`python3 -m e6.e12_report`).
+
+## E13: LoRA fine-tune of Qwen3-4B-Instruct-2507 as the chat model (Run B)
+
+Why: can the open 4B model, trained on the teacher's dialogues, replace the closed `gemini-3.5-flash-lite` as the chat model? The rule was declared in the brief before any result: on the 475 cases of test set v2, no more than 5 points behind flash-lite on correct scenario, no more scams called ordinary than flash-lite (18), and no more than 14 of 250 ordinary transfers flagged.
+
+- **Training (Run B):**
+  - Data: `data/T5/opus/train_final.jsonl`, 3,248 turns from 1,790 stories, and `val_all.jsonl`, 420 turns from 248 stories. Teacher: Opus 5.5 (it replaced Sonnet 5.5 after T5 part 6). The files hold the kept sessions, plus the ordinary sessions the teacher ended with `chua_du_can_cu`, plus recovered hard cases. The planner checked: no duplicate turn, no story in both files, no test-set opening.
+  - Settings: LoRA rank 16 on every projection of the bf16 base, 33.0M trainable parameters, 1 epoch (203 steps of 16), lr 2e-4 with 5% warmup and linear decay, seed 3407. Loss on the answer JSON only. Longest row 3,814 tokens, so none was truncated at 4,096.
+  - Cost: 4.5 h on the RTX 4060 Ti 16 GB (77 s per step, with gradient checkpointing), peak 9,944 MiB; train loss 0.44, val loss 0.53. Without gradient checkpointing the first example ran out of memory.
+  - Adapter: 66 MB, kept on the server in `.cache/e13/lora/runB/epoch-1`.
+  - Run A (same settings on the Sonnet data) was a placeholder, stopped at step 34 of 231 when Opus became the teacher; it has no result.
+- **Test:** same protocol as E12 and T6 part C (same 475 cases and order, same prompt and simulated user, greedy, one run). Gemini spend 0.05 USD of a 0.35 cap.
+
+| | LoRA Run B | Untrained Qwen (E12) | `gemini-3.5-flash-lite` (T6) | Opus 5.5 teacher (T5 part 6) |
+|---|---|---|---|---|
+| Scam called ordinary | 5.3% (12/225) [3-9] | 14.2% (32/225) | 8.0% (18/225) | 0/225 |
+| Ordinary flagged as scam | 2.0% (5/250) [1-5] | 2.4% (6/250) | 0.8% (2/250) | 6/250 |
+| Correct scenario before any question | 84.2% (400/475) | 60.4% | 85.1% | 88.2% |
+| Correct scenario after 3 questions | 86.5% (411/475) [83-89] | 69.1% | 88.2% | 92.4% |
+| Same, on the 430 cases not rewritten by A2 | 85.3% (367/430) | 70.7% | 87.0% | 91.6% |
+| `chua_du_can_cu`, scam / ordinary | 1/225, 0/250 | 2/225, 0/250 | 0, 0 | 1/225, 16/250 |
+| Questions per session | 0.35 | 1.70 | 0.36 | 0.95 |
+| Seconds per turn, mean | 1.45 (8 sessions in parallel) | 1.74 | 0.86 | — |
+
+- **The declared rule is met:** 86.5% against at least 83.2%, 12 scams called ordinary against at most 18, 5 ordinary flagged against at most 14.
+- **Paired on the same 475 cases (difference, 95% interval, exact McNemar p):**
+
+  | Run B against | Correct scenario | Scam not called ordinary |
+  |---|---|---|
+  | Untrained Qwen | +17.5 points [+13.3, +21.7], p 2e-14 | +8.9 [+4.9, +13.3], p 9e-5 |
+  | flash-lite | -1.7 [-5.1, +1.7], p 0.40 | +2.7 [-0.9, +6.7], p 0.26 |
+  | Opus teacher | -5.9 [-9.5, -2.3], p 0.003 | -5.3 [-8.4, -2.7], p 5e-4 |
+
+  So Run B is not distinguishable from flash-lite on this set, and still below its teacher.
+- **It almost never asks a second question.** It asked once in 164 sessions and asked again in 1 of them. The teacher asks again in 32% of such turns in its own training file (322 of 1,004) and in 33% on this test set; flash-lite in 11%.
+  - All 12 scams it calls ordinary end right after the first answer.
+  - In several of them that answer names a warning sign and the model still concludes ordinary: a seller never met, an account name that does not match, a number sent by phone.
+  - [inference] Under greedy decoding the model takes the most common action at that point, and stopping is the majority there (68% of the teacher's turn-1 rows). The same may explain why it almost never says `chua_du_can_cu` (1 of 475), although 9% of its training answers do.
+- **Where it misses:**
+  - 7 of the 12 scams called ordinary are `dat_coc_gia_re`, taken for an online purchase from a new seller (5) or a booked service (2). flash-lite misses 5 of these 12.
+  - Weakest scenarios: `ctv_online` 6/15, `dich_vu_lay_lai_tien` 6/15, `dat_coc_gia_re` 8/15.
+  - Gains over flash-lite: `bt_dat_dich_vu_co_xac_nhan` 25/25 (flash-lite 17), `gia_shipper` 14/15 (11).
+- **Account rule (the planner's, chosen on this test set; reference only):** 0 of 225 scams are still called ordinary after it, with 41 of 250 ordinary transfers moved to "caution" (flash-lite 2 and 41).
+- **Run facts:**
+  - No malformed reply in 641 turns and no `<think>`.
+  - Longest prompt 3,475 tokens.
+  - Peak VRAM while serving: 13,656 MiB.
+- Report with every split, per scenario, every missed scam with its dialogue, and questions per session: `experiments/E13/report.md` (`python3 -m e6.e13_report`).
 
 ## Known gaps
 

@@ -14,11 +14,13 @@ and flags no more than 14/250 ordinary transfers (flash-lite 2/250 plus 5 points
 from __future__ import annotations
 
 import json
+from collections import Counter, defaultdict
 
 from core.scenarios import ROOT
 from e6 import e12_report as e12
-from e6.e12_report import (CAP, FLASH, QWEN, account_rule_table, flash_rows, load_all, main_tables, missed_table,
-                           paired_pair, per_scenario_table, run_facts)
+from e6.e12_report import (CAP, FLASH, QWEN, account_rule_table, flash_rows, is_ordinary, load_all, main_tables,
+                           missed_table, paired_pair, per_scenario_table, run_facts)
+from e6.t6_report import account, tag
 from sim.e5 import K, fmt, load_rows, rate, score
 from sim.run import CHUA_DU
 
@@ -26,6 +28,12 @@ OUT = ROOT / "experiments/E13"
 PREFIX = "local:qwen3-4b-e13-"
 OPUS = "teacher:claude-opus-5-5"
 OPUS_SESSIONS = ROOT / "data/T5/test_v2_opus_sessions.jsonl"  # T5 part 6, experiments/T5/test_v2_opus.md
+DATA_NOTES = {  # what each training file holds, as the planner described it when sending the run
+    "data/T5/opus/train_final.jsonl": "the Opus 5.5 sessions kept by T5, plus the ordinary sessions the teacher ended "
+    "with `chua_du_can_cu` (Minh counts that as a safe outcome), plus recovered hard cases; its val file "
+    "`data/T5/opus/val_all.jsonl` is built the same way without the recovered cases. The planner checked: no duplicate "
+    "(story, turn), no story in both train and val, no test-set opening.",
+}
 
 
 def teacher(train_path):
@@ -56,6 +64,52 @@ def rule(rs, fl, scen, n_cases):
         f"ordinary flagged {s['fp']['k']} vs <= {fp_max}: {'ok' if ok[2] else 'no'})")
 
 
+def asked_table(L, runs, names, tr):
+    """Questions per session (n_asked) for every model, and how often the model asks again once it has asked once;
+    the same counts in each run's training file (rows grouped by story; a question = a non-empty `cau_hoi`)."""
+    L += ["## Questions per session\n",
+          "\"Asks again\" = sessions with 2 or more questions, out of the sessions with at least 1.\n",
+          "| Model | 0 questions | 1 | 2 | 3 | Mean | Asks again after one answer |", "|---|---|---|---|---|---|---|"]
+
+    def row(name, counts):
+        n = sum(counts.values())
+        once = sum(v for k, v in counts.items() if k >= 1)
+        again = sum(v for k, v in counts.items() if k >= 2)
+        L.append(f"| {name} | " + " | ".join(fmt(rate(counts.get(k, 0), n)) for k in range(K + 1))
+                 + f" | {sum(k * v for k, v in counts.items()) / n:.2f} | {fmt(rate(again, once))} |")
+    for m, rs in runs.items():
+        row(names[m], Counter(r["n_asked"] for r in rs))
+    for name, t in tr.items():
+        p = ROOT / t.get("train", "")
+        if not p.is_file():
+            continue
+        by = defaultdict(int)
+        for r in load_rows(p):
+            by[r["story_id"]] += bool(json.loads(r["messages"][1]["content"])["cau_hoi"])
+        row(f"training file of {name} (`{t['train']}`, {len(by)} stories)", Counter(by.values()))
+    L.append("")
+
+
+def missed_dialogues(L, rs, name, by_id, nhom):
+    """The full dialogue of every scam case rs called ordinary: the opening, then per turn the model's answer and
+    question and the simulated user's reply."""
+    missed = sorted((r for r in rs if r["nhom"] == "lua_dao" and is_ordinary(r["preds"][K], nhom)),
+                    key=lambda r: r["case"])
+    L.append(f"### Dialogues of the scams {name} called ordinary\n")
+    for r in missed:
+        c = by_id[r["case"]]
+        users = [h["text"] for h in r["history"] if h["role"] == "user"]
+        L += [f"**`{r['case']}`**: scenario {tag(r['kich_ban'])}, account `{account(c)}`, persona "
+              f"`{r.get('tinh_cach', '?')}`, final `{r['preds'][K]}` after {r['n_asked']} question(s)\n",
+              f"- Opening: {users[0]}"]
+        for i, t in enumerate(r["turns"]):
+            q = f": {t['cau_hoi']}" if t["cau_hoi"] else " (stop)"
+            L.append(f"- Turn {i}: `{t['du_doan']}`{q}")
+            if t["cau_hoi"] and i + 1 < len(users):
+                L.append(f"  - User: {users[i + 1]}")
+        L.append("")
+
+
 def main():
     scen, nhom, cases, by_id = load_all()
     raw = load_rows(OUT / "sessions.jsonl")
@@ -82,8 +136,8 @@ def main():
     L += ["\nTraining and serving on the company server's RTX 4060 Ti 16 GB: no API cost.\n",
           "## Part B - training\n",
           f"Base `{any_run.get('base', '?')}` revision `{any_run.get('revision', '?')}`, bf16, frozen. Teacher dialogues "
-          "on the same 2,050 T5 stories; the `*_chua_du` files not used; no row truncated (a row longer than the "
-          f"maximum length stops the run). LoRA on {', '.join(any_run.get('target_modules', []))}, alpha = rank, "
+          "on the T5 stories, never the test sets (files, rows and hash per run below); no row truncated (a row longer "
+          f"than the maximum length stops the run). LoRA on {', '.join(any_run.get('target_modules', []))}, alpha = rank, "
           f"dropout 0, AdamW lr {any_run.get('lr', '?')}, weight decay {any_run.get('weight_decay', '?')}, warmup "
           f"{any_run.get('warmup', '?')} then linear decay to 0 over the run, batch 1 x "
           f"{any_run.get('grad_accum', '?')}, seed {any_run.get('seed', '?')}, loss on the assistant JSON only; "
@@ -101,6 +155,9 @@ def main():
                  f"{t['epochs']} ({t['steps']}) | {t['trainable_params'] / 1e6:.1f}M | {t['wall_s'] / t['steps']:.1f} | "
                  f"{t['wall_s'] / 3600:.2f} | {t['peak_vram_mib']:,} / {t['peak_reserved_mib']:,} MiB | {best} | "
                  f"`.cache/e13/lora/{name}/epoch-{best}` ({mb} MB) |")
+    for name, t in tr.items():
+        if t.get("train") in DATA_NOTES:
+            L.append(f"\n{name} data: {DATA_NOTES[t['train']]}")
     L += ["", "| Run | Epoch | Train loss | Val loss | Train minutes | Val minutes |", "|---|---|---|---|---|---|"]
     for name, t in tr.items():
         for e in t.get("epochs_done", []):
@@ -156,6 +213,8 @@ def main():
         if m in runs:
             missed_table(L, runs[m], SHORT[m], {SHORT[o]: runs[o] for o in (QWEN, FLASH, OPUS) if o in runs}, by_id,
                          nhom)
+            missed_dialogues(L, runs[m], SHORT[m], by_id, nhom)
+    asked_table(L, runs, names, tr)
     q = {m: sum(r["n_asked"] for r in rs) / len(rs) for m, rs in runs.items()}
     L += ["## Limits\n",
           "- Stories, the teachers (Claude Sonnet 5.5, Opus 5.5) and the simulated users are all LLM-written.",
